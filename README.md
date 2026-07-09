@@ -80,17 +80,6 @@ packages/ingest     ATS pollers, classifier, dumps, alerts
 data/companies      Community YAML registry (PR to add)
 ```
 
-## Hosting checklist
-
-1. Domain **`openintern.dev`** (optional: `openintern.ca` → 301)
-2. Deploy on **Vercel Hobby (free)** — import the repo, build `apps/web`
-3. Create a **Neon** Postgres database (free tier)
-4. Set `DATABASE_URL` on Vercel + GitHub Actions secrets
-5. Enable Actions workflows (`ingest`, `dump`, `alerts`) — ingest runs on GitHub, not Vercel cron
-6. Optional auth: `AUTH_SECRET`, GitHub/Google OAuth; alerts: `RESEND_API_KEY`
-
-Hobby is enough for early traffic. Watch function duration/bandwidth limits; heavy bulk consumers should use daily dumps or self-host.
-
 See [docs/SETUP.md](docs/SETUP.md).
 
 ## Contributing companies
