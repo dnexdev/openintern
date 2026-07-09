@@ -3,6 +3,7 @@ import { companies, ingestRuns, jobs, type Db } from "@openintern/db";
 import { fetchJobsForAts } from "./ats.js";
 import {
   excerptFromHtml,
+  extractCohortYear,
   extractDurationMonths,
   extractTerms,
   isTechInternship,
@@ -43,6 +44,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
         const classifierText = `${j.title} ${j.description}`;
         const terms = extractTerms(classifierText);
         const durationMonths = extractDurationMonths(classifierText);
+        const cohortYear = extractCohortYear(classifierText);
         const existing = await db.query.jobs.findFirst({
           where: and(eq(jobs.companyId, company.id), eq(jobs.externalId, j.externalId)),
         });
@@ -57,6 +59,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
               excerpt,
               terms,
               durationMonths,
+              cohortYear,
               isRemote,
               isActive: true,
               source: company.ats,
@@ -75,6 +78,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
             excerpt,
             terms,
             durationMonths,
+            cohortYear,
             isRemote,
             isActive: true,
             source: company.ats,

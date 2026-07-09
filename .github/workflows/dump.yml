@@ -32,14 +32,15 @@ jobs:
         with:
           name: openintern-jobs-${{ github.run_id }}
           path: dumps/
-      - name: Publish GitHub Release (daily)
+      - name: Publish dump-latest release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: dump-${{ github.run_id }}
-          name: Daily dump ${{ github.run_id }}
+          tag_name: dump-latest
+          name: Latest daily dump
           files: |
             dumps/jobs.json
             dumps/jobs.csv
           generate_release_notes: false
+          make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

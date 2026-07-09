@@ -25,6 +25,9 @@ export async function GET(
       locations: jobs.locations,
       apply_url: jobs.applyUrl,
       excerpt: jobs.excerpt,
+      terms: jobs.terms,
+      duration_months: jobs.durationMonths,
+      cohort_year: jobs.cohortYear,
       is_remote: jobs.isRemote,
       is_active: jobs.isActive,
       source: jobs.source,
@@ -36,6 +39,7 @@ export async function GET(
         slug: companies.slug,
         ats: companies.ats,
         careers_url: companies.careersUrl,
+        website_url: companies.websiteUrl,
       },
     })
     .from(jobs)

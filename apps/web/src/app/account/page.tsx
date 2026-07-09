@@ -61,9 +61,7 @@ export default async function AccountPage() {
                 />
                 <div className="job-card-body">
                   <h2>
-                    <a href={j.applyUrl} target="_blank" rel="noreferrer">
-                      {j.title}
-                    </a>
+                    <a href={`/jobs/${j.id}`}>{j.title}</a>
                   </h2>
                   <div className="job-company-line">{j.companyName}</div>
                   <div className="meta">

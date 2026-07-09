@@ -1,5 +1,6 @@
 import {
   excerptFromHtml,
+  extractCohortYear,
   extractDurationMonths,
   extractTerms,
   isTechInternship,
@@ -77,6 +78,14 @@ assertEq(extractDurationMonths("This is a 4-month co-op placement"), 4, "4 month
 assertEq(extractDurationMonths("a 12 month internship in London"), 12, "12 month");
 assertEq(extractDurationMonths("our 16-week summer program"), 4, "16 weeks -> 4 months");
 assertEq(extractDurationMonths("Software Intern"), null, "no duration");
+
+// --- extractCohortYear ---
+
+assertEq(extractCohortYear("Software Intern (Summer 2026)"), 2026, "season year");
+assertEq(extractCohortYear("Class of 2027 Software Engineer Intern"), 2027, "class of");
+assertEq(extractCohortYear("2027 - Software Engineering Intern"), 2027, "year before intern");
+assertEq(extractCohortYear("Software Engineer Intern"), null, "no year");
+assertEq(extractCohortYear("Intern in 1999"), null, "year out of window");
 
 // --- excerptFromHtml ---
 

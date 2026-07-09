@@ -1,11 +1,23 @@
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import { auth } from "@/auth";
 import "./globals.css";
 
-export const metadata = {
-  title: "OpenIntern — open tech internship corpus",
+export const metadata: Metadata = {
+  metadataBase: new URL("https://openintern.dev"),
+  title: {
+    default: "OpenIntern — open tech internship corpus",
+    template: "%s",
+  },
   description:
     "Free structured tech internships with a public API, no-account board, and community company registry.",
+  openGraph: {
+    siteName: "OpenIntern",
+    type: "website",
+    title: "OpenIntern — open tech internship corpus",
+    description:
+      "Free structured tech internships with a public API, no-account board, and community company registry.",
+  },
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
@@ -31,7 +43,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               <div className="nav-links">
                 <a href="/">Jobs</a>
                 <a href="/health">Health</a>
-                <a href="/api/v1/jobs">API</a>
+                <a href="/docs">Docs</a>
                 <a href="https://github.com/dnexdev/openintern">GitHub</a>
               </div>
               {session?.user ? (
@@ -53,7 +65,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <footer className="footer">
           <div className="container">
             OpenIntern is free and open source (Apache-2.0). Listings are never
-            paywalled. Apply on the employer site.
+            paywalled. Apply on the employer site. Daily dumps and API docs at{" "}
+            <a href="/docs">/docs</a>.
           </div>
         </footer>
       </body>

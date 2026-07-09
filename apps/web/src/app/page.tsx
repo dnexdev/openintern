@@ -10,6 +10,11 @@ export const dynamic = "force-dynamic";
 const TERM_OPTIONS = ["winter", "spring", "summer", "fall"] as const;
 const DURATION_OPTIONS = [3, 4, 6, 8, 12] as const;
 
+function cohortYearOptions() {
+  const y = new Date().getFullYear();
+  return [y - 1, y, y + 1, y + 2];
+}
+
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 function param(sp: Record<string, string | string[] | undefined>, key: string) {
@@ -57,6 +62,9 @@ export default async function HomePage({
   const duration = (DURATION_OPTIONS as readonly number[]).includes(durationRaw)
     ? durationRaw
     : null;
+  const yearOptions = cohortYearOptions();
+  const yearRaw = Number(param(sp, "year") ?? NaN);
+  const year = yearOptions.includes(yearRaw) ? yearRaw : null;
   const page = Math.max(1, Number(param(sp, "page") ?? 1));
   const limit = 25;
   const offset = (page - 1) * limit;
@@ -73,6 +81,7 @@ export default async function HomePage({
       remote,
       terms,
       duration,
+      year,
       limit,
       offset,
     });
@@ -92,6 +101,7 @@ export default async function HomePage({
       ...(company ? { company } : {}),
       ...(remote ? { remote: "1" } : {}),
       ...(duration ? { duration: String(duration) } : {}),
+      ...(year ? { year: String(year) } : {}),
       page: String(n),
     });
     for (const t of terms) params.append("term", t);
@@ -99,7 +109,7 @@ export default async function HomePage({
   };
 
   const hasFilters = Boolean(
-    q || location || company || remote || terms.length > 0 || duration,
+    q || location || company || remote || terms.length > 0 || duration || year,
   );
 
   const pageWindow: number[] = [];
@@ -177,6 +187,17 @@ export default async function HomePage({
                 ))}
               </select>
             </div>
+            <div className="field">
+              <label htmlFor="year">Year</label>
+              <select id="year" name="year" defaultValue={year ?? ""}>
+                <option value="">Any</option>
+                {yearOptions.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
+            </div>
             <label className="checkbox">
               <input type="checkbox" name="remote" value="1" defaultChecked={remote} />
               Remote only
@@ -228,9 +249,7 @@ export default async function HomePage({
                       />
                       <div className="job-card-body">
                         <h2>
-                          <a href={job.applyUrl} target="_blank" rel="noreferrer">
-                            {job.title}
-                          </a>
+                          <a href={`/jobs/${job.id}`}>{job.title}</a>
                         </h2>
                         <div className="job-company-line">
                           {job.companyName} · {(job.locations ?? []).join(" · ") || "Location n/a"}
@@ -245,6 +264,7 @@ export default async function HomePage({
                           {job.durationMonths ? (
                             <span className="badge">{job.durationMonths} mo</span>
                           ) : null}
+                          {job.cohortYear ? <span className="badge">{job.cohortYear}</span> : null}
                           <span className="badge source">{job.source}</span>
                           <span title={job.firstSeenAt.toISOString()}>
                             first seen {timeAgo(job.firstSeenAt)}
@@ -313,6 +333,7 @@ async function loadJobs(opts: {
   remote: boolean;
   terms: string[];
   duration: number | null;
+  year: number | null;
   limit: number;
   offset: number;
 }) {
@@ -331,6 +352,7 @@ async function loadJobs(opts: {
     );
   }
   if (opts.duration) conditions.push(eq(jobs.durationMonths, opts.duration));
+  if (opts.year) conditions.push(eq(jobs.cohortYear, opts.year));
   if (opts.location) {
     conditions.push(
       sql`exists (
@@ -356,6 +378,7 @@ async function loadJobs(opts: {
       excerpt: jobs.excerpt,
       terms: jobs.terms,
       durationMonths: jobs.durationMonths,
+      cohortYear: jobs.cohortYear,
       isRemote: jobs.isRemote,
       source: jobs.source,
       postedAt: jobs.postedAt,

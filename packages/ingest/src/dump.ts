@@ -15,6 +15,7 @@ export async function writeDumps(db: Db, outDir: string) {
       excerpt: jobs.excerpt,
       terms: jobs.terms,
       durationMonths: jobs.durationMonths,
+      cohortYear: jobs.cohortYear,
       isRemote: jobs.isRemote,
       source: jobs.source,
       postedAt: jobs.postedAt,
@@ -40,6 +41,7 @@ export async function writeDumps(db: Db, outDir: string) {
       excerpt: r.excerpt,
       terms: r.terms,
       duration_months: r.durationMonths,
+      cohort_year: r.cohortYear,
       is_remote: r.isRemote,
       source: r.source,
       posted_at: r.postedAt?.toISOString() ?? null,
@@ -52,7 +54,7 @@ export async function writeDumps(db: Db, outDir: string) {
   await fs.writeFile(jsonPath, JSON.stringify(payload, null, 2));
 
   const csvHeader =
-    "id,title,company,company_slug,locations,apply_url,terms,duration_months,is_remote,source,posted_at,first_seen_at,last_seen_at";
+    "id,title,company,company_slug,locations,apply_url,terms,duration_months,cohort_year,is_remote,source,posted_at,first_seen_at,last_seen_at";
   const csvLines = rows.map((r) => {
     const locs = Array.isArray(r.locations) ? r.locations.join("; ") : "";
     const cells = [
@@ -64,6 +66,7 @@ export async function writeDumps(db: Db, outDir: string) {
       r.applyUrl,
       Array.isArray(r.terms) ? r.terms.join("; ") : "",
       r.durationMonths != null ? String(r.durationMonths) : "",
+      r.cohortYear != null ? String(r.cohortYear) : "",
       String(r.isRemote),
       r.source,
       r.postedAt?.toISOString() ?? "",

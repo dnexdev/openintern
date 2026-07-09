@@ -39,6 +39,8 @@ pnpm dev             # http://localhost:3000
 
 ## Public API
 
+Full reference: **[/docs](https://openintern.dev/docs)** (also at `/docs` locally).
+
 ```bash
 # List active internships
 curl "http://localhost:3000/api/v1/jobs?q=software&limit=10"
@@ -46,8 +48,12 @@ curl "http://localhost:3000/api/v1/jobs?q=software&limit=10"
 # Filter
 curl "http://localhost:3000/api/v1/jobs?location=Toronto&remote=true"
 
-# Filter by internship term and duration
+# Filter by internship term, duration, and cohort year
 curl "http://localhost:3000/api/v1/jobs?season=summer,fall&duration_months=4"
+curl "http://localhost:3000/api/v1/jobs?cohort_year=2026"
+
+# Single job
+curl "http://localhost:3000/api/v1/jobs/{id}"
 
 # Companies in the registry
 curl "http://localhost:3000/api/v1/companies"
@@ -56,9 +62,14 @@ curl "http://localhost:3000/api/v1/companies"
 curl "http://localhost:3000/api/v1/health"
 ```
 
-Query params for `/api/v1/jobs`: `q`, `location`, `company` (slug), `remote`, `season` (`winter|spring|summer|fall`, repeatable or comma-separated), `duration_months`, `posted_after`, `page`, `limit` (max 100).
+Query params for `/api/v1/jobs`: `q`, `location`, `company` (slug), `remote`, `season` (`winter|spring|summer|fall`, repeatable or comma-separated), `duration_months`, `cohort_year`, `posted_after`, `page`, `limit` (max 100).
 
-For bulk use, prefer **daily dumps** (`pnpm dump`) or self-host — don’t paginate the hosted API all day.
+For bulk use, prefer **daily dumps** (stable URLs):
+
+- https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json
+- https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.csv
+
+Or run `pnpm dump` / self-host — don’t paginate the hosted API all day.
 
 ## Monorepo layout
 

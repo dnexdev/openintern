@@ -56,6 +56,7 @@ export const jobs = pgTable(
     excerpt: text("excerpt"),
     terms: jsonb("terms").$type<string[]>().notNull().default([]),
     durationMonths: integer("duration_months"),
+    cohortYear: integer("cohort_year"),
     isRemote: boolean("is_remote").notNull().default(false),
     isActive: boolean("is_active").notNull().default(true),
     source: varchar("source", { length: 64 }).notNull(),

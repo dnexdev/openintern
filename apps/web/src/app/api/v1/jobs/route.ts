@@ -39,6 +39,12 @@ export async function GET(request: Request) {
     Number.isInteger(durationRaw) && durationRaw >= 1 && durationRaw <= 24
       ? durationRaw
       : null;
+  const cohortRaw = Number(url.searchParams.get("cohort_year") ?? NaN);
+  const nowY = new Date().getFullYear();
+  const cohortYear =
+    Number.isInteger(cohortRaw) && cohortRaw >= nowY - 1 && cohortRaw <= nowY + 3
+      ? cohortRaw
+      : null;
   const page = Math.max(1, Number(url.searchParams.get("page") ?? 1));
   const limit = Math.min(100, Math.max(1, Number(url.searchParams.get("limit") ?? 25)));
   const offset = (page - 1) * limit;
@@ -53,6 +59,7 @@ export async function GET(request: Request) {
     );
   }
   if (durationMonths) conditions.push(eq(jobs.durationMonths, durationMonths));
+  if (cohortYear) conditions.push(eq(jobs.cohortYear, cohortYear));
   if (postedAfter) {
     const d = new Date(postedAfter);
     if (!Number.isNaN(d.getTime())) conditions.push(gte(jobs.postedAt, d));
@@ -84,6 +91,7 @@ export async function GET(request: Request) {
       excerpt: jobs.excerpt,
       terms: jobs.terms,
       duration_months: jobs.durationMonths,
+      cohort_year: jobs.cohortYear,
       is_remote: jobs.isRemote,
       source: jobs.source,
       posted_at: jobs.postedAt,

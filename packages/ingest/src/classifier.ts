@@ -78,6 +78,49 @@ export function extractDurationMonths(text: string): number | null {
   return null;
 }
 
+function clampCohortYear(year: number): number | null {
+  const now = new Date().getFullYear();
+  if (year >= now - 1 && year <= now + 3) return year;
+  return null;
+}
+
+/**
+ * Extract program / cohort year (e.g. 2026 from "Summer 2026" or "Class of 2027").
+ */
+export function extractCohortYear(text: string): number | null {
+  const seasonYear = text.match(
+    /\b(?:winter|spring|summer|fall|autumn)\s+(20\d{2})\b/i,
+  );
+  if (seasonYear) {
+    const y = clampCohortYear(Number(seasonYear[1]));
+    if (y != null) return y;
+  }
+
+  const classOf = text.match(/\bclass of\s+(20\d{2})\b/i);
+  if (classOf) {
+    const y = clampCohortYear(Number(classOf[1]));
+    if (y != null) return y;
+  }
+
+  // Bare year near an internship word (title-heavy cases like "2027 Software Intern")
+  const nearIntern = text.match(
+    /\b(20\d{2})\b[^.]{0,40}\b(?:intern|internship|co-?op|coop|apprentice)/i,
+  );
+  if (nearIntern) {
+    const y = clampCohortYear(Number(nearIntern[1]));
+    if (y != null) return y;
+  }
+  const afterIntern = text.match(
+    /\b(?:intern|internship|co-?op|coop|apprentice)[^.]{0,40}\b(20\d{2})\b/i,
+  );
+  if (afterIntern) {
+    const y = clampCohortYear(Number(afterIntern[1]));
+    if (y != null) return y;
+  }
+
+  return null;
+}
+
 function decodeEntities(text: string): string {
   return text
     .replace(/&nbsp;/gi, " ")
