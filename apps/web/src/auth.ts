@@ -29,7 +29,13 @@ function buildProviders() {
 // Explicit any-avoiding exports: NextAuth return types are not portable across packages.
 const nextAuth = NextAuth(() => {
   const providers = buildProviders();
+  // Local/dev: allow browsing without configuring Auth.js.
+  const secret =
+    process.env.AUTH_SECRET ||
+    process.env.NEXTAUTH_SECRET ||
+    "openintern-dev-only-secret-change-me";
   return {
+    secret,
     adapter:
       providers.length > 0
         ? DrizzleAdapter(getDb(), {

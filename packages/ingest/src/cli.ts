@@ -1,9 +1,12 @@
 import path from "node:path";
-import { createDb } from "@openintern/db";
+import { createDbClient } from "@openintern/db";
 import { collectAlertMatches } from "./alerts.js";
 import { writeDumps } from "./dump.js";
 import { runIngest } from "./ingest.js";
+import { loadEnv } from "./load-env.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
+
+loadEnv();
 
 async function deliverAlerts(
   matches: Awaited<ReturnType<typeof collectAlertMatches>>,
@@ -61,43 +64,49 @@ async function deliverAlerts(
 
 async function main() {
   const cmd = process.argv[2] ?? "ingest";
-  const db = createDb();
+  const { db, client } = createDbClient();
 
-  if (cmd === "sync-companies") {
-    const result = await syncCompaniesFromYaml(db);
-    console.log(`Synced ${result.upserted} companies from YAML.`);
-    return;
-  }
-
-  if (cmd === "dump") {
-    const outDir = process.argv[3] ?? path.resolve(process.cwd(), "dumps");
-    const result = await writeDumps(db, outDir);
-    console.log(`Wrote ${result.count} jobs to ${result.jsonPath} and ${result.csvPath}`);
-    return;
-  }
-
-  if (cmd === "alerts") {
-    const matches = await collectAlertMatches(db);
-    console.log(`Found ${matches.length} searches with new matches.`);
-    await deliverAlerts(matches);
-    return;
-  }
-
-  if (cmd === "ingest") {
-    const summary = await runIngest(db);
-    console.log(JSON.stringify(summary, null, 2));
-    if (summary.failures.length) {
-      process.exitCode = 1;
+  try {
+    if (cmd === "sync-companies") {
+      const result = await syncCompaniesFromYaml(db);
+      console.log(`Synced ${result.upserted} companies from YAML.`);
+      return;
     }
-    return;
-  }
 
-  console.error(`Unknown command: ${cmd}`);
-  console.error("Usage: cli.ts <ingest|sync-companies|dump|alerts> [dump-dir]");
-  process.exit(1);
+    if (cmd === "dump") {
+      const outDir = process.argv[3] ?? path.resolve(process.cwd(), "dumps");
+      const result = await writeDumps(db, outDir);
+      console.log(
+        `Wrote ${result.count} jobs to ${result.jsonPath} and ${result.csvPath}`,
+      );
+      return;
+    }
+
+    if (cmd === "alerts") {
+      const matches = await collectAlertMatches(db);
+      console.log(`Found ${matches.length} searches with new matches.`);
+      await deliverAlerts(matches);
+      return;
+    }
+
+    if (cmd === "ingest") {
+      const summary = await runIngest(db);
+      console.log(JSON.stringify(summary, null, 2));
+      if (summary.failures.length) {
+        process.exitCode = 1;
+      }
+      return;
+    }
+
+    console.error(`Unknown command: ${cmd}`);
+    console.error("Usage: cli.ts <ingest|sync-companies|dump|alerts> [dump-dir]");
+    process.exitCode = 1;
+  } finally {
+    await client.end({ timeout: 5 });
+  }
 }
 
-main().catch((err) => {
+main().catch(async (err) => {
   console.error(err);
   process.exit(1);
 });

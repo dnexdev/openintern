@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { companies, jobs, savedJobs, savedSearches } from "@openintern/db";
 import { createSavedSearch, deleteSavedSearch, unsaveJob } from "@/app/actions";
 import { auth } from "@/auth";
+import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { getDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +19,8 @@ export default async function AccountPage() {
       title: jobs.title,
       applyUrl: jobs.applyUrl,
       companyName: companies.name,
+      companyWebsiteUrl: companies.websiteUrl,
+      companyCareersUrl: companies.careersUrl,
       savedAt: savedJobs.createdAt,
     })
     .from(savedJobs)
@@ -51,24 +54,31 @@ export default async function AccountPage() {
           <div className="job-list">
             {saved.map((j) => (
               <article key={j.id} className="job-card">
-                <h2>
-                  <a href={j.applyUrl} target="_blank" rel="noreferrer">
-                    {j.title}
-                  </a>
-                </h2>
-                <div className="meta">
-                  <span>{j.companyName}</span>
-                  <span>saved {j.savedAt.toISOString().slice(0, 10)}</span>
-                </div>
-                <div className="job-actions">
-                  <a className="btn btn-primary" href={j.applyUrl} target="_blank" rel="noreferrer">
-                    Apply
-                  </a>
-                  <form action={unsaveJob.bind(null, j.id)}>
-                    <button className="btn" type="submit">
-                      Remove
-                    </button>
-                  </form>
+                <CompanyAvatar
+                  name={j.companyName}
+                  websiteUrl={j.companyWebsiteUrl}
+                  careersUrl={j.companyCareersUrl}
+                />
+                <div className="job-card-body">
+                  <h2>
+                    <a href={j.applyUrl} target="_blank" rel="noreferrer">
+                      {j.title}
+                    </a>
+                  </h2>
+                  <div className="job-company-line">{j.companyName}</div>
+                  <div className="meta">
+                    <span>saved {j.savedAt.toISOString().slice(0, 10)}</span>
+                  </div>
+                  <div className="job-actions">
+                    <a className="btn btn-primary btn-sm" href={j.applyUrl} target="_blank" rel="noreferrer">
+                      Apply
+                    </a>
+                    <form action={unsaveJob.bind(null, j.id)}>
+                      <button className="btn btn-sm" type="submit">
+                        Remove
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </article>
             ))}

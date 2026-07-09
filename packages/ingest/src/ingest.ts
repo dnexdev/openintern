@@ -1,7 +1,13 @@
 import { and, eq, notInArray } from "drizzle-orm";
 import { companies, ingestRuns, jobs, type Db } from "@openintern/db";
 import { fetchJobsForAts } from "./ats.js";
-import { excerptFromHtml, isTechInternship, looksRemote } from "./classifier.js";
+import {
+  excerptFromHtml,
+  extractDurationMonths,
+  extractTerms,
+  isTechInternship,
+  looksRemote,
+} from "./classifier.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
 
 export type IngestSummary = {
@@ -34,6 +40,9 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
         seenIds.push(j.externalId);
         const excerpt = j.excerpt ?? excerptFromHtml(j.description);
         const isRemote = looksRemote(j.locations, j.title);
+        const classifierText = `${j.title} ${j.description}`;
+        const terms = extractTerms(classifierText);
+        const durationMonths = extractDurationMonths(classifierText);
         const existing = await db.query.jobs.findFirst({
           where: and(eq(jobs.companyId, company.id), eq(jobs.externalId, j.externalId)),
         });
@@ -46,6 +55,8 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
               locations: j.locations,
               applyUrl: j.applyUrl,
               excerpt,
+              terms,
+              durationMonths,
               isRemote,
               isActive: true,
               source: company.ats,
@@ -62,6 +73,8 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
             locations: j.locations,
             applyUrl: j.applyUrl,
             excerpt,
+            terms,
+            durationMonths,
             isRemote,
             isActive: true,
             source: company.ats,

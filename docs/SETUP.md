@@ -22,13 +22,15 @@ Homepage: `https://openintern.dev`
 | `RESEND_API_KEY` | Alert emails (optional) |
 | `ALERT_FROM_EMAIL` | e.g. `alerts@openintern.dev` |
 
-## 3. Student Pack / Vercel
+## 3. Vercel (Hobby / free)
 
-1. Open [education.github.com/pack](https://education.github.com/pack)
-2. Redeem **Vercel Pro**
-3. Import the `openintern` repo; root directory / monorepo: set project to `apps/web` or use Vercel monorepo settings
-4. Add env vars from `.env.example` (`DATABASE_URL`, `AUTH_*`, etc.)
-5. Optional before **2026-07-31**: DigitalOcean $200 credit (backup worker only)
+1. Import `dnexdev/openintern` at [vercel.com](https://vercel.com)
+2. Framework: Next.js; ensure install/build use the monorepo (`pnpm install`, build `apps/web` — see root `vercel.json`)
+3. Add env vars from `.env.example` (`DATABASE_URL` required; `AUTH_*` / Resend optional)
+4. Domains → add **`openintern.dev`** and point DNS at Vercel
+5. Ingest/dumps/alerts stay on **GitHub Actions** (not Vercel Cron) so Hobby limits are less of an issue
+
+Hobby notes: fine for the board + rate-limited API. If you hit commercial-use or bandwidth caps later, upgrade or move the API worker elsewhere. Daily dumps remain the bulk path.
 
 ## 4. Database (Neon)
 

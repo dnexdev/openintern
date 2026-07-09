@@ -3,6 +3,9 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadEnv } from "./load-env";
+
+loadEnv();
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {

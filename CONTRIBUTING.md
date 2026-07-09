@@ -8,13 +8,15 @@ Thanks for helping grow the open tech internship corpus.
    - **Greenhouse:** `https://boards.greenhouse.io/{token}` or `boards-api.greenhouse.io/v1/boards/{token}/jobs`
    - **Lever:** `https://jobs.lever.co/{token}`
    - **Ashby:** `https://jobs.ashbyhq.com/{token}`
+   - **Workable:** `https://apply.workable.com/{token}`
+   - **SmartRecruiters:** `https://jobs.smartrecruiters.com/{token}` (case-sensitive)
 2. Add an entry to a file under `data/companies/` (or create `data/companies/your-org.yaml`):
 
 ```yaml
 companies:
   - name: Example Corp
     slug: example-corp
-    ats: greenhouse   # greenhouse | lever | ashby
+    ats: greenhouse   # greenhouse | lever | ashby | workable | smartrecruiters
     board_token: example
     careers_url: https://example.com/careers
     website_url: https://example.com

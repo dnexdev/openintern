@@ -20,7 +20,7 @@ OpenIntern is an **open data layer** for tech internships (SWE, data, AI/ML, qua
 | Accounts | Optional — saved jobs + alert digests |
 | Apply | Always outbound to the employer |
 
-We poll public **Greenhouse / Lever / Ashby** job board APIs. We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
+We poll public **Greenhouse / Lever / Ashby / Workable / SmartRecruiters** job board APIs. We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
 
 ## Quick start (local)
 
@@ -46,6 +46,9 @@ curl "http://localhost:3000/api/v1/jobs?q=software&limit=10"
 # Filter
 curl "http://localhost:3000/api/v1/jobs?location=Toronto&remote=true"
 
+# Filter by internship term and duration
+curl "http://localhost:3000/api/v1/jobs?season=summer,fall&duration_months=4"
+
 # Companies in the registry
 curl "http://localhost:3000/api/v1/companies"
 
@@ -53,7 +56,7 @@ curl "http://localhost:3000/api/v1/companies"
 curl "http://localhost:3000/api/v1/health"
 ```
 
-Query params for `/api/v1/jobs`: `q`, `location`, `company` (slug), `remote`, `posted_after`, `page`, `limit` (max 100).
+Query params for `/api/v1/jobs`: `q`, `location`, `company` (slug), `remote`, `season` (`winter|spring|summer|fall`, repeatable or comma-separated), `duration_months`, `posted_after`, `page`, `limit` (max 100).
 
 For bulk use, prefer **daily dumps** (`pnpm dump`) or self-host — don’t paginate the hosted API all day.
 
@@ -66,14 +69,16 @@ packages/ingest     ATS pollers, classifier, dumps, alerts
 data/companies      Community YAML registry (PR to add)
 ```
 
-## Hosting checklist (Student Pack)
+## Hosting checklist
 
-1. Buy **`openintern.dev`** (optional: `openintern.ca` → 301)
-2. Claim **Vercel Pro** via [GitHub Student Pack](https://education.github.com/pack)
-3. Create a **Neon** Postgres database
-4. Set secrets: `DATABASE_URL` on Vercel + GitHub Actions
-5. Deploy `apps/web`; enable Actions workflows (`ingest`, `dump`, `alerts`)
+1. Domain **`openintern.dev`** (optional: `openintern.ca` → 301)
+2. Deploy on **Vercel Hobby (free)** — import the repo, build `apps/web`
+3. Create a **Neon** Postgres database (free tier)
+4. Set `DATABASE_URL` on Vercel + GitHub Actions secrets
+5. Enable Actions workflows (`ingest`, `dump`, `alerts`) — ingest runs on GitHub, not Vercel cron
 6. Optional auth: `AUTH_SECRET`, GitHub/Google OAuth; alerts: `RESEND_API_KEY`
+
+Hobby is enough for early traffic. Watch function duration/bandwidth limits; heavy bulk consumers should use daily dumps or self-host.
 
 See [docs/SETUP.md](docs/SETUP.md).
 

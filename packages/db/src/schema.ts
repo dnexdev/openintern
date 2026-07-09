@@ -13,7 +13,13 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const atsEnum = pgEnum("ats", ["greenhouse", "lever", "ashby"]);
+export const atsEnum = pgEnum("ats", [
+  "greenhouse",
+  "lever",
+  "ashby",
+  "workable",
+  "smartrecruiters",
+]);
 
 export const companies = pgTable(
   "companies",
@@ -48,6 +54,8 @@ export const jobs = pgTable(
     locations: jsonb("locations").$type<string[]>().notNull().default([]),
     applyUrl: text("apply_url").notNull(),
     excerpt: text("excerpt"),
+    terms: jsonb("terms").$type<string[]>().notNull().default([]),
+    durationMonths: integer("duration_months"),
     isRemote: boolean("is_remote").notNull().default(false),
     isActive: boolean("is_active").notNull().default(true),
     source: varchar("source", { length: 64 }).notNull(),

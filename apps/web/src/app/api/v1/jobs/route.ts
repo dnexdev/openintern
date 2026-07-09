@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { and, desc, eq, gte, ilike, sql } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
@@ -29,14 +29,30 @@ export async function GET(request: Request) {
   const company = url.searchParams.get("company")?.trim() || undefined;
   const remote = url.searchParams.get("remote");
   const postedAfter = url.searchParams.get("posted_after");
+  const seasons = url.searchParams
+    .getAll("season")
+    .flatMap((s) => s.split(","))
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => ["winter", "spring", "summer", "fall"].includes(s));
+  const durationRaw = Number(url.searchParams.get("duration_months") ?? NaN);
+  const durationMonths =
+    Number.isInteger(durationRaw) && durationRaw >= 1 && durationRaw <= 24
+      ? durationRaw
+      : null;
   const page = Math.max(1, Number(url.searchParams.get("page") ?? 1));
   const limit = Math.min(100, Math.max(1, Number(url.searchParams.get("limit") ?? 25)));
   const offset = (page - 1) * limit;
 
-  const conditions = [eq(jobs.isActive, true)];
+  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true)];
   if (q) conditions.push(ilike(jobs.title, `%${q}%`));
   if (company) conditions.push(eq(companies.slug, company));
   if (remote === "true" || remote === "1") conditions.push(eq(jobs.isRemote, true));
+  if (seasons.length > 0) {
+    conditions.push(
+      or(...seasons.map((s) => sql`${jobs.terms} @> ${JSON.stringify([s])}::jsonb`)),
+    );
+  }
+  if (durationMonths) conditions.push(eq(jobs.durationMonths, durationMonths));
   if (postedAfter) {
     const d = new Date(postedAfter);
     if (!Number.isNaN(d.getTime())) conditions.push(gte(jobs.postedAt, d));
@@ -66,6 +82,8 @@ export async function GET(request: Request) {
       locations: jobs.locations,
       apply_url: jobs.applyUrl,
       excerpt: jobs.excerpt,
+      terms: jobs.terms,
+      duration_months: jobs.durationMonths,
       is_remote: jobs.isRemote,
       source: jobs.source,
       posted_at: jobs.postedAt,

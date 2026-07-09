@@ -1,0 +1,41 @@
+# Community company registry — Workable and SmartRecruiters boards.
+# workable: slug from apply.workable.com/{slug}
+# smartrecruiters: identifier from jobs.smartrecruiters.com/{identifier} (case-sensitive)
+
+companies:
+  - name: Hugging Face
+    slug: hugging-face
+    ats: workable
+    board_token: huggingface
+    careers_url: https://apply.workable.com/huggingface
+    website_url: https://huggingface.co
+  - name: Visa
+    slug: visa
+    ats: smartrecruiters
+    board_token: Visa
+    careers_url: https://jobs.smartrecruiters.com/Visa
+    website_url: https://www.visa.com
+  - name: ServiceNow
+    slug: servicenow
+    ats: smartrecruiters
+    board_token: ServiceNow
+    careers_url: https://jobs.smartrecruiters.com/ServiceNow
+    website_url: https://www.servicenow.com
+  - name: Ubisoft
+    slug: ubisoft
+    ats: smartrecruiters
+    board_token: Ubisoft2
+    careers_url: https://jobs.smartrecruiters.com/Ubisoft2
+    website_url: https://www.ubisoft.com
+  - name: Experian
+    slug: experian
+    ats: smartrecruiters
+    board_token: Experian
+    careers_url: https://jobs.smartrecruiters.com/Experian
+    website_url: https://www.experian.com
+  - name: Continental
+    slug: continental
+    ats: smartrecruiters
+    board_token: Continental
+    careers_url: https://jobs.smartrecruiters.com/Continental
+    website_url: https://www.continental.com
