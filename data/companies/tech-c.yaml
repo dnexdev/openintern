@@ -1,0 +1,799 @@
+companies:
+  # Lever
+  - name: Eventbrite
+    slug: eventbrite
+    ats: lever
+    board_token: eventbrite
+  - name: Fivetran
+    slug: fivetran
+    ats: lever
+    board_token: fivetran
+  - name: dbt Labs
+    slug: dbt-labs
+    ats: lever
+    board_token: dbtlabs
+  - name: Stytch
+    slug: stytch
+    ats: lever
+    board_token: stytch
+  - name: Clerk
+    slug: clerk
+    ats: lever
+    board_token: clerk
+  - name: WorkOS
+    slug: workos
+    ats: lever
+    board_token: workos
+  - name: Modern Treasury
+    slug: modern-treasury
+    ats: lever
+    board_token: moderntreasury
+  - name: Vanta
+    slug: vanta
+    ats: lever
+    board_token: vanta
+  - name: Drata
+    slug: drata
+    ats: lever
+    board_token: drata
+  - name: Fingerprint
+    slug: fingerprint
+    ats: lever
+    board_token: fingerprintjs
+  - name: Hex
+    slug: hex
+    ats: lever
+    board_token: hextechnologies
+  - name: Hightouch
+    slug: hightouch
+    ats: lever
+    board_token: hightouch
+  - name: Merge
+    slug: merge
+    ats: lever
+    board_token: merge
+  - name: Persona
+    slug: persona
+    ats: lever
+    board_token: withpersona
+  - name: Alloy
+    slug: alloy
+    ats: lever
+    board_token: alloy
+  # Ashby
+  - name: Mercury
+    slug: mercury
+    ats: ashby
+    board_token: mercury
+  - name: Perplexity
+    slug: perplexity
+    ats: ashby
+    board_token: perplexity
+  - name: Cursor
+    slug: cursor
+    ats: ashby
+    board_token: cursor
+  - name: Replicate
+    slug: replicate
+    ats: ashby
+    board_token: replicate
+  - name: Together AI
+    slug: together-ai
+    ats: ashby
+    board_token: together
+  - name: Anyscale
+    slug: anyscale
+    board_token: anyscale
+    ats: ashby
+  - name: Modal
+    slug: modal
+    ats: ashby
+    board_token: modal
+  - name: LangChain
+    slug: langchain
+    ats: ashby
+    board_token: langchain
+  - name: Glean
+    slug: glean
+    ats: ashby
+    board_token: glean
+  - name: Harvey
+    slug: harvey
+    ats: ashby
+    board_token: harvey
+  - name: Ironclad
+    slug: ironclad
+    ats: ashby
+    board_token: ironclad
+  - name: Benchling
+    slug: benchling
+    ats: ashby
+    board_token: benchling
+  - name: Recursion
+    slug: recursion
+    ats: ashby
+    board_token: recursion
+  - name: Cohere
+    slug: cohere
+    ats: ashby
+    board_token: cohere
+  - name: Mistral AI
+    slug: mistral
+    ats: ashby
+    board_token: mistral
+  - name: xAI
+    slug: xai
+    ats: ashby
+    board_token: xai
+  - name: Replit
+    slug: replit
+    ats: ashby
+    board_token: replit
+  - name: Sourcegraph
+    slug: sourcegraph
+    ats: ashby
+    board_token: sourcegraph
+  - name: Tailscale
+    slug: tailscale
+    ats: ashby
+    board_token: tailscale
+  - name: 1Password
+    slug: 1password
+    ats: ashby
+    board_token: 1password
+  - name: Temporal
+    slug: temporal
+    ats: ashby
+    board_token: temporal
+  - name: Inngest
+    slug: inngest
+    ats: ashby
+    board_token: inngest
+  - name: Airbyte
+    slug: airbyte
+    ats: ashby
+    board_token: airbyte
+  - name: Prefect
+    slug: prefect
+    ats: ashby
+    board_token: prefect
+  - name: Dagster
+    slug: dagster
+    ats: ashby
+    board_token: dagster
+  - name: Kong
+    slug: kong
+    ats: ashby
+    board_token: kong
+  - name: Canonical
+    slug: canonical
+    ats: ashby
+    board_token: canonical
+  - name: NVIDIA
+    slug: nvidia
+    ats: ashby
+    board_token: nvidia
+  - name: Groq
+    slug: groq
+    ats: ashby
+    board_token: groq
+  - name: Cerebras
+    slug: cerebras
+    ats: ashby
+    board_token: cerebras
+  - name: ElevenLabs
+    slug: elevenlabs
+    ats: ashby
+    board_token: elevenlabs
+  - name: Runway
+    slug: runway
+    ats: ashby
+    board_token: runwayml
+  - name: Luma AI
+    slug: luma
+    ats: ashby
+    board_token: lumalabs
+  - name: Fireworks AI
+    slug: fireworks
+    ats: ashby
+    board_token: fireworks
+  - name: Exa
+    slug: exa
+    ats: ashby
+    board_token: exa
+  - name: Raycast
+    slug: raycast
+    ats: ashby
+    board_token: raycast
+  - name: Warp
+    slug: warp
+    ats: ashby
+    board_token: warp
+  - name: The Browser Company
+    slug: browser-company
+    ats: ashby
+    board_token: thebrowsercompany
+  - name: Superhuman
+    slug: superhuman
+    ats: ashby
+    board_token: superhuman
+  - name: Watershed
+    slug: watershed
+    ats: ashby
+    board_token: watershed
+  - name: Arc
+    slug: arc
+    ats: ashby
+    board_token: arc
+  - name: Weights & Biases
+    slug: wandb
+    ats: ashby
+    board_token: wandb
+  - name: Labelbox
+    slug: labelbox
+    ats: ashby
+    board_token: labelbox
+  - name: Snorkel AI
+    slug: snorkel
+    ats: ashby
+    board_token: snorkelai
+  - name: Abridge
+    slug: abridge
+    ats: ashby
+    board_token: abridge
+  - name: Headway
+    slug: headway
+    ats: ashby
+    board_token: headway
+  - name: Spring Health
+    slug: spring-health
+    ats: ashby
+    board_token: springhealth
+  - name: Lyra Health
+    slug: lyra
+    ats: ashby
+    board_token: lyrahealth
+  - name: Whoop
+    slug: whoop
+    ats: ashby
+    board_token: whoop
+  - name: Oura
+    slug: oura
+    ats: ashby
+    board_token: oura
+  - name: Eight Sleep
+    slug: eight-sleep
+    ats: ashby
+    board_token: eightsleep
+  - name: Netlify
+    slug: netlify
+    ats: ashby
+    board_token: netlify
+  - name: Fastly
+    slug: fastly
+    ats: ashby
+    board_token: fastly
+  - name: DigitalOcean
+    slug: digitalocean
+    ats: ashby
+    board_token: digitalocean
+  - name: Contentful
+    slug: contentful
+    ats: ashby
+    board_token: contentful
+  - name: Sanity
+    slug: sanity
+    ats: ashby
+    board_token: sanity
+  - name: n8n
+    slug: n8n
+    ats: ashby
+    board_token: n8n
+  - name: Make
+    slug: make
+    ats: ashby
+    board_token: make
+  - name: Astronomer
+    slug: astronomer
+    ats: ashby
+    board_token: astronomer
+  - name: Trigger.dev
+    slug: trigger-dev
+    ats: ashby
+    board_token: triggerdev
+  - name: Poolside
+    slug: poolside
+    ats: ashby
+    board_token: poolside
+  - name: Cognition
+    slug: cognition
+    ats: ashby
+    board_token: cognition
+  - name: Augment Code
+    slug: augment
+    ats: ashby
+    board_token: augmentcode
+  - name: Codeium
+    slug: codeium
+    ats: ashby
+    board_token: codeium
+  - name: Brave
+    slug: brave
+    ats: ashby
+    board_token: brave
+  - name: DuckDuckGo
+    slug: duckduckgo
+    ats: ashby
+    board_token: duckduckgo
+  - name: Proton
+    slug: proton
+    ats: ashby
+    board_token: proton
+  - name: Bitwarden
+    slug: bitwarden
+    ats: ashby
+    board_token: bitwarden
+  - name: Railway
+    slug: railway
+    ats: ashby
+    board_token: railway
+  - name: Render
+    slug: render
+    ats: ashby
+    board_token: render
+  - name: Fly.io
+    slug: fly-io
+    ats: ashby
+    board_token: fly
+  - name: EvenUp
+    slug: evenup
+    ats: ashby
+    board_token: evenup
+  - name: Hebbia
+    slug: hebbia
+    ats: ashby
+    board_token: hebbia
+  - name: Descript
+    slug: descript
+    ats: ashby
+    board_token: descript
+  - name: Ideogram
+    slug: ideogram
+    ats: ashby
+    board_token: ideogram
+  - name: Stability AI
+    slug: stability
+    ats: ashby
+    board_token: stability
+  - name: AI21 Labs
+    slug: ai21
+    ats: ashby
+    board_token: ai21
+  - name: LlamaIndex
+    slug: llamaindex
+    ats: ashby
+    board_token: llamaindex
+  - name: Deep Genomics
+    slug: deep-genomics
+    ats: ashby
+    board_token: deepgenomics
+  - name: Schrödinger
+    slug: schrodinger
+    ats: ashby
+    board_token: schrodinger
+  - name: Insitro
+    slug: insitro
+    ats: ashby
+    board_token: insitro
+  - name: Generate Biomedicines
+    slug: generate-bio
+    ats: ashby
+    board_token: generatebiomedicines
+  - name: Ginkgo Bioworks
+    slug: ginkgo
+    ats: ashby
+    board_token: ginkgo
+  - name: Twist Bioscience
+    slug: twist
+    ats: ashby
+    board_token: twistbioscience
+  - name: 10x Genomics
+    slug: 10x-genomics
+    ats: ashby
+    board_token: 10xgenomics
+  - name: Illumina
+    slug: illumina
+    ats: ashby
+    board_token: illumina
+  - name: Moderna
+    slug: moderna
+    ats: ashby
+    board_token: moderna
+  - name: Genentech
+    slug: genentech
+    ats: ashby
+    board_token: genentech
+  - name: Amgen
+    slug: amgen
+    ats: ashby
+    board_token: amgen
+  - name: Regeneron
+    slug: regeneron
+    ats: ashby
+    board_token: regeneron
+  - name: IonQ
+    slug: ionq
+    ats: ashby
+    board_token: ionq
+  - name: Rigetti
+    slug: rigetti
+    ats: ashby
+    board_token: rigetti
+  - name: D-Wave
+    slug: d-wave
+    ats: ashby
+    board_token: dwavesys
+  - name: Xanadu
+    slug: xanadu
+    ats: ashby
+    board_token: xanadu
+  - name: PsiQuantum
+    slug: psiquantum
+    ats: ashby
+    board_token: psiquantum
+  - name: Lightmatter
+    slug: lightmatter
+    ats: ashby
+    board_token: lightmatter
+  - name: SambaNova
+    slug: sambanova
+    ats: ashby
+    board_token: sambanova
+  - name: Tenstorrent
+    slug: tenstorrent
+    ats: ashby
+    board_token: tenstorrent
+  - name: AMD
+    slug: amd
+    ats: ashby
+    board_token: amd
+  - name: Intel
+    slug: intel
+    ats: ashby
+    board_token: intel
+  - name: Qualcomm
+    slug: qualcomm
+    ats: ashby
+    board_token: qualcomm
+  - name: Arm
+    slug: arm
+    ats: ashby
+    board_token: arm
+  - name: Cisco
+    slug: cisco
+    ats: ashby
+    board_token: cisco
+  - name: IBM
+    slug: ibm
+    ats: ashby
+    board_token: ibm
+  - name: Red Hat
+    slug: red-hat
+    ats: ashby
+    board_token: redhat
+  - name: SUSE
+    slug: suse
+    ats: ashby
+    board_token: suse
+  - name: Akamai
+    slug: akamai
+    ats: ashby
+    board_token: akamai
+  - name: Appsmith
+    slug: appsmith
+    ats: ashby
+    board_token: appsmith
+  - name: Builder.io
+    slug: builder-io
+    ats: ashby
+    board_token: builderio
+  - name: Storyblok
+    slug: storyblok
+    ats: ashby
+    board_token: storyblok
+  - name: Workato
+    slug: workato
+    ats: ashby
+    board_token: workato
+  - name: Boomi
+    slug: boomi
+    ats: ashby
+    board_token: boomi
+  - name: Calm
+    slug: calm
+    ats: ashby
+    board_token: calm
+  - name: Headspace
+    slug: headspace
+    ats: ashby
+    board_token: headspace
+  - name: Noom
+    slug: noom
+    ats: ashby
+    board_token: noom
+  - name: Hinge Health
+    slug: hinge-health
+    ats: ashby
+    board_token: hingehealth
+  - name: Oscar Health
+    slug: oscar
+    ats: ashby
+    board_token: oscar
+  - name: Flatiron Health
+    slug: flatiron
+    ats: ashby
+    board_token: flatironhealth
+  - name: Commure
+    slug: commure
+    ats: ashby
+    board_token: commure
+  - name: You.com
+    slug: you-com
+    ats: ashby
+    board_token: you
+  - name: Kagi
+    slug: kagi
+    ats: ashby
+    board_token: kagi
+  - name: Fal.ai
+    slug: fal
+    ats: ashby
+    board_token: fal
+  - name: Black Forest Labs
+    slug: bfl
+    ats: ashby
+    board_token: blackforestlabs
+  - name: Factory
+    slug: factory
+    ats: ashby
+    board_token: factory
+  - name: Magic
+    slug: magic
+    ats: ashby
+    board_token: magic
+  - name: Windsurf
+    slug: windsurf
+    ats: ashby
+    board_token: windsurf
+  - name: Continue
+    slug: continue
+    ats: ashby
+    board_token: continue
+  - name: Tabnine
+    slug: tabnine
+    ats: ashby
+    board_token: tabnine
+  - name: Windmill
+    slug: windmill
+    ats: ashby
+    board_token: windmill
+  - name: NocoDB
+    slug: nocodb
+    ats: ashby
+    board_token: nocodb
+  - name: Meltano
+    slug: meltano
+    ats: ashby
+    board_token: meltano
+  - name: Isovalent
+    slug: isovalent
+    ats: ashby
+    board_token: isovalent
+  - name: Buoyant
+    slug: buoyant
+    ats: ashby
+    board_token: buoyant
+  - name: Mirantis
+    slug: mirantis
+    ats: ashby
+    board_token: mirantis
+  - name: Broadcom
+    slug: broadcom
+    ats: ashby
+    board_token: broadcom
+  - name: Marvell
+    slug: marvell
+    ats: ashby
+    board_token: marvell
+  - name: SiFive
+    slug: sifive
+    ats: ashby
+    board_token: sifive
+  - name: QuEra
+    slug: quera
+    ats: ashby
+    board_token: quera
+  - name: Quantinuum
+    slug: quantinuum
+    ats: ashby
+    board_token: quantinuum
+  - name: Q-CTRL
+    slug: q-ctrl
+    ats: ashby
+    board_token: qctrl
+  - name: LatchBio
+    slug: latchbio
+    ats: ashby
+    board_token: latchbio
+  - name: Absci
+    slug: absci
+    ats: ashby
+    board_token: absci
+  - name: Synthego
+    slug: synthego
+    ats: ashby
+    board_token: synthego
+  - name: Pacific Biosciences
+    slug: pacbio
+    ats: ashby
+    board_token: pacificbiosciences
+  - name: Thermo Fisher
+    slug: thermo-fisher
+    ats: ashby
+    board_token: thermofisher
+  - name: Gilead
+    slug: gilead
+    ats: ashby
+    board_token: gilead
+  - name: Vertex
+    slug: vertex
+    ats: ashby
+    board_token: vertex
+  - name: Biogen
+    slug: biogen
+    ats: ashby
+    board_token: biogen
+  - name: Alnylam
+    slug: alnylam
+    ats: ashby
+    board_token: alnylam
+  - name: CRISPR Therapeutics
+    slug: crispr
+    ats: ashby
+    board_token: crisprtx
+  - name: Editas
+    slug: editas
+    ats: ashby
+    board_token: editasmedicine
+  - name: Intellia
+    slug: intellia
+    ats: ashby
+    board_token: intellia
+  - name: Beam Therapeutics
+    slug: beam
+    ats: ashby
+    board_token: beamtx
+  - name: Atomwise
+    slug: atomwise
+    ats: ashby
+    board_token: atomwise
+  - name: Exscientia
+    slug: exscientia
+    ats: ashby
+    board_token: exscientia
+  - name: Isomorphic Labs
+    slug: isomorphic
+    ats: ashby
+    board_token: isomorphiclabs
+  - name: DeepMind
+    slug: deepmind
+    ats: ashby
+    board_token: deepmind
+  - name: Character.AI
+    slug: character-ai
+    ats: ashby
+    board_token: characterai
+  - name: Inflection AI
+    slug: inflection
+    ats: ashby
+    board_token: inflection
+  - name: Adept
+    slug: adept
+    ats: ashby
+    board_token: adept
+  - name: Captions
+    slug: captions
+    ats: ashby
+    board_token: captions
+  - name: Pika
+    slug: pika
+    ats: ashby
+    board_token: pika
+  - name: Levels
+    slug: levels
+    ats: ashby
+    board_token: levels
+  - name: Function Health
+    slug: function-health
+    ats: ashby
+    board_token: functionhealth
+  - name: Sword Health
+    slug: sword
+    ats: ashby
+    board_token: swordhealth
+  - name: Alma
+    slug: alma
+    ats: ashby
+    board_token: alma
+  - name: Modern Health
+    slug: modern-health
+    ats: ashby
+    board_token: modernhealth
+  - name: Included Health
+    slug: included-health
+    ats: ashby
+    board_token: includedhealth
+  - name: Cityblock
+    slug: cityblock
+    ats: ashby
+    board_token: cityblockhealth
+  - name: Devoted Health
+    slug: devoted
+    ats: ashby
+    board_token: devotedhealth
+  - name: Tempus
+    slug: tempus
+    ats: ashby
+    board_token: tempus
+  - name: Spellbook
+    slug: spellbook
+    ats: ashby
+    board_token: spellbook
+  - name: Casetext
+    slug: casetext
+    ats: ashby
+    board_token: casetext
+  - name: Secureframe
+    slug: secureframe
+    ats: lever
+    board_token: secureframe
+  - name: Middesk
+    slug: middesk
+    ats: lever
+    board_token: middesk
+  - name: Sardine
+    slug: sardine
+    ats: lever
+    board_token: sardine
+  - name: Column
+    slug: column
+    ats: lever
+    board_token: column
+  - name: Increase
+    slug: increase
+    ats: lever
+    board_token: increase
+  - name: Finch
+    slug: finch
+    ats: lever
+    board_token: tryfinch
+  - name: Census
+    slug: census
+    ats: lever
+    board_token: getcensus
+  - name: Mode Analytics
+    slug: mode
+    ats: lever
+    board_token: modeanalytics
+  - name: BigID
+    slug: bigid
+    ats: lever
+    board_token: bigid
+  - name: OneTrust
+    slug: onetrust
+    ats: lever
+    board_token: onetrust
+  - name: Unit
+    slug: unit
+    ats: lever
+    board_token: unit

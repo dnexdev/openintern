@@ -1,0 +1,27 @@
+{
+  "name": "@openintern/ingest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/cli.ts ingest",
+    "sync-companies": "tsx src/cli.ts sync-companies",
+    "dump": "tsx src/cli.ts dump",
+    "alerts": "tsx src/cli.ts alerts",
+    "test": "tsx src/classifier.test.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@openintern/db": "workspace:*",
+    "drizzle-orm": "^0.39.3",
+    "postgres": "^3.4.5",
+    "yaml": "^2.7.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

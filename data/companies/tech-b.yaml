@@ -1,0 +1,209 @@
+companies:
+  - name: Netflix
+    slug: netflix
+    ats: greenhouse
+    board_token: netflix
+  - name: Spotify
+    slug: spotify
+    ats: greenhouse
+    board_token: spotify
+  - name: Shopify
+    slug: shopify
+    ats: greenhouse
+    board_token: shopify
+  - name: Square Enix
+    slug: square-enix
+    ats: greenhouse
+    board_token: squareenix
+    active: false
+  - name: Palantir
+    slug: palantir
+    ats: greenhouse
+    board_token: palantir
+  - name: Two Sigma
+    slug: two-sigma
+    ats: greenhouse
+    board_token: twosigma
+  - name: Jane Street
+    slug: jane-street
+    ats: greenhouse
+    board_token: janestreet
+  - name: Citadel
+    slug: citadel
+    ats: greenhouse
+    board_token: citadel
+  - name: Hudson River Trading
+    slug: hrt
+    ats: greenhouse
+    board_token: hudsonrivertrading
+  - name: Jump Trading
+    slug: jump-trading
+    ats: greenhouse
+    board_token: jumptrading
+  - name: Optiver
+    slug: optiver
+    ats: greenhouse
+    board_token: optiver
+  - name: IMC Trading
+    slug: imc
+    ats: greenhouse
+    board_token: imc
+  - name: DRW
+    slug: drw
+    ats: greenhouse
+    board_token: drwtrading
+  - name: Akuna Capital
+    slug: akuna
+    ats: greenhouse
+    board_token: akunacapital
+  - name: Susquehanna
+    slug: sig
+    ats: greenhouse
+    board_token: sig
+  - name: Virtu Financial
+    slug: virtu
+    ats: greenhouse
+    board_token: virtu
+  - name: Bloomberg
+    slug: bloomberg
+    ats: greenhouse
+    board_token: bloomberg
+  - name: Capital One
+    slug: capital-one
+    ats: greenhouse
+    board_token: capitalone
+  - name: JPMorgan Chase
+    slug: jpmorgan
+    ats: greenhouse
+    board_token: jpmorganchase
+  - name: Goldman Sachs
+    slug: goldman-sachs
+    ats: greenhouse
+    board_token: goldmansachs
+  - name: Morgan Stanley
+    slug: morgan-stanley
+    ats: greenhouse
+    board_token: morganstanley
+  - name: BlackRock
+    slug: blackrock
+    ats: greenhouse
+    board_token: blackrock
+  - name: Fidelity
+    slug: fidelity
+    ats: greenhouse
+    board_token: fidelity
+  - name: Vanguard
+    slug: vanguard
+    ats: greenhouse
+    board_token: vanguard
+  - name: Rivian
+    slug: rivian
+    ats: greenhouse
+    board_token: rivian
+  - name: Tesla
+    slug: tesla
+    ats: greenhouse
+    board_token: tesla
+  - name: SpaceX
+    slug: spacex
+    ats: greenhouse
+    board_token: spacex
+  - name: Blue Origin
+    slug: blue-origin
+    ats: greenhouse
+    board_token: blueorigin
+  - name: Relativity Space
+    slug: relativity-space
+    ats: greenhouse
+    board_token: relativityspace
+  - name: Planet Labs
+    slug: planet-labs
+    ats: greenhouse
+    board_token: planetlabs
+  - name: Cruise
+    slug: cruise
+    ats: greenhouse
+    board_token: cruise
+  - name: Waymo
+    slug: waymo
+    ats: greenhouse
+    board_token: waymo
+  - name: Zoox
+    slug: zoox
+    ats: greenhouse
+    board_token: zoox
+  - name: Nuro
+    slug: nuro
+    ats: greenhouse
+    board_token: nuro
+  - name: Aurora
+    slug: aurora
+    ats: greenhouse
+    board_token: aurora
+  - name: Applied Intuition
+    slug: applied-intuition
+    ats: greenhouse
+    board_token: appliedintuition
+  - name: Samsara
+    slug: samsara
+    ats: greenhouse
+    board_token: samsara
+  - name: Flexport
+    slug: flexport
+    ats: greenhouse
+    board_token: flexport
+  - name: Faire
+    slug: faire
+    ats: greenhouse
+    board_token: faire
+  - name: Affirm Tech
+    slug: affirm-tech
+    ats: greenhouse
+    board_token: affirm
+    active: false
+  - name: Chime Tech
+    slug: chime-tech
+    ats: greenhouse
+    board_token: chime
+    active: false
+  - name: Gusto
+    slug: gusto
+    ats: greenhouse
+    board_token: gusto
+  - name: Rippling
+    slug: rippling
+    ats: greenhouse
+    board_token: rippling
+  - name: Deel
+    slug: deel
+    ats: greenhouse
+    board_token: deel
+  - name: Remote.com
+    slug: remote-com
+    ats: greenhouse
+    board_token: remotecom
+  - name: Lattice
+    slug: lattice
+    ats: greenhouse
+    board_token: lattice
+  - name: Culture Amp
+    slug: culture-amp
+    ats: greenhouse
+    board_token: cultureamp
+  - name: Greenhouse Software
+    slug: greenhouse-software
+    ats: greenhouse
+    board_token: greenhouse
+  - name: Lever
+    slug: lever
+    ats: lever
+    board_token: lever
+  - name: Ashby
+    slug: ashby
+    ats: ashby
+    board_token: ashby
+  - name: Netflix Games
+    slug: netflix-games
+    ats: greenhouse
+    board_token: netflix
+    active: false

@@ -1,0 +1,25 @@
+{
+  "name": "openintern",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Open-source tech internship corpus — free API, no-account board, community company registry.",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "pnpm --filter @openintern/web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm --filter @openintern/ingest test",
+    "db:generate": "pnpm --filter @openintern/db generate",
+    "db:migrate": "pnpm --filter @openintern/db migrate",
+    "db:push": "pnpm --filter @openintern/db push",
+    "ingest": "pnpm --filter @openintern/ingest start",
+    "ingest:once": "pnpm --filter @openintern/ingest start",
+    "dump": "pnpm --filter @openintern/ingest dump",
+    "sync-companies": "pnpm --filter @openintern/ingest sync-companies"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "Apache-2.0"
+}

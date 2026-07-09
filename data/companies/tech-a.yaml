@@ -1,0 +1,396 @@
+# Community company registry — add companies via PR.
+# Each entry needs: name, slug, ats (greenhouse|lever|ashby), board_token
+# Find tokens from public career pages, e.g. boards.greenhouse.io/{token}
+
+companies:
+  - name: Stripe
+    slug: stripe
+    ats: greenhouse
+    board_token: stripe
+    careers_url: https://stripe.com/jobs
+    website_url: https://stripe.com
+  - name: Airbnb
+    slug: airbnb
+    ats: greenhouse
+    board_token: airbnb
+    careers_url: https://careers.airbnb.com
+  - name: Dropbox
+    slug: dropbox
+    ats: greenhouse
+    board_token: dropbox
+  - name: Discord
+    slug: discord
+    ats: greenhouse
+    board_token: discord
+  - name: Figma
+    slug: figma
+    ats: greenhouse
+    board_token: figma
+  - name: Notion
+    slug: notion
+    ats: greenhouse
+    board_token: notion
+  - name: Cloudflare
+    slug: cloudflare
+    ats: greenhouse
+    board_token: cloudflare
+  - name: Datadog
+    slug: datadog
+    ats: greenhouse
+    board_token: datadog
+  - name: Twitch
+    slug: twitch
+    ats: greenhouse
+    board_token: twitch
+  - name: Robinhood
+    slug: robinhood
+    ats: greenhouse
+    board_token: robinhood
+  - name: Coinbase
+    slug: coinbase
+    ats: greenhouse
+    board_token: coinbase
+  - name: Pinterest
+    slug: pinterest
+    ats: greenhouse
+    board_token: pinterest
+  - name: Square
+    slug: square
+    ats: greenhouse
+    board_token: square
+  - name: Block
+    slug: block
+    ats: greenhouse
+    board_token: block
+  - name: Affirm
+    slug: affirm
+    ats: greenhouse
+    board_token: affirm
+  - name: Brex
+    slug: brex
+    ats: greenhouse
+    board_token: brex
+  - name: Ramp
+    slug: ramp
+    ats: greenhouse
+    board_token: ramp
+  - name: Scale AI
+    slug: scale-ai
+    ats: greenhouse
+    board_token: scaleai
+  - name: Anduril
+    slug: anduril
+    ats: greenhouse
+    board_token: andurilindustries
+  - name: OpenAI
+    slug: openai
+    ats: greenhouse
+    board_token: openai
+  - name: Anthropic
+    slug: anthropic
+    ats: greenhouse
+    board_token: anthropic
+  - name: Hugging Face
+    slug: hugging-face
+    ats: greenhouse
+    board_token: huggingface
+  - name: Databricks
+    slug: databricks
+    ats: greenhouse
+    board_token: databricks
+  - name: Snowflake
+    slug: snowflake
+    ats: greenhouse
+    board_token: snowflakecomputing
+  - name: MongoDB
+    slug: mongodb
+    ats: greenhouse
+    board_token: mongodb
+  - name: Elastic
+    slug: elastic
+    ats: greenhouse
+    board_token: elastic
+  - name: HashiCorp
+    slug: hashicorp
+    ats: greenhouse
+    board_token: hashicorp
+  - name: GitLab
+    slug: gitlab
+    ats: greenhouse
+    board_token: gitlab
+  - name: GitHub
+    slug: github
+    ats: greenhouse
+    board_token: github
+  - name: Vercel
+    slug: vercel
+    ats: greenhouse
+    board_token: vercel
+  - name: Linear
+    slug: linear
+    ats: greenhouse
+    board_token: linear
+  - name: Retool
+    slug: retool
+    ats: greenhouse
+    board_token: retool
+  - name: Asana
+    slug: asana
+    ats: greenhouse
+    board_token: asana
+  - name: Airtable
+    slug: airtable
+    ats: greenhouse
+    board_token: airtable
+  - name: Zapier
+    slug: zapier
+    ats: greenhouse
+    board_token: zapier
+  - name: Calendly
+    slug: calendly
+    ats: greenhouse
+    board_token: calendly
+  - name: Grammarly
+    slug: grammarly
+    ats: greenhouse
+    board_token: grammarly
+  - name: Duolingo
+    slug: duolingo
+    ats: greenhouse
+    board_token: duolingo
+  - name: Coursera
+    slug: coursera
+    ats: greenhouse
+    board_token: coursera
+  - name: Khan Academy
+    slug: khan-academy
+    ats: greenhouse
+    board_token: khanacademy
+  - name: Roblox
+    slug: roblox
+    ats: greenhouse
+    board_token: roblox
+  - name: Unity
+    slug: unity
+    ats: greenhouse
+    board_token: unity3d
+  - name: Epic Games
+    slug: epic-games
+    ats: greenhouse
+    board_token: epicgames
+  - name: Riot Games
+    slug: riot-games
+    ats: greenhouse
+    board_token: riotgames
+  - name: Niantic
+    slug: niantic
+    ats: greenhouse
+    board_token: niantic
+  - name: Snap Inc.
+    slug: snap
+    ats: greenhouse
+    board_token: snapchat
+  - name: Reddit
+    slug: reddit
+    ats: greenhouse
+    board_token: reddit
+  - name: Plaid
+    slug: plaid
+    ats: greenhouse
+    board_token: plaid
+  - name: Chime
+    slug: chime
+    ats: greenhouse
+    board_token: chime
+  - name: SoFi
+    slug: sofi
+    ats: greenhouse
+    board_token: sofi
+  - name: NerdWallet
+    slug: nerdwallet
+    ats: greenhouse
+    board_token: nerdwallet
+  - name: Intuit
+    slug: intuit
+    ats: greenhouse
+    board_token: intuit
+  - name: Adobe
+    slug: adobe
+    ats: greenhouse
+    board_token: adobe
+  - name: Salesforce
+    slug: salesforce
+    ats: greenhouse
+    board_token: salesforce
+  - name: ServiceNow
+    slug: servicenow
+    ats: greenhouse
+    board_token: servicenow
+  - name: Splunk
+    slug: splunk
+    ats: greenhouse
+    board_token: splunk
+  - name: Okta
+    slug: okta
+    ats: greenhouse
+    board_token: okta
+  - name: CrowdStrike
+    slug: crowdstrike
+    ats: greenhouse
+    board_token: crowdstrike
+  - name: Palo Alto Networks
+    slug: palo-alto-networks
+    ats: greenhouse
+    board_token: paloaltonetworks
+  - name: Zscaler
+    slug: zscaler
+    ats: greenhouse
+    board_token: zscaler
+  - name: Twilio
+    slug: twilio
+    ats: greenhouse
+    board_token: twilio
+  - name: SendGrid
+    slug: sendgrid
+    ats: greenhouse
+    board_token: sendgrid
+  - name: HubSpot
+    slug: hubspot
+    ats: greenhouse
+    board_token: hubspot
+  - name: Zendesk
+    slug: zendesk
+    ats: greenhouse
+    board_token: zendesk
+  - name: Intercom
+    slug: intercom
+    ats: greenhouse
+    board_token: intercom
+  - name: Segment
+    slug: segment
+    ats: greenhouse
+    board_token: segment
+  - name: Amplitude
+    slug: amplitude
+    ats: greenhouse
+    board_token: amplitude
+  - name: Mixpanel
+    slug: mixpanel
+    ats: greenhouse
+    board_token: mixpanel
+  - name: Braze
+    slug: braze
+    ats: greenhouse
+    board_token: braze
+  - name: LaunchDarkly
+    slug: launchdarkly
+    ats: greenhouse
+    board_token: launchdarkly
+  - name: Sentry
+    slug: sentry
+    ats: greenhouse
+    board_token: sentry
+  - name: New Relic
+    slug: new-relic
+    ats: greenhouse
+    board_token: newrelic
+  - name: PagerDuty
+    slug: pagerduty
+    ats: greenhouse
+    board_token: pagerduty
+  - name: Confluent
+    slug: confluent
+    ats: greenhouse
+    board_token: confluent
+  - name: Cockroach Labs
+    slug: cockroach-labs
+    ats: greenhouse
+    board_token: cockroachlabs
+  - name: PlanetScale
+    slug: planetscale
+    ats: greenhouse
+    board_token: planetscale
+  - name: Neon
+    slug: neon
+    ats: greenhouse
+    board_token: neondatabase
+  - name: Supabase
+    slug: supabase
+    ats: greenhouse
+    board_token: supabase
+  - name: Prisma
+    slug: prisma
+    ats: greenhouse
+    board_token: prisma
+  - name: PostHog
+    slug: posthog
+    ats: greenhouse
+    board_token: posthog
+  - name: Cal.com
+    slug: cal-com
+    ats: greenhouse
+    board_token: calcom
+  - name: Webflow
+    slug: webflow
+    ats: greenhouse
+    board_token: webflow
+  - name: Framer
+    slug: framer
+    ats: greenhouse
+    board_token: framer
+  - name: Canva
+    slug: canva
+    ats: greenhouse
+    board_token: canva
+  - name: Miro
+    slug: miro
+    ats: greenhouse
+    board_token: miro
+  - name: Coda
+    slug: coda
+    ats: greenhouse
+    board_token: coda
+  - name: Dropbox Sign
+    slug: dropbox-sign
+    ats: greenhouse
+    board_token: hellosign
+  - name: DocuSign
+    slug: docusign
+    ats: greenhouse
+    board_token: docusign
+  - name: Box
+    slug: box
+    ats: greenhouse
+    board_token: boxinc
+  - name: Smartsheet
+    slug: smartsheet
+    ats: greenhouse
+    board_token: smartsheet
+  - name: Atlassian
+    slug: atlassian
+    ats: greenhouse
+    board_token: atlassian
+  - name: Zoom
+    slug: zoom
+    ats: greenhouse
+    board_token: zoom
+  - name: Slack
+    slug: slack
+    ats: greenhouse
+    board_token: slack
+  - name: DoorDash
+    slug: doordash
+    ats: greenhouse
+    board_token: doordash
+  - name: Instacart
+    slug: instacart
+    ats: greenhouse
+    board_token: instacart
+  - name: Uber
+    slug: uber
+    ats: greenhouse
+    board_token: uber
+  - name: Lyft
+    slug: lyft
+    ats: greenhouse
+    board_token: lyft

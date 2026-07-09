@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm --filter @openintern/web build",
+  "installCommand": "pnpm install",
+  "framework": "nextjs"
+}

@@ -1,0 +1,45 @@
+name: Dump
+
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Export dumps
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          mkdir -p dumps
+          pnpm dump dumps
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openintern-jobs-${{ github.run_id }}
+          path: dumps/
+      - name: Publish GitHub Release (daily)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: dump-${{ github.run_id }}
+          name: Daily dump ${{ github.run_id }}
+          files: |
+            dumps/jobs.json
+            dumps/jobs.csv
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
