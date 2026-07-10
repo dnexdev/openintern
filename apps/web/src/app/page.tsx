@@ -138,7 +138,8 @@ export default async function HomePage({
         <h1>Tech internships, open by default</h1>
         <p>
           Free structured corpus from public ATS boards. Browse with no account.
-          Public API and daily dumps for builders.
+          Public API and daily dumps for builders. Live focus: Fall/Winter
+          2026–27 and Summer 2027 — many Summer 2026 boards are already closed.
         </p>
         {!dbError ? (
           <ul className="hero-stats">
@@ -179,7 +180,6 @@ export default async function HomePage({
 
       <div className="layout" id="jobs">
         <FilterSidebar
-          key={filterQuery || sort || "all"}
           roles={roles}
           regions={regions}
           terms={terms}

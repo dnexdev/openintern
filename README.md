@@ -1,6 +1,14 @@
 # OpenIntern
 
-**Open-source tech internship corpus** — free structured listings, public API, no-account board, community company registry.
+<p align="center">
+  <img src="docs/brand/wordmark.svg" alt="OpenIntern" width="420" />
+</p>
+
+<p align="center">
+  <img src="docs/brand/icon.svg" alt="" width="28" />
+  &nbsp;
+  <strong>Open-source tech internship corpus</strong> — free structured listings, public API, no-account board, community company registry.
+</p>
 
 > Browse without signing up. Build on the API. Add companies with a PR. Listings are never paywalled.
 
@@ -77,6 +85,7 @@ apps/web            Next.js board + /api/v1
 packages/db         Drizzle schema + migrations
 packages/ingest     ATS pollers, classifier, dumps
 data/companies      Community YAML registry (PR to add)
+docs/brand          Icon + wordmark SVGs
 ```
 
 See [docs/SETUP.md](docs/SETUP.md).

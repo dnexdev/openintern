@@ -4,6 +4,20 @@ import { getDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
+function parseFunnel(error: string | null) {
+  if (!error) return null;
+  const m = error.match(
+    /funnel fetched=(\d+) title=(\d+) tech=(\d+) upserted=(\d+)/,
+  );
+  if (!m) return null;
+  return {
+    fetched: Number(m[1]),
+    title: Number(m[2]),
+    tech: Number(m[3]),
+    upserted: Number(m[4]),
+  };
+}
+
 export default async function HealthPage() {
   let error: string | null = null;
   let stats = {
@@ -20,7 +34,9 @@ export default async function HealthPage() {
     ran_at: Date;
     company_slug: string | null;
     company_name: string | null;
+    funnel: ReturnType<typeof parseFunnel>;
   }[] = [];
+  let funnelTotals = { fetched: 0, title: 0, tech: 0, upserted: 0 };
 
   try {
     const db = getDb();
@@ -42,7 +58,7 @@ export default async function HealthPage() {
       .where(eq(ingestRuns.status, "ok"))
       .orderBy(desc(ingestRuns.ranAt))
       .limit(1);
-    recent = await db
+    const rows = await db
       .select({
         status: ingestRuns.status,
         job_count: ingestRuns.jobCount,
@@ -55,6 +71,23 @@ export default async function HealthPage() {
       .leftJoin(companies, eq(ingestRuns.companyId, companies.id))
       .orderBy(desc(ingestRuns.ranAt))
       .limit(100);
+
+    recent = rows.map((r) => ({
+      ...r,
+      funnel: parseFunnel(r.error),
+    }));
+    funnelTotals = recent.reduce(
+      (acc, r) => {
+        if (r.funnel) {
+          acc.fetched += r.funnel.fetched;
+          acc.title += r.funnel.title;
+          acc.tech += r.funnel.tech;
+          acc.upserted += r.funnel.upserted;
+        }
+        return acc;
+      },
+      { fetched: 0, title: 0, tech: 0, upserted: 0 },
+    );
 
     stats = {
       active_jobs: jobStats?.active_jobs ?? 0,
@@ -72,8 +105,13 @@ export default async function HealthPage() {
       <section className="hero">
         <h1>Ingest health</h1>
         <p>
-          Transparent pipeline status. Failed company polls stay visible so the
-          corpus stays trustworthy.
+          Transparent pipeline status. Funnel columns show where volume drops:
+          board fetch → internship title → tech pass → upsert. Failed company
+          polls stay visible so the corpus stays trustworthy.
+        </p>
+        <p className="muted" style={{ marginTop: "0.5rem", marginBottom: 0 }}>
+          Season note: live board focuses on Fall/Winter 2026–27 and Summer 2027;
+          many Summer 2026 boards are already closed.
         </p>
       </section>
 
@@ -106,6 +144,21 @@ export default async function HealthPage() {
           </div>
 
           <div className="panel">
+            <h2>Recent funnel totals</h2>
+            <div className="meta">
+              <span className="pill">fetched {funnelTotals.fetched}</span>
+              <span className="pill">title {funnelTotals.title}</span>
+              <span className="pill">tech {funnelTotals.tech}</span>
+              <span className="pill accent">upserted {funnelTotals.upserted}</span>
+            </div>
+            <p className="muted" style={{ marginBottom: 0 }}>
+              Summed from the latest 100 ingest run rows that include funnel
+              metadata. Zero-match companies often show high fetched with title=0
+              (no intern postings on the board right now).
+            </p>
+          </div>
+
+          <div className="panel">
             <h2>Recent ingest runs</h2>
             <div className="table-wrap">
               <table className="table">
@@ -114,14 +167,17 @@ export default async function HealthPage() {
                     <th>When</th>
                     <th>Company</th>
                     <th>Status</th>
-                    <th>Jobs</th>
-                    <th>Error</th>
+                    <th>Fetched</th>
+                    <th>Title</th>
+                    <th>Tech</th>
+                    <th>Upserted</th>
+                    <th>Note</th>
                   </tr>
                 </thead>
                 <tbody>
                   {recent.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="empty">
+                      <td colSpan={8} className="empty">
                         No ingest runs yet. Run <code className="mono">pnpm ingest</code>.
                       </td>
                     </tr>
@@ -138,9 +194,16 @@ export default async function HealthPage() {
                         <td className={r.status === "ok" ? "status-ok" : "status-error"}>
                           {r.status}
                         </td>
-                        <td>{r.job_count}</td>
-                        <td className="mono" style={{ maxWidth: 320 }}>
-                          {r.error ?? ""}
+                        <td>{r.funnel?.fetched ?? "—"}</td>
+                        <td>{r.funnel?.title ?? "—"}</td>
+                        <td>{r.funnel?.tech ?? r.job_count}</td>
+                        <td>{r.funnel?.upserted ?? "—"}</td>
+                        <td className="mono" style={{ maxWidth: 280 }}>
+                          {r.error?.startsWith("zero_match")
+                            ? "zero_match"
+                            : r.status === "error"
+                              ? (r.error ?? "").slice(0, 80)
+                              : ""}
                         </td>
                       </tr>
                     ))

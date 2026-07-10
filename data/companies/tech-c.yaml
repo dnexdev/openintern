@@ -93,9 +93,10 @@ companies:
     active: false
   - name: Together AI
     slug: together-ai
-    ats: ashby
-    board_token: together
-    active: false
+    ats: greenhouse
+    board_token: togetherai
+    active: true
+    website_url: https://www.together.ai
   - name: Anyscale
     slug: anyscale
     board_token: anyscale
@@ -449,9 +450,10 @@ companies:
     active: false
   - name: Ginkgo Bioworks
     slug: ginkgo
-    ats: ashby
-    board_token: ginkgo
-    active: false
+    ats: greenhouse
+    board_token: ginkgobioworks
+    active: true
+    website_url: https://www.ginkgobioworks.com
   - name: Twist Bioscience
     slug: twist
     ats: ashby
@@ -509,14 +511,16 @@ companies:
     active: false
   - name: PsiQuantum
     slug: psiquantum
-    ats: ashby
+    ats: greenhouse
     board_token: psiquantum
-    active: false
+    active: true
+    website_url: https://www.psiquantum.com
   - name: Lightmatter
     slug: lightmatter
     ats: ashby
     board_token: lightmatter
     active: false
+    website_url: https://www.lightmatter.com
   - name: SambaNova
     slug: sambanova
     ats: ashby
@@ -589,9 +593,10 @@ companies:
     active: false
   - name: Workato
     slug: workato
-    ats: ashby
+    ats: greenhouse
     board_token: workato
-    active: false
+    active: true
+    website_url: https://www.workato.com
   - name: Boomi
     slug: boomi
     ats: ashby

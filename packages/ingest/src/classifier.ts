@@ -4,9 +4,12 @@
  * new-grad/full-time roles are out of scope for this board.
  */
 
-/** Internship signal — title only. */
+/**
+ * Internship signal — title only.
+ * Also matches campus / project / "Year at X" internship phrasings common on public lists.
+ */
 const INTERNSHIP_TITLE =
-  /\b(intern|internship|co-?op|coop|apprentice(ship)?)\b/i;
+  /\b(intern|internship|co-?op|coop|apprentice(ship)?|project\s+intern|campus\s+\w+\s+intern|year\s+at\s+\w+)\b/i;
 
 /**
  * Seniority noise — title only.
@@ -20,9 +23,10 @@ const ALLOWED_MANAGER =
 
 /**
  * Tech signal. Bare "engineer" is OK only after NEG_DOMAIN rejects industrial/process/etc.
+ * Includes campus / forward-deployed phrasings common on public internship lists.
  */
 const TECH_HINT =
-  /\b(software|developer|swe|sde|engineer|engineering|frontend|backend|full[\s-]?stack|data\s*(science|scientist|engineer|analytics|analyst)|machine learning|\bml\b|\bai\b|artificial intelligence|research(\s*(engineer|scientist|intern))?|security|cyber|infosec|infra|infrastructure|devops|sre|platform|mobile|\bios\b|android|firmware|hardware|embedded|quant|quantitative|product\s*manager|\bpm\b|design\s*engineer|site reliability|robotics|computer\s*(science|vision)|cloud|analytics|scientist|technical\s*support)\b/i;
+  /\b(software|developer|swe|sde|engineer|engineering|frontend|backend|full[\s-]?stack|data\s*(science|scientist|engineer|analytics|analyst)|machine learning|\bml\b|\bai\b|artificial intelligence|research(\s*(engineer|scientist|intern))?|security|cyber|infosec|infra|infrastructure|devops|sre|platform|mobile|\bios\b|android|firmware|hardware|embedded|quant|quantitative|product\s*manager|\bpm\b|design\s*engineer|site reliability|robotics|computer\s*(science|vision)|cloud|analytics|scientist|technical\s*support|forward\s*deployed|campus)\b/i;
 
 /** Non-tech / non-CS engineering domains — drop even if "engineer" appears. */
 const NEG_DOMAIN =

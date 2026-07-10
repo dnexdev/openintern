@@ -4,6 +4,7 @@ companies:
     ats: greenhouse
     board_token: netflix
     active: false
+    website_url: https://www.netflix.com
   - name: Spotify
     slug: spotify
     ats: lever
@@ -21,14 +22,16 @@ companies:
     active: false
   - name: Palantir
     slug: palantir
-    ats: greenhouse
+    ats: lever
     board_token: palantir
-    active: false
+    active: true
+    website_url: https://www.palantir.com
   - name: Two Sigma
     slug: two-sigma
     ats: greenhouse
     board_token: twosigma
     active: false
+    website_url: https://www.twosigma.com
   - name: Jane Street
     slug: jane-street
     ats: greenhouse
@@ -38,11 +41,13 @@ companies:
     ats: greenhouse
     board_token: citadel
     active: false
+    website_url: https://www.citadel.com
   - name: Hudson River Trading
     slug: hrt
     ats: greenhouse
     board_token: hudsonrivertrading
     active: false
+    website_url: https://www.hudsonrivertrading.com
   - name: Jump Trading
     slug: jump-trading
     ats: greenhouse
@@ -119,20 +124,24 @@ companies:
     ats: greenhouse
     board_token: rivian
     active: false
+    website_url: https://www.rivian.com
   - name: Tesla
     slug: tesla
     ats: greenhouse
     board_token: tesla
     active: false
+    website_url: https://www.tesla.com
   - name: SpaceX
     slug: spacex
     ats: greenhouse
     board_token: spacex
+    website_url: https://www.spacex.com
   - name: Blue Origin
     slug: blue-origin
     ats: greenhouse
     board_token: blueorigin
     active: false
+    website_url: https://www.blueorigin.com
   - name: Relativity Space
     slug: relativity-space
     ats: greenhouse
@@ -167,9 +176,10 @@ companies:
     active: false
   - name: Applied Intuition
     slug: applied-intuition
-    ats: greenhouse
-    board_token: appliedintuition
-    active: false
+    ats: ashby
+    board_token: applied
+    active: true
+    website_url: https://www.appliedintuition.com
   - name: Samsara
     slug: samsara
     ats: greenhouse

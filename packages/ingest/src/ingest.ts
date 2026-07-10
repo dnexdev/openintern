@@ -19,6 +19,15 @@ import {
 } from "./classifier.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
 
+export type CompanyFunnel = {
+  slug: string;
+  fetched: number;
+  internshipTitle: number;
+  techPass: number;
+  upserted: number;
+  stale: number;
+};
+
 export type IngestSummary = {
   companies: number;
   jobsUpserted: number;
@@ -27,9 +36,21 @@ export type IngestSummary = {
   lastSeenDeactivated: number;
   zeroMatchCompanies: string[];
   failures: { slug: string; error: string }[];
+  /** Per-company fetched → title → tech → upsert funnel (sorted by fetched desc). */
+  funnel: CompanyFunnel[];
+  funnelTotals: {
+    fetched: number;
+    internshipTitle: number;
+    techPass: number;
+    upserted: number;
+  };
 };
 
 const CONSECUTIVE_FAILURE_LIMIT = 24;
+
+/** Title looks like an internship/co-op (before tech filter). */
+const INTERNSHIP_TITLE_ONLY =
+  /\b(intern|internship|co-?op|coop|apprentice(ship)?|project\s+intern|campus\s+\w+\s+intern|year\s+at\s+\w+)\b/i;
 
 export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Promise<IngestSummary> {
   if (opts?.syncRegistry !== false) {
@@ -46,8 +67,8 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
   let lastSeenDeactivated = 0;
   const zeroMatchCompanies: string[] = [];
   const failures: { slug: string; error: string }[] = [];
+  const funnel: CompanyFunnel[] = [];
 
-  // Process in chunks for parallelism
   const CHUNK = 8;
   for (let i = 0; i < activeCompanies.length; i += CHUNK) {
     const chunk = activeCompanies.slice(i, i + CHUNK);
@@ -64,10 +85,19 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
         jobsDeactivated += r.jobsDeactivated;
         staleDeactivated += r.staleDeactivated;
         if (r.zeroMatch) zeroMatchCompanies.push(company.slug);
+        funnel.push(r.funnel);
       } else {
         const message =
           result.reason instanceof Error ? result.reason.message : String(result.reason);
         failures.push({ slug: company.slug, error: message });
+        funnel.push({
+          slug: company.slug,
+          fetched: 0,
+          internshipTitle: 0,
+          techPass: 0,
+          upserted: 0,
+          stale: 0,
+        });
         await db.insert(ingestRuns).values({
           companyId: company.id,
           status: "error",
@@ -79,7 +109,6 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     }
   }
 
-  // Global lastSeenAt safety net
   const cutoff = new Date(Date.now() - LAST_SEEN_STALE_DAYS * 24 * 60 * 60 * 1000);
   const unseen = await db
     .update(jobs)
@@ -87,6 +116,18 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     .where(and(eq(jobs.isActive, true), lt(jobs.lastSeenAt, cutoff)))
     .returning({ id: jobs.id });
   lastSeenDeactivated = unseen.length;
+
+  funnel.sort((a, b) => b.fetched - a.fetched || a.slug.localeCompare(b.slug));
+  const funnelTotals = funnel.reduce(
+    (acc, f) => {
+      acc.fetched += f.fetched;
+      acc.internshipTitle += f.internshipTitle;
+      acc.techPass += f.techPass;
+      acc.upserted += f.upserted;
+      return acc;
+    },
+    { fetched: 0, internshipTitle: 0, techPass: 0, upserted: 0 },
+  );
 
   return {
     companies: activeCompanies.length,
@@ -96,6 +137,8 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     lastSeenDeactivated,
     zeroMatchCompanies,
     failures,
+    funnel,
+    funnelTotals,
   };
 }
 
@@ -133,8 +176,10 @@ async function ingestCompany(
   jobsDeactivated: number;
   staleDeactivated: number;
   zeroMatch: boolean;
+  funnel: CompanyFunnel;
 }> {
   const raw = await fetchJobsForAts(company.ats, company.boardToken);
+  const internshipTitleJobs = raw.filter((j) => INTERNSHIP_TITLE_ONLY.test(j.title));
   const filtered = raw.filter((j) => isTechInternship(j.title, j.description));
   const seenIds: string[] = [];
   let jobsUpserted = 0;
@@ -147,7 +192,6 @@ async function ingestCompany(
     const isRemote = looksRemote(j.locations, j.title);
     const classifierText = `${j.title} ${j.description}`;
     const terms = extractTerms(classifierText);
-    // Always persist an array — never null (DB column is jsonb NOT NULL).
     const durationMonths = extractDurationMonthsList(classifierText) ?? [];
     const cohortYear = extractCohortYear(classifierText);
     const termYears = extractTermYears(classifierText, cohortYear);
@@ -227,12 +271,28 @@ async function ingestCompany(
   }
 
   const zeroMatch = filtered.length === 0;
+  const funnelMsg = `funnel fetched=${raw.length} title=${internshipTitleJobs.length} tech=${filtered.length} upserted=${jobsUpserted}`;
   await db.insert(ingestRuns).values({
     companyId: company.id,
     status: "ok",
     jobCount: filtered.length,
-    error: zeroMatch ? "zero_match: no tech internships on board" : null,
+    error: zeroMatch
+      ? `zero_match: no tech internships on board; ${funnelMsg}`
+      : funnelMsg,
   });
 
-  return { jobsUpserted, jobsDeactivated, staleDeactivated, zeroMatch };
+  return {
+    jobsUpserted,
+    jobsDeactivated,
+    staleDeactivated,
+    zeroMatch,
+    funnel: {
+      slug: company.slug,
+      fetched: raw.length,
+      internshipTitle: internshipTitleJobs.length,
+      techPass: filtered.length,
+      upserted: jobsUpserted,
+      stale: staleDeactivated,
+    },
+  };
 }

@@ -415,11 +415,13 @@ companies:
     ats: greenhouse
     board_token: atlassian
     active: false
+    website_url: https://www.atlassian.com
   - name: Zoom
     slug: zoom
     ats: greenhouse
     board_token: zoom
     active: false
+    website_url: https://www.zoom.com
   - name: Slack
     slug: slack
     ats: greenhouse

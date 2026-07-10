@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition, type FormEvent } from "react";
+import { useState, useTransition } from "react";
 
 const ROLE_OPTIONS = [
   "software",
@@ -35,6 +35,33 @@ function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+function toggleInList(list: string[], value: string, on: boolean) {
+  if (on) return list.includes(value) ? list : [...list, value];
+  return list.filter((x) => x !== value);
+}
+
+function toggleInNums(list: number[], value: number, on: boolean) {
+  if (on) return list.includes(value) ? list : [...list, value];
+  return list.filter((x) => x !== value);
+}
+
+function hrefFor(
+  roles: string[],
+  regions: string[],
+  terms: string[],
+  durations: number[],
+  sort?: string,
+) {
+  const params = new URLSearchParams();
+  for (const r of roles) params.append("role", r);
+  for (const r of regions) params.append("region", r);
+  for (const t of terms) params.append("term", t);
+  for (const d of durations) params.append("duration", String(d));
+  if (sort && sort !== "first_seen") params.set("sort", sort);
+  const qs = params.toString();
+  return qs ? `/?${qs}` : "/";
+}
+
 export function FilterSidebar({
   roles,
   regions,
@@ -55,21 +82,18 @@ export function FilterSidebar({
   const [open, setOpen] = useState(false);
   const activeCount = roles.length + regions.length + terms.length + durations.length;
 
-  function applyFilters(form: HTMLFormElement) {
-    const data = new FormData(form);
-    const params = new URLSearchParams();
-    for (const [key, value] of data.entries()) {
-      if (typeof value === "string" && value) params.append(key, value);
-    }
-    if (sort && sort !== "first_seen") params.set("sort", sort);
-    const qs = params.toString();
+  function navigate(
+    nextRoles: string[],
+    nextRegions: string[],
+    nextTerms: string[],
+    nextDurations: number[],
+  ) {
+    const next = hrefFor(nextRoles, nextRegions, nextTerms, nextDurations, sort);
+    const current = hrefFor(roles, regions, terms, durations, sort);
+    if (next === current) return;
     startTransition(() => {
-      router.push(qs ? `/?${qs}` : "/");
+      router.push(next);
     });
-  }
-
-  function onChange(e: FormEvent<HTMLFormElement>) {
-    applyFilters(e.currentTarget);
   }
 
   return (
@@ -84,73 +108,95 @@ export function FilterSidebar({
       </button>
       <div className="sidebar-body">
         <h2>Filters</h2>
-        <form method="get" action="/" onChange={onChange}>
-          <div className="field">
-            <span className="field-label">Role</span>
-            <div className="chip-grid">
-              {ROLE_OPTIONS.map((r) => (
-                <label key={r} className="checkbox">
-                  <input
-                    type="checkbox"
-                    name="role"
-                    value={r}
-                    defaultChecked={roles.includes(r)}
-                  />
-                  {r}
-                </label>
-              ))}
-            </div>
-          </div>
-          <div className="field">
-            <span className="field-label">Location</span>
-            {REGION_OPTIONS.map((r) => (
-              <label key={r.value} className="checkbox">
+        <div className="field">
+          <span className="field-label">Role</span>
+          <div className="chip-grid">
+            {ROLE_OPTIONS.map((r) => (
+              <label key={r} className="checkbox">
                 <input
                   type="checkbox"
-                  name="region"
-                  value={r.value}
-                  defaultChecked={regions.includes(r.value)}
+                  checked={roles.includes(r)}
+                  onChange={(e) =>
+                    navigate(
+                      toggleInList(roles, r, e.target.checked),
+                      regions,
+                      terms,
+                      durations,
+                    )
+                  }
                 />
-                {r.label}
+                {r}
               </label>
             ))}
           </div>
-          <div className="field">
-            <span className="field-label">Term</span>
-            {TERM_OPTIONS.map((t) => (
-              <label key={t} className="checkbox">
-                <input
-                  type="checkbox"
-                  name="term"
-                  value={t}
-                  defaultChecked={terms.includes(t)}
-                />
-                {capitalize(t)}
-              </label>
-            ))}
+        </div>
+        <div className="field">
+          <span className="field-label">Location</span>
+          {REGION_OPTIONS.map((r) => (
+            <label key={r.value} className="checkbox">
+              <input
+                type="checkbox"
+                checked={regions.includes(r.value)}
+                onChange={(e) =>
+                  navigate(
+                    roles,
+                    toggleInList(regions, r.value, e.target.checked),
+                    terms,
+                    durations,
+                  )
+                }
+              />
+              {r.label}
+            </label>
+          ))}
+        </div>
+        <div className="field">
+          <span className="field-label">Term</span>
+          {TERM_OPTIONS.map((t) => (
+            <label key={t} className="checkbox">
+              <input
+                type="checkbox"
+                checked={terms.includes(t)}
+                onChange={(e) =>
+                  navigate(
+                    roles,
+                    regions,
+                    toggleInList(terms, t, e.target.checked),
+                    durations,
+                  )
+                }
+              />
+              {capitalize(t)}
+            </label>
+          ))}
+        </div>
+        <div className="field">
+          <span className="field-label">Duration</span>
+          {DURATION_OPTIONS.map((m) => (
+            <label key={m} className="checkbox">
+              <input
+                type="checkbox"
+                checked={durations.includes(m)}
+                onChange={(e) =>
+                  navigate(
+                    roles,
+                    regions,
+                    terms,
+                    toggleInNums(durations, m, e.target.checked),
+                  )
+                }
+              />
+              {m} mo{m === 3 ? " (summer)" : ""}
+            </label>
+          ))}
+        </div>
+        {hasFilters ? (
+          <div className="sidebar-actions">
+            <Link className="btn" href="/">
+              Clear
+            </Link>
           </div>
-          <div className="field">
-            <span className="field-label">Duration</span>
-            {DURATION_OPTIONS.map((m) => (
-              <label key={m} className="checkbox">
-                <input
-                  type="checkbox"
-                  name="duration"
-                  value={m}
-                  defaultChecked={durations.includes(m)}
-                />
-                {m} mo{m === 3 ? " (summer)" : ""}
-              </label>
-            ))}
-          </div>
-          {hasFilters ? (
-            <div className="sidebar-actions">
-              <Link className="btn" href="/">
-                Clear
-              </Link>
-            </div>
-          ) : null}
-        </form>
+        ) : null}
       </div>
     </aside>
   );

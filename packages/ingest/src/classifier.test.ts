@@ -42,6 +42,14 @@ assert(!isTechInternship("Fall 2026 Business Operations Internship/Co-op"), "biz
 assert(!isTechInternship("SDR Intern - Munich"), "sdr");
 assert(!isTechInternship("Government Affairs Intern"), "gov affairs");
 assert(isTechInternship("Software Engineer Intern (Fall / Winter 2026)"), "cohere-style");
+assert(isTechInternship("Campus Software Engineer Intern"), "campus swe");
+assert(isTechInternship("Forward Deployed Software Engineer - Internship - Commercial"), "fde intern");
+assert(isTechInternship("Year at Palantir - Forward Deployed Software Engineer - Internship"), "year at");
+assert(isTechInternship("Software Engineer Project Intern - Recommendation Infrastructure"), "project intern");
+assert(
+  !isStaleByTermYears([{ term: "summer", year: 2027 }], new Date("2026-07-09T12:00:00Z")),
+  "summer 2027 future not stale",
+);
 assertEq(
   extractRegions(["Flexible - Any SpaceX Site"], false),
   ["us"],

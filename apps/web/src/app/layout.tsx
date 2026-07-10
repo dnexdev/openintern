@@ -46,7 +46,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="container inner">
             <a className="brand" href="/">
               <span className="brand-mark" aria-hidden="true" />
-              Open<span>Intern</span>
+              <span className="brand-name">
+                Open<span>Intern</span>
+              </span>
             </a>
             <nav className="nav">
               <div className="nav-links">

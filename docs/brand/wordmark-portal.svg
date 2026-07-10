@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 140" fill="none" role="img" aria-label="OpenIntern">
+  <title>OpenIntern</title>
+  <defs>
+    <linearGradient id="portal" x1="10" y1="20" x2="110" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f5c518"/>
+      <stop offset="40%" stop-color="#7dd3fc"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="intern" x1="300" y1="30" x2="620" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1454b4"/>
+      <stop offset="100%" stop-color="#1aa8d8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Hollow portal — brand mark / leading O -->
+  <rect x="8" y="18" width="104" height="104" rx="24" stroke="url(#portal)" stroke-width="13"/>
+
+  <text
+    x="132"
+    y="96"
+    font-family="IBM Plex Sans, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif"
+    font-size="78"
+    font-weight="700"
+    letter-spacing="-3.2"
+  >
+    <tspan fill="#16191d">pen</tspan><tspan fill="url(#intern)">Intern</tspan>
+  </text>
+</svg>

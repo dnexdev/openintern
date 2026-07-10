@@ -45,6 +45,14 @@ pnpm ingest:once
 pnpm dev
 ```
 
+Pipeline helpers (ATS-only discovery — does not scrape LinkedIn):
+
+```bash
+pnpm gap-report          # companies on SpeedyApply/Simplify missing from YAML
+pnpm recover-tokens      # probe inactive brands for working Greenhouse/Lever/Ashby tokens
+pnpm validate-tokens -- --all
+```
+
 - `pnpm typecheck` before pushing
 - Don’t commit `.env` or secrets
 
