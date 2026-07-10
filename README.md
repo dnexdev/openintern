@@ -1,7 +1,8 @@
 # OpenIntern
 
 <p align="center">
-  <img src="docs/brand/wordmark.svg" alt="OpenIntern" width="420" />
+  <img src="docs/brand/wordmark.svg#gh-light-mode-only" alt="OpenIntern" width="420" />
+  <img src="docs/brand/wordmark-dark.svg#gh-dark-mode-only" alt="OpenIntern" width="420" />
 </p>
 
 <p align="center">
