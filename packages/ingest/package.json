@@ -10,7 +10,9 @@
     "validate-tokens": "tsx src/validate-tokens.ts",
     "gap-report": "tsx src/gap-report.ts",
     "recover-tokens": "tsx src/recover-tokens.ts",
-    "test": "tsx src/classifier.test.ts && tsx src/ats.test.ts && tsx src/gap-report.test.ts",
+    "validate-curated": "tsx src/validate-curated.ts",
+    "validate-companies": "tsx src/validate-companies.ts",
+    "test": "tsx src/classifier.test.ts && tsx src/ats.test.ts && tsx src/gap-report.test.ts && tsx src/validate-curated.test.ts && tsx src/validate-companies.test.ts && tsx src/ingest.test.ts && tsx src/freshness.test.ts",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit"
   },

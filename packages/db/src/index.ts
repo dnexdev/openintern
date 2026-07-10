@@ -20,3 +20,4 @@ export type Db = ReturnType<typeof createDb>;
 export type SqlClient = ReturnType<typeof postgres>;
 
 export * from "./schema";
+export * from "./freshness";

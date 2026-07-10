@@ -34,6 +34,20 @@ companies:
    - Set `active: false` if the board is a duplicate or broken
 4. Open a PR. Maintainers merge → hourly ingest picks it up.
 
+## Curated tiers (job board highlights)
+
+Tier 1 employers get a flame marker and warm border on the job board. The list lives in [`data/curated/tier-1.yaml`](data/curated/tier-1.yaml) — separate from ATS ingest metadata.
+
+**Bar for Tier 1:** FAANG/MANGA-scale, frontier AI labs, top quant/HFT, or category-defining tech at that level. Solid mid-size employers stay off this list.
+
+To add or remove a slug:
+
+1. The company must already exist in `data/companies/` with a working board token.
+2. Edit `data/curated/tier-1.yaml` and run `pnpm validate-curated`.
+3. Open a PR with a one-line justification (e.g. “top-3 quant”, “frontier lab”).
+
+Highlighting only appears when that company has active internships in the corpus. Several big-tech names (Google, Meta, Apple, Amazon, Microsoft) are not in the registry yet — add them via the company flow first.
+
 ## Development
 
 ```bash
@@ -51,6 +65,8 @@ Pipeline helpers (ATS-only discovery — does not scrape LinkedIn):
 pnpm gap-report          # companies on SpeedyApply/Simplify missing from YAML
 pnpm recover-tokens      # probe inactive brands for working Greenhouse/Lever/Ashby tokens
 pnpm validate-tokens -- --all
+pnpm validate-curated    # Tier 1 slug list vs data/companies/
+pnpm validate-companies  # duplicate slugs/tokens and missing website URLs
 ```
 
 - `pnpm typecheck` before pushing

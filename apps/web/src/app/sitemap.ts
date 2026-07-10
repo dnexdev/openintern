@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
+import { freshnessSql } from "@/lib/freshness";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const rows = await db
       .select({ id: jobs.id, updatedAt: jobs.updatedAt })
       .from(jobs)
-      .where(eq(jobs.isActive, true))
+      .where(and(eq(jobs.isActive, true), freshnessSql()))
       .limit(5000);
     return [
       ...staticEntries,

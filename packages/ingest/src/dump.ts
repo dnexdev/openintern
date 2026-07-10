@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { eq } from "drizzle-orm";
-import { companies, jobs, type Db } from "@openintern/db";
+import { and, eq } from "drizzle-orm";
+import { companies, freshnessSql, jobs, type Db } from "@openintern/db";
 
 export async function writeDumps(db: Db, outDir: string) {
   await fs.mkdir(outDir, { recursive: true });
@@ -30,7 +30,7 @@ export async function writeDumps(db: Db, outDir: string) {
     })
     .from(jobs)
     .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(eq(jobs.isActive, true));
+    .where(and(eq(jobs.isActive, true), freshnessSql()));
 
   const payload = {
     generatedAt: new Date().toISOString(),
@@ -60,7 +60,7 @@ export async function writeDumps(db: Db, outDir: string) {
   await fs.writeFile(jsonPath, JSON.stringify(payload, null, 2));
 
   const csvHeader =
-    "id,title,company,company_slug,locations,apply_url,terms,term_years,duration_months,cohort_year,roles,regions,is_remote,source,posted_at,first_seen_at,last_seen_at";
+    "id,title,company,company_slug,locations,apply_url,excerpt,terms,term_years,duration_months,cohort_year,roles,regions,is_remote,source,posted_at,first_seen_at,last_seen_at";
   const csvLines = rows.map((r) => {
     const locs = Array.isArray(r.locations) ? r.locations.join("; ") : "";
     const cells = [
@@ -70,6 +70,7 @@ export async function writeDumps(db: Db, outDir: string) {
       r.companySlug,
       locs,
       r.applyUrl,
+      r.excerpt ?? "",
       Array.isArray(r.terms) ? r.terms.join("; ") : "",
       Array.isArray(r.termYears)
         ? r.termYears.map((t) => `${t.term}-${t.year}`).join("; ")

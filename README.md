@@ -70,14 +70,14 @@ curl "https://openintern.dev/api/v1/companies"
 curl "https://openintern.dev/api/v1/health"
 ```
 
-Query params for `/api/v1/jobs`: `q`, `company` (slug), `role`, `region` (`remote|us|canada|europe|other`), `season` (`summer|fall|winter`; `spring`→summer), `duration_months` (overlap), `posted_after`, `page`, `limit` (max 100).
+Query params for `/api/v1/jobs`: `q`, `company` (slug), `role`, `region` (`remote|us|canada|europe|other`), `season` (`summer|fall|winter`; `spring`→summer), `duration_months` (overlap), `posted_after`, `page`, `limit` (max 100). Board-compatible aliases `term` and `duration` are also accepted. List responses include `total_pages` and `has_more`; the hosted API defaults to 60 requests/minute/IP.
 
 For bulk use, prefer **daily dumps** (stable URLs):
 
 - https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json
 - https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.csv
 
-Or run `pnpm dump` / self-host — don’t paginate the hosted API all day.
+Or run `pnpm dump` / self-host — don’t paginate the hosted API all day. Dumps use the same live-job freshness policy as the board and API.
 
 ## Monorepo layout
 

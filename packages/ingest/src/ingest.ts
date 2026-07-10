@@ -52,6 +52,23 @@ const CONSECUTIVE_FAILURE_LIMIT = 24;
 const INTERNSHIP_TITLE_ONLY =
   /\b(intern|internship|co-?op|coop|apprentice(ship)?|project\s+intern|campus\s+\w+\s+intern|year\s+at\s+\w+)\b/i;
 
+export type DeactivationPolicy = "missing" | "all" | "none";
+
+/**
+ * Preserve existing jobs when a non-empty board suddenly has no classifier
+ * matches. The last-seen sweep will retire them if that state persists.
+ */
+export function companyDeactivationPolicy(input: {
+  fetchSucceeded: boolean;
+  fetched: number;
+  techPass: number;
+}): DeactivationPolicy {
+  if (!input.fetchSucceeded) return "none";
+  if (input.techPass > 0) return "missing";
+  if (input.fetched === 0) return "all";
+  return "none";
+}
+
 export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Promise<IngestSummary> {
   if (opts?.syncRegistry !== false) {
     await syncCompaniesFromYaml(db);
@@ -248,7 +265,12 @@ async function ingestCompany(
   }
 
   let jobsDeactivated = 0;
-  if (seenIds.length > 0) {
+  const deactivationPolicy = companyDeactivationPolicy({
+    fetchSucceeded: true,
+    fetched: raw.length,
+    techPass: filtered.length,
+  });
+  if (deactivationPolicy === "missing") {
     const deactivated = await db
       .update(jobs)
       .set({ isActive: false, updatedAt: now })
@@ -261,7 +283,7 @@ async function ingestCompany(
       )
       .returning({ id: jobs.id });
     jobsDeactivated = deactivated.length;
-  } else {
+  } else if (deactivationPolicy === "all") {
     const deactivated = await db
       .update(jobs)
       .set({ isActive: false, updatedAt: now })
@@ -270,14 +292,14 @@ async function ingestCompany(
     jobsDeactivated = deactivated.length;
   }
 
-  const zeroMatch = filtered.length === 0;
+  const zeroMatch = raw.length > 0 && filtered.length === 0;
   const funnelMsg = `funnel fetched=${raw.length} title=${internshipTitleJobs.length} tech=${filtered.length} upserted=${jobsUpserted}`;
   await db.insert(ingestRuns).values({
     companyId: company.id,
     status: "ok",
     jobCount: filtered.length,
     error: zeroMatch
-      ? `zero_match: no tech internships on board; ${funnelMsg}`
+      ? `zero_match: no tech internships classified; retaining existing jobs until stale; ${funnelMsg}`
       : funnelMsg,
   });
 

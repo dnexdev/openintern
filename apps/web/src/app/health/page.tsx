@@ -1,22 +1,9 @@
 import { desc, eq, sql } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
+import { parseFunnel, sumFunnels } from "@/lib/ingest-health";
 
 export const dynamic = "force-dynamic";
-
-function parseFunnel(error: string | null) {
-  if (!error) return null;
-  const m = error.match(
-    /funnel fetched=(\d+) title=(\d+) tech=(\d+) upserted=(\d+)/,
-  );
-  if (!m) return null;
-  return {
-    fetched: Number(m[1]),
-    title: Number(m[2]),
-    tech: Number(m[3]),
-    upserted: Number(m[4]),
-  };
-}
 
 export default async function HealthPage() {
   let error: string | null = null;
@@ -71,23 +58,20 @@ export default async function HealthPage() {
       .leftJoin(companies, eq(ingestRuns.companyId, companies.id))
       .orderBy(desc(ingestRuns.ranAt))
       .limit(100);
+    const latestRows = await db
+      .selectDistinctOn([ingestRuns.companyId], {
+        company_id: ingestRuns.companyId,
+        error: ingestRuns.error,
+        ran_at: ingestRuns.ranAt,
+      })
+      .from(ingestRuns)
+      .orderBy(ingestRuns.companyId, desc(ingestRuns.ranAt));
 
     recent = rows.map((r) => ({
       ...r,
       funnel: parseFunnel(r.error),
     }));
-    funnelTotals = recent.reduce(
-      (acc, r) => {
-        if (r.funnel) {
-          acc.fetched += r.funnel.fetched;
-          acc.title += r.funnel.title;
-          acc.tech += r.funnel.tech;
-          acc.upserted += r.funnel.upserted;
-        }
-        return acc;
-      },
-      { fetched: 0, title: 0, tech: 0, upserted: 0 },
-    );
+    funnelTotals = sumFunnels(latestRows.map((r) => parseFunnel(r.error)));
 
     stats = {
       active_jobs: jobStats?.active_jobs ?? 0,
@@ -144,7 +128,7 @@ export default async function HealthPage() {
           </div>
 
           <div className="panel">
-            <h2>Recent funnel totals</h2>
+            <h2>Latest funnel state</h2>
             <div className="meta">
               <span className="pill">fetched {funnelTotals.fetched}</span>
               <span className="pill">title {funnelTotals.title}</span>
@@ -152,9 +136,9 @@ export default async function HealthPage() {
               <span className="pill accent">upserted {funnelTotals.upserted}</span>
             </div>
             <p className="muted" style={{ marginBottom: 0 }}>
-              Summed from the latest 100 ingest run rows that include funnel
-              metadata. Zero-match companies often show high fetched with title=0
-              (no intern postings on the board right now).
+              Summed from each company’s latest ingest run. This is a current
+              per-company snapshot, not one atomic batch. Zero-match companies
+              often show high fetched with title=0.
             </p>
           </div>
 

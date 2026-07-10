@@ -3,6 +3,8 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "openintern:applied";
+const HIDE_APPLIED_KEY = "openintern:hide-applied";
+const STORE_EVENT = "openintern-applied";
 /** Stable empty snapshot for SSR / empty store — must not allocate a new [] each call. */
 const EMPTY_IDS: string[] = [];
 
@@ -41,15 +43,15 @@ function writeIds(ids: string[]) {
   localStorage.setItem(STORAGE_KEY, raw);
   cachedRaw = raw;
   cachedIds = ids.length === 0 ? EMPTY_IDS : ids;
-  window.dispatchEvent(new Event("openintern-applied"));
+  window.dispatchEvent(new Event(STORE_EVENT));
 }
 
 function subscribe(cb: () => void) {
   const handler = () => cb();
-  window.addEventListener("openintern-applied", handler);
+  window.addEventListener(STORE_EVENT, handler);
   window.addEventListener("storage", handler);
   return () => {
-    window.removeEventListener("openintern-applied", handler);
+    window.removeEventListener(STORE_EVENT, handler);
     window.removeEventListener("storage", handler);
   };
 }
@@ -71,7 +73,27 @@ export function toggleApplied(jobId: string) {
   }
 }
 
-export function AppliedToggle({ jobId }: { jobId: string }) {
+function readHideApplied(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(HIDE_APPLIED_KEY) === "true";
+}
+
+export function useHideApplied(): [boolean, (value: boolean) => void] {
+  const checked = useSyncExternalStore(subscribe, readHideApplied, () => false);
+  const setChecked = (value: boolean) => {
+    localStorage.setItem(HIDE_APPLIED_KEY, String(value));
+    window.dispatchEvent(new Event(STORE_EVENT));
+  };
+  return [checked, setChecked];
+}
+
+export function AppliedToggle({
+  jobId,
+  jobTitle,
+}: {
+  jobId: string;
+  jobTitle?: string;
+}) {
   const applied = useIsApplied(jobId);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -90,6 +112,7 @@ export function AppliedToggle({ jobId }: { jobId: string }) {
       type="button"
       onClick={() => toggleApplied(jobId)}
       aria-pressed={applied}
+      aria-label={`${applied ? "Mark not applied" : "Mark applied"}${jobTitle ? `: ${jobTitle}` : ""}`}
     >
       {applied ? "Applied ✓" : "Mark applied"}
     </button>

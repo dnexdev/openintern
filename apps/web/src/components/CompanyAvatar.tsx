@@ -80,6 +80,11 @@ const DOMAIN_OVERRIDES: Record<string, string> = {
   "cursor": "cursor.com",
 };
 
+/** Direct logo URLs when favicon CDNs return generic placeholders. */
+const LOGO_URL_OVERRIDES: Record<string, string[]> = {
+  anduril: ["/logos/anduril.png"],
+};
+
 function companyDomain(
   name: string,
   websiteUrl?: string | null,
@@ -104,11 +109,13 @@ function companyDomain(
   return `${key}.com`;
 }
 
-function logoCandidates(domain: string): string[] {
+function logoCandidates(domain: string, slug?: string | null): string[] {
+  const direct = slug ? (LOGO_URL_OVERRIDES[slug] ?? []) : [];
   // DuckDuckGo often has fuller brand icons; Google is a solid fallback.
   // icon.horse last — it HTTP-200s a generic glyph for unknown brands.
   const d = encodeURIComponent(domain);
   return [
+    ...direct,
     `https://icons.duckduckgo.com/ip3/${d}.ico`,
     `https://www.google.com/s2/favicons?domain=${d}&sz=128`,
     `https://icon.horse/icon/${d}`,
@@ -127,7 +134,7 @@ export function CompanyAvatar({
   slug?: string | null;
 }) {
   const domain = companyDomain(name, websiteUrl, careersUrl, slug);
-  const candidates = logoCandidates(domain);
+  const candidates = logoCandidates(domain, slug);
   const [idx, setIdx] = useState(0);
   const failed = idx >= candidates.length;
   const src = candidates[idx];

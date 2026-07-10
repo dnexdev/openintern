@@ -1,9 +1,10 @@
-import { and, desc, eq, or, sql, type SQL } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { JobResults, type JobCardData } from "@/components/JobResults";
 import { getDb } from "@/lib/db";
 import { freshnessSql } from "@/lib/freshness";
+import { getTier1Slugs } from "@/lib/curated";
 
 export const dynamic = "force-dynamic";
 
@@ -50,6 +51,8 @@ export default async function HomePage({
   searchParams: SearchParams;
 }) {
   const sp = await searchParams;
+  const query = (Array.isArray(sp.q) ? sp.q[0] : sp.q)?.trim().slice(0, 100) ?? "";
+  const company = (Array.isArray(sp.company) ? sp.company[0] : sp.company)?.trim() ?? "";
   const roles = paramAll(sp, "role").filter((r): r is (typeof ROLE_OPTIONS)[number] =>
     (ROLE_OPTIONS as readonly string[]).includes(r),
   );
@@ -77,9 +80,12 @@ export default async function HomePage({
     activeCompanies: 0,
     lastIngest: null,
   };
+  let companyOptions: { slug: string; name: string }[] = [];
 
   try {
     const loaded = await loadJobs({
+      query,
+      company,
       roles,
       regions,
       terms,
@@ -90,7 +96,10 @@ export default async function HomePage({
     });
     rows = loaded.rows;
     total = loaded.total;
-    corpusStats = await loadCorpusStats();
+    [corpusStats, companyOptions] = await Promise.all([
+      loadCorpusStats(),
+      loadCompanyOptions(),
+    ]);
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }
@@ -98,6 +107,8 @@ export default async function HomePage({
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   const filterParams = new URLSearchParams();
+  if (query) filterParams.set("q", query);
+  if (company) filterParams.set("company", company);
   for (const r of roles) filterParams.append("role", r);
   for (const r of regions) filterParams.append("region", r);
   for (const t of terms) filterParams.append("term", t);
@@ -105,7 +116,7 @@ export default async function HomePage({
   const filterQuery = filterParams.toString();
 
   const hasFilters = Boolean(
-    roles.length || regions.length || terms.length || durations.length,
+    query || company || roles.length || regions.length || terms.length || durations.length,
   );
 
   const cardJobs: JobCardData[] = rows.map((job) => ({
@@ -130,6 +141,7 @@ export default async function HomePage({
   }));
 
   const ingestAge = formatIngestAge(corpusStats.lastIngest);
+  const tier1Slugs = [...getTier1Slugs()];
 
   return (
     <>
@@ -180,6 +192,9 @@ export default async function HomePage({
 
       <div className="layout" id="jobs">
         <FilterSidebar
+          query={query}
+          company={company}
+          companyOptions={companyOptions}
           roles={roles}
           regions={regions}
           terms={terms}
@@ -206,6 +221,7 @@ export default async function HomePage({
               totalPages={totalPages}
               filterQuery={filterQuery}
               sort={sort}
+              tier1Slugs={tier1Slugs}
             />
           )}
         </section>
@@ -233,7 +249,18 @@ async function loadCorpusStats() {
   };
 }
 
+async function loadCompanyOptions() {
+  const db = getDb();
+  return db
+    .select({ slug: companies.slug, name: companies.name })
+    .from(companies)
+    .where(eq(companies.active, true))
+    .orderBy(asc(companies.name));
+}
+
 async function loadJobs(opts: {
+  query: string;
+  company: string;
   roles: string[];
   regions: string[];
   terms: string[];
@@ -245,6 +272,8 @@ async function loadJobs(opts: {
   const db = getDb();
   const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), freshnessSql()];
 
+  if (opts.query) conditions.push(ilike(jobs.title, `%${opts.query}%`));
+  if (opts.company) conditions.push(eq(companies.slug, opts.company));
   if (opts.roles.length > 0) {
     conditions.push(
       or(

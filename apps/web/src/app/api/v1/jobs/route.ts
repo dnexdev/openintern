@@ -25,6 +25,15 @@ const ROLE_SET = new Set([
 const REGION_SET = new Set(["remote", "us", "canada", "europe", "other"]);
 const SEASON_SET = new Set(["summer", "fall", "winter"]);
 
+function valuesFor(params: URLSearchParams, ...keys: string[]) {
+  return keys.flatMap((key) => params.getAll(key)).flatMap((value) => value.split(","));
+}
+
+function positiveInt(value: string | null, fallback: number) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
 export async function GET(request: Request) {
   const ip = clientIp(request);
   const rl = rateLimit(`jobs:${ip}`);
@@ -56,19 +65,15 @@ export async function GET(request: Request) {
     .flatMap((s) => s.split(","))
     .map((s) => s.trim().toLowerCase())
     .filter((s) => REGION_SET.has(s));
-  const seasons = url.searchParams
-    .getAll("season")
-    .flatMap((s) => s.split(","))
+  const seasons = valuesFor(url.searchParams, "season", "term")
     .map((s) => s.trim().toLowerCase())
     .map((s) => (s === "spring" ? "summer" : s === "autumn" ? "fall" : s))
     .filter((s) => SEASON_SET.has(s));
-  const durations = url.searchParams
-    .getAll("duration_months")
-    .flatMap((s) => s.split(","))
+  const durations = valuesFor(url.searchParams, "duration_months", "duration")
     .map(Number)
     .filter((n) => Number.isInteger(n) && n >= 1 && n <= 24);
-  const page = Math.max(1, Number(url.searchParams.get("page") ?? 1));
-  const limit = Math.min(100, Math.max(1, Number(url.searchParams.get("limit") ?? 25)));
+  const page = positiveInt(url.searchParams.get("page"), 1);
+  const limit = Math.min(100, positiveInt(url.searchParams.get("limit"), 25));
   const offset = (page - 1) * limit;
 
   const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), freshnessSql()];
@@ -144,6 +149,8 @@ export async function GET(request: Request) {
     .limit(limit)
     .offset(offset);
 
+  const total = countRow?.count ?? 0;
+  const totalPages = Math.ceil(total / limit);
   return NextResponse.json(
     {
       data: rows.map((r) => ({
@@ -154,7 +161,9 @@ export async function GET(request: Request) {
       })),
       page,
       limit,
-      total: countRow?.count ?? 0,
+      total,
+      total_pages: totalPages,
+      has_more: page < totalPages,
     },
     {
       headers: {

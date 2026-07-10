@@ -1,0 +1,37 @@
+# Maintainer-curated Tier 1 employers (FAANG-level or adjacent).
+# Slugs must exist in data/companies/*.yaml — run `pnpm validate-curated`.
+slugs:
+  # Frontier AI / labs
+  - openai
+  - anthropic
+  - cohere
+  - xai
+  - groq
+  - mistral
+  - deepmind
+  # Top quant / HFT
+  - jane-street
+  - citadel
+  - two-sigma
+  - hrt
+  - jump-trading
+  - optiver
+  - imc
+  # Category-defining tech
+  - stripe
+  - databricks
+  - palantir
+  - scale-ai
+  - anduril
+  - nvidia
+  - cloudflare
+  - snowflake
+  # Mobility / hard tech
+  - spacex
+  - tesla
+  - waymo
+  # Strong tech
+  - netflix
+  - airbnb
+  - figma
+  - uber

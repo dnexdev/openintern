@@ -19,7 +19,9 @@
     "sync-companies": "pnpm --filter @openintern/ingest sync-companies",
     "validate-tokens": "pnpm --filter @openintern/ingest validate-tokens",
     "gap-report": "pnpm --filter @openintern/ingest gap-report",
-    "recover-tokens": "pnpm --filter @openintern/ingest recover-tokens"
+    "recover-tokens": "pnpm --filter @openintern/ingest recover-tokens",
+    "validate-curated": "pnpm --filter @openintern/ingest validate-curated",
+    "validate-companies": "pnpm --filter @openintern/ingest validate-companies"
   },
   "engines": {
     "node": ">=20"

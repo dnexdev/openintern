@@ -6,6 +6,7 @@ import { companies, jobs } from "@openintern/db";
 import { AppliedToggle } from "@/components/AppliedToggle";
 import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { getDb } from "@/lib/db";
+import { freshnessSql } from "@/lib/freshness";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +46,7 @@ async function loadJob(id: string) {
     })
     .from(jobs)
     .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(and(eq(jobs.id, id), eq(jobs.isActive, true)))
+    .where(and(eq(jobs.id, id), eq(jobs.isActive, true), freshnessSql()))
     .limit(1);
   return row ?? null;
 }
@@ -159,11 +160,12 @@ export default async function JobDetailPage({
             className="btn btn-primary"
             href={job.applyUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label={`Apply for ${job.title} at ${job.companyName} on the employer site (opens in a new tab)`}
           >
             Apply on employer site
           </a>
-          <AppliedToggle jobId={job.id} />
+          <AppliedToggle jobId={job.id} jobTitle={job.title} />
         </div>
       </article>
     </>

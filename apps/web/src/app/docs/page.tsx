@@ -97,14 +97,16 @@ export default function DocsPage() {
               <td className="mono">season</td>
               <td>
                 <code className="mono">summer|fall|winter</code> (<code className="mono">spring</code> → summer).
-                Repeatable or comma-separated
+                Repeatable or comma-separated. Board-compatible alias:{" "}
+                <code className="mono">term</code>
               </td>
             </tr>
             <tr>
               <td className="mono">duration_months</td>
               <td>
                 Repeatable/comma-separated ints (1–24). Matches jobs whose duration
-                array overlaps any selected value (e.g. Cohere “4–6 months” matches 4 or 6)
+                array overlaps any selected value (e.g. Cohere “4–6 months” matches 4 or 6).
+                Board-compatible alias: <code className="mono">duration</code>
               </td>
             </tr>
             <tr>
@@ -122,6 +124,15 @@ export default function DocsPage() {
           </tbody>
         </table>
 
+        <p className="muted">
+          Responses use{" "}
+          <code className="mono">
+            {"{ data, page, limit, total, total_pages, has_more }"}
+          </code>
+          . Each job includes its company object, classification arrays, excerpt,
+          application URL, and posted/first-seen/last-seen timestamps.
+        </p>
+
         <h2 className="section-heading">Examples</h2>
         <pre className="mono code-block">
 {`curl "https://openintern.dev/api/v1/jobs?role=ml,software&limit=10"
@@ -136,8 +147,10 @@ curl "https://openintern.dev/api/v1/health"`}
       <div className="panel">
         <h2>Rate limits &amp; bulk access</h2>
         <p className="muted" style={{ marginTop: 0 }}>
-          The hosted API is rate-limited per IP. For bulk consumers, prefer the
-          daily dumps below or self-host — don’t paginate the hosted API all day.
+          The hosted API defaults to 60 requests per minute per IP. Limits are
+          best-effort on serverless instances and may be changed for stability.
+          For bulk consumers, prefer the daily dumps below or self-host — don’t
+          paginate the hosted API all day.
         </p>
       </div>
 
@@ -146,15 +159,17 @@ curl "https://openintern.dev/api/v1/health"`}
         <p className="muted" style={{ marginTop: 0 }}>
           JSON/CSV rows include:{" "}
           <code className="mono">
-            id, title, company, company_slug, locations, apply_url, terms,
+            id, title, company, company_slug, locations, apply_url, excerpt, terms,
             term_years, duration_months (int[]), cohort_year, roles, regions,
             is_remote, source, posted_at, first_seen_at, last_seen_at
           </code>
           . Seasons are{" "}
           <code className="mono">summer|fall|winter</code> only (
           <code className="mono">spring</code> stored as summer). Past seasons and
-          old postings without term years are pruned on ingest and hidden on the
-          board/API.
+          old postings without term years are hidden consistently on the board,
+          API, sitemap, job detail pages, and dumps. JSON uses the envelope{" "}
+          <code className="mono">{"{ generatedAt, count, jobs }"}</code>; CSV is
+          flat.
         </p>
       </div>
 

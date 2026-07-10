@@ -375,6 +375,7 @@ a:focus-visible {
 /* Inputs */
 
 input[type="text"],
+input[type="search"],
 input[type="url"],
 select {
   width: 100%;
@@ -388,6 +389,7 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="search"]:focus,
 input[type="url"]:focus,
 select:focus {
   outline: none;
@@ -571,6 +573,40 @@ select:focus {
 .job-card.is-applied {
   opacity: 0.72;
   background: var(--surface-hover);
+}
+
+.job-card.is-tier-1 {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, #f5c518 0%, #fb923c 55%, #f97316 100%) border-box;
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.08);
+}
+
+.job-card.is-tier-1:hover {
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15);
+}
+
+.job-card.is-tier-1.is-applied {
+  background:
+    linear-gradient(var(--surface-hover), var(--surface-hover)) padding-box,
+    linear-gradient(135deg, #f5c518 0%, #fb923c 55%, #f97316 100%) border-box;
+}
+
+.tier-1-mark {
+  margin-right: 0.15rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .results-toolbar {

@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { CompanyAvatar } from "./CompanyAvatar";
-import { AppliedToggle, HideAppliedToggle, useAppliedIds } from "./AppliedToggle";
+import {
+  AppliedToggle,
+  HideAppliedToggle,
+  useAppliedIds,
+  useHideApplied,
+} from "./AppliedToggle";
 
 export type JobCardData = {
   id: string;
@@ -103,6 +107,7 @@ export function JobResults({
   totalPages,
   filterQuery,
   sort,
+  tier1Slugs,
 }: {
   jobs: JobCardData[];
   total: number;
@@ -111,10 +116,12 @@ export function JobResults({
   totalPages: number;
   filterQuery: string;
   sort: "first_seen" | "posted";
+  tier1Slugs: string[];
 }) {
   const router = useRouter();
-  const [hideApplied, setHideApplied] = useState(false);
+  const [hideApplied, setHideApplied] = useHideApplied();
   const applied = useAppliedIds();
+  const tier1 = new Set(tier1Slugs);
   const visible = hideApplied
     ? jobs.filter((j) => !applied.includes(j.id))
     : jobs;
@@ -181,10 +188,11 @@ export function JobResults({
         ) : (
           visible.map((job) => {
             const isApplied = applied.includes(job.id);
+            const isTier1 = job.companySlug ? tier1.has(job.companySlug) : false;
             return (
               <article
                 key={job.id}
-                className={`job-card${isApplied ? " is-applied" : ""}`}
+                className={`job-card${isApplied ? " is-applied" : ""}${isTier1 ? " is-tier-1" : ""}`}
                 data-job-id={job.id}
               >
                 <CompanyAvatar
@@ -198,6 +206,12 @@ export function JobResults({
                     <Link href={`/jobs/${job.id}`}>{job.title}</Link>
                   </h2>
                   <div className="job-company-line">
+                    {isTier1 ? (
+                      <span className="tier-1-mark" title="Tier 1 employer">
+                        <span aria-hidden="true">🔥</span>
+                        <span className="visually-hidden">Tier 1 employer: </span>
+                      </span>
+                    ) : null}
                     {job.companyName} · {(job.locations ?? []).join(" · ") || "Location n/a"}
                   </div>
                   <JobBadges job={job} />
@@ -212,11 +226,12 @@ export function JobResults({
                       className="btn btn-primary btn-sm"
                       href={job.applyUrl}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
+                      aria-label={`Apply for ${job.title} at ${job.companyName} on the employer site (opens in a new tab)`}
                     >
                       Apply
                     </a>
-                    <AppliedToggle jobId={job.id} />
+                    <AppliedToggle jobId={job.id} jobTitle={job.title} />
                   </div>
                 </div>
               </article>

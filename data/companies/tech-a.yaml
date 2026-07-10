@@ -98,12 +98,6 @@ companies:
     ats: greenhouse
     board_token: anthropic
     website_url: https://www.anthropic.com
-  - name: Hugging Face
-    slug: hugging-face
-    ats: workable
-    board_token: huggingface
-    website_url: https://huggingface.co
-    active: true
   - name: Databricks
     slug: databricks
     ats: greenhouse
@@ -248,10 +242,6 @@ companies:
     ats: greenhouse
     board_token: salesforce
     active: false
-  - name: ServiceNow
-    slug: servicenow
-    ats: greenhouse
-    board_token: servicenow
   - name: Splunk
     slug: splunk
     ats: greenhouse

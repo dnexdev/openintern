@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 const ROLE_OPTIONS = [
   "software",
@@ -46,6 +46,8 @@ function toggleInNums(list: number[], value: number, on: boolean) {
 }
 
 function hrefFor(
+  query: string,
+  company: string,
   roles: string[],
   regions: string[],
   terms: string[],
@@ -53,6 +55,8 @@ function hrefFor(
   sort?: string,
 ) {
   const params = new URLSearchParams();
+  if (query.trim()) params.set("q", query.trim());
+  if (company) params.set("company", company);
   for (const r of roles) params.append("role", r);
   for (const r of regions) params.append("region", r);
   for (const t of terms) params.append("term", t);
@@ -63,6 +67,9 @@ function hrefFor(
 }
 
 export function FilterSidebar({
+  query,
+  company,
+  companyOptions,
   roles,
   regions,
   terms,
@@ -70,6 +77,9 @@ export function FilterSidebar({
   hasFilters,
   sort,
 }: {
+  query: string;
+  company: string;
+  companyOptions: { slug: string; name: string }[];
   roles: string[];
   regions: string[];
   terms: string[];
@@ -80,16 +90,34 @@ export function FilterSidebar({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
-  const activeCount = roles.length + regions.length + terms.length + durations.length;
+  const [search, setSearch] = useState(query);
+  useEffect(() => setSearch(query), [query]);
+  const activeCount =
+    Number(Boolean(query)) +
+    Number(Boolean(company)) +
+    roles.length +
+    regions.length +
+    terms.length +
+    durations.length;
 
   function navigate(
+    nextQuery: string,
+    nextCompany: string,
     nextRoles: string[],
     nextRegions: string[],
     nextTerms: string[],
     nextDurations: number[],
   ) {
-    const next = hrefFor(nextRoles, nextRegions, nextTerms, nextDurations, sort);
-    const current = hrefFor(roles, regions, terms, durations, sort);
+    const next = hrefFor(
+      nextQuery,
+      nextCompany,
+      nextRoles,
+      nextRegions,
+      nextTerms,
+      nextDurations,
+      sort,
+    );
+    const current = hrefFor(query, company, roles, regions, terms, durations, sort);
     if (next === current) return;
     startTransition(() => {
       router.push(next, { scroll: false });
@@ -108,6 +136,47 @@ export function FilterSidebar({
       </button>
       <div className="sidebar-body">
         <h2>Filters</h2>
+        <form
+          className="field"
+          onSubmit={(e) => {
+            e.preventDefault();
+            navigate(search, company, roles, regions, terms, durations);
+          }}
+        >
+          <label className="field-label" htmlFor="job-search">
+            Search titles
+          </label>
+          <input
+            id="job-search"
+            className="input"
+            type="search"
+            value={search}
+            placeholder="Software intern"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="btn btn-sm" type="submit">
+            Search
+          </button>
+        </form>
+        <div className="field">
+          <label className="field-label" htmlFor="company-filter">
+            Company
+          </label>
+          <select
+            id="company-filter"
+            value={company}
+            onChange={(e) =>
+              navigate(query, e.target.value, roles, regions, terms, durations)
+            }
+          >
+            <option value="">All companies</option>
+            {companyOptions.map((option) => (
+              <option key={option.slug} value={option.slug}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="field">
           <span className="field-label">Role</span>
           <div className="chip-grid">
@@ -118,6 +187,8 @@ export function FilterSidebar({
                   checked={roles.includes(r)}
                   onChange={(e) =>
                     navigate(
+                      query,
+                      company,
                       toggleInList(roles, r, e.target.checked),
                       regions,
                       terms,
@@ -139,6 +210,8 @@ export function FilterSidebar({
                 checked={regions.includes(r.value)}
                 onChange={(e) =>
                   navigate(
+                    query,
+                    company,
                     roles,
                     toggleInList(regions, r.value, e.target.checked),
                     terms,
@@ -159,6 +232,8 @@ export function FilterSidebar({
                 checked={terms.includes(t)}
                 onChange={(e) =>
                   navigate(
+                    query,
+                    company,
                     roles,
                     regions,
                     toggleInList(terms, t, e.target.checked),
@@ -179,6 +254,8 @@ export function FilterSidebar({
                 checked={durations.includes(m)}
                 onChange={(e) =>
                   navigate(
+                    query,
+                    company,
                     roles,
                     regions,
                     terms,

@@ -27,3 +27,16 @@ export type CompanyYaml = z.infer<typeof companyYamlSchema>;
 export const companiesFileSchema = z.object({
   companies: z.array(companyYamlSchema).min(1),
 });
+
+export const tier1CuratedSchema = z.object({
+  slugs: z
+    .array(
+      z
+        .string()
+        .min(1)
+        .regex(/^[a-z0-9-]+$/, "slug must be lowercase alphanumeric with hyphens"),
+    )
+    .min(1),
+});
+
+export type Tier1Curated = z.infer<typeof tier1CuratedSchema>;
