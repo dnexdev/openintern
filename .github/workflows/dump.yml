@@ -44,7 +44,7 @@ jobs:
           test -s "$GITHUB_WORKSPACE/dumps/jobs.json"
           test -s "$GITHUB_WORKSPACE/dumps/jobs.csv"
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: openintern-jobs-${{ github.run_id }}
           path: dumps/
