@@ -92,7 +92,7 @@ export function FilterSidebar({
     const current = hrefFor(roles, regions, terms, durations, sort);
     if (next === current) return;
     startTransition(() => {
-      router.push(next);
+      router.push(next, { scroll: false });
     });
   }
 

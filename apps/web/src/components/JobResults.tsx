@@ -135,7 +135,7 @@ export function JobResults({
     const params = new URLSearchParams(filterQuery);
     if (value !== "first_seen") params.set("sort", value);
     const qs = params.toString();
-    router.push(qs ? `/?${qs}` : "/");
+    router.push(qs ? `/?${qs}` : "/", { scroll: false });
   }
 
   return (
