@@ -3,20 +3,32 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "openintern:applied";
-/** Stable empty snapshot for SSR — must not allocate a new [] each call. */
+/** Stable empty snapshot for SSR / empty store — must not allocate a new [] each call. */
 const EMPTY_IDS: string[] = [];
+
+/** Cached client snapshot so getSnapshot is referentially stable when contents unchanged. */
+let cachedIds: string[] = EMPTY_IDS;
+let cachedRaw: string | null = null;
 
 function readIds(): string[] {
   if (typeof window === "undefined") return EMPTY_IDS;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return EMPTY_IDS;
+    if (raw === cachedRaw) return cachedIds;
+    cachedRaw = raw;
+    if (!raw) {
+      cachedIds = EMPTY_IDS;
+      return cachedIds;
+    }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed)
+    cachedIds = Array.isArray(parsed)
       ? parsed.filter((x): x is string => typeof x === "string")
       : EMPTY_IDS;
+    return cachedIds;
   } catch {
-    return EMPTY_IDS;
+    cachedRaw = null;
+    cachedIds = EMPTY_IDS;
+    return cachedIds;
   }
 }
 
@@ -25,7 +37,10 @@ function getServerSnapshot(): string[] {
 }
 
 function writeIds(ids: string[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+  const raw = JSON.stringify(ids);
+  localStorage.setItem(STORAGE_KEY, raw);
+  cachedRaw = raw;
+  cachedIds = ids.length === 0 ? EMPTY_IDS : ids;
   window.dispatchEvent(new Event("openintern-applied"));
 }
 
