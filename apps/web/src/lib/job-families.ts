@@ -1,0 +1,224 @@
+import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
+import { companies, jobs } from "@openintern/db";
+import { getDb } from "@/lib/db";
+import { freshnessSql } from "@/lib/freshness";
+
+export type JobPosting = {
+  id: string;
+  location: string;
+  locations: string[];
+  postedAt: string | null;
+  applyUrl: string;
+  isRemote: boolean;
+  firstSeenAt: string;
+};
+
+export type JobFamily = {
+  roleFamilyId: string;
+  title: string;
+  company: {
+    name: string;
+    slug: string;
+    ats: string;
+    websiteUrl: string | null;
+    careersUrl: string | null;
+  };
+  roles: string[];
+  regions: string[];
+  terms: string[];
+  excerpt: string | null;
+  source: string;
+  firstSeenAt: string;
+  postings: JobPosting[];
+};
+
+export type FamilyQueryOpts = {
+  query: string;
+  company: string;
+  roles: string[];
+  regions: string[];
+  terms: string[];
+  durations: number[];
+  postedAfter?: Date | null;
+  sort: "first_seen" | "posted";
+  limit: number;
+  offset: number;
+};
+
+function buildConditions(opts: FamilyQueryOpts): SQL | undefined {
+  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), freshnessSql()];
+
+  if (opts.query) conditions.push(ilike(jobs.title, `%${opts.query}%`));
+  if (opts.company) conditions.push(eq(companies.slug, opts.company));
+  if (opts.roles.length > 0) {
+    conditions.push(
+      or(
+        ...opts.roles.map((r) => sql`${jobs.roles} @> ${JSON.stringify([r])}::jsonb`),
+      ),
+    );
+  }
+  if (opts.regions.length > 0) {
+    conditions.push(
+      or(
+        ...opts.regions.map(
+          (r) => sql`${jobs.regions} @> ${JSON.stringify([r])}::jsonb`,
+        ),
+      ),
+    );
+  }
+  if (opts.terms.length > 0) {
+    conditions.push(
+      or(
+        ...opts.terms.map((t) => sql`${jobs.terms} @> ${JSON.stringify([t])}::jsonb`),
+      ),
+    );
+  }
+  if (opts.durations.length > 0) {
+    conditions.push(
+      or(
+        ...opts.durations.map(
+          (d) => sql`${jobs.durationMonths} @> ${JSON.stringify([d])}::jsonb`,
+        ),
+      ),
+    );
+  }
+  if (opts.postedAfter) conditions.push(gte(jobs.postedAt, opts.postedAfter));
+
+  return and(...conditions);
+}
+
+function displayTitle(titles: string[], normalized: string): string {
+  if (titles.length === 0) return normalized;
+  // Prefer shortest raw title (usually the least suffix-noisy)
+  return [...titles].sort((a, b) => a.length - b.length)[0]!;
+}
+
+function primaryLocation(locations: string[] | null, isRemote: boolean): string {
+  if (locations && locations.length > 0) return locations[0]!;
+  return isRemote ? "Remote" : "Location n/a";
+}
+
+/** Load role families (grouped postings) for board + public API. */
+export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
+  families: JobFamily[];
+  total: number;
+}> {
+  const db = getDb();
+  const where = buildConditions(opts);
+
+  const rows = await db
+    .select({
+      id: jobs.id,
+      title: jobs.title,
+      normalizedTitle: jobs.normalizedTitle,
+      roleFamilyId: jobs.roleFamilyId,
+      locations: jobs.locations,
+      applyUrl: jobs.applyUrl,
+      excerpt: jobs.excerpt,
+      terms: jobs.terms,
+      roles: jobs.roles,
+      regions: jobs.regions,
+      isRemote: jobs.isRemote,
+      source: jobs.source,
+      postedAt: jobs.postedAt,
+      firstSeenAt: jobs.firstSeenAt,
+      companyName: companies.name,
+      companySlug: companies.slug,
+      companyAts: companies.ats,
+      companyWebsiteUrl: companies.websiteUrl,
+      companyCareersUrl: companies.careersUrl,
+    })
+    .from(jobs)
+    .innerJoin(companies, eq(jobs.companyId, companies.id))
+    .where(where)
+    .orderBy(
+      opts.sort === "posted" ? desc(jobs.postedAt) : desc(jobs.firstSeenAt),
+    );
+
+  type Acc = {
+    roleFamilyId: string;
+    titles: string[];
+    normalizedTitle: string;
+    companyName: string;
+    companySlug: string;
+    companyAts: string;
+    companyWebsiteUrl: string | null;
+    companyCareersUrl: string | null;
+    roles: string[];
+    regions: string[];
+    terms: string[];
+    excerpt: string | null;
+    source: string;
+    sortKey: number;
+    postings: JobPosting[];
+  };
+
+  const byFamily = new Map<string, Acc>();
+
+  for (const row of rows) {
+    const familyKey =
+      row.roleFamilyId ||
+      `${row.companySlug}:${row.id}`; /* pre-backfill fallback */
+    let acc = byFamily.get(familyKey);
+    if (!acc) {
+      acc = {
+        roleFamilyId: familyKey,
+        titles: [],
+        normalizedTitle: row.normalizedTitle || row.title,
+        companyName: row.companyName,
+        companySlug: row.companySlug,
+        companyAts: row.companyAts,
+        companyWebsiteUrl: row.companyWebsiteUrl,
+        companyCareersUrl: row.companyCareersUrl,
+        roles: row.roles ?? [],
+        regions: row.regions ?? [],
+        terms: row.terms ?? [],
+        excerpt: row.excerpt,
+        source: row.source,
+        sortKey: 0,
+        postings: [],
+      };
+      byFamily.set(familyKey, acc);
+    }
+    acc.titles.push(row.title);
+    const sortTs = (
+      opts.sort === "posted" ? row.postedAt ?? row.firstSeenAt : row.firstSeenAt
+    ).getTime();
+    if (sortTs > acc.sortKey) acc.sortKey = sortTs;
+    if (!acc.excerpt && row.excerpt) acc.excerpt = row.excerpt;
+    acc.postings.push({
+      id: row.id,
+      location: primaryLocation(row.locations, row.isRemote),
+      locations: row.locations ?? [],
+      postedAt: row.postedAt?.toISOString() ?? null,
+      applyUrl: row.applyUrl,
+      isRemote: row.isRemote,
+      firstSeenAt: row.firstSeenAt.toISOString(),
+    });
+  }
+
+  const sorted = [...byFamily.values()].sort((a, b) => b.sortKey - a.sortKey);
+  const total = sorted.length;
+  const page = sorted.slice(opts.offset, opts.offset + opts.limit);
+
+  const families: JobFamily[] = page.map((acc) => ({
+    roleFamilyId: acc.roleFamilyId,
+    title: displayTitle(acc.titles, acc.normalizedTitle),
+    company: {
+      name: acc.companyName,
+      slug: acc.companySlug,
+      ats: acc.companyAts,
+      websiteUrl: acc.companyWebsiteUrl,
+      careersUrl: acc.companyCareersUrl,
+    },
+    roles: acc.roles,
+    regions: acc.regions,
+    terms: acc.terms,
+    excerpt: acc.excerpt,
+    source: acc.source,
+    firstSeenAt: new Date(acc.sortKey).toISOString(),
+    postings: acc.postings,
+  }));
+
+  return { families, total };
+}

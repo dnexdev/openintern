@@ -988,6 +988,48 @@ select:focus {
   gap: 0.3rem;
   color: var(--muted-2);
   font-size: 0.78rem;
+  align-items: center;
+}
+
+.locations-toggle {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.locations-toggle:hover {
+  text-decoration: underline;
+}
+
+.posting-list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.posting-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.55rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.posting-loc {
+  flex: 1;
+  min-width: 6rem;
+  font-size: 0.85rem;
+  color: var(--text);
+  font-weight: 500;
 }
 
 .avatar {

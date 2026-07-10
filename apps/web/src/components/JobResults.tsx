@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { CompanyAvatar } from "./CompanyAvatar";
 import {
   AppliedToggle,
@@ -9,27 +10,7 @@ import {
   useAppliedIds,
   useHideApplied,
 } from "./AppliedToggle";
-
-export type JobCardData = {
-  id: string;
-  title: string;
-  locations: string[] | null;
-  applyUrl: string;
-  excerpt: string | null;
-  terms: string[] | null;
-  termYears: { term: string; year: number }[] | null;
-  durationMonths: number[] | null;
-  roles: string[] | null;
-  regions: string[] | null;
-  isRemote: boolean;
-  source: string;
-  postedAt: string | null;
-  firstSeenAt: string;
-  companyName: string;
-  companySlug?: string | null;
-  companyWebsiteUrl: string | null;
-  companyCareersUrl: string | null;
-};
+import type { JobFamily } from "@/lib/job-families";
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -43,37 +24,24 @@ function timeAgo(iso: string) {
   return `${Math.floor(sec / 86400)}d ago`;
 }
 
-function JobBadges({ job }: { job: JobCardData }) {
+function FamilyBadges({ family }: { family: JobFamily }) {
   const badges: { key: string; className: string; label: string }[] = [];
-  for (const r of (job.roles ?? []).slice(0, 2)) {
+  for (const r of family.roles.slice(0, 2)) {
     badges.push({ key: `role-${r}`, className: "badge role", label: r });
   }
-  const terms =
-    (job.termYears ?? []).length > 0
-      ? (job.termYears ?? []).slice(0, 1).map((ty) => ({
-          key: `ty-${ty.term}-${ty.year}`,
-          label: `${capitalize(ty.term)} ${ty.year}`,
-        }))
-      : (job.terms ?? []).slice(0, 1).map((t) => ({
-          key: `t-${t}`,
-          label: capitalize(t),
-        }));
-  for (const t of terms) {
-    badges.push({ key: t.key, className: "badge term", label: t.label });
+  for (const t of family.terms.slice(0, 1)) {
+    badges.push({ key: `t-${t}`, className: "badge term", label: capitalize(t) });
   }
-  for (const r of (job.regions ?? []).slice(0, 1)) {
+  for (const r of family.regions.slice(0, 1)) {
     badges.push({
       key: `region-${r}`,
       className: "badge region",
       label: r === "europe" ? "UK/Europe" : capitalize(r),
     });
   }
-
-  const shown = badges.slice(0, 4);
-
   return (
     <div className="meta">
-      {shown.map((b) => (
+      {badges.map((b) => (
         <span key={b.key} className={b.className}>
           {b.label}
         </span>
@@ -82,8 +50,116 @@ function JobBadges({ job }: { job: JobCardData }) {
   );
 }
 
+function FamilyCard({
+  family,
+  isTier1,
+  applied,
+}: {
+  family: JobFamily;
+  isTier1: boolean;
+  applied: string[];
+}) {
+  const [open, setOpen] = useState(false);
+  const multi = family.postings.length > 1;
+  const primary = family.postings[0]!;
+  const allApplied = family.postings.every((p) => applied.includes(p.id));
+
+  return (
+    <article
+      className={`job-card${allApplied ? " is-applied" : ""}${isTier1 ? " is-tier-1" : ""}`}
+      data-family-id={family.roleFamilyId}
+    >
+      <div className="job-card-top">
+        <CompanyAvatar
+          name={family.company.name}
+          websiteUrl={family.company.websiteUrl}
+          careersUrl={family.company.careersUrl}
+          slug={family.company.slug}
+        />
+        <div className="job-card-company">
+          <div className="job-company-line">
+            {isTier1 ? (
+              <span className="tier-1-mark" title="Tier 1 employer">
+                <span aria-hidden="true">🔥</span>
+                <span className="visually-hidden">Tier 1 employer: </span>
+              </span>
+            ) : null}
+            {family.company.name}
+          </div>
+          <div className="job-card-meta-line">
+            {multi ? (
+              <button
+                type="button"
+                className="locations-toggle"
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+              >
+                {family.postings.length} locations {open ? "▴" : "▾"}
+              </button>
+            ) : (
+              <span>{primary.location}</span>
+            )}
+            <span aria-hidden="true">·</span>
+            <span title={family.firstSeenAt}>{timeAgo(family.firstSeenAt)}</span>
+          </div>
+        </div>
+      </div>
+      <div className="job-card-body">
+        <h2>
+          <Link href={`/jobs/${primary.id}`}>{family.title}</Link>
+        </h2>
+        <FamilyBadges family={family} />
+        {family.excerpt ? <p className="excerpt">{family.excerpt}</p> : null}
+
+        {multi && open ? (
+          <ul className="posting-list">
+            {family.postings.map((p) => (
+              <li key={p.id} className="posting-row">
+                <span className="posting-loc">{p.location}</span>
+                <a
+                  className="btn btn-primary btn-sm"
+                  href={p.applyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Apply for ${family.title} in ${p.location}`}
+                >
+                  Apply
+                </a>
+                <AppliedToggle jobId={p.id} jobTitle={`${family.title} (${p.location})`} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="job-actions">
+            <a
+              className="btn btn-primary btn-sm"
+              href={primary.applyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Apply for ${family.title} at ${family.company.name}`}
+            >
+              Apply
+            </a>
+            {!multi ? (
+              <AppliedToggle jobId={primary.id} jobTitle={family.title} />
+            ) : (
+              <button
+                type="button"
+                className="btn btn-sm"
+                onClick={() => setOpen(true)}
+              >
+                Show locations
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
+
 export function JobResults({
-  jobs,
+  families,
   total,
   hasFilters,
   page,
@@ -92,7 +168,7 @@ export function JobResults({
   sort,
   tier1Slugs,
 }: {
-  jobs: JobCardData[];
+  families: JobFamily[];
   total: number;
   hasFilters: boolean;
   page: number;
@@ -106,8 +182,8 @@ export function JobResults({
   const applied = useAppliedIds();
   const tier1 = new Set(tier1Slugs);
   const visible = hideApplied
-    ? jobs.filter((j) => !applied.includes(j.id))
-    : jobs;
+    ? families.filter((f) => !f.postings.every((p) => applied.includes(p.id)))
+    : families;
 
   const pageHref = (n: number) => {
     const params = new URLSearchParams(filterQuery);
@@ -132,10 +208,10 @@ export function JobResults({
     <>
       <div className="results-header">
         <span>
-          <strong>{total}</strong> active role{total === 1 ? "" : "s"}
+          <strong>{total}</strong> role{total === 1 ? "" : "s"}
           {hasFilters ? " matching filters" : ""}
-          {hideApplied && jobs.length !== visible.length
-            ? ` · showing ${visible.length} of ${jobs.length} on this page`
+          {hideApplied && families.length !== visible.length
+            ? ` · showing ${visible.length} of ${families.length} on this page`
             : ""}
         </span>
         <span>
@@ -159,7 +235,7 @@ export function JobResults({
       </div>
 
       <div className="job-grid">
-        {jobs.length === 0 ? (
+        {families.length === 0 ? (
           <p className="empty">
             No active internships matched.{" "}
             {hasFilters ? <Link href="/jobs">Clear filters</Link> : "Try running ingest."}
@@ -169,63 +245,14 @@ export function JobResults({
             All matching roles are marked applied. Uncheck “Hide applied” to see them.
           </p>
         ) : (
-          visible.map((job) => {
-            const isApplied = applied.includes(job.id);
-            const isTier1 = job.companySlug ? tier1.has(job.companySlug) : false;
-            const location =
-              (job.locations ?? []).slice(0, 2).join(" · ") || "Location n/a";
-            return (
-              <article
-                key={job.id}
-                className={`job-card${isApplied ? " is-applied" : ""}${isTier1 ? " is-tier-1" : ""}`}
-                data-job-id={job.id}
-              >
-                <div className="job-card-top">
-                  <CompanyAvatar
-                    name={job.companyName}
-                    websiteUrl={job.companyWebsiteUrl}
-                    careersUrl={job.companyCareersUrl}
-                    slug={job.companySlug}
-                  />
-                  <div className="job-card-company">
-                    <div className="job-company-line">
-                      {isTier1 ? (
-                        <span className="tier-1-mark" title="Tier 1 employer">
-                          <span aria-hidden="true">🔥</span>
-                          <span className="visually-hidden">Tier 1 employer: </span>
-                        </span>
-                      ) : null}
-                      {job.companyName}
-                    </div>
-                    <div className="job-card-meta-line">
-                      <span>{location}</span>
-                      <span aria-hidden="true">·</span>
-                      <span title={job.firstSeenAt}>{timeAgo(job.firstSeenAt)}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="job-card-body">
-                  <h2>
-                    <Link href={`/jobs/${job.id}`}>{job.title}</Link>
-                  </h2>
-                  <JobBadges job={job} />
-                  {job.excerpt ? <p className="excerpt">{job.excerpt}</p> : null}
-                  <div className="job-actions">
-                    <a
-                      className="btn btn-primary btn-sm"
-                      href={job.applyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Apply for ${job.title} at ${job.companyName} on the employer site (opens in a new tab)`}
-                    >
-                      Apply
-                    </a>
-                    <AppliedToggle jobId={job.id} jobTitle={job.title} />
-                  </div>
-                </div>
-              </article>
-            );
-          })
+          visible.map((family) => (
+            <FamilyCard
+              key={family.roleFamilyId}
+              family={family}
+              isTier1={tier1.has(family.company.slug)}
+              applied={applied}
+            />
+          ))
         )}
       </div>
 

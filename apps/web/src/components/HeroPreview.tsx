@@ -1,5 +1,5 @@
 import { CompanyAvatar } from "./CompanyAvatar";
-import type { JobCardData } from "./JobResults";
+import type { JobCardData } from "@/lib/board";
 import { previewLocationLabel } from "@/lib/board";
 
 /** Decorative faded preview of live listings for the full-viewport hero. */

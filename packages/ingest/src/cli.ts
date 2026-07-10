@@ -1,5 +1,6 @@
 import path from "node:path";
 import { createDbClient } from "@openintern/db";
+import { backfillRoleFamilies } from "./backfill-role-families.js";
 import { writeDumps } from "./dump.js";
 import { runIngest } from "./ingest.js";
 import { loadEnv } from "./load-env.js";
@@ -35,12 +36,15 @@ async function main() {
       return;
     }
 
+    if (cmd === "backfill-role-families") {
+      const result = await backfillRoleFamilies(db);
+      console.log(JSON.stringify(result, null, 2));
+      return;
+    }
+
     if (cmd === "ingest") {
       const summary = await runIngest(db);
       console.log(JSON.stringify(summary, null, 2));
-      // Per-company ATS failures are expected (dead tokens). Only fail the
-      // process when nothing succeeded — so scheduled CI stays green while
-      // /health still surfaces individual errors.
       if (
         summary.companies > 0 &&
         summary.jobsUpserted === 0 &&
@@ -56,7 +60,9 @@ async function main() {
     }
 
     console.error(`Unknown command: ${cmd}`);
-    console.error("Usage: cli.ts <ingest|sync-companies|dump> [dump-dir]");
+    console.error(
+      "Usage: cli.ts <ingest|sync-companies|dump|backfill-role-families> [dump-dir]",
+    );
     process.exitCode = 1;
   } finally {
     await client.end({ timeout: 5 });

@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { JobResults } from "@/components/JobResults";
 import { getTier1Slugs } from "@/lib/curated";
+import { loadJobFamilies } from "@/lib/job-families";
 import {
   loadCompanyOptions,
-  loadJobs,
   parseBoardSearchParams,
-  toJobCards,
   type SearchParams,
 } from "@/lib/board";
 
@@ -30,26 +29,29 @@ export default async function JobsPage({
   const limit = 27;
   const offset = (page - 1) * limit;
 
-  let rows: Awaited<ReturnType<typeof loadJobs>>["rows"] = [];
+  let families: Awaited<ReturnType<typeof loadJobFamilies>>["families"] = [];
   let total = 0;
   let dbError: string | null = null;
   let companyOptions: { slug: string; name: string }[] = [];
 
   try {
-    const loaded = await loadJobs({
-      query,
-      company,
-      roles,
-      regions,
-      terms,
-      durations,
-      sort,
-      limit,
-      offset,
-    });
-    rows = loaded.rows;
+    const [loaded, options] = await Promise.all([
+      loadJobFamilies({
+        query,
+        company,
+        roles,
+        regions,
+        terms,
+        durations,
+        sort,
+        limit,
+        offset,
+      }),
+      loadCompanyOptions(),
+    ]);
+    families = loaded.families;
     total = loaded.total;
-    companyOptions = await loadCompanyOptions();
+    companyOptions = options;
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }
@@ -69,7 +71,6 @@ export default async function JobsPage({
     query || company || roles.length || regions.length || terms.length || durations.length,
   );
 
-  const cardJobs = toJobCards(rows);
   const tier1Slugs = [...getTier1Slugs()];
 
   return (
@@ -102,7 +103,7 @@ export default async function JobsPage({
           </div>
         ) : (
           <JobResults
-            jobs={cardJobs}
+            families={families}
             total={total}
             hasFilters={hasFilters}
             page={page}

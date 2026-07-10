@@ -43,6 +43,13 @@
       "when": 1783641000000,
       "tag": "0005_ats_recruitee_rippling_bamboohr",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783700000000,
+      "tag": "0006_job_fingerprint_families",
+      "breakpoints": true
     }
   ]
 }

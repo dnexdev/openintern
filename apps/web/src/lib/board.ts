@@ -2,7 +2,28 @@ import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-o
 import { companies, ingestRuns, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
 import { freshnessSql } from "@/lib/freshness";
-import type { JobCardData } from "@/components/JobResults";
+
+/** Lightweight card shape used by the landing hero preview. */
+export type JobCardData = {
+  id: string;
+  title: string;
+  locations: string[] | null;
+  applyUrl: string;
+  excerpt: string | null;
+  terms: string[] | null;
+  termYears: { term: string; year: number }[] | null;
+  durationMonths: number[] | null;
+  roles: string[] | null;
+  regions: string[] | null;
+  isRemote: boolean;
+  source: string;
+  postedAt: string | null;
+  firstSeenAt: string;
+  companyName: string;
+  companySlug?: string | null;
+  companyWebsiteUrl: string | null;
+  companyCareersUrl: string | null;
+};
 
 export const ROLE_OPTIONS = [
   "software",

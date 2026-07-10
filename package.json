@@ -21,7 +21,8 @@
     "gap-report": "pnpm --filter @openintern/ingest gap-report",
     "recover-tokens": "pnpm --filter @openintern/ingest recover-tokens",
     "validate-curated": "pnpm --filter @openintern/ingest validate-curated",
-    "validate-companies": "pnpm --filter @openintern/ingest validate-companies"
+    "validate-companies": "pnpm --filter @openintern/ingest validate-companies",
+    "backfill-role-families": "pnpm --filter @openintern/ingest backfill-role-families"
   },
   "engines": {
     "node": ">=20"

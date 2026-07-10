@@ -17,6 +17,11 @@ import {
   looksRemote,
   type TermYear,
 } from "./classifier.js";
+import {
+  jobFingerprint,
+  normalizeTitle,
+  roleFamilyId,
+} from "./normalize-title.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
 
 export type CompanyFunnel = {
@@ -214,9 +219,12 @@ async function ingestCompany(
     const termYears = extractTermYears(classifierText, cohortYear);
     const roles = extractRoles(j.title, j.description);
     const regions = extractRegions(j.locations, isRemote);
+    const normalized = normalizeTitle(j.title);
+    const fingerprint = jobFingerprint(company.id, company.ats, j.externalId);
+    const familyId = roleFamilyId(company.slug, normalized);
 
     const existing = await db.query.jobs.findFirst({
-      where: and(eq(jobs.companyId, company.id), eq(jobs.externalId, j.externalId)),
+      where: eq(jobs.fingerprint, fingerprint),
     });
     const firstSeenAt = existing?.firstSeenAt ?? now;
     const postedAt = j.postedAt ?? existing?.postedAt ?? null;
@@ -232,7 +240,11 @@ async function ingestCompany(
     const stale = staleByTerms || staleByAge;
 
     const fields = {
+      externalJobId: j.externalId,
+      fingerprint,
       title: j.title,
+      normalizedTitle: normalized,
+      roleFamilyId: familyId,
       locations: j.locations,
       applyUrl: j.applyUrl,
       excerpt,
@@ -250,16 +262,20 @@ async function ingestCompany(
       updatedAt: now,
     };
 
-    if (existing) {
-      await db.update(jobs).set(fields).where(eq(jobs.id, existing.id));
-    } else {
-      await db.insert(jobs).values({
+    await db
+      .insert(jobs)
+      .values({
         companyId: company.id,
-        externalId: j.externalId,
         ...fields,
         firstSeenAt: now,
+      })
+      .onConflictDoUpdate({
+        target: jobs.fingerprint,
+        set: {
+          ...fields,
+          // Preserve firstSeenAt — do not overwrite
+        },
       });
-    }
     jobsUpserted += 1;
     if (stale) staleDeactivated += 1;
   }
@@ -278,7 +294,7 @@ async function ingestCompany(
         and(
           eq(jobs.companyId, company.id),
           eq(jobs.isActive, true),
-          notInArray(jobs.externalId, seenIds),
+          notInArray(jobs.externalJobId, seenIds),
         ),
       )
       .returning({ id: jobs.id });

@@ -51,8 +51,11 @@ export const jobs = pgTable(
     companyId: uuid("company_id")
       .notNull()
       .references(() => companies.id, { onDelete: "cascade" }),
-    externalId: varchar("external_id", { length: 512 }).notNull(),
+    externalJobId: varchar("external_job_id", { length: 512 }).notNull(),
+    fingerprint: varchar("fingerprint", { length: 64 }).notNull(),
     title: varchar("title", { length: 512 }).notNull(),
+    normalizedTitle: text("normalized_title").notNull().default(""),
+    roleFamilyId: text("role_family_id").notNull().default(""),
     locations: jsonb("locations").$type<string[]>().notNull().default([]),
     applyUrl: text("apply_url").notNull(),
     excerpt: text("excerpt"),
@@ -75,7 +78,9 @@ export const jobs = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [
-    uniqueIndex("jobs_company_external_uidx").on(t.companyId, t.externalId),
+    uniqueIndex("jobs_fingerprint_uidx").on(t.fingerprint),
+    index("jobs_company_external_job_id_idx").on(t.companyId, t.externalJobId),
+    index("jobs_company_role_family_idx").on(t.companyId, t.roleFamilyId),
     index("jobs_active_idx").on(t.isActive),
     index("jobs_first_seen_idx").on(t.firstSeenAt),
     index("jobs_posted_at_idx").on(t.postedAt),

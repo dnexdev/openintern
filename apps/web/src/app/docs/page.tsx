@@ -38,7 +38,7 @@ export default function DocsPage() {
             <tr>
               <td className="mono">GET</td>
               <td className="mono">/api/v1/jobs</td>
-              <td>List active internships (paginated, filterable)</td>
+              <td>List role families with nested postings (paginated, filterable)</td>
             </tr>
             <tr>
               <td className="mono">GET</td>
@@ -119,18 +119,24 @@ export default function DocsPage() {
             </tr>
             <tr>
               <td className="mono">limit</td>
-              <td>Page size (default 25, max 100)</td>
+              <td>Page size in role families (default 27, max 100)</td>
             </tr>
           </tbody>
         </table>
 
         <p className="muted">
-          Responses use{" "}
+          The live API is <strong>grouped by role family</strong> (same title
+          variants across locations). Response shape:{" "}
           <code className="mono">
-            {"{ data, page, limit, total, total_pages, has_more }"}
+            {"{ jobs, page, limit, total, total_pages, has_more }"}
           </code>
-          . Each job includes its company object, classification arrays, excerpt,
-          application URL, and posted/first-seen/last-seen timestamps.
+          . Each entry has{" "}
+          <code className="mono">role_family_id</code>,{" "}
+          <code className="mono">company</code>,{" "}
+          <code className="mono">title</code>, and{" "}
+          <code className="mono">postings[]</code> (
+          <code className="mono">id, location, posted_at, apply_url</code>).
+          Daily dumps stay flat (one row per posting).
         </p>
 
         <h2 className="section-heading">Examples</h2>

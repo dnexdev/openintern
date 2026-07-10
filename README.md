@@ -51,7 +51,7 @@ pnpm dev             # http://localhost:3000
 Full reference: **[/docs](https://openintern.dev/docs)** (also at `/docs` locally).
 
 ```bash
-# List active internships
+# List role families (grouped postings)
 curl "https://openintern.dev/api/v1/jobs?role=software&limit=10"
 
 # Filter by region + season
@@ -60,7 +60,7 @@ curl "https://openintern.dev/api/v1/jobs?region=canada&season=fall,winter"
 # Duration overlap (e.g. 4–6 month postings match 4 or 6)
 curl "https://openintern.dev/api/v1/jobs?duration_months=4,6"
 
-# Single job
+# Single posting
 curl "https://openintern.dev/api/v1/jobs/{id}"
 
 # Companies in the registry
@@ -70,9 +70,9 @@ curl "https://openintern.dev/api/v1/companies"
 curl "https://openintern.dev/api/v1/health"
 ```
 
-Query params for `/api/v1/jobs`: `q`, `company` (slug), `role`, `region` (`remote|us|canada|europe|other`), `season` (`summer|fall|winter`; `spring`→summer), `duration_months` (overlap), `posted_after`, `page`, `limit` (max 100). Board-compatible aliases `term` and `duration` are also accepted. List responses include `total_pages` and `has_more`; the hosted API defaults to 60 requests/minute/IP.
+Query params for `/api/v1/jobs`: `q`, `company` (slug), `role`, `region` (`remote|us|canada|europe|other`), `season` (`summer|fall|winter`; `spring`→summer), `duration_months` (overlap), `posted_after`, `page`, `limit` (default 27 families, max 100). Board-compatible aliases `term` and `duration` are also accepted. List responses are **grouped by role family** (`jobs[].postings[]`); pagination counts families. Include `total_pages` and `has_more`; the hosted API defaults to 60 requests/minute/IP.
 
-For bulk use, prefer **daily dumps** (stable URLs):
+For bulk use, prefer **daily dumps** (flat, one row per posting; stable URLs):
 
 - https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json
 - https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.csv
