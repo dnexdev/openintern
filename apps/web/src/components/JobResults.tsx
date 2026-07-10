@@ -43,49 +43,33 @@ function timeAgo(iso: string) {
   return `${Math.floor(sec / 86400)}d ago`;
 }
 
-function formatDate(iso: string | null) {
-  if (!iso) return "—";
-  return iso.slice(0, 10);
-}
-
 function JobBadges({ job }: { job: JobCardData }) {
   const badges: { key: string; className: string; label: string }[] = [];
-  for (const r of (job.roles ?? []).slice(0, 3)) {
+  for (const r of (job.roles ?? []).slice(0, 2)) {
     badges.push({ key: `role-${r}`, className: "badge role", label: r });
-  }
-  for (const r of (job.regions ?? []).slice(0, 2)) {
-    badges.push({
-      key: `region-${r}`,
-      className: "badge region",
-      label: r === "europe" ? "UK/Europe" : capitalize(r),
-    });
   }
   const terms =
     (job.termYears ?? []).length > 0
-      ? (job.termYears ?? []).slice(0, 2).map((ty) => ({
+      ? (job.termYears ?? []).slice(0, 1).map((ty) => ({
           key: `ty-${ty.term}-${ty.year}`,
           label: `${capitalize(ty.term)} ${ty.year}`,
         }))
-      : (job.terms ?? []).slice(0, 2).map((t) => ({
+      : (job.terms ?? []).slice(0, 1).map((t) => ({
           key: `t-${t}`,
           label: capitalize(t),
         }));
   for (const t of terms) {
     badges.push({ key: t.key, className: "badge term", label: t.label });
   }
-  const durations = [
-    ...new Set((job.durationMonths ?? []).filter((m) => [3, 4, 6, 8, 12].includes(m))),
-  ].sort((a, b) => a - b);
-  if (durations.length > 0) {
+  for (const r of (job.regions ?? []).slice(0, 1)) {
     badges.push({
-      key: "dur",
-      className: "badge duration",
-      label: `${durations.join("/")} mo`,
+      key: `region-${r}`,
+      className: "badge region",
+      label: r === "europe" ? "UK/Europe" : capitalize(r),
     });
   }
 
-  const shown = badges.slice(0, 5);
-  const extra = badges.length - shown.length;
+  const shown = badges.slice(0, 4);
 
   return (
     <div className="meta">
@@ -94,7 +78,6 @@ function JobBadges({ job }: { job: JobCardData }) {
           {b.label}
         </span>
       ))}
-      {extra > 0 ? <span className="badge">+{extra}</span> : null}
     </div>
   );
 }
@@ -130,7 +113,7 @@ export function JobResults({
     const params = new URLSearchParams(filterQuery);
     if (sort !== "first_seen") params.set("sort", sort);
     params.set("page", String(n));
-    return `/?${params.toString()}`;
+    return `/jobs?${params.toString()}`;
   };
 
   const pageWindow: number[] = [];
@@ -142,7 +125,7 @@ export function JobResults({
     const params = new URLSearchParams(filterQuery);
     if (value !== "first_seen") params.set("sort", value);
     const qs = params.toString();
-    router.push(qs ? `/?${qs}` : "/", { scroll: false });
+    router.push(qs ? `/jobs?${qs}` : "/jobs", { scroll: false });
   }
 
   return (
@@ -175,11 +158,11 @@ export function JobResults({
         </label>
       </div>
 
-      <div className="job-list">
+      <div className="job-grid">
         {jobs.length === 0 ? (
           <p className="empty">
             No active internships matched.{" "}
-            {hasFilters ? <Link href="/">Clear filters</Link> : "Try running ingest."}
+            {hasFilters ? <Link href="/jobs">Clear filters</Link> : "Try running ingest."}
           </p>
         ) : visible.length === 0 ? (
           <p className="empty">
@@ -189,37 +172,43 @@ export function JobResults({
           visible.map((job) => {
             const isApplied = applied.includes(job.id);
             const isTier1 = job.companySlug ? tier1.has(job.companySlug) : false;
+            const location =
+              (job.locations ?? []).slice(0, 2).join(" · ") || "Location n/a";
             return (
               <article
                 key={job.id}
                 className={`job-card${isApplied ? " is-applied" : ""}${isTier1 ? " is-tier-1" : ""}`}
                 data-job-id={job.id}
               >
-                <CompanyAvatar
-                  name={job.companyName}
-                  websiteUrl={job.companyWebsiteUrl}
-                  careersUrl={job.companyCareersUrl}
-                  slug={job.companySlug}
-                />
+                <div className="job-card-top">
+                  <CompanyAvatar
+                    name={job.companyName}
+                    websiteUrl={job.companyWebsiteUrl}
+                    careersUrl={job.companyCareersUrl}
+                    slug={job.companySlug}
+                  />
+                  <div className="job-card-company">
+                    <div className="job-company-line">
+                      {isTier1 ? (
+                        <span className="tier-1-mark" title="Tier 1 employer">
+                          <span aria-hidden="true">🔥</span>
+                          <span className="visually-hidden">Tier 1 employer: </span>
+                        </span>
+                      ) : null}
+                      {job.companyName}
+                    </div>
+                    <div className="job-card-meta-line">
+                      <span>{location}</span>
+                      <span aria-hidden="true">·</span>
+                      <span title={job.firstSeenAt}>{timeAgo(job.firstSeenAt)}</span>
+                    </div>
+                  </div>
+                </div>
                 <div className="job-card-body">
                   <h2>
                     <Link href={`/jobs/${job.id}`}>{job.title}</Link>
                   </h2>
-                  <div className="job-company-line">
-                    {isTier1 ? (
-                      <span className="tier-1-mark" title="Tier 1 employer">
-                        <span aria-hidden="true">🔥</span>
-                        <span className="visually-hidden">Tier 1 employer: </span>
-                      </span>
-                    ) : null}
-                    {job.companyName} · {(job.locations ?? []).join(" · ") || "Location n/a"}
-                  </div>
                   <JobBadges job={job} />
-                  <div className="meta-secondary">
-                    <span className="badge source">{job.source}</span>
-                    <span title={job.firstSeenAt}>first seen {timeAgo(job.firstSeenAt)}</span>
-                    <span>posted {formatDate(job.postedAt)}</span>
-                  </div>
                   {job.excerpt ? <p className="excerpt">{job.excerpt}</p> : null}
                   <div className="job-actions">
                     <a

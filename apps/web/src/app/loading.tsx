@@ -1,27 +1,18 @@
 export default function Loading() {
   return (
-    <div className="layout" style={{ paddingTop: "1rem" }}>
-      <aside className="sidebar">
-        <div className="skeleton-line w-40" />
-        <div className="skeleton-lines" style={{ marginTop: "1rem" }}>
-          <div className="skeleton-line w-80" />
-          <div className="skeleton-line w-60" />
-          <div className="skeleton-line w-90" />
-          <div className="skeleton-line w-40" />
-        </div>
-      </aside>
-      <section className="job-list">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="skeleton-card">
-            <div className="skeleton-avatar" />
-            <div className="skeleton-lines">
-              <div className="skeleton-line w-80" />
-              <div className="skeleton-line w-60" />
-              <div className="skeleton-line w-40" />
-            </div>
+    <section className="hero hero-viewport" aria-busy="true">
+      <div className="hero-viewport-inner">
+        <div className="hero-copy" style={{ width: "100%", maxWidth: "36rem" }}>
+          <div className="skeleton-line w-80" style={{ height: "2rem", margin: "0 auto" }} />
+          <div
+            className="skeleton-lines"
+            style={{ marginTop: "1rem", width: "100%" }}
+          >
+            <div className="skeleton-line w-90" />
+            <div className="skeleton-line w-60" />
           </div>
-        ))}
-      </section>
-    </div>
+        </div>
+      </div>
+    </section>
   );
 }

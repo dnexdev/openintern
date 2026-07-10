@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://openintern.dev";
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${base}/`, changeFrequency: "hourly", priority: 1 },
+    { url: `${base}/jobs`, changeFrequency: "hourly", priority: 0.95 },
     { url: `${base}/docs`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/privacy`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/health`, changeFrequency: "daily", priority: 0.5 },

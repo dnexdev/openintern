@@ -97,7 +97,7 @@ export default async function JobDetailPage({
   return (
     <>
       <p className="back-link">
-        <Link href="/">← All internships</Link>
+        <Link href="/jobs">← All internships</Link>
       </p>
 
       <article className="panel job-detail">

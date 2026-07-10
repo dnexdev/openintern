@@ -63,7 +63,7 @@ function hrefFor(
   for (const d of durations) params.append("duration", String(d));
   if (sort && sort !== "first_seen") params.set("sort", sort);
   const qs = params.toString();
-  return qs ? `/?${qs}` : "/";
+  return qs ? `/jobs?${qs}` : "/jobs";
 }
 
 export function FilterSidebar({
@@ -125,25 +125,26 @@ export function FilterSidebar({
   }
 
   return (
-    <aside className={`sidebar${pending ? " is-pending" : ""}${open ? " is-open" : ""}`}>
+    <aside
+      className={`filters-bar${pending ? " is-pending" : ""}${open ? " is-open" : ""}`}
+    >
       <button
         type="button"
-        className="btn sidebar-toggle"
+        className="btn filters-toggle"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
         Filters{activeCount > 0 ? ` (${activeCount})` : ""}
       </button>
-      <div className="sidebar-body">
-        <h2>Filters</h2>
+      <div className="filters-body">
         <form
-          className="field"
+          className="filters-search"
           onSubmit={(e) => {
             e.preventDefault();
             navigate(search, company, roles, regions, terms, durations);
           }}
         >
-          <label className="field-label" htmlFor="job-search">
+          <label className="visually-hidden" htmlFor="job-search">
             Search titles
           </label>
           <input
@@ -151,15 +152,15 @@ export function FilterSidebar({
             className="input"
             type="search"
             value={search}
-            placeholder="Software intern"
+            placeholder="Search roles…"
             onChange={(e) => setSearch(e.target.value)}
           />
           <button className="btn btn-sm" type="submit">
             Search
           </button>
         </form>
-        <div className="field">
-          <label className="field-label" htmlFor="company-filter">
+        <div className="filters-company">
+          <label className="visually-hidden" htmlFor="company-filter">
             Company
           </label>
           <select
@@ -177,8 +178,10 @@ export function FilterSidebar({
             ))}
           </select>
         </div>
-        <div className="field">
-          <span className="field-label">Role</span>
+        <details className="filters-group" open={roles.length > 0}>
+          <summary>
+            Role{roles.length > 0 ? ` (${roles.length})` : ""}
+          </summary>
           <div className="chip-grid">
             {ROLE_OPTIONS.map((r) => (
               <label key={r} className="checkbox">
@@ -200,79 +203,89 @@ export function FilterSidebar({
               </label>
             ))}
           </div>
-        </div>
-        <div className="field">
-          <span className="field-label">Location</span>
-          {REGION_OPTIONS.map((r) => (
-            <label key={r.value} className="checkbox">
-              <input
-                type="checkbox"
-                checked={regions.includes(r.value)}
-                onChange={(e) =>
-                  navigate(
-                    query,
-                    company,
-                    roles,
-                    toggleInList(regions, r.value, e.target.checked),
-                    terms,
-                    durations,
-                  )
-                }
-              />
-              {r.label}
-            </label>
-          ))}
-        </div>
-        <div className="field">
-          <span className="field-label">Term</span>
-          {TERM_OPTIONS.map((t) => (
-            <label key={t} className="checkbox">
-              <input
-                type="checkbox"
-                checked={terms.includes(t)}
-                onChange={(e) =>
-                  navigate(
-                    query,
-                    company,
-                    roles,
-                    regions,
-                    toggleInList(terms, t, e.target.checked),
-                    durations,
-                  )
-                }
-              />
-              {capitalize(t)}
-            </label>
-          ))}
-        </div>
-        <div className="field">
-          <span className="field-label">Duration</span>
-          {DURATION_OPTIONS.map((m) => (
-            <label key={m} className="checkbox">
-              <input
-                type="checkbox"
-                checked={durations.includes(m)}
-                onChange={(e) =>
-                  navigate(
-                    query,
-                    company,
-                    roles,
-                    regions,
-                    terms,
-                    toggleInNums(durations, m, e.target.checked),
-                  )
-                }
-              />
-              {m} mo{m === 3 ? " (summer)" : ""}
-            </label>
-          ))}
-        </div>
-        {hasFilters ? (
-          <div className="sidebar-actions">
-            <Link className="btn" href="/">
-              Clear
-            </Link>
+        </details>
+        <details className="filters-group" open={regions.length > 0}>
+          <summary>
+            Location{regions.length > 0 ? ` (${regions.length})` : ""}
+          </summary>
+          <div className="chip-grid">
+            {REGION_OPTIONS.map((r) => (
+              <label key={r.value} className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={regions.includes(r.value)}
+                  onChange={(e) =>
+                    navigate(
+                      query,
+                      company,
+                      roles,
+                      toggleInList(regions, r.value, e.target.checked),
+                      terms,
+                      durations,
+                    )
+                  }
+                />
+                {r.label}
+              </label>
+            ))}
           </div>
+        </details>
+        <details className="filters-group" open={terms.length > 0}>
+          <summary>
+            Term{terms.length > 0 ? ` (${terms.length})` : ""}
+          </summary>
+          <div className="chip-grid">
+            {TERM_OPTIONS.map((t) => (
+              <label key={t} className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={terms.includes(t)}
+                  onChange={(e) =>
+                    navigate(
+                      query,
+                      company,
+                      roles,
+                      regions,
+                      toggleInList(terms, t, e.target.checked),
+                      durations,
+                    )
+                  }
+                />
+                {capitalize(t)}
+              </label>
+            ))}
+          </div>
+        </details>
+        <details className="filters-group" open={durations.length > 0}>
+          <summary>
+            Duration{durations.length > 0 ? ` (${durations.length})` : ""}
+          </summary>
+          <div className="chip-grid">
+            {DURATION_OPTIONS.map((m) => (
+              <label key={m} className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={durations.includes(m)}
+                  onChange={(e) =>
+                    navigate(
+                      query,
+                      company,
+                      roles,
+                      regions,
+                      terms,
+                      toggleInNums(durations, m, e.target.checked),
+                    )
+                  }
+                />
+                {m} mo
+              </label>
+            ))}
+          </div>
+        </details>
+        {hasFilters ? (
+          <Link className="btn btn-sm filters-clear" href="/jobs">
+            Clear
+          </Link>
         ) : null}
       </div>
     </aside>

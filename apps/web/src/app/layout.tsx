@@ -5,24 +5,24 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://openintern.dev"),
   title: {
-    default: "OpenIntern — open tech internship corpus",
+    default: "OpenIntern — free open-source tech internships",
     template: "%s · OpenIntern",
   },
   description:
-    "Free structured tech internships with a public API, no-account board, and community company registry. Never paywalled.",
+    "Free tech internship board with no account, a public API, and daily dumps. Open source (Apache-2.0). Never paywalled.",
   openGraph: {
     siteName: "OpenIntern",
     type: "website",
-    title: "OpenIntern — open tech internship corpus",
+    title: "OpenIntern — free open-source tech internships",
     description:
-      "Free structured tech internships with a public API, no-account board, and community company registry.",
+      "Free tech internship board with no account, a public API, and daily dumps. Open source. Never paywalled.",
     url: "https://openintern.dev",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OpenIntern — open tech internship corpus",
+    title: "OpenIntern — free open-source tech internships",
     description:
-      "Free structured tech internships. Public API, daily dumps, no account required.",
+      "Free tech internship board. No account. Public API and daily dumps. Open source.",
   },
   robots: {
     index: true,
@@ -52,9 +52,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </a>
             <nav className="nav">
               <div className="nav-links">
-                <a href="/">Jobs</a>
+                <a href="/jobs">Jobs</a>
                 <a href="/docs">Docs</a>
-                <a href="/health">Health</a>
                 <a href="https://github.com/dnexdev/openintern">GitHub</a>
               </div>
             </nav>
@@ -64,10 +63,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <footer className="footer">
           <div className="container footer-inner">
             <p>
-              OpenIntern is free and open source (Apache-2.0). Listings are never
-              paywalled. Apply on the employer site. Not affiliated with listed
-              companies. Mark applications on this device only — no account
-              required.
+              Free and open source (Apache-2.0). Never paywalled. Apply on the
+              employer site. No account required.
             </p>
             <p className="footer-links">
               <a href="/docs">Docs</a>
