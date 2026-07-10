@@ -71,7 +71,12 @@ export default async function JobsPage({
     query || company || roles.length || regions.length || terms.length || durations.length,
   );
 
-  const tier1Slugs = [...getTier1Slugs()];
+  let tier1Slugs: string[] = [];
+  try {
+    tier1Slugs = [...getTier1Slugs()];
+  } catch {
+    // Tier-1 badges are optional; never take down the board.
+  }
 
   return (
     <div className="board board-page" id="jobs">

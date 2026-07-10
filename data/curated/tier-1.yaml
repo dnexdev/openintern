@@ -1,5 +1,6 @@
 # Maintainer-curated Tier 1 employers (FAANG-level or adjacent).
 # Slugs must exist in data/companies/*.yaml — run `pnpm validate-curated`.
+# Keep in sync with apps/web/src/lib/curated.ts (inlined for Vercel; no fs at runtime).
 slugs:
   # Frontier AI / labs
   - openai
