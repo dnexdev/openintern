@@ -12,8 +12,8 @@
   "dependencies": {
     "@openintern/db": "workspace:*",
     "dotenv": "^17.4.2",
-    "drizzle-orm": "^0.39.3",
-    "next": "^16.2.10",
+    "drizzle-orm": "^0.45.2",
+    "next": "^15.2.2",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
