@@ -10,7 +10,7 @@ import {
   useAppliedIds,
   useHideApplied,
 } from "./AppliedToggle";
-import type { JobFamily } from "@/lib/job-families";
+import type { FamilySort, JobFamily } from "@/lib/job-families";
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -174,7 +174,7 @@ export function JobResults({
   page: number;
   totalPages: number;
   filterQuery: string;
-  sort: "first_seen" | "posted";
+  sort: FamilySort;
   tier1Slugs: string[];
 }) {
   const router = useRouter();
@@ -191,11 +191,6 @@ export function JobResults({
     params.set("page", String(n));
     return `/jobs?${params.toString()}`;
   };
-
-  const pageWindow: number[] = [];
-  for (let n = Math.max(1, page - 2); n <= Math.min(totalPages, page + 2); n++) {
-    pageWindow.push(n);
-  }
 
   function onSortChange(value: string) {
     const params = new URLSearchParams(filterQuery);
@@ -214,9 +209,6 @@ export function JobResults({
             ? ` · showing ${visible.length} of ${families.length} on this page`
             : ""}
         </span>
-        <span>
-          Page {page} of {totalPages}
-        </span>
       </div>
 
       <div className="results-toolbar">
@@ -230,6 +222,7 @@ export function JobResults({
           >
             <option value="first_seen">Newest first seen</option>
             <option value="posted">Newest posted</option>
+            <option value="prestige">Prestige sort</option>
           </select>
         </label>
       </div>
@@ -258,26 +251,17 @@ export function JobResults({
 
       {totalPages > 1 ? (
         <nav className="pagination" aria-label="Pagination">
-          {page > 1 ? (
-            <Link className="btn btn-sm" href={pageHref(page - 1)}>
-              ‹ Prev
-            </Link>
-          ) : null}
-          {pageWindow.map((n) => (
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
             <Link
               key={n}
-              className={n === page ? "btn btn-sm btn-primary" : "btn btn-sm"}
+              className={n === page ? "page-num is-current" : "page-num"}
               href={pageHref(n)}
               aria-current={n === page ? "page" : undefined}
+              aria-label={`Page ${n}`}
             >
               {n}
             </Link>
           ))}
-          {page < totalPages ? (
-            <Link className="btn btn-sm" href={pageHref(page + 1)}>
-              Next ›
-            </Link>
-          ) : null}
         </nav>
       ) : null}
     </>

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { loadJobFamilies } from "@/lib/job-families";
+import { loadJobFamilies, type FamilySort } from "@/lib/job-families";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
@@ -78,7 +78,12 @@ export async function GET(request: Request) {
   const limit = Math.min(100, positiveInt(url.searchParams.get("limit"), 27));
   const offset = (page - 1) * limit;
   const sortRaw = url.searchParams.get("sort");
-  const sort: "first_seen" | "posted" = sortRaw === "posted" ? "posted" : "first_seen";
+  const sort: FamilySort =
+    sortRaw === "posted"
+      ? "posted"
+      : sortRaw === "prestige"
+        ? "prestige"
+        : "first_seen";
 
   const { families, total } = await loadJobFamilies({
     query: q,

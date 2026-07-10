@@ -1,7 +1,10 @@
 import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
+import { getTier1Slugs } from "@/lib/curated";
 import { getDb } from "@/lib/db";
 import { freshnessSql } from "@/lib/freshness";
+
+export type FamilySort = "first_seen" | "posted" | "prestige";
 
 export type JobPosting = {
   id: string;
@@ -40,7 +43,7 @@ export type FamilyQueryOpts = {
   terms: string[];
   durations: number[];
   postedAfter?: Date | null;
-  sort: "first_seen" | "posted";
+  sort: FamilySort;
   limit: number;
   offset: number;
 };
@@ -98,6 +101,72 @@ function primaryLocation(locations: string[] | null, isRemote: boolean): string 
   return isRemote ? "Remote" : "Location n/a";
 }
 
+type FamilyAcc = {
+  roleFamilyId: string;
+  titles: string[];
+  normalizedTitle: string;
+  companyName: string;
+  companySlug: string;
+  companyAts: string;
+  companyWebsiteUrl: string | null;
+  companyCareersUrl: string | null;
+  roles: string[];
+  regions: string[];
+  terms: string[];
+  excerpt: string | null;
+  source: string;
+  sortKey: number;
+  postings: JobPosting[];
+};
+
+/**
+ * Round-robin by company after time-sort.
+ * Batch ingest stamps many roles with the same first_seen/posted time, so a
+ * pure chrono feed shows the same employer 5–6 times in a row. Interleave keeps
+ * newer roles first while spreading companies across the page.
+ */
+function diversifyByCompany(sorted: FamilyAcc[]): FamilyAcc[] {
+  const queues = new Map<string, FamilyAcc[]>();
+  const companyOrder: string[] = [];
+  for (const f of sorted) {
+    const q = queues.get(f.companySlug);
+    if (!q) {
+      queues.set(f.companySlug, [f]);
+      companyOrder.push(f.companySlug);
+    } else {
+      q.push(f);
+    }
+  }
+
+  const out: FamilyAcc[] = [];
+  let remaining = sorted.length;
+  while (remaining > 0) {
+    let progressed = false;
+    for (const slug of companyOrder) {
+      const q = queues.get(slug);
+      if (!q || q.length === 0) continue;
+      out.push(q.shift()!);
+      remaining -= 1;
+      progressed = true;
+    }
+    if (!progressed) break;
+  }
+  return out;
+}
+
+function orderFamilies(accList: FamilyAcc[], sort: FamilySort): FamilyAcc[] {
+  const chrono = [...accList].sort((a, b) => b.sortKey - a.sortKey);
+
+  if (sort === "prestige") {
+    const tier1 = getTier1Slugs();
+    const prestigious = chrono.filter((f) => tier1.has(f.companySlug));
+    const rest = chrono.filter((f) => !tier1.has(f.companySlug));
+    return [...diversifyByCompany(prestigious), ...diversifyByCompany(rest)];
+  }
+
+  return diversifyByCompany(chrono);
+}
+
 /** Load role families (grouped postings) for board + public API. */
 export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
   families: JobFamily[];
@@ -135,23 +204,7 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
       opts.sort === "posted" ? desc(jobs.postedAt) : desc(jobs.firstSeenAt),
     );
 
-  type Acc = {
-    roleFamilyId: string;
-    titles: string[];
-    normalizedTitle: string;
-    companyName: string;
-    companySlug: string;
-    companyAts: string;
-    companyWebsiteUrl: string | null;
-    companyCareersUrl: string | null;
-    roles: string[];
-    regions: string[];
-    terms: string[];
-    excerpt: string | null;
-    source: string;
-    sortKey: number;
-    postings: JobPosting[];
-  };
+  type Acc = FamilyAcc;
 
   const byFamily = new Map<string, Acc>();
 
@@ -182,7 +235,9 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
     }
     acc.titles.push(row.title);
     const sortTs = (
-      opts.sort === "posted" ? row.postedAt ?? row.firstSeenAt : row.firstSeenAt
+      opts.sort === "posted"
+        ? row.postedAt ?? row.firstSeenAt
+        : row.firstSeenAt
     ).getTime();
     if (sortTs > acc.sortKey) acc.sortKey = sortTs;
     if (!acc.excerpt && row.excerpt) acc.excerpt = row.excerpt;
@@ -197,7 +252,7 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
     });
   }
 
-  const sorted = [...byFamily.values()].sort((a, b) => b.sortKey - a.sortKey);
+  const sorted = orderFamilies([...byFamily.values()], opts.sort);
   const total = sorted.length;
   const page = sorted.slice(opts.offset, opts.offset + opts.limit);
 

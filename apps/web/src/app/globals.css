@@ -1334,12 +1334,35 @@ select:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.2rem;
   margin: 2rem 0 1rem;
 }
 
-.pagination .btn {
-  min-width: 2.4rem;
+.page-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.45rem;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+
+.page-num:hover {
+  color: var(--text);
+  background: var(--bg-elevated, color-mix(in srgb, var(--text) 6%, transparent));
+}
+
+.page-num.is-current {
+  color: var(--text);
+  font-weight: 700;
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
 }
 
 .pagination-info {

@@ -2,6 +2,7 @@ import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-o
 import { companies, ingestRuns, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
 import { freshnessSql } from "@/lib/freshness";
+import type { FamilySort } from "@/lib/job-families";
 
 /** Lightweight card shape used by the landing hero preview. */
 export type JobCardData = {
@@ -90,14 +91,8 @@ export function toJobCards(
   }));
 }
 
-/** Cities with strong student appeal for the landing preview. */
-const PREVIEW_CITY_LABELS = [
-  "Toronto",
-  "Vancouver",
-  "Montreal",
-  "Ottawa",
-  "Waterloo",
-  "Calgary",
+/** US cities preferred for the landing hero location labels. */
+const PREVIEW_US_CITY_LABELS = [
   "San Francisco",
   "New York",
   "Seattle",
@@ -113,6 +108,21 @@ const PREVIEW_CITY_LABELS = [
   "Cupertino",
   "Redmond",
   "Menlo Park",
+  "Washington",
+] as const;
+
+const PREVIEW_OTHER_CITY_LABELS = [
+  "Toronto",
+  "Vancouver",
+  "Montreal",
+  "Ottawa",
+  "Waterloo",
+  "Calgary",
+] as const;
+
+const PREVIEW_CITY_LABELS = [
+  ...PREVIEW_US_CITY_LABELS,
+  ...PREVIEW_OTHER_CITY_LABELS,
 ] as const;
 
 /**
@@ -121,7 +131,7 @@ const PREVIEW_CITY_LABELS = [
  */
 const HERO_PREVIEW_SLUGS = [
   "openai",
-  "stripe",
+  "cloudflare",
   "notion",
   "palantir",
   "figma",
@@ -131,7 +141,7 @@ const HERO_PREVIEW_SLUGS = [
 const HERO_PREVIEW_BACKUP_SLUGS = [
   "anthropic",
   "airbnb",
-  "cloudflare",
+  "stripe",
   "anduril",
   "scale-ai",
   "jump-trading",
@@ -141,6 +151,20 @@ function locationBlob(job: JobCardData): string {
   return [...(job.locations ?? []), ...(job.isRemote ? ["Remote"] : [])]
     .join(" ")
     .toLowerCase();
+}
+
+/** Prefer US postings so the hero doesn't lead with Bengaluru / overseas offices. */
+function previewLocationScore(job: JobCardData): number {
+  const blob = locationBlob(job);
+  for (const city of PREVIEW_US_CITY_LABELS) {
+    if (blob.includes(city.toLowerCase())) return 4;
+  }
+  if (job.regions?.includes("us")) return 3;
+  if (job.isRemote || /\bremote\b/i.test(blob)) return 2;
+  for (const city of PREVIEW_OTHER_CITY_LABELS) {
+    if (blob.includes(city.toLowerCase())) return 1;
+  }
+  return 0;
 }
 
 /** Prefer a recognizable Western city label from a job's location strings. */
@@ -205,8 +229,12 @@ export async function loadHeroPreviewPool(): Promise<{
   const bySlug = new Map<string, JobCardData>();
   for (const job of toJobCards(rows)) {
     const slug = job.companySlug;
-    if (!slug || bySlug.has(slug)) continue;
-    bySlug.set(slug, job);
+    if (!slug) continue;
+    const prev = bySlug.get(slug);
+    // Prefer US locations; among equal scores, keep the newer row (query order).
+    if (!prev || previewLocationScore(job) > previewLocationScore(prev)) {
+      bySlug.set(slug, job);
+    }
   }
 
   const preview: JobCardData[] = [];
@@ -360,7 +388,12 @@ export function parseBoardSearchParams(
       (DURATION_OPTIONS as readonly number[]).includes(n),
     );
   const sortRaw = Array.isArray(sp.sort) ? sp.sort[0] : sp.sort;
-  const sort: "first_seen" | "posted" = sortRaw === "posted" ? "posted" : "first_seen";
+  const sort: FamilySort =
+    sortRaw === "posted"
+      ? "posted"
+      : sortRaw === "prestige"
+        ? "prestige"
+        : "first_seen";
   const page = Math.max(1, Number(Array.isArray(sp.page) ? sp.page[0] : sp.page ?? 1));
   return { query, company, roles, regions, terms, durations, sort, page };
 }
