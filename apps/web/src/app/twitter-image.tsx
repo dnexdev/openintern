@@ -9,6 +9,6 @@ export const alt = ogImageAlt;
 export const size = ogImageSize;
 export const contentType = ogImageContentType;
 
-export default function OpenGraphImage() {
+export default function TwitterImage() {
   return createWordmarkOgImage();
 }

@@ -17,12 +17,21 @@ export const metadata: Metadata = {
     description:
       "Free tech internship board with no account, a public API, and daily dumps. Open source. Never paywalled.",
     url: "https://openintern.dev",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "OpenIntern",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "OpenIntern — free open-source tech internships",
     description:
       "Free tech internship board. No account. Public API and daily dumps. Open source.",
+    images: ["/twitter-image"],
   },
   robots: {
     index: true,
