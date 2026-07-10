@@ -37,8 +37,12 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          mkdir -p dumps
-          pnpm dump dumps
+          mkdir -p "$GITHUB_WORKSPACE/dumps"
+          # Write to repo-root dumps/ (filter cwd is packages/ingest otherwise)
+          pnpm --filter @openintern/ingest exec tsx src/cli.ts dump "$GITHUB_WORKSPACE/dumps"
+          ls -la "$GITHUB_WORKSPACE/dumps"
+          test -s "$GITHUB_WORKSPACE/dumps/jobs.json"
+          test -s "$GITHUB_WORKSPACE/dumps/jobs.csv"
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -54,5 +58,6 @@ jobs:
             dumps/jobs.csv
           generate_release_notes: false
           make_latest: true
+          overwrite_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

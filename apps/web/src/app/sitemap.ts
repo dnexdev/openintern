@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${base}/`, changeFrequency: "hourly", priority: 1 },
     { url: `${base}/docs`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/privacy`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/health`, changeFrequency: "daily", priority: 0.5 },
   ];
 
@@ -18,7 +19,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const rows = await db
       .select({ id: jobs.id, updatedAt: jobs.updatedAt })
       .from(jobs)
-      .where(eq(jobs.isActive, true));
+      .where(eq(jobs.isActive, true))
+      .limit(5000);
     return [
       ...staticEntries,
       ...rows.map((r) => ({

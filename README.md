@@ -4,7 +4,7 @@
 
 > Browse without signing up. Build on the API. Add companies with a PR. Listings are never paywalled.
 
-- **Site (planned):** [openintern.dev](https://openintern.dev)
+- **Site:** [openintern.dev](https://openintern.dev)
 - **Repo:** [github.com/dnexdev/openintern](https://github.com/dnexdev/openintern)
 - **License:** Apache-2.0
 
@@ -43,22 +43,22 @@ Full reference: **[/docs](https://openintern.dev/docs)** (also at `/docs` locall
 
 ```bash
 # List active internships
-curl "http://localhost:3000/api/v1/jobs?role=software&limit=10"
+curl "https://openintern.dev/api/v1/jobs?role=software&limit=10"
 
 # Filter by region + season
-curl "http://localhost:3000/api/v1/jobs?region=canada&season=fall,winter"
+curl "https://openintern.dev/api/v1/jobs?region=canada&season=fall,winter"
 
 # Duration overlap (e.g. 4–6 month postings match 4 or 6)
-curl "http://localhost:3000/api/v1/jobs?duration_months=4,6"
+curl "https://openintern.dev/api/v1/jobs?duration_months=4,6"
 
 # Single job
-curl "http://localhost:3000/api/v1/jobs/{id}"
+curl "https://openintern.dev/api/v1/jobs/{id}"
 
 # Companies in the registry
-curl "http://localhost:3000/api/v1/companies"
+curl "https://openintern.dev/api/v1/companies"
 
 # Pipeline health
-curl "http://localhost:3000/api/v1/health"
+curl "https://openintern.dev/api/v1/health"
 ```
 
 Query params for `/api/v1/jobs`: `q`, `company` (slug), `role`, `region` (`remote|us|canada|europe|other`), `season` (`summer|fall|winter`; `spring`→summer), `duration_months` (overlap), `posted_after`, `page`, `limit` (max 100).
@@ -83,7 +83,7 @@ See [docs/SETUP.md](docs/SETUP.md).
 
 ## Contributing companies
 
-Add a YAML entry under `data/companies/` — see [CONTRIBUTING.md](CONTRIBUTING.md).
+Add a YAML entry under `data/companies/` — see [CONTRIBUTING.md](CONTRIBUTING.md). Always include `website_url` so logos resolve correctly.
 
 ## Non-goals (v1)
 

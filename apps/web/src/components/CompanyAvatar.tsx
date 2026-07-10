@@ -34,23 +34,50 @@ const BOARD_SUBDOMAINS = /^(careers|jobs|apply|boards|www|ats)\./i;
 const ATS_HOST =
   /greenhouse\.io|lever\.co|ashbyhq\.com|workable\.com|smartrecruiters\.com|recruitee\.com|rippling\.com|bamboohr\.com/i;
 
-/** Known brand domains when registry website_url is missing. */
+/**
+ * Brand domains when registry website_url is missing or wrong.
+ * Prefer real marketing domains — guessed `{name}.com` is often wrong
+ * (e.g. IMC Trading → imctrading.com, Scale AI → scaleai.com).
+ */
 const DOMAIN_OVERRIDES: Record<string, string> = {
+  // AI / infra
   cohere: "cohere.com",
-  stripe: "stripe.com",
   openai: "openai.com",
   anthropic: "anthropic.com",
   databricks: "databricks.com",
+  snowflake: "snowflake.com",
+  "scale-ai": "scale.com",
+  scaleai: "scale.com",
+  perplexity: "perplexity.ai",
+  "hugging-face": "huggingface.co",
+  huggingface: "huggingface.co",
+  mistral: "mistral.ai",
+  anduril: "anduril.com",
+  // Consumer / product
+  stripe: "stripe.com",
   cloudflare: "cloudflare.com",
   figma: "figma.com",
   notion: "notion.so",
   airbnb: "airbnb.com",
-  "hugging-face": "huggingface.co",
-  huggingface: "huggingface.co",
   rippling: "rippling.com",
-  bunq: "bunq.com",
   replit: "replit.com",
-  perplexity: "perplexity.ai",
+  bunq: "bunq.com",
+  // Trading / finance
+  imc: "imc.com",
+  "jump-trading": "jumptrading.com",
+  jumptrading: "jumptrading.com",
+  "jane-street": "janestreet.com",
+  janestreet: "janestreet.com",
+  citadel: "citadel.com",
+  "two-sigma": "twosigma.com",
+  hrt: "hudsonrivertrading.com",
+  // Other frequent misses
+  "space-x": "spacex.com",
+  spacex: "spacex.com",
+  block: "block.xyz",
+  square: "block.xyz",
+  "1password": "1password.com",
+  "cursor": "cursor.com",
 };
 
 function companyDomain(
@@ -78,11 +105,13 @@ function companyDomain(
 }
 
 function logoCandidates(domain: string): string[] {
-  // icon.horse tends to return real brand marks; Google favicon as fallback.
-  // Avoid logos.hunter.io — often returns low-quality / wrong glyphs (e.g. Cohere).
+  // DuckDuckGo often has fuller brand icons; Google is a solid fallback.
+  // icon.horse last — it HTTP-200s a generic glyph for unknown brands.
+  const d = encodeURIComponent(domain);
   return [
-    `https://icon.horse/icon/${encodeURIComponent(domain)}`,
-    `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`,
+    `https://icons.duckduckgo.com/ip3/${d}.ico`,
+    `https://www.google.com/s2/favicons?domain=${d}&sz=128`,
+    `https://icon.horse/icon/${d}`,
   ];
 }
 
@@ -129,6 +158,7 @@ export function CompanyAvatar({
             height: "100%",
             objectFit: "contain",
             borderRadius: "inherit",
+            padding: "4px",
           }}
           onError={() => setIdx((i) => i + 1)}
         />

@@ -29,6 +29,7 @@ companies:
 3. Rules:
    - `slug` must be unique, lowercase, hyphens only
    - Prefer real public board tokens (CI validates changed YAML on PRs)
+   - Always set `website_url` to the company marketing domain (logos depend on it)
    - Tech-focused employers only for now
    - Set `active: false` if the board is a duplicate or broken
 4. Open a PR. Maintainers merge → hourly ingest picks it up.
@@ -49,4 +50,4 @@ pnpm dev
 
 ## Code of conduct
 
-Be respectful. No harassment, spam PRs, or malicious board tokens.
+Be respectful. No harassment, spam PRs, or malicious board tokens. See [docs/CODE_OF_CONDUCT.md](docs/CODE_OF_CONDUCT.md).
