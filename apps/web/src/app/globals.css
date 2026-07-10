@@ -18,7 +18,7 @@
   --radius-sm: 6px;
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
   --shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08);
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -195,21 +195,86 @@ a:focus-visible {
 /* Hero */
 
 .hero {
-  padding: 2rem 0 1.25rem;
+  padding: 2rem 0 1.5rem;
+}
+
+.hero .eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--mono);
 }
 
 .hero h1 {
-  font-size: clamp(1.6rem, 3.4vw, 2.25rem);
-  letter-spacing: -0.02em;
-  margin: 0 0 0.4rem;
+  font-size: clamp(1.75rem, 3.6vw, 2.4rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.55rem;
   color: var(--text);
+  font-weight: 700;
 }
 
 .hero p {
   color: var(--muted);
-  max-width: 46rem;
+  max-width: 40rem;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.hero-stats strong {
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.15rem;
+}
+
+.prose-page {
+  max-width: 40rem;
+  padding: 2rem 0 3rem;
+}
+
+.prose-page h1 {
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.prose-page h2 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+.prose-page p,
+.prose-page li {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.prose-page ul {
+  padding-left: 1.2rem;
+}
+
+.prose-page strong {
+  color: var(--text);
 }
 
 /* Two-column layout */
@@ -721,6 +786,31 @@ select:focus {
   padding: 1.5rem 0 2.5rem;
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-inner p {
+  margin: 0;
+  max-width: 52rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.1rem;
+}
+
+.footer-links a {
+  color: var(--muted);
+}
+
+.footer-links a:hover {
+  color: var(--primary);
 }
 
 .empty {

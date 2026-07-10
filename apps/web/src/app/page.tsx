@@ -1,5 +1,5 @@
 import { and, desc, eq, or, sql, type SQL } from "drizzle-orm";
-import { companies, jobs } from "@openintern/db";
+import { companies, ingestRuns, jobs } from "@openintern/db";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { JobResults, type JobCardData } from "@/components/JobResults";
 import { getDb } from "@/lib/db";
@@ -35,6 +35,15 @@ function paramAll(sp: Record<string, string | string[] | undefined>, key: string
   return Array.isArray(v) ? v : [v];
 }
 
+function formatIngestAge(iso: string | null): string | null {
+  if (!iso) return null;
+  const sec = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (sec < 60) return "just now";
+  if (sec < 3600) return `${Math.floor(sec / 60)}m ago`;
+  if (sec < 86400) return `${Math.floor(sec / 3600)}h ago`;
+  return `${Math.floor(sec / 86400)}d ago`;
+}
+
 export default async function HomePage({
   searchParams,
 }: {
@@ -64,6 +73,10 @@ export default async function HomePage({
   let rows: Awaited<ReturnType<typeof loadJobs>>["rows"] = [];
   let total = 0;
   let dbError: string | null = null;
+  let corpusStats: { activeCompanies: number; lastIngest: string | null } = {
+    activeCompanies: 0,
+    lastIngest: null,
+  };
 
   try {
     const loaded = await loadJobs({
@@ -77,6 +90,7 @@ export default async function HomePage({
     });
     rows = loaded.rows;
     total = loaded.total;
+    corpusStats = await loadCorpusStats();
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }
@@ -115,18 +129,55 @@ export default async function HomePage({
     companyCareersUrl: job.companyCareersUrl,
   }));
 
+  const ingestAge = formatIngestAge(corpusStats.lastIngest);
+
   return (
     <>
       <section className="hero">
+        <p className="eyebrow">openintern.dev</p>
         <h1>Tech internships, open by default</h1>
         <p>
-          Free structured corpus from Greenhouse, Lever, Ashby, Workable,
-          SmartRecruiters, Recruitee, Rippling, and BambooHR. Browse with no
-          account. Public API and daily dumps for everyone else.
+          Free structured corpus from public ATS boards. Browse with no account.
+          Public API and daily dumps for builders.
         </p>
+        {!dbError ? (
+          <ul className="hero-stats">
+            <li>
+              <strong>{total.toLocaleString()}</strong>
+              {hasFilters ? " matching" : " active"} roles
+            </li>
+            <li>
+              <strong>{corpusStats.activeCompanies.toLocaleString()}</strong> companies
+              polled
+            </li>
+            <li>
+              Updated hourly
+              {ingestAge ? (
+                <>
+                  {" "}
+                  · last ingest <strong>{ingestAge}</strong>
+                </>
+              ) : null}
+            </li>
+          </ul>
+        ) : null}
+        <div className="hero-actions">
+          <a className="btn btn-primary" href="#jobs">
+            Browse jobs
+          </a>
+          <a className="btn" href="/docs">
+            API docs
+          </a>
+          <a
+            className="btn"
+            href="https://github.com/dnexdev/openintern/releases/tag/dump-latest"
+          >
+            Daily dumps
+          </a>
+        </div>
       </section>
 
-      <div className="layout">
+      <div className="layout" id="jobs">
         <FilterSidebar
           key={filterQuery || sort || "all"}
           roles={roles}
@@ -161,6 +212,25 @@ export default async function HomePage({
       </div>
     </>
   );
+}
+
+async function loadCorpusStats() {
+  const db = getDb();
+  const [companyRow] = await db
+    .select({
+      activeCompanies: sql<number>`count(*) filter (where ${companies.active})::int`,
+    })
+    .from(companies);
+  const [lastOk] = await db
+    .select({ ranAt: ingestRuns.ranAt })
+    .from(ingestRuns)
+    .where(eq(ingestRuns.status, "ok"))
+    .orderBy(desc(ingestRuns.ranAt))
+    .limit(1);
+  return {
+    activeCompanies: companyRow?.activeCompanies ?? 0,
+    lastIngest: lastOk?.ranAt?.toISOString() ?? null,
+  };
 }
 
 async function loadJobs(opts: {

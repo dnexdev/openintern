@@ -55,6 +55,7 @@ companies:
     slug: imc
     ats: greenhouse
     board_token: imc
+    website_url: https://www.imc.com
   - name: DRW
     slug: drw
     ats: greenhouse

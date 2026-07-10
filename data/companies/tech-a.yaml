@@ -82,10 +82,12 @@ companies:
     slug: scale-ai
     ats: greenhouse
     board_token: scaleai
+    website_url: https://scale.com
   - name: Anduril
     slug: anduril
     ats: greenhouse
     board_token: andurilindustries
+    website_url: https://www.anduril.com
   - name: OpenAI
     slug: openai
     ats: ashby
@@ -106,6 +108,7 @@ companies:
     slug: databricks
     ats: greenhouse
     board_token: databricks
+    website_url: https://www.databricks.com
   - name: Snowflake
     slug: snowflake
     ats: ashby
