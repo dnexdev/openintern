@@ -7,8 +7,8 @@
     "start": "tsx src/cli.ts ingest",
     "sync-companies": "tsx src/cli.ts sync-companies",
     "dump": "tsx src/cli.ts dump",
-    "alerts": "tsx src/cli.ts alerts",
-    "test": "tsx src/classifier.test.ts",
+    "validate-tokens": "tsx src/validate-tokens.ts",
+    "test": "tsx src/classifier.test.ts && tsx src/ats.test.ts",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit"
   },

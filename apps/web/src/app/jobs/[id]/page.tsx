@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { and, eq } from "drizzle-orm";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { companies, jobs } from "@openintern/db";
-import { saveJob } from "@/app/actions";
-import { auth } from "@/auth";
+import { AppliedToggle } from "@/components/AppliedToggle";
 import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { getDb } from "@/lib/db";
 
@@ -28,7 +28,10 @@ async function loadJob(id: string) {
       applyUrl: jobs.applyUrl,
       excerpt: jobs.excerpt,
       terms: jobs.terms,
+      termYears: jobs.termYears,
       durationMonths: jobs.durationMonths,
+      roles: jobs.roles,
+      regions: jobs.regions,
       cohortYear: jobs.cohortYear,
       isRemote: jobs.isRemote,
       isActive: jobs.isActive,
@@ -86,39 +89,56 @@ export default async function JobDetailPage({
   const job = await loadJob(id).catch(() => null);
   if (!job) notFound();
 
-  const session = await auth().catch(() => null);
+  const durations = [
+    ...new Set((job.durationMonths ?? []).filter((m) => [3, 4, 6, 8, 12].includes(m))),
+  ].sort((a, b) => a - b);
 
   return (
     <>
-      <p style={{ margin: "1.25rem 0 0.5rem" }}>
-        <a href="/">← All internships</a>
+      <p className="back-link">
+        <Link href="/">← All internships</Link>
       </p>
 
       <article className="panel job-detail">
-        <div className="job-card" style={{ border: "none", boxShadow: "none", padding: 0 }}>
+        <div className="job-detail-header">
           <CompanyAvatar
             name={job.companyName}
             websiteUrl={job.companyWebsiteUrl}
             careersUrl={job.companyCareersUrl}
+            slug={job.companySlug}
           />
           <div className="job-card-body">
-            <h1 style={{ margin: 0, fontSize: "1.45rem", letterSpacing: "-0.02em" }}>
-              {job.title}
-            </h1>
+            <h1 className="job-detail-title">{job.title}</h1>
             <div className="job-company-line">
               {job.companyName} · {(job.locations ?? []).join(" · ") || "Location n/a"}
             </div>
             <div className="meta">
-              {job.isRemote ? <span className="badge remote">Remote</span> : null}
-              {(job.terms ?? []).map((t) => (
-                <span key={t} className="badge remote">
-                  {capitalize(t)}
+              {(job.roles ?? []).map((r) => (
+                <span key={r} className="badge role">
+                  {r}
                 </span>
               ))}
-              {job.durationMonths ? (
-                <span className="badge">{job.durationMonths} mo</span>
+              {(job.regions ?? []).map((r) => (
+                <span key={r} className="badge region">
+                  {r === "europe" ? "UK/Europe" : capitalize(r)}
+                </span>
+              ))}
+              {(job.termYears ?? []).length > 0
+                ? (job.termYears ?? []).map((ty) => (
+                    <span key={`${ty.term}-${ty.year}`} className="badge term">
+                      {capitalize(ty.term)} {ty.year}
+                    </span>
+                  ))
+                : (job.terms ?? []).map((t) => (
+                    <span key={t} className="badge term">
+                      {capitalize(t)}
+                    </span>
+                  ))}
+              {durations.length > 0 ? (
+                <span className="badge duration">{durations.join("/")} mo</span>
               ) : null}
-              {job.cohortYear ? <span className="badge">{job.cohortYear}</span> : null}
+            </div>
+            <div className="meta-secondary">
               <span className="badge source">{job.source}</span>
               <span>posted {formatDate(job.postedAt)}</span>
               <span>first seen {formatDate(job.firstSeenAt)}</span>
@@ -127,16 +147,14 @@ export default async function JobDetailPage({
         </div>
 
         {job.excerpt ? (
-          <p className="excerpt" style={{ marginTop: "1.1rem", WebkitLineClamp: "unset" as unknown as number, display: "block" }}>
-            {job.excerpt}
-          </p>
+          <p className="excerpt job-detail-excerpt">{job.excerpt}</p>
         ) : (
-          <p className="empty" style={{ textAlign: "left", padding: "1rem 0 0" }}>
+          <p className="empty job-detail-empty">
             No description excerpt available. Open the employer posting for full details.
           </p>
         )}
 
-        <div className="job-actions" style={{ marginTop: "1.25rem" }}>
+        <div className="job-actions job-detail-actions">
           <a
             className="btn btn-primary"
             href={job.applyUrl}
@@ -145,17 +163,7 @@ export default async function JobDetailPage({
           >
             Apply on employer site
           </a>
-          {session?.user ? (
-            <form action={saveJob.bind(null, job.id)}>
-              <button className="btn" type="submit">
-                Save
-              </button>
-            </form>
-          ) : (
-            <a className="btn" href="/login">
-              Sign in to save
-            </a>
-          )}
+          <AppliedToggle jobId={job.id} />
         </div>
       </article>
     </>

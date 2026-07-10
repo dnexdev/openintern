@@ -4,54 +4,67 @@ companies:
     slug: eventbrite
     ats: lever
     board_token: eventbrite
+    active: false
   - name: Fivetran
     slug: fivetran
-    ats: lever
+    ats: greenhouse
     board_token: fivetran
+    website_url: https://www.fivetran.com
   - name: dbt Labs
     slug: dbt-labs
     ats: lever
     board_token: dbtlabs
+    active: false
   - name: Stytch
     slug: stytch
     ats: lever
     board_token: stytch
+    active: false
   - name: Clerk
     slug: clerk
     ats: lever
     board_token: clerk
+    active: false
   - name: WorkOS
     slug: workos
-    ats: lever
+    ats: ashby
     board_token: workos
+    website_url: https://workos.com
   - name: Modern Treasury
     slug: modern-treasury
     ats: lever
     board_token: moderntreasury
+    active: false
   - name: Vanta
     slug: vanta
     ats: lever
     board_token: vanta
+    active: false
   - name: Drata
     slug: drata
     ats: lever
     board_token: drata
+    active: false
   - name: Fingerprint
     slug: fingerprint
     ats: lever
     board_token: fingerprintjs
+    active: false
   - name: Hex
     slug: hex
     ats: lever
     board_token: hextechnologies
+    active: false
   - name: Hightouch
     slug: hightouch
     ats: lever
     board_token: hightouch
+    active: false
   - name: Merge
     slug: merge
     ats: lever
     board_token: merge
+    active: false
   - name: Persona
     slug: persona
     ats: lever
@@ -77,10 +90,12 @@ companies:
     slug: replicate
     ats: ashby
     board_token: replicate
+    active: false
   - name: Together AI
     slug: together-ai
     ats: ashby
     board_token: together
+    active: false
   - name: Anyscale
     slug: anyscale
     board_token: anyscale
@@ -97,6 +112,7 @@ companies:
     slug: glean
     ats: ashby
     board_token: glean
+    active: false
   - name: Harvey
     slug: harvey
     ats: ashby
@@ -105,6 +121,7 @@ companies:
     slug: ironclad
     ats: ashby
     board_token: ironclad
+    active: false
   - name: Benchling
     slug: benchling
     ats: ashby
@@ -113,18 +130,22 @@ companies:
     slug: recursion
     ats: ashby
     board_token: recursion
+    active: false
   - name: Cohere
     slug: cohere
     ats: ashby
     board_token: cohere
+    website_url: https://cohere.com
   - name: Mistral AI
     slug: mistral
     ats: ashby
     board_token: mistral
+    active: false
   - name: xAI
     slug: xai
     ats: ashby
     board_token: xai
+    active: false
   - name: Replit
     slug: replit
     ats: ashby
@@ -133,10 +154,12 @@ companies:
     slug: sourcegraph
     ats: ashby
     board_token: sourcegraph
+    active: false
   - name: Tailscale
     slug: tailscale
     ats: ashby
     board_token: tailscale
+    active: false
   - name: 1Password
     slug: 1password
     ats: ashby
@@ -161,6 +184,7 @@ companies:
     slug: dagster
     ats: ashby
     board_token: dagster
+    active: false
   - name: Kong
     slug: kong
     ats: ashby
@@ -169,14 +193,18 @@ companies:
     slug: canonical
     ats: ashby
     board_token: canonical
+    active: false
   - name: NVIDIA
     slug: nvidia
     ats: ashby
     board_token: nvidia
+    active: false
+    website_url: https://www.nvidia.com
   - name: Groq
     slug: groq
     ats: ashby
     board_token: groq
+    active: false
   - name: Cerebras
     slug: cerebras
     ats: ashby
@@ -189,14 +217,17 @@ companies:
     slug: runway
     ats: ashby
     board_token: runwayml
+    active: false
   - name: Luma AI
     slug: luma
     ats: ashby
     board_token: lumalabs
+    active: false
   - name: Fireworks AI
     slug: fireworks
     ats: ashby
     board_token: fireworks
+    active: false
   - name: Exa
     slug: exa
     ats: ashby
@@ -213,6 +244,7 @@ companies:
     slug: browser-company
     ats: ashby
     board_token: thebrowsercompany
+    active: false
   - name: Superhuman
     slug: superhuman
     ats: ashby
@@ -225,18 +257,22 @@ companies:
     slug: arc
     ats: ashby
     board_token: arc
+    active: false
   - name: Weights & Biases
     slug: wandb
     ats: ashby
     board_token: wandb
+    active: false
   - name: Labelbox
     slug: labelbox
     ats: ashby
     board_token: labelbox
+    active: false
   - name: Snorkel AI
     slug: snorkel
     ats: ashby
     board_token: snorkelai
+    active: false
   - name: Abridge
     slug: abridge
     ats: ashby
@@ -249,6 +285,7 @@ companies:
     slug: spring-health
     ats: ashby
     board_token: springhealth
+    active: false
   - name: Lyra Health
     slug: lyra
     ats: ashby
@@ -261,6 +298,7 @@ companies:
     slug: oura
     ats: ashby
     board_token: oura
+    active: false
   - name: Eight Sleep
     slug: eight-sleep
     ats: ashby
@@ -269,18 +307,22 @@ companies:
     slug: netlify
     ats: ashby
     board_token: netlify
+    active: false
   - name: Fastly
     slug: fastly
     ats: ashby
     board_token: fastly
+    active: false
   - name: DigitalOcean
     slug: digitalocean
     ats: ashby
     board_token: digitalocean
+    active: false
   - name: Contentful
     slug: contentful
     ats: ashby
     board_token: contentful
+    active: false
   - name: Sanity
     slug: sanity
     ats: ashby
@@ -293,6 +335,7 @@ companies:
     slug: make
     ats: ashby
     board_token: make
+    active: false
   - name: Astronomer
     slug: astronomer
     ats: ashby
@@ -313,26 +356,32 @@ companies:
     slug: augment
     ats: ashby
     board_token: augmentcode
+    active: false
   - name: Codeium
     slug: codeium
     ats: ashby
     board_token: codeium
+    active: false
   - name: Brave
     slug: brave
     ats: ashby
     board_token: brave
+    active: false
   - name: DuckDuckGo
     slug: duckduckgo
     ats: ashby
     board_token: duckduckgo
+    active: false
   - name: Proton
     slug: proton
     ats: ashby
     board_token: proton
+    active: false
   - name: Bitwarden
     slug: bitwarden
     ats: ashby
     board_token: bitwarden
+    active: false
   - name: Railway
     slug: railway
     ats: ashby
@@ -345,18 +394,22 @@ companies:
     slug: fly-io
     ats: ashby
     board_token: fly
+    active: false
   - name: EvenUp
     slug: evenup
     ats: ashby
     board_token: evenup
+    active: false
   - name: Hebbia
     slug: hebbia
     ats: ashby
     board_token: hebbia
+    active: false
   - name: Descript
     slug: descript
     ats: ashby
     board_token: descript
+    active: false
   - name: Ideogram
     slug: ideogram
     ats: ashby
@@ -365,10 +418,12 @@ companies:
     slug: stability
     ats: ashby
     board_token: stability
+    active: false
   - name: AI21 Labs
     slug: ai21
     ats: ashby
     board_token: ai21
+    active: false
   - name: LlamaIndex
     slug: llamaindex
     ats: ashby
@@ -377,10 +432,12 @@ companies:
     slug: deep-genomics
     ats: ashby
     board_token: deepgenomics
+    active: false
   - name: Schrödinger
     slug: schrodinger
     ats: ashby
     board_token: schrodinger
+    active: false
   - name: Insitro
     slug: insitro
     ats: ashby
@@ -389,122 +446,152 @@ companies:
     slug: generate-bio
     ats: ashby
     board_token: generatebiomedicines
+    active: false
   - name: Ginkgo Bioworks
     slug: ginkgo
     ats: ashby
     board_token: ginkgo
+    active: false
   - name: Twist Bioscience
     slug: twist
     ats: ashby
     board_token: twistbioscience
+    active: false
   - name: 10x Genomics
     slug: 10x-genomics
     ats: ashby
     board_token: 10xgenomics
+    active: false
   - name: Illumina
     slug: illumina
     ats: ashby
     board_token: illumina
+    active: false
   - name: Moderna
     slug: moderna
     ats: ashby
     board_token: moderna
+    active: false
   - name: Genentech
     slug: genentech
     ats: ashby
     board_token: genentech
+    active: false
   - name: Amgen
     slug: amgen
     ats: ashby
     board_token: amgen
+    active: false
   - name: Regeneron
     slug: regeneron
     ats: ashby
     board_token: regeneron
+    active: false
   - name: IonQ
     slug: ionq
     ats: ashby
     board_token: ionq
+    active: false
   - name: Rigetti
     slug: rigetti
     ats: ashby
     board_token: rigetti
+    active: false
   - name: D-Wave
     slug: d-wave
     ats: ashby
     board_token: dwavesys
+    active: false
   - name: Xanadu
     slug: xanadu
     ats: ashby
     board_token: xanadu
+    active: false
   - name: PsiQuantum
     slug: psiquantum
     ats: ashby
     board_token: psiquantum
+    active: false
   - name: Lightmatter
     slug: lightmatter
     ats: ashby
     board_token: lightmatter
+    active: false
   - name: SambaNova
     slug: sambanova
     ats: ashby
     board_token: sambanova
+    active: false
   - name: Tenstorrent
     slug: tenstorrent
     ats: ashby
     board_token: tenstorrent
+    active: false
   - name: AMD
     slug: amd
     ats: ashby
     board_token: amd
+    active: false
   - name: Intel
     slug: intel
     ats: ashby
     board_token: intel
+    active: false
   - name: Qualcomm
     slug: qualcomm
     ats: ashby
     board_token: qualcomm
+    active: false
   - name: Arm
     slug: arm
     ats: ashby
     board_token: arm
+    active: false
   - name: Cisco
     slug: cisco
     ats: ashby
     board_token: cisco
+    active: false
   - name: IBM
     slug: ibm
     ats: ashby
     board_token: ibm
+    active: false
   - name: Red Hat
     slug: red-hat
     ats: ashby
     board_token: redhat
+    active: false
   - name: SUSE
     slug: suse
     ats: ashby
     board_token: suse
+    active: false
   - name: Akamai
     slug: akamai
     ats: ashby
     board_token: akamai
+    active: false
   - name: Appsmith
     slug: appsmith
     ats: ashby
     board_token: appsmith
+    active: false
   - name: Builder.io
     slug: builder-io
     ats: ashby
     board_token: builderio
+    active: false
   - name: Storyblok
     slug: storyblok
     ats: ashby
     board_token: storyblok
+    active: false
   - name: Workato
     slug: workato
     ats: ashby
     board_token: workato
+    active: false
   - name: Boomi
     slug: boomi
     ats: ashby
@@ -513,26 +600,32 @@ companies:
     slug: calm
     ats: ashby
     board_token: calm
+    active: false
   - name: Headspace
     slug: headspace
     ats: ashby
     board_token: headspace
+    active: false
   - name: Noom
     slug: noom
     ats: ashby
     board_token: noom
+    active: false
   - name: Hinge Health
     slug: hinge-health
     ats: ashby
     board_token: hingehealth
+    active: false
   - name: Oscar Health
     slug: oscar
     ats: ashby
     board_token: oscar
+    active: false
   - name: Flatiron Health
     slug: flatiron
     ats: ashby
     board_token: flatironhealth
+    active: false
   - name: Commure
     slug: commure
     ats: ashby
@@ -541,18 +634,22 @@ companies:
     slug: you-com
     ats: ashby
     board_token: you
+    active: false
   - name: Kagi
     slug: kagi
     ats: ashby
     board_token: kagi
+    active: false
   - name: Fal.ai
     slug: fal
     ats: ashby
     board_token: fal
+    active: false
   - name: Black Forest Labs
     slug: bfl
     ats: ashby
     board_token: blackforestlabs
+    active: false
   - name: Factory
     slug: factory
     ats: ashby
@@ -561,10 +658,12 @@ companies:
     slug: magic
     ats: ashby
     board_token: magic
+    active: false
   - name: Windsurf
     slug: windsurf
     ats: ashby
     board_token: windsurf
+    active: false
   - name: Continue
     slug: continue
     ats: ashby
@@ -573,6 +672,7 @@ companies:
     slug: tabnine
     ats: ashby
     board_token: tabnine
+    active: false
   - name: Windmill
     slug: windmill
     ats: ashby
@@ -581,46 +681,57 @@ companies:
     slug: nocodb
     ats: ashby
     board_token: nocodb
+    active: false
   - name: Meltano
     slug: meltano
     ats: ashby
     board_token: meltano
+    active: false
   - name: Isovalent
     slug: isovalent
     ats: ashby
     board_token: isovalent
+    active: false
   - name: Buoyant
     slug: buoyant
     ats: ashby
     board_token: buoyant
+    active: false
   - name: Mirantis
     slug: mirantis
     ats: ashby
     board_token: mirantis
+    active: false
   - name: Broadcom
     slug: broadcom
     ats: ashby
     board_token: broadcom
+    active: false
   - name: Marvell
     slug: marvell
     ats: ashby
     board_token: marvell
+    active: false
   - name: SiFive
     slug: sifive
     ats: ashby
     board_token: sifive
+    active: false
   - name: QuEra
     slug: quera
     ats: ashby
     board_token: quera
+    active: false
   - name: Quantinuum
     slug: quantinuum
     ats: ashby
     board_token: quantinuum
+    active: false
   - name: Q-CTRL
     slug: q-ctrl
     ats: ashby
     board_token: qctrl
+    active: false
   - name: LatchBio
     slug: latchbio
     ats: ashby
@@ -633,78 +744,97 @@ companies:
     slug: synthego
     ats: ashby
     board_token: synthego
+    active: false
   - name: Pacific Biosciences
     slug: pacbio
     ats: ashby
     board_token: pacificbiosciences
+    active: false
   - name: Thermo Fisher
     slug: thermo-fisher
     ats: ashby
     board_token: thermofisher
+    active: false
   - name: Gilead
     slug: gilead
     ats: ashby
     board_token: gilead
+    active: false
   - name: Vertex
     slug: vertex
     ats: ashby
     board_token: vertex
+    active: false
   - name: Biogen
     slug: biogen
     ats: ashby
     board_token: biogen
+    active: false
   - name: Alnylam
     slug: alnylam
     ats: ashby
     board_token: alnylam
+    active: false
   - name: CRISPR Therapeutics
     slug: crispr
     ats: ashby
     board_token: crisprtx
+    active: false
   - name: Editas
     slug: editas
     ats: ashby
     board_token: editasmedicine
+    active: false
   - name: Intellia
     slug: intellia
     ats: ashby
     board_token: intellia
+    active: false
   - name: Beam Therapeutics
     slug: beam
     ats: ashby
     board_token: beamtx
+    active: false
   - name: Atomwise
     slug: atomwise
     ats: ashby
     board_token: atomwise
+    active: false
   - name: Exscientia
     slug: exscientia
     ats: ashby
     board_token: exscientia
+    active: false
   - name: Isomorphic Labs
     slug: isomorphic
     ats: ashby
     board_token: isomorphiclabs
+    active: false
   - name: DeepMind
     slug: deepmind
     ats: ashby
     board_token: deepmind
+    active: false
   - name: Character.AI
     slug: character-ai
     ats: ashby
     board_token: characterai
+    active: false
   - name: Inflection AI
     slug: inflection
     ats: ashby
     board_token: inflection
+    active: false
   - name: Adept
     slug: adept
     ats: ashby
     board_token: adept
+    active: false
   - name: Captions
     slug: captions
     ats: ashby
     board_token: captions
+    active: false
   - name: Pika
     slug: pika
     ats: ashby
@@ -717,42 +847,52 @@ companies:
     slug: function-health
     ats: ashby
     board_token: functionhealth
+    active: false
   - name: Sword Health
     slug: sword
     ats: ashby
     board_token: swordhealth
+    active: false
   - name: Alma
     slug: alma
     ats: ashby
     board_token: alma
+    active: false
   - name: Modern Health
     slug: modern-health
     ats: ashby
     board_token: modernhealth
+    active: false
   - name: Included Health
     slug: included-health
     ats: ashby
     board_token: includedhealth
+    active: false
   - name: Cityblock
     slug: cityblock
     ats: ashby
     board_token: cityblockhealth
+    active: false
   - name: Devoted Health
     slug: devoted
     ats: ashby
     board_token: devotedhealth
+    active: false
   - name: Tempus
     slug: tempus
     ats: ashby
     board_token: tempus
+    active: false
   - name: Spellbook
     slug: spellbook
     ats: ashby
     board_token: spellbook
+    active: false
   - name: Casetext
     slug: casetext
     ats: ashby
     board_token: casetext
+    active: false
   - name: Secureframe
     slug: secureframe
     ats: lever
@@ -761,14 +901,17 @@ companies:
     slug: middesk
     ats: lever
     board_token: middesk
+    active: false
   - name: Sardine
     slug: sardine
     ats: lever
     board_token: sardine
+    active: false
   - name: Column
     slug: column
     ats: lever
     board_token: column
+    active: false
   - name: Increase
     slug: increase
     ats: lever
@@ -777,23 +920,29 @@ companies:
     slug: finch
     ats: lever
     board_token: tryfinch
+    active: false
   - name: Census
     slug: census
     ats: lever
     board_token: getcensus
+    active: false
   - name: Mode Analytics
     slug: mode
     ats: lever
     board_token: modeanalytics
+    active: false
   - name: BigID
     slug: bigid
     ats: lever
     board_token: bigid
+    active: false
   - name: OneTrust
     slug: onetrust
     ats: lever
     board_token: onetrust
+    active: false
   - name: Unit
     slug: unit
     ats: lever
     board_token: unit
+    active: false

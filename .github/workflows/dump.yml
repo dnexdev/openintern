@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: dump
+  cancel-in-progress: false
+
 jobs:
   dump:
     runs-on: ubuntu-latest
@@ -21,6 +25,14 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Require DATABASE_URL secret
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::DATABASE_URL secret is not set. Add it under Settings → Secrets and variables → Actions (Neon connection string)."
+            exit 1
+          fi
       - name: Export dumps
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

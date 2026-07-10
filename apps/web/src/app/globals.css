@@ -74,7 +74,7 @@ a:hover {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text);
@@ -83,6 +83,39 @@ a:hover {
 
 .brand span {
   color: var(--primary);
+}
+
+/* Yellow → sky cyan gradient outline square (transparent center) */
+.brand-mark {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, #f5c518 0%, #7dd3fc 45%, #22d3ee 100%) border-box;
+  border: 2.5px solid transparent;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.25);
+  animation: brand-shimmer 3.2s ease-in-out infinite;
+}
+
+@keyframes brand-shimmer {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(245, 197, 24, 0.35);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(34, 211, 238, 0.55);
+    filter: brightness(1.08);
+  }
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
 }
 
 .nav {
@@ -133,6 +166,14 @@ a:hover {
   background: var(--surface-hover);
   border-color: var(--muted-2);
   text-decoration: none;
+}
+
+.btn:focus-visible,
+.checkbox input:focus-visible,
+.nav a:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
 .btn-primary {
@@ -197,9 +238,32 @@ a:hover {
   box-shadow: var(--shadow-sm);
 }
 
+.sidebar.is-pending {
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.sidebar-toggle {
+  display: none;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
 @media (max-width: 900px) {
   .sidebar {
     position: static;
+  }
+
+  .sidebar-toggle {
+    display: inline-flex;
+  }
+
+  .sidebar-body {
+    display: none;
+  }
+
+  .sidebar.is-open .sidebar-body {
+    display: block;
   }
 }
 
@@ -399,6 +463,13 @@ select:focus {
   border: 1px solid var(--border);
 }
 
+.badge.role {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.badge.region,
 .badge.remote,
 .pill.accent {
   background: var(--primary-soft);
@@ -406,8 +477,153 @@ select:focus {
   border-color: transparent;
 }
 
+.badge.term {
+  background: #eef9f3;
+  color: var(--success);
+  border-color: transparent;
+}
+
+.badge.duration {
+  background: #f5f0e8;
+  color: #8a5a12;
+  border-color: transparent;
+}
+
 .badge.source {
   text-transform: capitalize;
+  font-weight: 500;
+  color: var(--muted-2);
+}
+
+.meta-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  color: var(--muted-2);
+  font-size: 0.78rem;
+}
+
+.job-card.is-applied {
+  opacity: 0.72;
+  background: var(--surface-hover);
+}
+
+.results-toolbar {
+  margin-bottom: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sort-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.sort-control select {
+  width: auto;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.85rem;
+}
+
+.back-link {
+  margin: 1.25rem 0 0.5rem;
+}
+
+.job-detail-header {
+  display: flex;
+  gap: 0.9rem;
+}
+
+.job-detail-title {
+  margin: 0;
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+}
+
+.job-detail-excerpt {
+  margin-top: 1.1rem;
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
+
+.job-detail-empty {
+  text-align: left;
+  padding: 1rem 0 0;
+}
+
+.job-detail-actions {
+  margin-top: 1.25rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.code-block {
+  overflow: auto;
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  gap: 0.9rem;
+}
+
+.skeleton-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--bg) 25%, #eceff3 50%, var(--bg) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+.skeleton-lines {
+  flex: 1;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.skeleton-line {
+  height: 0.7rem;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg) 25%, #eceff3 50%, var(--bg) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+.skeleton-line.w-40 { width: 40%; }
+.skeleton-line.w-60 { width: 60%; }
+.skeleton-line.w-80 { width: 80%; }
+.skeleton-line.w-90 { width: 90%; }
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark,
+  .skeleton-avatar,
+  .skeleton-line {
+    animation: none;
+  }
 }
 
 .job-actions {
@@ -453,10 +669,19 @@ select:focus {
   box-shadow: var(--shadow-sm);
 }
 
-.panel h2 {
+.panel h2,
+.section-heading {
   margin: 0 0 0.75rem;
   font-size: 1.05rem;
   color: var(--text);
+}
+
+.section-heading {
+  margin-top: 1.25rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
 }
 
 .table {

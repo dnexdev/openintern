@@ -14,8 +14,11 @@ export async function writeDumps(db: Db, outDir: string) {
       applyUrl: jobs.applyUrl,
       excerpt: jobs.excerpt,
       terms: jobs.terms,
+      termYears: jobs.termYears,
       durationMonths: jobs.durationMonths,
       cohortYear: jobs.cohortYear,
+      roles: jobs.roles,
+      regions: jobs.regions,
       isRemote: jobs.isRemote,
       source: jobs.source,
       postedAt: jobs.postedAt,
@@ -40,8 +43,11 @@ export async function writeDumps(db: Db, outDir: string) {
       apply_url: r.applyUrl,
       excerpt: r.excerpt,
       terms: r.terms,
+      term_years: r.termYears,
       duration_months: r.durationMonths,
       cohort_year: r.cohortYear,
+      roles: r.roles,
+      regions: r.regions,
       is_remote: r.isRemote,
       source: r.source,
       posted_at: r.postedAt?.toISOString() ?? null,
@@ -54,7 +60,7 @@ export async function writeDumps(db: Db, outDir: string) {
   await fs.writeFile(jsonPath, JSON.stringify(payload, null, 2));
 
   const csvHeader =
-    "id,title,company,company_slug,locations,apply_url,terms,duration_months,cohort_year,is_remote,source,posted_at,first_seen_at,last_seen_at";
+    "id,title,company,company_slug,locations,apply_url,terms,term_years,duration_months,cohort_year,roles,regions,is_remote,source,posted_at,first_seen_at,last_seen_at";
   const csvLines = rows.map((r) => {
     const locs = Array.isArray(r.locations) ? r.locations.join("; ") : "";
     const cells = [
@@ -65,8 +71,13 @@ export async function writeDumps(db: Db, outDir: string) {
       locs,
       r.applyUrl,
       Array.isArray(r.terms) ? r.terms.join("; ") : "",
-      r.durationMonths != null ? String(r.durationMonths) : "",
+      Array.isArray(r.termYears)
+        ? r.termYears.map((t) => `${t.term}-${t.year}`).join("; ")
+        : "",
+      Array.isArray(r.durationMonths) ? r.durationMonths.join("; ") : "",
       r.cohortYear != null ? String(r.cohortYear) : "",
+      Array.isArray(r.roles) ? r.roles.join("; ") : "",
+      Array.isArray(r.regions) ? r.regions.join("; ") : "",
       String(r.isRemote),
       r.source,
       r.postedAt?.toISOString() ?? "",

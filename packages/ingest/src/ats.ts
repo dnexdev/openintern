@@ -8,17 +8,47 @@ export type NormalizedJob = {
   description: string;
 };
 
-async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "User-Agent": "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)",
-    },
-  });
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status} for ${url}`);
+export type AtsName =
+  | "greenhouse"
+  | "lever"
+  | "ashby"
+  | "workable"
+  | "smartrecruiters"
+  | "recruitee"
+  | "rippling"
+  | "bamboohr";
+
+async function sleep(ms: number) {
+  await new Promise((r) => setTimeout(r, ms));
+}
+
+async function fetchJson<T>(url: string, retries = 3): Promise<T> {
+  let lastErr: Error | null = null;
+  for (let attempt = 0; attempt < retries; attempt++) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)",
+        },
+      });
+      if (res.ok) {
+        return (await res.json()) as T;
+      }
+      // Don't retry client errors except 429
+      if (res.status !== 429 && res.status < 500) {
+        throw new Error(`HTTP ${res.status} for ${url}`);
+      }
+      lastErr = new Error(`HTTP ${res.status} for ${url}`);
+    } catch (err) {
+      lastErr = err instanceof Error ? err : new Error(String(err));
+      if (lastErr.message.startsWith("HTTP 4") && !lastErr.message.includes("HTTP 429")) {
+        throw lastErr;
+      }
+    }
+    await sleep(400 * 2 ** attempt);
   }
-  return (await res.json()) as T;
+  throw lastErr ?? new Error(`Failed to fetch ${url}`);
 }
 
 type GreenhouseJob = {
@@ -215,8 +245,151 @@ export async function fetchSmartRecruiters(boardToken: string): Promise<Normaliz
   });
 }
 
+type RecruiteeOffer = {
+  id: number | string;
+  title?: string;
+  slug?: string;
+  careers_url?: string;
+  published_at?: string;
+  created_at?: string;
+  description?: string;
+  requirements?: string;
+  location?: string;
+  city?: string;
+  country?: string;
+  remote?: boolean;
+  locations?: { city?: string; country?: string; name?: string }[];
+};
+
+type RecruiteeResponse = { offers?: RecruiteeOffer[] };
+
+export async function fetchRecruitee(boardToken: string): Promise<NormalizedJob[]> {
+  const data = await fetchJson<RecruiteeResponse>(
+    `https://${encodeURIComponent(boardToken)}.recruitee.com/api/offers/`,
+  );
+  return (data.offers ?? []).map((j) => {
+    const locations: string[] = [];
+    if (j.location) locations.push(j.location);
+    const cityCountry = [j.city, j.country].filter(Boolean).join(", ");
+    if (cityCountry && !locations.includes(cityCountry)) locations.push(cityCountry);
+    for (const loc of j.locations ?? []) {
+      const s = loc.name ?? [loc.city, loc.country].filter(Boolean).join(", ");
+      if (s && !locations.includes(s)) locations.push(s);
+    }
+    if (j.remote && !locations.some((l) => /remote/i.test(l))) locations.push("Remote");
+    const description = [j.description, j.requirements].filter(Boolean).join("\n\n");
+    return {
+      externalId: String(j.id),
+      title: j.title ?? "Untitled",
+      locations,
+      applyUrl:
+        j.careers_url ??
+        `https://${encodeURIComponent(boardToken)}.recruitee.com/o/${j.slug ?? j.id}`,
+      excerpt: null,
+      postedAt: j.published_at
+        ? new Date(j.published_at)
+        : j.created_at
+          ? new Date(j.created_at)
+          : null,
+      description,
+    };
+  });
+}
+
+type RipplingJob = {
+  uuid: string;
+  name: string;
+  url?: string;
+  workLocation?: { label?: string };
+  workLocations?: { label?: string }[];
+  createdOn?: string;
+  description?: string | { company?: string; role?: string };
+};
+
+export async function fetchRippling(boardToken: string): Promise<NormalizedJob[]> {
+  const list = await fetchJson<RipplingJob[]>(
+    `https://api.rippling.com/platform/api/ats/v1/board/${encodeURIComponent(boardToken)}/jobs`,
+  );
+  // List endpoint has no description — fetch details for a capped subset to keep ingest fast.
+  const jobs = list ?? [];
+  const withDesc = await Promise.all(
+    jobs.slice(0, 40).map(async (j) => {
+      try {
+        const detail = await fetchJson<RipplingJob>(
+          `https://api.rippling.com/platform/api/ats/v1/board/${encodeURIComponent(boardToken)}/jobs/${j.uuid}`,
+        );
+        return { ...j, ...detail };
+      } catch {
+        return j;
+      }
+    }),
+  );
+  const rest = jobs.slice(40);
+  return [...withDesc, ...rest].map((j) => {
+    const locations: string[] = [];
+    if (j.workLocation?.label) locations.push(j.workLocation.label);
+    for (const loc of j.workLocations ?? []) {
+      if (loc.label && !locations.includes(loc.label)) locations.push(loc.label);
+    }
+    let description = "";
+    if (typeof j.description === "string") description = j.description;
+    else if (j.description && typeof j.description === "object") {
+      description = [j.description.company, j.description.role].filter(Boolean).join("\n\n");
+    }
+    return {
+      externalId: j.uuid,
+      title: j.name,
+      locations,
+      applyUrl:
+        j.url ??
+        `https://ats.rippling.com/${encodeURIComponent(boardToken)}/jobs/${j.uuid}`,
+      excerpt: null,
+      postedAt: j.createdOn ? new Date(j.createdOn) : null,
+      description,
+    };
+  });
+}
+
+type BambooJob = {
+  id: string;
+  jobOpeningName: string;
+  location?: { city?: string; state?: string };
+  atsLocation?: { city?: string; state?: string; country?: string };
+  isRemote?: boolean | null;
+};
+
+type BambooResponse = { result?: BambooJob[]; meta?: { totalCount?: number } };
+
+export async function fetchBambooHr(boardToken: string): Promise<NormalizedJob[]> {
+  const data = await fetchJson<BambooResponse>(
+    `https://${encodeURIComponent(boardToken)}.bamboohr.com/careers/list`,
+  );
+  return (data.result ?? []).map((j) => {
+    const locations: string[] = [];
+    const loc = j.atsLocation ?? j.location;
+    if (loc) {
+      const parts = [
+        "city" in loc ? loc.city : undefined,
+        "state" in loc ? loc.state : undefined,
+        "country" in loc ? (loc as { country?: string }).country : undefined,
+      ].filter(Boolean);
+      if (parts.length) locations.push(parts.join(", "));
+    }
+    if (j.isRemote && !locations.some((l) => /remote/i.test(l))) locations.push("Remote");
+    return {
+      externalId: String(j.id),
+      title: j.jobOpeningName,
+      locations,
+      applyUrl: `https://${encodeURIComponent(boardToken)}.bamboohr.com/careers/${j.id}`,
+      excerpt: null,
+      postedAt: null,
+      description: "", // BambooHR list has no description; detail fetch is optional/expensive
+    };
+  });
+}
+
 export async function fetchJobsForAts(
-  ats: "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters",
+  ats: AtsName,
   boardToken: string,
 ): Promise<NormalizedJob[]> {
   switch (ats) {
@@ -230,6 +403,12 @@ export async function fetchJobsForAts(
       return fetchWorkable(boardToken);
     case "smartrecruiters":
       return fetchSmartRecruiters(boardToken);
+    case "recruitee":
+      return fetchRecruitee(boardToken);
+    case "rippling":
+      return fetchRippling(boardToken);
+    case "bamboohr":
+      return fetchBambooHr(boardToken);
     default:
       throw new Error(`Unsupported ATS: ${ats}`);
   }

@@ -14,7 +14,10 @@ export function defaultCompaniesDir(): string {
 
 export async function loadCompanyYamlFiles(dir = defaultCompaniesDir()) {
   const entries = await fs.readdir(dir);
-  const yamlFiles = entries.filter((f) => f.endsWith(".yaml") || f.endsWith(".yml"));
+  // Lexicographic order so later filenames win on duplicate slugs (ats-new → tech-*).
+  const yamlFiles = entries
+    .filter((f) => f.endsWith(".yaml") || f.endsWith(".yml"))
+    .sort();
   const all = [];
   for (const file of yamlFiles) {
     const raw = await fs.readFile(path.join(dir, file), "utf8");
@@ -27,8 +30,12 @@ export async function loadCompanyYamlFiles(dir = defaultCompaniesDir()) {
 
 export async function syncCompaniesFromYaml(db: Db, dir = defaultCompaniesDir()) {
   const list = await loadCompanyYamlFiles(dir);
+  // Later files win on duplicate slugs (e.g. tech-b overrides ats-new).
+  const bySlug = new Map<string, (typeof list)[number]>();
+  for (const c of list) bySlug.set(c.slug, c);
+
   let upserted = 0;
-  for (const c of list) {
+  for (const c of bySlug.values()) {
     const existing = await db.query.companies.findFirst({
       where: eq(companies.slug, c.slug),
     });
@@ -58,5 +65,5 @@ export async function syncCompaniesFromYaml(db: Db, dir = defaultCompaniesDir())
     }
     upserted += 1;
   }
-  return { upserted, total: list.length };
+  return { upserted, total: bySlug.size };
 }

@@ -29,59 +29,108 @@ function avatarColor(name: string) {
   return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
 }
 
-const BOARD_SUBDOMAINS = /^(careers|jobs|apply|boards|www)\./i;
+const BOARD_SUBDOMAINS = /^(careers|jobs|apply|boards|www|ats)\./i;
+
+const ATS_HOST =
+  /greenhouse\.io|lever\.co|ashbyhq\.com|workable\.com|smartrecruiters\.com|recruitee\.com|rippling\.com|bamboohr\.com/i;
+
+/** Known brand domains when registry website_url is missing. */
+const DOMAIN_OVERRIDES: Record<string, string> = {
+  cohere: "cohere.com",
+  stripe: "stripe.com",
+  openai: "openai.com",
+  anthropic: "anthropic.com",
+  databricks: "databricks.com",
+  cloudflare: "cloudflare.com",
+  figma: "figma.com",
+  notion: "notion.so",
+  airbnb: "airbnb.com",
+  "hugging-face": "huggingface.co",
+  huggingface: "huggingface.co",
+  rippling: "rippling.com",
+  bunq: "bunq.com",
+  replit: "replit.com",
+  perplexity: "perplexity.ai",
+};
 
 function companyDomain(
   name: string,
   websiteUrl?: string | null,
   careersUrl?: string | null,
+  slug?: string | null,
 ): string {
+  if (slug && DOMAIN_OVERRIDES[slug]) return DOMAIN_OVERRIDES[slug];
+
   for (const url of [websiteUrl, careersUrl]) {
     if (!url) continue;
     try {
       const host = new URL(url).hostname.replace(BOARD_SUBDOMAINS, "");
-      // ATS-hosted career pages (jobs.smartrecruiters.com/Foo) are not the
-      // company's own domain — skip those and fall through.
-      if (/greenhouse\.io|lever\.co|ashbyhq\.com|workable\.com|smartrecruiters\.com/i.test(host)) {
-        continue;
-      }
+      if (ATS_HOST.test(host)) continue;
       if (host) return host;
     } catch {
-      // malformed URL in registry data — fall through to heuristic
+      // malformed URL — fall through
     }
   }
-  return `${name.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`;
+
+  const key = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  if (DOMAIN_OVERRIDES[key]) return DOMAIN_OVERRIDES[key];
+  return `${key}.com`;
+}
+
+function logoCandidates(domain: string): string[] {
+  // icon.horse tends to return real brand marks; Google favicon as fallback.
+  // Avoid logos.hunter.io — often returns low-quality / wrong glyphs (e.g. Cohere).
+  return [
+    `https://icon.horse/icon/${encodeURIComponent(domain)}`,
+    `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`,
+  ];
 }
 
 export function CompanyAvatar({
   name,
   websiteUrl,
   careersUrl,
+  slug,
 }: {
   name: string;
   websiteUrl?: string | null;
   careersUrl?: string | null;
+  slug?: string | null;
 }) {
-  const [logoFailed, setLogoFailed] = useState(false);
-  const domain = companyDomain(name, websiteUrl, careersUrl);
+  const domain = companyDomain(name, websiteUrl, careersUrl, slug);
+  const candidates = logoCandidates(domain);
+  const [idx, setIdx] = useState(0);
+  const failed = idx >= candidates.length;
+  const src = candidates[idx];
 
   return (
     <div
       className="avatar"
-      style={logoFailed ? { background: avatarColor(name) } : { background: "#ffffff", border: "1px solid var(--border)" }}
+      style={
+        failed
+          ? { background: avatarColor(name) }
+          : { background: "#ffffff", border: "1px solid var(--border)" }
+      }
       aria-hidden="true"
     >
-      {logoFailed ? (
+      {failed || !src ? (
         initials(name)
       ) : (
         <img
-          src={`https://logos.hunter.io/${domain}`}
+          key={src}
+          src={src}
           alt=""
           width={44}
           height={44}
           loading="lazy"
-          style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit" }}
-          onError={() => setLogoFailed(true)}
+          referrerPolicy="no-referrer"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            borderRadius: "inherit",
+          }}
+          onError={() => setIdx((i) => i + 1)}
         />
       )}
     </div>

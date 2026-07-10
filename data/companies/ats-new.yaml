@@ -1,0 +1,35 @@
+# Seed companies unique to Recruitee / BambooHR (Rippling lives in tech-b.yaml).
+# Tokens verified against public board APIs.
+
+companies:
+  - name: bunq
+    slug: bunq
+    ats: recruitee
+    board_token: bunq
+    careers_url: https://bunq.recruitee.com
+    website_url: https://www.bunq.com
+  - name: Channable
+    slug: channable
+    ats: recruitee
+    board_token: channable
+    careers_url: https://channable.recruitee.com
+    website_url: https://www.channable.com
+  - name: Vandebron
+    slug: vandebron
+    ats: recruitee
+    board_token: vandebron
+    careers_url: https://vandebron.recruitee.com
+    website_url: https://www.vandebron.nl
+  - name: Sendcloud
+    slug: sendcloud
+    ats: recruitee
+    board_token: sendcloud
+    careers_url: https://sendcloud.recruitee.com
+    website_url: https://www.sendcloud.com
+  - name: BambooHR Demo
+    slug: bamboohr-demo
+    ats: bamboohr
+    board_token: demo
+    careers_url: https://demo.bamboohr.com/careers
+    website_url: https://www.bamboohr.com
+    active: false

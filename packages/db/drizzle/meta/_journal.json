@@ -22,6 +22,27 @@
       "when": 1783634000000,
       "tag": "0002_cohort_year",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1783635000000,
+      "tag": "0003_roles_regions_durations",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1783640000000,
+      "tag": "0004_drop_auth_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1783641000000,
+      "tag": "0005_ats_recruitee_rippling_bamboohr",
+      "breakpoints": true
     }
   ]
 }

@@ -16,11 +16,11 @@ OpenIntern is an **open data layer** for tech internships (SWE, data, AI/ML, qua
 |---------|--------|
 | Corpus | Free forever; daily JSON/CSV dumps |
 | API | `GET /api/v1/jobs`, `/companies`, `/health` (rate-limited hosted) |
-| Board | Search/filter with **no account** |
-| Accounts | Optional — saved jobs + alert digests |
+| Board | Filter by role / region / term / duration — **no account** |
+| Applied | Local browser only (`localStorage`) |
 | Apply | Always outbound to the employer |
 
-We poll public **Greenhouse / Lever / Ashby / Workable / SmartRecruiters** job board APIs. We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
+We poll public **Greenhouse / Lever / Ashby / Workable / SmartRecruiters / Recruitee / Rippling / BambooHR** job board APIs. We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
 
 ## Quick start (local)
 
@@ -43,14 +43,13 @@ Full reference: **[/docs](https://openintern.dev/docs)** (also at `/docs` locall
 
 ```bash
 # List active internships
-curl "http://localhost:3000/api/v1/jobs?q=software&limit=10"
+curl "http://localhost:3000/api/v1/jobs?role=software&limit=10"
 
-# Filter
-curl "http://localhost:3000/api/v1/jobs?location=Toronto&remote=true"
+# Filter by region + season
+curl "http://localhost:3000/api/v1/jobs?region=canada&season=fall,winter"
 
-# Filter by internship term, duration, and cohort year
-curl "http://localhost:3000/api/v1/jobs?season=summer,fall&duration_months=4"
-curl "http://localhost:3000/api/v1/jobs?cohort_year=2026"
+# Duration overlap (e.g. 4–6 month postings match 4 or 6)
+curl "http://localhost:3000/api/v1/jobs?duration_months=4,6"
 
 # Single job
 curl "http://localhost:3000/api/v1/jobs/{id}"
@@ -62,7 +61,7 @@ curl "http://localhost:3000/api/v1/companies"
 curl "http://localhost:3000/api/v1/health"
 ```
 
-Query params for `/api/v1/jobs`: `q`, `location`, `company` (slug), `remote`, `season` (`winter|spring|summer|fall`, repeatable or comma-separated), `duration_months`, `cohort_year`, `posted_after`, `page`, `limit` (max 100).
+Query params for `/api/v1/jobs`: `q`, `company` (slug), `role`, `region` (`remote|us|canada|europe|other`), `season` (`summer|fall|winter`; `spring`→summer), `duration_months` (overlap), `posted_after`, `page`, `limit` (max 100).
 
 For bulk use, prefer **daily dumps** (stable URLs):
 
@@ -76,7 +75,7 @@ Or run `pnpm dump` / self-host — don’t paginate the hosted API all day.
 ```
 apps/web            Next.js board + /api/v1
 packages/db         Drizzle schema + migrations
-packages/ingest     ATS pollers, classifier, dumps, alerts
+packages/ingest     ATS pollers, classifier, dumps
 data/companies      Community YAML registry (PR to add)
 ```
 
@@ -88,4 +87,4 @@ Add a YAML entry under `data/companies/` — see [CONTRIBUTING.md](CONTRIBUTING.
 
 ## Non-goals (v1)
 
-LinkedIn scraping, contact/email finders, AI resume studio, Selenium farms, non-tech majors, paywalled listings.
+LinkedIn scraping, contact/email finders, AI resume studio, Selenium farms, non-tech majors, paywalled listings, Auth.js accounts.

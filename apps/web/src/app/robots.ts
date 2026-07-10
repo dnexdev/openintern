@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/account", "/login", "/api/"],
+      disallow: ["/api/"],
     },
     sitemap: "https://openintern.dev/sitemap.xml",
   };

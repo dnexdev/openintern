@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { auth } from "@/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,9 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  const session = await auth().catch(() => null);
-
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -37,6 +34,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <header className="site-header">
           <div className="container inner">
             <a className="brand" href="/">
+              <span className="brand-mark" aria-hidden="true" />
               Open<span>Intern</span>
             </a>
             <nav className="nav">
@@ -46,18 +44,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 <a href="/docs">Docs</a>
                 <a href="https://github.com/dnexdev/openintern">GitHub</a>
               </div>
-              {session?.user ? (
-                <div className="nav-links">
-                  <a href="/account">Account</a>
-                  <a className="btn btn-sm" href="/api/auth/signout">
-                    Sign out
-                  </a>
-                </div>
-              ) : (
-                <a className="btn btn-sm" href="/login">
-                  Sign in
-                </a>
-              )}
             </nav>
           </div>
         </header>
@@ -66,7 +52,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <div className="container">
             OpenIntern is free and open source (Apache-2.0). Listings are never
             paywalled. Apply on the employer site. Daily dumps and API docs at{" "}
-            <a href="/docs">/docs</a>.
+            <a href="/docs">/docs</a>. Mark applications on this device only — no
+            account required.
           </div>
         </footer>
       </body>

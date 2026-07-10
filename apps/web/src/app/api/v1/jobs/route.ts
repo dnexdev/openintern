@@ -2,9 +2,28 @@ import { NextResponse } from "next/server";
 import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
+import { freshnessSql } from "@/lib/freshness";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
+
+const ROLE_SET = new Set([
+  "software",
+  "backend",
+  "frontend",
+  "fullstack",
+  "data",
+  "ml",
+  "mobile",
+  "security",
+  "devops",
+  "hardware",
+  "quant",
+  "product",
+  "research",
+]);
+const REGION_SET = new Set(["remote", "us", "canada", "europe", "other"]);
+const SEASON_SET = new Set(["summer", "fall", "winter"]);
 
 export async function GET(request: Request) {
   const ip = clientIp(request);
@@ -25,52 +44,64 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const q = url.searchParams.get("q")?.trim() || undefined;
-  const location = url.searchParams.get("location")?.trim() || undefined;
   const company = url.searchParams.get("company")?.trim() || undefined;
-  const remote = url.searchParams.get("remote");
   const postedAfter = url.searchParams.get("posted_after");
+  const roles = url.searchParams
+    .getAll("role")
+    .flatMap((s) => s.split(","))
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => ROLE_SET.has(s));
+  const regions = url.searchParams
+    .getAll("region")
+    .flatMap((s) => s.split(","))
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => REGION_SET.has(s));
   const seasons = url.searchParams
     .getAll("season")
     .flatMap((s) => s.split(","))
     .map((s) => s.trim().toLowerCase())
-    .filter((s) => ["winter", "spring", "summer", "fall"].includes(s));
-  const durationRaw = Number(url.searchParams.get("duration_months") ?? NaN);
-  const durationMonths =
-    Number.isInteger(durationRaw) && durationRaw >= 1 && durationRaw <= 24
-      ? durationRaw
-      : null;
-  const cohortRaw = Number(url.searchParams.get("cohort_year") ?? NaN);
-  const nowY = new Date().getFullYear();
-  const cohortYear =
-    Number.isInteger(cohortRaw) && cohortRaw >= nowY - 1 && cohortRaw <= nowY + 3
-      ? cohortRaw
-      : null;
+    .map((s) => (s === "spring" ? "summer" : s === "autumn" ? "fall" : s))
+    .filter((s) => SEASON_SET.has(s));
+  const durations = url.searchParams
+    .getAll("duration_months")
+    .flatMap((s) => s.split(","))
+    .map(Number)
+    .filter((n) => Number.isInteger(n) && n >= 1 && n <= 24);
   const page = Math.max(1, Number(url.searchParams.get("page") ?? 1));
   const limit = Math.min(100, Math.max(1, Number(url.searchParams.get("limit") ?? 25)));
   const offset = (page - 1) * limit;
 
-  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true)];
+  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), freshnessSql()];
+
   if (q) conditions.push(ilike(jobs.title, `%${q}%`));
   if (company) conditions.push(eq(companies.slug, company));
-  if (remote === "true" || remote === "1") conditions.push(eq(jobs.isRemote, true));
+  if (roles.length > 0) {
+    conditions.push(
+      or(...roles.map((r) => sql`${jobs.roles} @> ${JSON.stringify([r])}::jsonb`)),
+    );
+  }
+  if (regions.length > 0) {
+    conditions.push(
+      or(...regions.map((r) => sql`${jobs.regions} @> ${JSON.stringify([r])}::jsonb`)),
+    );
+  }
   if (seasons.length > 0) {
     conditions.push(
       or(...seasons.map((s) => sql`${jobs.terms} @> ${JSON.stringify([s])}::jsonb`)),
     );
   }
-  if (durationMonths) conditions.push(eq(jobs.durationMonths, durationMonths));
-  if (cohortYear) conditions.push(eq(jobs.cohortYear, cohortYear));
+  if (durations.length > 0) {
+    conditions.push(
+      or(
+        ...durations.map(
+          (d) => sql`${jobs.durationMonths} @> ${JSON.stringify([d])}::jsonb`,
+        ),
+      ),
+    );
+  }
   if (postedAfter) {
     const d = new Date(postedAfter);
     if (!Number.isNaN(d.getTime())) conditions.push(gte(jobs.postedAt, d));
-  }
-  if (location) {
-    conditions.push(
-      sql`exists (
-        select 1 from jsonb_array_elements_text(${jobs.locations}) loc
-        where loc ilike ${"%" + location + "%"}
-      )`,
-    );
   }
 
   const db = getDb();
@@ -90,8 +121,11 @@ export async function GET(request: Request) {
       apply_url: jobs.applyUrl,
       excerpt: jobs.excerpt,
       terms: jobs.terms,
+      term_years: jobs.termYears,
       duration_months: jobs.durationMonths,
       cohort_year: jobs.cohortYear,
+      roles: jobs.roles,
+      regions: jobs.regions,
       is_remote: jobs.isRemote,
       source: jobs.source,
       posted_at: jobs.postedAt,

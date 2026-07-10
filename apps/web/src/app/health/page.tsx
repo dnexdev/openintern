@@ -95,57 +95,59 @@ export default async function HealthPage() {
                 last ok: {stats.last_ok ?? "never"}
               </span>
             </div>
-            <p style={{ color: "var(--muted)", marginBottom: 0 }}>
+            <p className="muted" style={{ marginBottom: 0 }}>
               Machine-readable:{" "}
               <a href="/api/v1/health">
                 <code className="mono">GET /api/v1/health</code>
               </a>
+              . Companies with 24 consecutive fetch failures are auto-disabled
+              ({stats.total_companies - stats.active_companies} inactive).
             </p>
           </div>
 
           <div className="panel">
             <h2>Recent ingest runs</h2>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>When</th>
-                  <th>Company</th>
-                  <th>Status</th>
-                  <th>Jobs</th>
-                  <th>Error</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recent.length === 0 ? (
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
                   <tr>
-                    <td colSpan={5} className="empty">
-                      No ingest runs yet. Run <code className="mono">pnpm ingest</code>.
-                    </td>
+                    <th>When</th>
+                    <th>Company</th>
+                    <th>Status</th>
+                    <th>Jobs</th>
+                    <th>Error</th>
                   </tr>
-                ) : (
-                  recent.map((r, i) => (
-                    <tr key={`${r.ran_at.toISOString()}-${i}`}>
-                      <td className="mono">{r.ran_at.toISOString()}</td>
-                      <td>
-                        {r.company_name ?? "—"}
-                        {r.company_slug ? (
-                          <div className="mono" style={{ color: "var(--muted)" }}>
-                            {r.company_slug}
-                          </div>
-                        ) : null}
-                      </td>
-                      <td className={r.status === "ok" ? "status-ok" : "status-error"}>
-                        {r.status}
-                      </td>
-                      <td>{r.job_count}</td>
-                      <td className="mono" style={{ maxWidth: 320 }}>
-                        {r.error ?? ""}
+                </thead>
+                <tbody>
+                  {recent.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="empty">
+                        No ingest runs yet. Run <code className="mono">pnpm ingest</code>.
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    recent.map((r, i) => (
+                      <tr key={`${r.ran_at.toISOString()}-${i}`}>
+                        <td className="mono">{r.ran_at.toISOString().slice(0, 19)}Z</td>
+                        <td>
+                          {r.company_name ?? "—"}
+                          {r.company_slug ? (
+                            <div className="mono muted">{r.company_slug}</div>
+                          ) : null}
+                        </td>
+                        <td className={r.status === "ok" ? "status-ok" : "status-error"}>
+                          {r.status}
+                        </td>
+                        <td>{r.job_count}</td>
+                        <td className="mono" style={{ maxWidth: 320 }}>
+                          {r.error ?? ""}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </>
       )}

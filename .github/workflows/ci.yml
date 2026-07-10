@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           version: 9.15.0
@@ -20,3 +22,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
+      - name: Validate company tokens
+        if: github.event_name == 'pull_request'
+        run: |
+          mapfile -t CHANGED < <(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'data/companies/*.yaml' 'data/companies/*.yml' || true)
+          if [ ${#CHANGED[@]} -eq 0 ]; then
+            echo "No company YAML changes."
+            exit 0
+          fi
+          echo "Validating: ${CHANGED[*]}"
+          pnpm validate-tokens "${CHANGED[@]}"
+        shell: bash

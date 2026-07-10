@@ -16,7 +16,8 @@
     "ingest": "pnpm --filter @openintern/ingest start",
     "ingest:once": "pnpm --filter @openintern/ingest start",
     "dump": "pnpm --filter @openintern/ingest dump",
-    "sync-companies": "pnpm --filter @openintern/ingest sync-companies"
+    "sync-companies": "pnpm --filter @openintern/ingest sync-companies",
+    "validate-tokens": "pnpm --filter @openintern/ingest validate-tokens"
   },
   "engines": {
     "node": ">=20"
