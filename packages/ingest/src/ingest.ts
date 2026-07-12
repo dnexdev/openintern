@@ -52,6 +52,7 @@ export type IngestSummary = {
 };
 
 const CONSECUTIVE_FAILURE_LIMIT = 24;
+const UPSERT_CHUNK = 100;
 
 /** Title looks like an internship/co-op (before tech filter). */
 const INTERNSHIP_TITLE_ONLY =
@@ -203,10 +204,26 @@ async function ingestCompany(
   const raw = await fetchJobsForAts(company.ats, company.boardToken);
   const internshipTitleJobs = raw.filter((j) => INTERNSHIP_TITLE_ONLY.test(j.title));
   const filtered = raw.filter((j) => isTechInternship(j.title, j.description));
+  const descriptionMissing = raw.filter((j) => !j.description.trim()).length;
   const seenIds: string[] = [];
   let jobsUpserted = 0;
   let staleDeactivated = 0;
   const now = new Date();
+
+  const existingRows = await db
+    .select({
+      fingerprint: jobs.fingerprint,
+      firstSeenAt: jobs.firstSeenAt,
+      postedAt: jobs.postedAt,
+    })
+    .from(jobs)
+    .where(eq(jobs.companyId, company.id));
+  const existingByFingerprint = new Map(
+    existingRows.map((row) => [row.fingerprint, row]),
+  );
+
+  type JobUpsertRow = typeof jobs.$inferInsert;
+  const rows: JobUpsertRow[] = [];
 
   for (const j of filtered) {
     seenIds.push(j.externalId);
@@ -223,9 +240,7 @@ async function ingestCompany(
     const fingerprint = jobFingerprint(company.id, company.ats, j.externalId);
     const familyId = roleFamilyId(company.slug, normalized);
 
-    const existing = await db.query.jobs.findFirst({
-      where: eq(jobs.fingerprint, fingerprint),
-    });
+    const existing = existingByFingerprint.get(fingerprint);
     const firstSeenAt = existing?.firstSeenAt ?? now;
     const postedAt = j.postedAt ?? existing?.postedAt ?? null;
 
@@ -239,7 +254,8 @@ async function ingestCompany(
     });
     const stale = staleByTerms || staleByAge;
 
-    const fields = {
+    rows.push({
+      companyId: company.id,
       externalJobId: j.externalId,
       fingerprint,
       title: j.title,
@@ -258,26 +274,45 @@ async function ingestCompany(
       isActive: !stale,
       source: company.ats,
       postedAt: j.postedAt,
+      firstSeenAt,
       lastSeenAt: now,
       updatedAt: now,
-    };
+    });
+    if (stale) staleDeactivated += 1;
+  }
 
+  const updateFields = {
+    externalJobId: sql`excluded.external_job_id`,
+    title: sql`excluded.title`,
+    normalizedTitle: sql`excluded.normalized_title`,
+    roleFamilyId: sql`excluded.role_family_id`,
+    locations: sql`excluded.locations`,
+    applyUrl: sql`excluded.apply_url`,
+    excerpt: sql`excluded.excerpt`,
+    terms: sql`excluded.terms`,
+    termYears: sql`excluded.term_years`,
+    durationMonths: sql`excluded.duration_months`,
+    cohortYear: sql`excluded.cohort_year`,
+    roles: sql`excluded.roles`,
+    regions: sql`excluded.regions`,
+    isRemote: sql`excluded.is_remote`,
+    isActive: sql`excluded.is_active`,
+    source: sql`excluded.source`,
+    postedAt: sql`excluded.posted_at`,
+    lastSeenAt: sql`excluded.last_seen_at`,
+    updatedAt: sql`excluded.updated_at`,
+  };
+
+  for (let i = 0; i < rows.length; i += UPSERT_CHUNK) {
+    const chunk = rows.slice(i, i + UPSERT_CHUNK);
     await db
       .insert(jobs)
-      .values({
-        companyId: company.id,
-        ...fields,
-        firstSeenAt: now,
-      })
+      .values(chunk)
       .onConflictDoUpdate({
         target: jobs.fingerprint,
-        set: {
-          ...fields,
-          // Preserve firstSeenAt — do not overwrite
-        },
+        set: updateFields,
       });
-    jobsUpserted += 1;
-    if (stale) staleDeactivated += 1;
+    jobsUpserted += chunk.length;
   }
 
   let jobsDeactivated = 0;
@@ -309,7 +344,7 @@ async function ingestCompany(
   }
 
   const zeroMatch = raw.length > 0 && filtered.length === 0;
-  const funnelMsg = `funnel fetched=${raw.length} title=${internshipTitleJobs.length} tech=${filtered.length} upserted=${jobsUpserted}`;
+  const funnelMsg = `funnel fetched=${raw.length} title=${internshipTitleJobs.length} tech=${filtered.length} upserted=${jobsUpserted} description_missing=${descriptionMissing}`;
   await db.insert(ingestRuns).values({
     companyId: company.id,
     status: "ok",
