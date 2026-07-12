@@ -192,16 +192,6 @@ companies:
     slug: faire
     ats: greenhouse
     board_token: faire
-  - name: Affirm Tech
-    slug: affirm-tech
-    ats: greenhouse
-    board_token: affirm
-    active: false
-  - name: Chime Tech
-    slug: chime-tech
-    ats: greenhouse
-    board_token: chime
-    active: false
   - name: Gusto
     slug: gusto
     ats: greenhouse
@@ -241,8 +231,3 @@ companies:
     slug: ashby
     ats: ashby
     board_token: ashby
-  - name: Netflix Games
-    slug: netflix-games
-    ats: greenhouse
-    board_token: netflix
-    active: false

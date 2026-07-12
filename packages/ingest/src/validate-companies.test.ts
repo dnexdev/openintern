@@ -35,8 +35,8 @@ await fs.writeFile(
 const result = await validateCompanies(dir);
 assert(result.errors.some((e) => e.includes('duplicate slug "alpha"')), "duplicate slug");
 assert(
-  result.warnings.some((w) => w.includes('duplicate ATS token "greenhouse:shared"')),
-  "duplicate ATS token warning",
+  result.errors.some((e) => e.includes('duplicate ATS token "greenhouse:shared"')),
+  "duplicate ATS token error",
 );
 assert(
   result.warnings.some((w) => w.includes("missing website_url for alpha")),

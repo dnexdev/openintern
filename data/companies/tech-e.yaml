@@ -1,0 +1,33 @@
+# Tier-1 scale employers — SmartRecruiters public boards (case-sensitive tokens).
+
+companies:
+  - name: Google
+    slug: google
+    ats: smartrecruiters
+    board_token: Google
+    careers_url: https://careers.google.com
+    website_url: https://www.google.com
+  - name: Meta
+    slug: meta
+    ats: smartrecruiters
+    board_token: Meta
+    careers_url: https://www.metacareers.com
+    website_url: https://www.meta.com
+  - name: Apple
+    slug: apple
+    ats: smartrecruiters
+    board_token: Apple
+    careers_url: https://jobs.apple.com
+    website_url: https://www.apple.com
+  - name: Amazon
+    slug: amazon
+    ats: smartrecruiters
+    board_token: Amazon
+    careers_url: https://www.amazon.jobs
+    website_url: https://www.amazon.com
+  - name: Microsoft
+    slug: microsoft
+    ats: smartrecruiters
+    board_token: Microsoft
+    careers_url: https://careers.microsoft.com
+    website_url: https://www.microsoft.com

@@ -7,6 +7,7 @@
  * Usage:
  *   tsx src/gap-report.ts
  *   tsx src/gap-report.ts --json
+ *   tsx src/gap-report.ts --top=30
  */
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -147,6 +148,8 @@ async function fetchText(url: string): Promise<string> {
 
 async function main() {
   const asJson = process.argv.includes("--json");
+  const topArg = process.argv.find((a) => a.startsWith("--top="));
+  const topN = topArg ? Math.max(1, Number(topArg.split("=")[1]) || 60) : 60;
   const dir = defaultCompaniesDir();
   const registry = await loadRegistry(dir);
 
@@ -223,8 +226,9 @@ async function main() {
     externalCompanyMentions: totalExternal,
     missingCount: missing.length,
     inactiveButListedCount: inactiveHits.length,
-    missing: missing.slice(0, 200),
-    inactiveButListed: inactiveHits.slice(0, 100),
+    top: topN,
+    missing: missing.slice(0, topN),
+    inactiveButListed: inactiveHits.slice(0, Math.min(topN, 100)),
   };
 
   if (asJson) {
@@ -237,8 +241,14 @@ async function main() {
   console.log(`Missing from registry: ${report.missingCount}`);
   console.log(`In registry but inactive (listed externally): ${report.inactiveButListedCount}`);
   console.log("\n## Top missing (add YAML + board token)\n");
-  for (const m of report.missing.slice(0, 60)) {
+  for (const m of report.missing) {
     console.log(`- ${m.name}  (slug: ${m.slug_guess})  [${m.sources.join(", ")}]`);
+    console.log(`    # suggested starter:`);
+    console.log(`    # - name: ${m.name}`);
+    console.log(`    #   slug: ${m.slug_guess}`);
+    console.log(`    #   ats: greenhouse  # verify with pnpm validate-tokens`);
+    console.log(`    #   board_token: CHANGE_ME`);
+    console.log(`    #   website_url: https://www.example.com`);
   }
   console.log("\n## Inactive but still listed externally (recover token?)\n");
   for (const m of report.inactiveButListed.slice(0, 40)) {

@@ -41,7 +41,7 @@ export async function validateCompanies(dir = defaultCompaniesDir()) {
     const tokenKey = `${company.ats}:${company.board_token}`;
     const priorToken = tokenSources.get(tokenKey);
     if (priorToken && priorToken.slug !== company.slug) {
-      warnings.push(
+      errors.push(
         `duplicate ATS token "${tokenKey}" for ${priorToken.slug} (${priorToken.file}) and ${company.slug} (${company.file})`,
       );
     } else {
