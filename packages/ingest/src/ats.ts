@@ -22,6 +22,23 @@ async function sleep(ms: number) {
   await new Promise((r) => setTimeout(r, ms));
 }
 
+export async function mapWithConcurrency<T, R>(
+  items: T[],
+  concurrency: number,
+  fn: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = new Array(items.length);
+  let index = 0;
+  const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+    while (index < items.length) {
+      const i = index++;
+      results[i] = await fn(items[i]!);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
 async function fetchJson<T>(url: string, retries = 3): Promise<T> {
   let lastErr: Error | null = null;
   for (let attempt = 0; attempt < retries; attempt++) {
@@ -310,22 +327,18 @@ export async function fetchRippling(boardToken: string): Promise<NormalizedJob[]
   const list = await fetchJson<RipplingJob[]>(
     `https://api.rippling.com/platform/api/ats/v1/board/${encodeURIComponent(boardToken)}/jobs`,
   );
-  // List endpoint has no description — fetch details for a capped subset to keep ingest fast.
   const jobs = list ?? [];
-  const withDesc = await Promise.all(
-    jobs.slice(0, 40).map(async (j) => {
-      try {
-        const detail = await fetchJson<RipplingJob>(
-          `https://api.rippling.com/platform/api/ats/v1/board/${encodeURIComponent(boardToken)}/jobs/${j.uuid}`,
-        );
-        return { ...j, ...detail };
-      } catch {
-        return j;
-      }
-    }),
-  );
-  const rest = jobs.slice(40);
-  return [...withDesc, ...rest].map((j) => {
+  const withDesc = await mapWithConcurrency(jobs, 8, async (j) => {
+    try {
+      const detail = await fetchJson<RipplingJob>(
+        `https://api.rippling.com/platform/api/ats/v1/board/${encodeURIComponent(boardToken)}/jobs/${j.uuid}`,
+      );
+      return { ...j, ...detail };
+    } catch {
+      return j;
+    }
+  });
+  return withDesc.map((j) => {
     const locations: string[] = [];
     if (j.workLocation?.label) locations.push(j.workLocation.label);
     for (const loc of j.workLocations ?? []) {
@@ -360,11 +373,53 @@ type BambooJob = {
 
 type BambooResponse = { result?: BambooJob[]; meta?: { totalCount?: number } };
 
+type BambooDetailResponse = {
+  result?: {
+    jobOpening?: {
+      description?: string;
+      datePosted?: string;
+    };
+  };
+};
+
+function stripHtmlTags(html: string): string {
+  return html
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function fetchBambooHrDetail(
+  boardToken: string,
+  jobId: string,
+): Promise<{ description: string; postedAt: Date | null }> {
+  try {
+    const data = await fetchJson<BambooDetailResponse>(
+      `https://${encodeURIComponent(boardToken)}.bamboohr.com/careers/${encodeURIComponent(jobId)}/detail`,
+    );
+    const opening = data.result?.jobOpening;
+    const description = opening?.description ? stripHtmlTags(opening.description) : "";
+    const postedAt = opening?.datePosted ? new Date(opening.datePosted) : null;
+    return { description, postedAt };
+  } catch {
+    return { description: "", postedAt: null };
+  }
+}
+
 export async function fetchBambooHr(boardToken: string): Promise<NormalizedJob[]> {
   const data = await fetchJson<BambooResponse>(
     `https://${encodeURIComponent(boardToken)}.bamboohr.com/careers/list`,
   );
-  return (data.result ?? []).map((j) => {
+  const openings = data.result ?? [];
+  const withDetails = await mapWithConcurrency(openings, 8, async (j) => {
+    const detail = await fetchBambooHrDetail(boardToken, String(j.id));
+    return { job: j, ...detail };
+  });
+  return withDetails.map(({ job: j, description, postedAt }) => {
     const locations: string[] = [];
     const loc = j.atsLocation ?? j.location;
     if (loc) {
@@ -381,9 +436,9 @@ export async function fetchBambooHr(boardToken: string): Promise<NormalizedJob[]
       title: j.jobOpeningName,
       locations,
       applyUrl: `https://${encodeURIComponent(boardToken)}.bamboohr.com/careers/${j.id}`,
-      excerpt: null,
-      postedAt: null,
-      description: "", // BambooHR list has no description; detail fetch is optional/expensive
+      excerpt: description ? description.slice(0, 400) : null,
+      postedAt,
+      description,
     };
   });
 }
