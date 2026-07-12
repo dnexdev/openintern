@@ -9,32 +9,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import YAML from "yaml";
 import { companiesFileSchema } from "./schema.js";
+import { countJobsFromProbeBody, probeUrl } from "./probe-url.js";
 import { defaultCompaniesDir } from "./sync-companies.js";
 
 type Probe = { ats: string; token: string; url: string };
-
-function probeUrl(ats: string, token: string): string {
-  switch (ats) {
-    case "greenhouse":
-      return `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(token)}/jobs`;
-    case "lever":
-      return `https://api.lever.co/v0/postings/${encodeURIComponent(token)}?mode=json`;
-    case "ashby":
-      return `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(token)}`;
-    case "workable":
-      return `https://www.workable.com/api/accounts/${encodeURIComponent(token)}`;
-    case "smartrecruiters":
-      return `https://api.smartrecruiters.com/v1/companies/${encodeURIComponent(token)}/postings?limit=1`;
-    case "recruitee":
-      return `https://${encodeURIComponent(token)}.recruitee.com/api/offers/`;
-    case "rippling":
-      return `https://api.rippling.com/platform/api/ats/v1/board/${encodeURIComponent(token)}/jobs`;
-    case "bamboohr":
-      return `https://${encodeURIComponent(token)}.bamboohr.com/careers/list`;
-    default:
-      throw new Error(`Unknown ATS: ${ats}`);
-  }
-}
 
 async function check(probe: Probe): Promise<string | null> {
   try {
