@@ -46,7 +46,18 @@ To add or remove a slug:
 2. Edit `data/curated/tier-1.yaml` and run `pnpm validate-curated`.
 3. Open a PR with a one-line justification (e.g. “top-3 quant”, “frontier lab”).
 
-Highlighting only appears when that company has active internships in the corpus. Several big-tech names (Google, Meta, Apple, Amazon, Microsoft) are not in the registry yet — add them via the company flow first.
+Highlighting only appears when that company has active internships in the corpus.
+
+## Ingest triage
+
+When listings look stale or a company is missing jobs:
+
+1. Check **`/health`** or `GET /api/v1/health` for `pipeline.recent_failures` and `pipeline.zero_match_companies`.
+2. Run **`pnpm recover-tokens`** (all 8 ATSes) for inactive or broken boards; add `--write` to patch YAML locally after review.
+3. Fix `data/companies/*.yaml` (`board_token`, `ats`, `active: true`).
+4. Validate with **`pnpm validate-tokens`** on changed files, then **`pnpm ingest`** locally or wait for the hourly Action.
+
+`zero_match` means the board returned jobs but none passed the tech-internship classifier — existing rows are retained until the 14-day last-seen sweep.
 
 ## Development
 
@@ -62,11 +73,11 @@ pnpm dev
 Pipeline helpers (ATS-only discovery — does not scrape LinkedIn):
 
 ```bash
-pnpm gap-report          # companies on SpeedyApply/Simplify missing from YAML
-pnpm recover-tokens      # probe inactive brands for working Greenhouse/Lever/Ashby tokens
+pnpm gap-report          # missing companies vs SpeedyApply/Simplify (--top=30 for shorter list)
+pnpm recover-tokens      # probe inactive brands across all 8 ATS APIs (--write to patch YAML)
 pnpm validate-tokens -- --all
 pnpm validate-curated    # Tier 1 slug list vs data/companies/
-pnpm validate-companies  # duplicate slugs/tokens and missing website URLs
+pnpm validate-companies  # duplicate slugs/tokens (duplicate tokens are errors)
 ```
 
 - `pnpm typecheck` before pushing

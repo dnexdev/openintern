@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { desc, eq, sql } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
-import { parseFunnel, sumFunnels } from "@/lib/ingest-health";
+import { parseFunnel, sumFunnels, isZeroMatchRun } from "@/lib/ingest-health";
 
 export const dynamic = "force-dynamic";
 
@@ -47,10 +47,13 @@ export async function GET() {
   const latestRuns = await db
     .selectDistinctOn([ingestRuns.companyId], {
       company_id: ingestRuns.companyId,
+      status: ingestRuns.status,
       error: ingestRuns.error,
       ran_at: ingestRuns.ranAt,
+      company_slug: companies.slug,
     })
     .from(ingestRuns)
+    .leftJoin(companies, eq(ingestRuns.companyId, companies.id))
     .orderBy(ingestRuns.companyId, desc(ingestRuns.ranAt));
 
   const mapped = recentRuns.map((r) => {
@@ -59,10 +62,27 @@ export async function GET() {
       ...r,
       ran_at: r.ran_at.toISOString(),
       funnel,
+      zero_match: isZeroMatchRun(r.error),
     };
   });
 
   const funnelTotals = sumFunnels(latestRuns.map((r) => parseFunnel(r.error)));
+
+  const zeroMatchCompanies = latestRuns
+    .filter((r) => r.status === "ok" && isZeroMatchRun(r.error))
+    .map((r) => r.company_slug)
+    .filter((slug): slug is string => Boolean(slug))
+    .sort();
+
+  const recentFailures = recentRuns
+    .filter((r) => r.status === "error")
+    .slice(0, 20)
+    .map((r) => ({
+      company_slug: r.company_slug,
+      company_name: r.company_name,
+      error: r.error,
+      ran_at: r.ran_at.toISOString(),
+    }));
 
   return NextResponse.json({
     status: "ok",
@@ -72,8 +92,15 @@ export async function GET() {
       ...jobStats,
       ...companyStats,
       last_successful_ingest: lastOk?.ran_at?.toISOString() ?? null,
+      zero_match_companies: zeroMatchCompanies.length,
       season_note:
         "Live board focuses on Fall/Winter 2026–27 and Summer 2027; many Summer 2026 boards are closed.",
+    },
+    pipeline: {
+      zero_match_companies: zeroMatchCompanies,
+      recent_failures: recentFailures,
+      triage:
+        "Check /health → pnpm recover-tokens → fix data/companies YAML → pnpm validate-tokens → re-run ingest.",
     },
     funnel_totals_latest_per_company: funnelTotals,
     recent_ingest_runs: mapped,
