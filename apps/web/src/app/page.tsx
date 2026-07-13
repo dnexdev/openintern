@@ -5,6 +5,7 @@ import {
   loadCorpusStats,
   loadHeroPreviewPool,
 } from "@/lib/board";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export default async function HomePage() {
       <section className="hero hero-viewport">
         <div className="hero-viewport-inner">
           <div className="hero-copy">
-            <h1>Stop wasting money on Intern Insider.</h1>
+            <h1>Tech internships, open by default</h1>
             <p className="hero-subhead">
               Free tech internship listings. No account. No paywall. Open source —
               with a public API and daily dumps.
@@ -66,7 +67,8 @@ export default async function HomePage() {
               </ul>
             ) : null}
             <p className="hero-season">
-              Live focus: Fall/Winter 2026–27 and Summer 2027.
+              Live focus: Fall/Winter 2026–27 and Summer 2027.{" "}
+              <Link href="/vs/intern-insider">Compare to Intern Insider →</Link>
             </p>
             <a className="btn btn-primary hero-start" href="/jobs">
               Start
@@ -74,76 +76,6 @@ export default async function HomePage() {
             <CurlBar />
           </div>
           {!dbError ? <HeroPreview jobs={previewJobs} /> : null}
-        </div>
-      </section>
-
-      <section className="contrast contrast-below" aria-labelledby="contrast-heading">
-        <div className="panel contrast-panel">
-          <h2 id="contrast-heading">Why OpenIntern</h2>
-          <div className="table-wrap">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Feature</th>
-                  <th>OpenIntern</th>
-                  <th>Intern Insider</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Price</td>
-                  <td>Free</td>
-                  <td>Paid subscription</td>
-                </tr>
-                <tr>
-                  <td>Account to browse</td>
-                  <td>No</td>
-                  <td>Required / gated</td>
-                </tr>
-                <tr>
-                  <td>Open source</td>
-                  <td>Apache-2.0</td>
-                  <td>Closed</td>
-                </tr>
-                <tr>
-                  <td>Public API</td>
-                  <td>Yes</td>
-                  <td>No</td>
-                </tr>
-                <tr>
-                  <td>Bulk export</td>
-                  <td>Daily JSON/CSV</td>
-                  <td>Locked</td>
-                </tr>
-                <tr>
-                  <td>Apply destination</td>
-                  <td>Employer site</td>
-                  <td>In-platform tools</td>
-                </tr>
-                <tr>
-                  <td>Recruiter email finder</td>
-                  <td>No</td>
-                  <td>Sold as a feature</td>
-                </tr>
-                <tr>
-                  <td>AI resume builder</td>
-                  <td>No</td>
-                  <td>Sold as a feature</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="contrast-links">
-            <a href="https://github.com/dnexdev/openintern">GitHub</a>
-            <span aria-hidden="true">·</span>
-            <a href="https://github.com/dnexdev/openintern/blob/main/LICENSE">
-              Apache-2.0
-            </a>
-            <span aria-hidden="true">·</span>
-            <a href="https://github.com/dnexdev/openintern/releases/tag/dump-latest">
-              Daily dumps
-            </a>
-          </p>
         </div>
       </section>
     </>

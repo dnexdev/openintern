@@ -22,6 +22,11 @@ export default function PrivacyPage() {
           metadata (IP, user-agent, path) from Vercel or similar for rate
           limiting and abuse prevention.
         </li>
+        <li>
+          <strong>Aggregate analytics</strong> (optional): when enabled, we use{" "}
+          <a href="https://plausible.io">Plausible</a> for privacy-friendly page
+          view counts. No cookies, no accounts, no personal profiles.
+        </li>
       </ul>
       <h2>What we don’t do</h2>
       <ul>

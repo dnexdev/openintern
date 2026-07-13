@@ -11,6 +11,8 @@ import {
   useHideApplied,
 } from "./AppliedToggle";
 import type { FamilySort, JobFamily } from "@/lib/job-families";
+import { jobPath } from "@/lib/job-slug";
+import { reportIssueUrl } from "@/lib/report-issue";
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -63,6 +65,14 @@ function FamilyCard({
   const multi = family.postings.length > 1;
   const primary = family.postings[0]!;
   const allApplied = family.postings.every((p) => applied.includes(p.id));
+  const detailPath = jobPath(family.company.slug, family.title, primary.id);
+  const reportUrl = reportIssueUrl({
+    jobId: primary.id,
+    title: family.title,
+    companyName: family.company.name,
+    applyUrl: primary.applyUrl,
+    pageUrl: `https://openintern.dev${detailPath}`,
+  });
 
   return (
     <article
@@ -106,7 +116,7 @@ function FamilyCard({
       </div>
       <div className="job-card-body">
         <h2>
-          <Link href={`/jobs/${primary.id}`}>{family.title}</Link>
+          <Link href={detailPath}>{family.title}</Link>
         </h2>
         <FamilyBadges family={family} />
         {family.excerpt ? <p className="excerpt">{family.excerpt}</p> : null}
@@ -151,6 +161,14 @@ function FamilyCard({
                 Show locations
               </button>
             )}
+            <a
+              className="report-issue-link"
+              href={reportUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Report issue
+            </a>
           </div>
         )}
       </div>

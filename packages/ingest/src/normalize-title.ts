@@ -23,14 +23,30 @@ export function normalizeTitle(raw: string): string {
     if (!m) break;
     const head = m[1]!.trim();
     const tail = m[2]!.trim();
-    if (isNoiseSuffix(tail)) {
+    if (isNoiseSuffix(tail) || isCampusSuffix(tail)) {
       s = head;
     } else {
       break;
     }
   }
 
-  // Strip inline season + year tokens
+  // Drop trailing ", Segment" when campus/university noise (e.g. ", IIT Madras").
+  prev = "";
+  while (s !== prev) {
+    prev = s;
+    const m = s.match(/^(.*?)(?:,\s*)([^,]+)$/);
+    if (!m) break;
+    const head = m[1]!.trim();
+    const tail = m[2]!.trim();
+    if (isNoiseSuffix(tail) || isCampusSuffix(tail)) {
+      s = head;
+    } else {
+      break;
+    }
+  }
+
+  // Strip inline campus tokens (IIT Madras, BITS Pilani, …)
+  s = s.replace(/\b(?:iit|bits|nit|iiit)\s+[\p{L}\p{N}&'.-]+/giu, " ");
   s = s.replace(
     /\b(fall|winter|summer|spring|autumn)\s*(20\d{2})?\b/gi,
     " ",
@@ -95,6 +111,17 @@ const NOISE_WORDS = new Set([
   "switzerland",
 ]);
 
+/** Campus / university program suffixes (quant campus recruiting, India programs, etc.). */
+function isCampusSuffix(tail: string): boolean {
+  const t = tail.toLowerCase().trim();
+  if (!t) return false;
+  if (/^(iit|bits|nit|iiit)\b/.test(t)) return true;
+  if (/\bcampus\b/.test(t)) return true;
+  if (/\buniversity\b/.test(t)) return true;
+  if (/^campus\s+(recruiting|program|hire|hiring)\b/.test(t)) return true;
+  return false;
+}
+
 function isNoiseSuffix(tail: string): boolean {
   const t = tail.toLowerCase().trim();
   if (!t || t.length > 48) return false;
@@ -130,6 +157,8 @@ function isNoiseSuffix(tail: string): boolean {
 
   // Short all-caps / code-like tokens (USG, AUS, NYC)
   if (/^[A-Z0-9]{2,6}$/.test(tail) && tail === tail.toUpperCase()) return true;
+
+  if (isCampusSuffix(tail)) return true;
 
   return false;
 }

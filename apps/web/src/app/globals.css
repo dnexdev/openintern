@@ -1324,6 +1324,16 @@ select:focus {
   padding-top: 0.35rem;
 }
 
+.report-issue-link {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.report-issue-link:hover {
+  color: var(--text);
+}
+
 .btn-icon {
   padding: 0.5rem 0.7rem;
 }

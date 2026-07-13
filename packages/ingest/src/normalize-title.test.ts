@@ -34,6 +34,12 @@ assert.equal(
   normalizeTitle("Software Engineer Intern - New York, NY"),
 );
 
+// Campus program variants → one family (Jump/DMC-style India recruiting)
+const campusBase = normalizeTitle("Software Engineer Intern - IIT Madras");
+assert.equal(normalizeTitle("Software Engineer Intern - IIT Bombay"), campusBase);
+assert.equal(normalizeTitle("Software Engineer Intern - BITS Pilani"), campusBase);
+assert.equal(normalizeTitle("Software Engineer Intern, Campus"), campusBase);
+
 // Degree parenthetical
 assert.equal(
   normalizeTitle("Research Intern (BS/MS/PhD)"),

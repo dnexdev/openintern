@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
+
+const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN?.trim();
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openintern.dev"),
@@ -43,6 +46,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        {plausibleDomain ? (
+          <Script
+            defer
+            data-domain={plausibleDomain}
+            src="https://plausible.io/js/script.js"
+            strategy="afterInteractive"
+          />
+        ) : null}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
@@ -77,6 +88,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </p>
             <p className="footer-links">
               <a href="/docs">Docs</a>
+              <a href="/vs/intern-insider">Compare</a>
               <a href="/privacy">Privacy</a>
               <a href="/health">Health</a>
               <a href="https://github.com/dnexdev/openintern">GitHub</a>

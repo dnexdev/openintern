@@ -78,7 +78,10 @@ pnpm recover-tokens      # probe inactive brands across all 8 ATS APIs (--write 
 pnpm validate-tokens -- --all
 pnpm validate-curated    # Tier 1 slug list vs data/companies/
 pnpm validate-companies  # duplicate slugs/tokens (duplicate tokens are errors)
+pnpm backfill-role-families  # after normalizeTitle changes, refresh role_family_id in DB
 ```
+
+After changing title normalization rules, run `pnpm backfill-role-families` once so existing postings regroup on the board.
 
 - `pnpm typecheck` before pushing
 - Don’t commit `.env` or secrets
