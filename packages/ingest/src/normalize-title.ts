@@ -2,16 +2,23 @@ import { createHash } from "node:crypto";
 
 /**
  * Rule-based title canonicalization for role-family clustering.
- * Strips location/program/season noise so suffix variants share a family.
+ *
+ * Strip *where* (office, campus site, region, season cohort).
+ * Keep *what kind* and *who's eligible* (degree track, specialty/domain, clearance).
  */
 export function normalizeTitle(raw: string): string {
   let s = raw.normalize("NFKC").trim();
 
-  // Drop trailing parentheticals repeatedly: (Fall 2026), (AUS Government), …
+  // Leading cohort year: "2027 - Software Engineering Intern …"
+  s = s.replace(/^\s*20\d{2}\s*[-–—]\s*/i, "").trim();
+
+  // Drop trailing parentheticals when they are season/program noise — not degree eligibility.
   let prev = "";
   while (s !== prev) {
     prev = s;
-    s = s.replace(/\s*\([^)]*\)\s*$/g, "").trim();
+    s = s.replace(/\s*\(([^)]*)\)\s*$/g, (match, inner: string) =>
+      shouldStripParenthetical(inner.trim()) ? "" : match,
+    ).trim();
   }
 
   // Drop trailing " - Segment" / " – Segment" / " — Segment" when it looks like
@@ -44,6 +51,9 @@ export function normalizeTitle(raw: string): string {
       break;
     }
   }
+
+  // Generic campus-recruiting program prefix (Jump-style), not a location.
+  s = s.replace(/^campus\s+/i, "").trim();
 
   // Strip inline campus tokens (IIT Madras, BITS Pilani, …)
   s = s.replace(/\b(?:iit|bits|nit|iiit)\s+[\p{L}\p{N}&'.-]+/giu, " ");
@@ -111,14 +121,67 @@ const NOISE_WORDS = new Set([
   "switzerland",
 ]);
 
+/** Single- or two-word office cities in quant intern titles (DMC-style). */
+const OFFICE_CITIES = new Set([
+  "amsterdam",
+  "austin",
+  "boston",
+  "chicago",
+  "dublin",
+  "hong kong",
+  "london",
+  "miami",
+  "montreal",
+  "new york",
+  "paris",
+  "san francisco",
+  "seattle",
+  "singapore",
+  "sydney",
+  "toronto",
+  "zurich",
+]);
+
 /** Campus / university program suffixes (quant campus recruiting, India programs, etc.). */
 function isCampusSuffix(tail: string): boolean {
   const t = tail.toLowerCase().trim();
   if (!t) return false;
   if (/^(iit|bits|nit|iiit)\b/.test(t)) return true;
-  if (/\bcampus\b/.test(t)) return true;
+  if (t === "campus") return true;
   if (/\buniversity\b/.test(t)) return true;
   if (/^campus\s+(recruiting|program|hire|hiring)\b/.test(t)) return true;
+  return false;
+}
+
+/** Degree / eligibility label — preserved in normalized title. */
+function isDegreeLabel(text: string): boolean {
+  const t = text.trim().toLowerCase();
+  if (!t) return false;
+  if (
+    /^(phd\/postdoc|phd|postdoc|ug\/ms|ug|ms|bs|mba|m\.?s\.?|b\.?s\.?|bs\/ms|bs\/ms\/phd|undergraduate|graduate|masters?)$/.test(
+      t,
+    )
+  ) {
+    return true;
+  }
+  return /^(bs|ms|phd|ug|mba|postdoc)(\s*\/\s*(bs|ms|phd|ug|mba|postdoc))+$/i.test(t);
+}
+
+/** Season + cohort year tail: "Summer 2027", "Fall 2026". */
+function isSeasonCohortSuffix(tail: string): boolean {
+  const t = tail.toLowerCase().trim();
+  if (!t) return false;
+  if (/^20\d{2}$/.test(t)) return true;
+  return /^(fall|winter|summer|spring|autumn)\s+20\d{2}$/.test(t);
+}
+
+function shouldStripParenthetical(inner: string): boolean {
+  if (!inner) return false;
+  if (isDegreeLabel(inner)) return false;
+  if (/^internships?$/i.test(inner)) return true;
+  if (isSeasonCohortSuffix(inner)) return true;
+  if (/^(fall|winter|summer|spring|autumn)(\s+20\d{2})?$/i.test(inner)) return true;
+  if (isNoiseSuffix(inner)) return true;
   return false;
 }
 
@@ -157,6 +220,10 @@ function isNoiseSuffix(tail: string): boolean {
 
   // Short all-caps / code-like tokens (USG, AUS, NYC)
   if (/^[A-Z0-9]{2,6}$/.test(tail) && tail === tail.toUpperCase()) return true;
+
+  if (isSeasonCohortSuffix(tail)) return true;
+
+  if (OFFICE_CITIES.has(t)) return true;
 
   if (isCampusSuffix(tail)) return true;
 
