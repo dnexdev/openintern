@@ -112,6 +112,7 @@ export async function GET(request: Request) {
         title: f.title,
         postings: f.postings.map((p) => ({
           id: p.id,
+          title: p.title,
           location: p.location,
           posted_at: p.postedAt,
           apply_url: p.applyUrl,

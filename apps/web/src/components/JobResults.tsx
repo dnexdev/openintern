@@ -12,6 +12,11 @@ import {
 } from "./AppliedToggle";
 import type { FamilySort, JobFamily } from "@/lib/job-families";
 import { jobPath } from "@/lib/job-slug";
+import {
+  familyPostingsLabel,
+  familyPostingsToggle,
+  postingDisplayLabel,
+} from "@/lib/posting-label";
 import { reportIssueUrl } from "@/lib/report-issue";
 
 function capitalize(s: string) {
@@ -63,6 +68,8 @@ function FamilyCard({
 }) {
   const [open, setOpen] = useState(false);
   const multi = family.postings.length > 1;
+  const uniqueLocationCount = new Set(family.postings.map((p) => p.location)).size;
+  const postingsLabel = familyPostingsLabel(family.postings.length, uniqueLocationCount);
   const primary = family.postings[0]!;
   const allApplied = family.postings.every((p) => applied.includes(p.id));
   const detailPath = jobPath(family.company.slug, family.title, primary.id);
@@ -104,7 +111,7 @@ function FamilyCard({
                 aria-expanded={open}
                 onClick={() => setOpen((v) => !v)}
               >
-                {family.postings.length} locations {open ? "▴" : "▾"}
+                {postingsLabel} {open ? "▴" : "▾"}
               </button>
             ) : (
               <span>{primary.location}</span>
@@ -123,21 +130,24 @@ function FamilyCard({
 
         {multi && open ? (
           <ul className="posting-list">
-            {family.postings.map((p) => (
+            {family.postings.map((p) => {
+              const label = postingDisplayLabel(p, family.postings);
+              return (
               <li key={p.id} className="posting-row">
-                <span className="posting-loc">{p.location}</span>
+                <span className="posting-loc">{label}</span>
                 <a
                   className="btn btn-primary btn-sm"
                   href={p.applyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Apply for ${family.title} in ${p.location}`}
+                  aria-label={`Apply for ${family.title} (${label})`}
                 >
                   Apply
                 </a>
-                <AppliedToggle jobId={p.id} jobTitle={`${family.title} (${p.location})`} />
+                <AppliedToggle jobId={p.id} jobTitle={`${family.title} (${label})`} />
               </li>
-            ))}
+              );
+            })}
           </ul>
         ) : (
           <div className="job-actions">
@@ -158,7 +168,7 @@ function FamilyCard({
                 className="btn btn-sm"
                 onClick={() => setOpen(true)}
               >
-                Show locations
+                {familyPostingsToggle(uniqueLocationCount, family.postings.length)}
               </button>
             )}
             <a

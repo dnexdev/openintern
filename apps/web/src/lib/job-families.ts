@@ -8,6 +8,7 @@ export type FamilySort = "first_seen" | "posted" | "prestige";
 
 export type JobPosting = {
   id: string;
+  title: string;
   location: string;
   locations: string[];
   postedAt: string | null;
@@ -243,6 +244,7 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
     if (!acc.excerpt && row.excerpt) acc.excerpt = row.excerpt;
     acc.postings.push({
       id: row.id,
+      title: row.title,
       location: primaryLocation(row.locations, row.isRemote),
       locations: row.locations ?? [],
       postedAt: row.postedAt?.toISOString() ?? null,
