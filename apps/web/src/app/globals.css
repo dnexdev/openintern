@@ -1013,6 +1013,16 @@ select:focus {
   gap: 0.45rem;
 }
 
+.job-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.job-picker .job-actions {
+  margin-top: 0;
+}
+
 .posting-row {
   display: flex;
   flex-wrap: wrap;
@@ -1030,6 +1040,11 @@ select:focus {
   font-size: 0.85rem;
   color: var(--text);
   font-weight: 500;
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .avatar {

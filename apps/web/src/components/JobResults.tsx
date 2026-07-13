@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { CompanyAvatar } from "./CompanyAvatar";
 import {
   AppliedToggle,
@@ -11,7 +12,12 @@ import {
 } from "./AppliedToggle";
 import type { FamilySort, JobFamily } from "@/lib/job-families";
 import { jobPath } from "@/lib/job-slug";
-import { familyApplyRows, familyMetaLabel, needsApplyPicker } from "@/lib/posting-label";
+import {
+  familyApplyRows,
+  familyMetaLabel,
+  familyPickerButtonLabel,
+  needsApplyPicker,
+} from "@/lib/posting-label";
 import { reportIssueUrl } from "@/lib/report-issue";
 
 function capitalize(s: string) {
@@ -89,9 +95,12 @@ function FamilyCard({
   isTier1: boolean;
   applied: string[];
 }) {
+  const [open, setOpen] = useState(false);
   const primary = family.postings[0]!;
   const picker = needsApplyPicker(family.postings);
   const applyRows = familyApplyRows(family.title, family.postings);
+  const metaLabel = familyMetaLabel(family.title, family.postings);
+  const pickerButtonLabel = familyPickerButtonLabel(family.postings);
   const allApplied = family.postings.every((p) => applied.includes(p.id));
   const detailPath = jobPath(family.company.slug, family.title, primary.id);
   const reportUrl = reportIssueUrl({
@@ -125,7 +134,18 @@ function FamilyCard({
             {family.company.name}
           </div>
           <div className="job-card-meta-line">
-            <span>{familyMetaLabel(family.title, family.postings)}</span>
+            {picker ? (
+              <button
+                type="button"
+                className="locations-toggle"
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+              >
+                {metaLabel} {open ? "▴" : "▾"}
+              </button>
+            ) : (
+              <span>{metaLabel}</span>
+            )}
             <span aria-hidden="true">·</span>
             <span title={family.firstSeenAt}>{timeAgo(family.firstSeenAt)}</span>
           </div>
@@ -139,17 +159,27 @@ function FamilyCard({
         {family.excerpt ? <p className="excerpt">{family.excerpt}</p> : null}
 
         {picker ? (
-          <>
-            <ApplyPicker family={family} rows={applyRows} />
-            <a
-              className="report-issue-link"
-              href={reportUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Report issue
-            </a>
-          </>
+          <div className="job-picker">
+            {open ? <ApplyPicker family={family} rows={applyRows} /> : null}
+            <div className="job-actions">
+              <button
+                type="button"
+                className={open ? "btn btn-sm" : "btn btn-primary btn-sm"}
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+              >
+                {open ? "Hide" : pickerButtonLabel}
+              </button>
+              <a
+                className="report-issue-link"
+                href={reportUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Report issue
+              </a>
+            </div>
+          </div>
         ) : (
           <div className="job-actions">
             <a

@@ -117,3 +117,11 @@ export function familyMetaLabel(
   }
   return familyApplyRows(familyTitle, postings)[0]?.label ?? "Location n/a";
 }
+
+export function familyPickerButtonLabel(postings: FamilyPosting[]): string {
+  if (postings.length > 1) {
+    const uniqueLocationCount = new Set(postings.map((p) => p.location)).size;
+    return uniqueLocationCount < postings.length ? "Show openings" : "Show locations";
+  }
+  return "Show locations";
+}
