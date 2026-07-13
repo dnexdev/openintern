@@ -3,6 +3,7 @@ import { companies, jobs } from "@openintern/db";
 import { getTier1Slugs } from "@/lib/curated";
 import { getDb } from "@/lib/db";
 import { freshnessSql } from "@/lib/freshness";
+import { formatPostingLocations } from "@/lib/posting-label";
 
 export type FamilySort = "first_seen" | "posted" | "prestige";
 
@@ -98,8 +99,7 @@ function displayTitle(titles: string[], normalized: string): string {
 }
 
 function primaryLocation(locations: string[] | null, isRemote: boolean): string {
-  if (locations && locations.length > 0) return locations[0]!;
-  return isRemote ? "Remote" : "Location n/a";
+  return formatPostingLocations(locations ?? [], isRemote);
 }
 
 type FamilyAcc = {

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { CompanyAvatar } from "./CompanyAvatar";
 import {
   AppliedToggle,
@@ -12,11 +11,7 @@ import {
 } from "./AppliedToggle";
 import type { FamilySort, JobFamily } from "@/lib/job-families";
 import { jobPath } from "@/lib/job-slug";
-import {
-  familyPostingsLabel,
-  familyPostingsToggle,
-  postingDisplayLabel,
-} from "@/lib/posting-label";
+import { familyApplyRows, familyMetaLabel, needsApplyPicker } from "@/lib/posting-label";
 import { reportIssueUrl } from "@/lib/report-issue";
 
 function capitalize(s: string) {
@@ -57,6 +52,34 @@ function FamilyBadges({ family }: { family: JobFamily }) {
   );
 }
 
+function ApplyPicker({
+  family,
+  rows,
+}: {
+  family: JobFamily;
+  rows: ReturnType<typeof familyApplyRows>;
+}) {
+  return (
+    <ul className="posting-list">
+      {rows.map((row) => (
+        <li key={row.key} className="posting-row">
+          <span className="posting-loc">{row.label}</span>
+          <a
+            className="btn btn-primary btn-sm"
+            href={row.applyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Apply for ${family.title} (${row.label})`}
+          >
+            Apply
+          </a>
+          <AppliedToggle jobId={row.jobId} jobTitle={row.appliedTitle} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function FamilyCard({
   family,
   isTier1,
@@ -66,11 +89,9 @@ function FamilyCard({
   isTier1: boolean;
   applied: string[];
 }) {
-  const [open, setOpen] = useState(false);
-  const multi = family.postings.length > 1;
-  const uniqueLocationCount = new Set(family.postings.map((p) => p.location)).size;
-  const postingsLabel = familyPostingsLabel(family.postings.length, uniqueLocationCount);
   const primary = family.postings[0]!;
+  const picker = needsApplyPicker(family.postings);
+  const applyRows = familyApplyRows(family.title, family.postings);
   const allApplied = family.postings.every((p) => applied.includes(p.id));
   const detailPath = jobPath(family.company.slug, family.title, primary.id);
   const reportUrl = reportIssueUrl({
@@ -104,18 +125,7 @@ function FamilyCard({
             {family.company.name}
           </div>
           <div className="job-card-meta-line">
-            {multi ? (
-              <button
-                type="button"
-                className="locations-toggle"
-                aria-expanded={open}
-                onClick={() => setOpen((v) => !v)}
-              >
-                {postingsLabel} {open ? "▴" : "▾"}
-              </button>
-            ) : (
-              <span>{primary.location}</span>
-            )}
+            <span>{familyMetaLabel(family.title, family.postings)}</span>
             <span aria-hidden="true">·</span>
             <span title={family.firstSeenAt}>{timeAgo(family.firstSeenAt)}</span>
           </div>
@@ -128,27 +138,18 @@ function FamilyCard({
         <FamilyBadges family={family} />
         {family.excerpt ? <p className="excerpt">{family.excerpt}</p> : null}
 
-        {multi && open ? (
-          <ul className="posting-list">
-            {family.postings.map((p) => {
-              const label = postingDisplayLabel(p, family.postings);
-              return (
-              <li key={p.id} className="posting-row">
-                <span className="posting-loc">{label}</span>
-                <a
-                  className="btn btn-primary btn-sm"
-                  href={p.applyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Apply for ${family.title} (${label})`}
-                >
-                  Apply
-                </a>
-                <AppliedToggle jobId={p.id} jobTitle={`${family.title} (${label})`} />
-              </li>
-              );
-            })}
-          </ul>
+        {picker ? (
+          <>
+            <ApplyPicker family={family} rows={applyRows} />
+            <a
+              className="report-issue-link"
+              href={reportUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Report issue
+            </a>
+          </>
         ) : (
           <div className="job-actions">
             <a
@@ -160,17 +161,7 @@ function FamilyCard({
             >
               Apply
             </a>
-            {!multi ? (
-              <AppliedToggle jobId={primary.id} jobTitle={family.title} />
-            ) : (
-              <button
-                type="button"
-                className="btn btn-sm"
-                onClick={() => setOpen(true)}
-              >
-                {familyPostingsToggle(uniqueLocationCount, family.postings.length)}
-              </button>
-            )}
+            <AppliedToggle jobId={primary.id} jobTitle={family.title} />
             <a
               className="report-issue-link"
               href={reportUrl}
