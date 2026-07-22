@@ -80,8 +80,20 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     await syncCompaniesFromYaml(db);
   }
 
-  const activeCompanies = await db.query.companies.findMany({
-    where: eq(companies.active, true),
+  const activeCompanies = (
+    await db.query.companies.findMany({
+      where: eq(companies.active, true),
+    })
+  ).filter((c) => {
+    const only = process.env.OPENINTERN_ONLY_SLUGS?.trim();
+    if (!only) return true;
+    const allow = new Set(
+      only
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    );
+    return allow.has(c.slug);
   });
 
   let jobsUpserted = 0;

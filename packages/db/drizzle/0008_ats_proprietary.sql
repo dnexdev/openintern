@@ -1,0 +1,5 @@
+ALTER TYPE "ats" ADD VALUE IF NOT EXISTS 'citadel';
+ALTER TYPE "ats" ADD VALUE IF NOT EXISTS 'citadel_securities';
+ALTER TYPE "ats" ADD VALUE IF NOT EXISTS 'tesla';
+ALTER TYPE "ats" ADD VALUE IF NOT EXISTS 'bytedance';
+ALTER TYPE "ats" ADD VALUE IF NOT EXISTS 'tiktok';
