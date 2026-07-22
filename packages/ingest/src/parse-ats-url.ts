@@ -3,6 +3,7 @@ import {
   parseWorkdayUrl,
   workdayCareersUrl,
 } from "./workday.js";
+import { stripHtml } from "./strip-html.js";
 
 /**
  * Map public Apply / careers URLs to supported ATS board tokens.
@@ -211,19 +212,6 @@ export type ExtractedAtsHit = {
   boardToken: string;
   careersUrl: string;
 };
-
-function stripHtml(html: string): string {
-  return html
-    .replace(/<br\s*\/?>/gi, " ")
-    .replace(/<\/?[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&#0?39;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/^[\s\p{Extended_Pictographic}\uFE0F\u200D🔥🔒🛂🇺🇸🎓]+/gu, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function companyFromCell(raw: string): string | null {
   const cell = stripHtml(

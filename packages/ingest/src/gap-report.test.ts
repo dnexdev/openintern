@@ -5,6 +5,7 @@ import {
   parseAtsFromApplyUrl,
   tokenKey,
 } from "./parse-ats-url.js";
+import { stripHtml, stripHtmlTags } from "./strip-html.js";
 
 const md = `
 | Company | Position | Age |
@@ -12,12 +13,14 @@ const md = `
 | Palantir | Software Engineer Intern | 8d |
 | **Jane Street** | SWE Intern | 3d |
 | [Notion](https://notion.so) | Software Engineer Intern | 1d |
+| Acme &amp;quot;Labs&amp;quot; | Intern | 2d |
 
 <table>
 <tr><td>Company</td><td>Role</td></tr>
 <tr><td>Anduril</td><td>2027 Software Engineer Intern</td></tr>
 <tr><td><a href="https://www.spacex.com"><strong>SpaceX</strong></a></td><td>Fall 2026 Software Engineering Internship</td></tr>
 <tr><td>🔥 Meta</td><td>Software Engineer Intern</td></tr>
+<tr><td>Weird</script foo> Corp</td><td>Intern</td></tr>
 </table>
 `;
 
@@ -28,9 +31,35 @@ assert.ok(names.includes("Notion"), "notion");
 assert.ok(names.includes("Anduril"), "anduril");
 assert.ok(names.includes("SpaceX"), "spacex");
 assert.ok(names.includes("Meta"), "meta without emoji");
+assert.ok(
+  names.includes("Acme &quot;Labs&quot;"),
+  "double-encoded &amp;quot; only unescapes &amp; once",
+);
+assert.ok(names.includes("Weird Corp"), "malformed end-tag attributes stripped");
 assert.ok(!names.includes("Company"), "skip header");
 assert.ok(!names.some((n) => n.includes("<")), "no raw html");
 assert.ok(!names.some((n) => n.includes("🔥")), "no emoji prefix");
+
+assert.equal(
+  stripHtml('Foo &amp;quot;Bar&amp;quot; <b>Baz</b>'),
+  'Foo &quot;Bar&quot; Baz',
+  "stripHtml: &amp; last (no double-unescape)",
+);
+assert.equal(
+  stripHtml('Foo &quot;Bar&quot;'),
+  'Foo "Bar"',
+  "stripHtml: single-encoded quot",
+);
+assert.equal(
+  stripHtml("Before</script foo>After"),
+  "Before After",
+  "stripHtml: attributes after end-tag name",
+);
+assert.equal(
+  stripHtmlTags("<p>Hello&nbsp;world</p><br/>&amp; more"),
+  "Hello world & more",
+  "stripHtmlTags entities",
+);
 
 // ATS URL parsing
 assert.deepEqual(parseAtsFromApplyUrl("https://jobs.ashbyhq.com/bloxd/7ade559a/application"), {

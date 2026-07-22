@@ -22,6 +22,7 @@ import {
   type SupportedAts,
 } from "./parse-ats-url.js";
 import { probeAtsBoard } from "./probe-url.js";
+import { stripHtml } from "./strip-html.js";
 
 const SOURCES = [
   {
@@ -65,21 +66,6 @@ function normalizeName(name: string): string {
     .normalize("NFKD")
     .replace(/&/g, " and ")
     .replace(/[^a-z0-9]+/g, "")
-    .trim();
-}
-
-function stripHtml(html: string): string {
-  return html
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<br\s*\/?>/gi, " ")
-    .replace(/<\/?[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&#0?39;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/^[\s\p{Extended_Pictographic}\uFE0F\u200D🔥🔒🛂🇺🇸🎓]+/gu, "")
-    .replace(/\s+/g, " ")
     .trim();
 }
 

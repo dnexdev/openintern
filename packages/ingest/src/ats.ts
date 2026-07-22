@@ -7,6 +7,7 @@ import {
 import { fetchCitadel, fetchCitadelSecurities } from "./citadel.js";
 import { fetchTesla } from "./tesla.js";
 import { fetchBytedance, fetchTiktok } from "./bytedance.js";
+import { stripHtmlTags } from "./strip-html.js";
 
 export type NormalizedJob = {
   externalId: string;
@@ -406,17 +407,6 @@ type BambooDetailResponse = {
     };
   };
 };
-
-function stripHtmlTags(html: string): string {
-  return html
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<\/p>/gi, "\n")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 async function fetchBambooHrDetail(
   boardToken: string,
