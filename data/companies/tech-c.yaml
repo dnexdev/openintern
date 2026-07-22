@@ -951,3 +951,1247 @@ companies:
     ats: lever
     board_token: unit
     active: false
+
+# Added from SimplifyJobs Apply-URL extraction (2026-07-22)
+  - name: ACLU Kentucky
+    slug: aclu-kentucky
+    ats: greenhouse
+    board_token: acluinternships
+    careers_url: https://job-boards.greenhouse.io/acluinternships
+  - name: Ada
+    slug: ada
+    ats: greenhouse
+    board_token: ada18
+    careers_url: https://job-boards.greenhouse.io/ada18
+  - name: Adaptive Security
+    slug: adaptive-security
+    ats: ashby
+    board_token: adaptivesecurity
+    careers_url: https://jobs.ashbyhq.com/adaptivesecurity
+  - name: AfterQuery
+    slug: afterquery
+    ats: ashby
+    board_token: afterquery
+    careers_url: https://jobs.ashbyhq.com/afterquery
+  - name: Altom Transport
+    slug: altom-transport
+    ats: workable
+    board_token: altom-transport
+    careers_url: https://apply.workable.com/altom-transport
+  - name: AMAROK Security
+    slug: amarok-security
+    ats: greenhouse
+    board_token: amarok
+    careers_url: https://job-boards.greenhouse.io/amarok
+  - name: Apera AI
+    slug: apera-ai
+    ats: greenhouse
+    board_token: aperaaiinc
+    careers_url: https://job-boards.greenhouse.io/aperaaiinc
+  - name: Aptura
+    slug: aptura
+    ats: ashby
+    board_token: aptura
+    careers_url: https://jobs.ashbyhq.com/aptura
+  - name: Architect Labs
+    slug: architect-labs
+    ats: ashby
+    board_token: architect
+    careers_url: https://jobs.ashbyhq.com/architect
+  - name: Argmax
+    slug: argmax
+    ats: greenhouse
+    board_token: argmax
+    careers_url: https://job-boards.greenhouse.io/argmax
+  - name: Astera Labs
+    slug: astera-labs
+    ats: greenhouse
+    board_token: asteraearlycareer2026
+    careers_url: https://job-boards.greenhouse.io/asteraearlycareer2026
+  - name: Astranis
+    slug: astranis
+    ats: greenhouse
+    board_token: astranis
+    careers_url: https://job-boards.greenhouse.io/astranis
+  - name: Base Power
+    slug: base-power
+    ats: ashby
+    board_token: base-power
+    careers_url: https://jobs.ashbyhq.com/base-power
+  - name: Beacon Software
+    slug: beacon-software
+    ats: ashby
+    board_token: beaconsoftware
+    careers_url: https://jobs.ashbyhq.com/beaconsoftware
+  - name: Bild AI
+    slug: bild-ai
+    ats: ashby
+    board_token: bild-ai
+    careers_url: https://jobs.ashbyhq.com/bild-ai
+  - name: Bloxd
+    slug: bloxd
+    ats: ashby
+    board_token: bloxd
+    careers_url: https://jobs.ashbyhq.com/bloxd
+  - name: Blue Robotics
+    slug: blue-robotics
+    ats: rippling
+    board_token: blue-robotics
+    careers_url: https://ats.rippling.com/blue-robotics
+  - name: Bosch Home Comfort
+    slug: bosch-home-comfort
+    ats: smartrecruiters
+    board_token: BoschGroup
+    careers_url: https://jobs.smartrecruiters.com/BoschGroup
+  - name: Bot Auto
+    slug: bot-auto
+    ats: greenhouse
+    board_token: botauto
+    careers_url: https://job-boards.greenhouse.io/botauto
+  - name: Centerfield
+    slug: centerfield
+    ats: ashby
+    board_token: centerfield
+    careers_url: https://jobs.ashbyhq.com/centerfield
+  - name: Clarity Innovations
+    slug: clarity-innovations
+    ats: greenhouse
+    board_token: clarityinnovates
+    careers_url: https://job-boards.greenhouse.io/clarityinnovates
+  - name: Clera
+    slug: clera
+    ats: ashby
+    board_token: clera
+    careers_url: https://jobs.ashbyhq.com/clera
+  - name: ConnectPrep
+    slug: connectprep
+    ats: workable
+    board_token: connectprep
+    careers_url: https://apply.workable.com/connectprep
+  - name: CuspAI
+    slug: cuspai
+    ats: ashby
+    board_token: cuspai
+    careers_url: https://jobs.ashbyhq.com/cuspai
+  - name: Custom Computer Specialists
+    slug: custom-computer-specialists
+    ats: greenhouse
+    board_token: customcomputerspecialists
+    careers_url: https://job-boards.greenhouse.io/customcomputerspecialists
+  - name: Cybernetic Labs
+    slug: cybernetic-labs
+    ats: ashby
+    board_token: netic
+    careers_url: https://jobs.ashbyhq.com/netic
+  - name: Democratic Governors Association
+    slug: democratic-governors-association
+    ats: lever
+    board_token: dga
+    careers_url: https://jobs.lever.co/dga
+  - name: Democratic National Committee
+    slug: democratic-national-committee
+    ats: rippling
+    board_token: democratic-national-committee
+    careers_url: https://ats.rippling.com/democratic-national-committee
+  - name: Denari
+    slug: denari
+    ats: rippling
+    board_token: denari
+    careers_url: https://ats.rippling.com/denari
+  - name: DiDi Global
+    slug: didi-global
+    ats: greenhouse
+    board_token: didi
+    careers_url: https://job-boards.greenhouse.io/didi
+  - name: Ditto
+    slug: ditto
+    ats: ashby
+    board_token: ditto
+    careers_url: https://jobs.ashbyhq.com/ditto
+  - name: Diversified Automation
+    slug: diversified-automation
+    ats: lever
+    board_token: diversified-automation
+    careers_url: https://jobs.lever.co/diversified-automation
+  - name: Droyd Robotics
+    slug: droyd-robotics
+    ats: ashby
+    board_token: droyd
+    careers_url: https://jobs.ashbyhq.com/droyd
+  - name: DRW
+    slug: drw-drweng
+    ats: greenhouse
+    board_token: drweng
+    careers_url: https://job-boards.greenhouse.io/drweng
+  - name: Egra
+    slug: egra
+    ats: ashby
+    board_token: egra
+    careers_url: https://jobs.ashbyhq.com/egra
+  - name: Eragon
+    slug: eragon
+    ats: ashby
+    board_token: eragon
+    careers_url: https://jobs.ashbyhq.com/eragon
+  - name: Espa AI
+    slug: espa-ai
+    ats: ashby
+    board_token: espa
+    careers_url: https://jobs.ashbyhq.com/espa
+  - name: Eulerity
+    slug: eulerity
+    ats: greenhouse
+    board_token: eulerity
+    careers_url: https://job-boards.greenhouse.io/eulerity
+  - name: Eurofins
+    slug: eurofins
+    ats: smartrecruiters
+    board_token: Eurofins
+    careers_url: https://jobs.smartrecruiters.com/Eurofins
+  - name: Evolver
+    slug: evolver
+    ats: greenhouse
+    board_token: evolver
+    careers_url: https://job-boards.greenhouse.io/evolver
+  - name: Excel Sports Management
+    slug: excel-sports-management
+    ats: greenhouse
+    board_token: excelsportsmanagement
+    careers_url: https://job-boards.greenhouse.io/excelsportsmanagement
+  - name: Exowatt
+    slug: exowatt
+    ats: lever
+    board_token: exowatt
+    careers_url: https://jobs.lever.co/exowatt
+  - name: Exploration Technology Corp.
+    slug: exploration-technology-corp
+    ats: rippling
+    board_token: etg
+    careers_url: https://ats.rippling.com/etg
+  - name: "F. Schumacher & Co."
+    slug: f-schumacher-co
+    ats: greenhouse
+    board_token: fschumacherco
+    careers_url: https://job-boards.greenhouse.io/fschumacherco
+  - name: Fab2
+    slug: fab2
+    ats: ashby
+    board_token: fab2
+    careers_url: https://jobs.ashbyhq.com/fab2
+  - name: Figure
+    slug: figure
+    ats: greenhouse
+    board_token: figureai
+    careers_url: https://job-boards.greenhouse.io/figureai
+  - name: Firetiger
+    slug: firetiger
+    ats: ashby
+    board_token: firetiger
+    careers_url: https://jobs.ashbyhq.com/firetiger
+  - name: Flagright
+    slug: flagright
+    ats: ashby
+    board_token: "flagright.com"
+    careers_url: https://jobs.ashbyhq.com/flagright.com
+  - name: Fluency
+    slug: fluency
+    ats: ashby
+    board_token: fluency
+    careers_url: https://jobs.ashbyhq.com/fluency
+  - name: Fluxergy
+    slug: fluxergy
+    ats: lever
+    board_token: fluxergy-2
+    careers_url: https://jobs.lever.co/fluxergy-2
+  - name: Four Hands
+    slug: four-hands
+    ats: greenhouse
+    board_token: fourhands
+    careers_url: https://job-boards.greenhouse.io/fourhands
+  - name: Frontier Health
+    slug: frontier-health
+    ats: ashby
+    board_token: frontier-health
+    careers_url: https://jobs.ashbyhq.com/frontier-health
+  - name: GenMD
+    slug: genmd
+    ats: ashby
+    board_token: genmd
+    careers_url: https://jobs.ashbyhq.com/genmd
+  - name: Georgian Partners Growth
+    slug: georgian-partners-growth
+    ats: ashby
+    board_token: georgian
+    careers_url: https://jobs.ashbyhq.com/georgian
+  - name: Gritt Robotics Inc
+    slug: gritt-robotics-inc
+    ats: ashby
+    board_token: gritt
+    careers_url: https://jobs.ashbyhq.com/gritt
+  - name: Heron Power
+    slug: heron-power
+    ats: ashby
+    board_token: heron-power
+    careers_url: https://jobs.ashbyhq.com/heron-power
+  - name: HireVue
+    slug: hirevue
+    ats: smartrecruiters
+    board_token: HireVue
+    careers_url: https://jobs.smartrecruiters.com/HireVue
+  - name: Hiverge
+    slug: hiverge
+    ats: ashby
+    board_token: hiverge
+    careers_url: https://jobs.ashbyhq.com/hiverge
+  - name: Hone Health
+    slug: hone-health
+    ats: greenhouse
+    board_token: honehealth
+    careers_url: https://job-boards.greenhouse.io/honehealth
+  - name: Horizon Industries
+    slug: horizon-industries
+    ats: greenhouse
+    board_token: horizonindustrieslimited
+    careers_url: https://job-boards.greenhouse.io/horizonindustrieslimited
+  - name: Hubs.is
+    slug: hubsis
+    ats: ashby
+    board_token: "hubs.is"
+    careers_url: https://jobs.ashbyhq.com/hubs.is
+  - name: Human Computer Lab
+    slug: human-computer-lab
+    ats: ashby
+    board_token: human-computer-lab
+    careers_url: https://jobs.ashbyhq.com/human-computer-lab
+  - name: iHerb
+    slug: iherb
+    ats: greenhouse
+    board_token: iherb
+    careers_url: https://job-boards.greenhouse.io/iherb
+  - name: Instead
+    slug: instead
+    ats: greenhouse
+    board_token: instead
+    careers_url: https://job-boards.greenhouse.io/instead
+  - name: Institute of Foundation Models
+    slug: institute-of-foundation-models
+    ats: lever
+    board_token: ifm-us
+    careers_url: https://jobs.lever.co/ifm-us
+  - name: Intuitive Surgical
+    slug: intuitive-surgical
+    ats: smartrecruiters
+    board_token: Intuitive
+    careers_url: https://jobs.smartrecruiters.com/Intuitive
+  - name: Junior AI
+    slug: junior-ai
+    ats: ashby
+    board_token: junior
+    careers_url: https://jobs.ashbyhq.com/junior
+  - name: k-ID
+    slug: k-id
+    ats: ashby
+    board_token: k-id
+    careers_url: https://jobs.ashbyhq.com/k-id
+  - name: Kabam
+    slug: kabam
+    ats: lever
+    board_token: kabam
+    careers_url: https://jobs.lever.co/kabam
+  - name: Kensington
+    slug: kensington
+    ats: greenhouse
+    board_token: kensingtontours
+    careers_url: https://job-boards.greenhouse.io/kensingtontours
+  - name: Kinetic Systems
+    slug: kinetic-systems
+    ats: ashby
+    board_token: kineticsystems
+    careers_url: https://jobs.ashbyhq.com/kineticsystems
+  - name: Kirin
+    slug: kirin
+    ats: ashby
+    board_token: kirin
+    careers_url: https://jobs.ashbyhq.com/kirin
+  - name: kos.ai
+    slug: kosai
+    ats: ashby
+    board_token: "kos.ai"
+    careers_url: https://jobs.ashbyhq.com/kos.ai
+  - name: KRAFTON
+    slug: krafton
+    ats: greenhouse
+    board_token: studiokraftonboard
+    careers_url: https://job-boards.greenhouse.io/studiokraftonboard
+  - name: Later
+    slug: later
+    ats: greenhouse
+    board_token: later
+    careers_url: https://job-boards.greenhouse.io/later
+  - name: Lawrence Livermore National Laboratory (LLNL)
+    slug: lawrence-livermore-national-laboratory-llnl
+    ats: smartrecruiters
+    board_token: LLNL
+    careers_url: https://jobs.smartrecruiters.com/LLNL
+  - name: "LightGuide, Inc."
+    slug: lightguide-inc
+    ats: rippling
+    board_token: lightguide
+    careers_url: https://ats.rippling.com/lightguide
+  - name: Lila Sciences
+    slug: lila-sciences
+    ats: greenhouse
+    board_token: lilasciences
+    careers_url: https://job-boards.greenhouse.io/lilasciences
+  - name: Mach Industries
+    slug: mach-industries
+    ats: ashby
+    board_token: mach
+    careers_url: https://jobs.ashbyhq.com/mach
+  - name: Maxima
+    slug: maxima
+    ats: ashby
+    board_token: maxima
+    careers_url: https://jobs.ashbyhq.com/maxima
+  - name: Meshy
+    slug: meshy
+    ats: ashby
+    board_token: meshy
+    careers_url: https://jobs.ashbyhq.com/meshy
+  - name: Mistral AI
+    slug: mistral-ai
+    ats: ashby
+    board_token: "mtesting.ai"
+    careers_url: https://jobs.ashbyhq.com/mtesting.ai
+  - name: Mistral AI
+    slug: mistral-ai-mistralai
+    ats: ashby
+    board_token: "mistral.ai"
+    careers_url: https://jobs.ashbyhq.com/mistral.ai
+  - name: Mobius Renewables
+    slug: mobius-renewables
+    ats: rippling
+    board_token: greengas
+    careers_url: https://ats.rippling.com/greengas
+  - name: Moment Energy
+    slug: moment-energy
+    ats: greenhouse
+    board_token: momentenergy
+    careers_url: https://job-boards.greenhouse.io/momentenergy
+  - name: Monogram
+    slug: monogram
+    ats: ashby
+    board_token: monogram
+    careers_url: https://jobs.ashbyhq.com/monogram
+  - name: Moon
+    slug: moon
+    ats: rippling
+    board_token: moon
+    careers_url: https://ats.rippling.com/moon
+  - name: NationGraph
+    slug: nationgraph
+    ats: ashby
+    board_token: nationgraph
+    careers_url: https://jobs.ashbyhq.com/nationgraph
+  - name: NeoCognition
+    slug: neocognition
+    ats: ashby
+    board_token: neocognition
+    careers_url: https://jobs.ashbyhq.com/neocognition
+  - name: NeoSigma
+    slug: neosigma
+    ats: rippling
+    board_token: neosigma
+    careers_url: https://ats.rippling.com/neosigma
+  - name: NERv Technology Inc. D.B.A. FluidAI Medical
+    slug: nerv-technology-inc-dba-fluidai-medical
+    ats: rippling
+    board_token: fluidai-medical-careers
+    careers_url: https://ats.rippling.com/fluidai-medical-careers
+  - name: Neuralink
+    slug: neuralink
+    ats: greenhouse
+    board_token: neuralink
+    careers_url: https://job-boards.greenhouse.io/neuralink
+  - name: NewsBreak
+    slug: newsbreak
+    ats: greenhouse
+    board_token: newsbreak
+    careers_url: https://job-boards.greenhouse.io/newsbreak
+  - name: Niural
+    slug: niural
+    ats: ashby
+    board_token: niural
+    careers_url: https://jobs.ashbyhq.com/niural
+  - name: Oligo Space
+    slug: oligo-space
+    ats: ashby
+    board_token: oligo
+    careers_url: https://jobs.ashbyhq.com/oligo
+  - name: Onware
+    slug: onware
+    ats: rippling
+    board_token: onware
+    careers_url: https://ats.rippling.com/onware
+  - name: Orbital Industries
+    slug: orbital-industries
+    ats: ashby
+    board_token: orbitalindustries
+    careers_url: https://jobs.ashbyhq.com/orbitalindustries
+  - name: Orennia
+    slug: orennia
+    ats: greenhouse
+    board_token: orennia
+    careers_url: https://job-boards.greenhouse.io/orennia
+  - name: Outpost Technologies
+    slug: outpost-technologies
+    ats: ashby
+    board_token: outpostnow
+    careers_url: https://jobs.ashbyhq.com/outpostnow
+  - name: Output Biosciences
+    slug: output-biosciences
+    ats: ashby
+    board_token: output
+    careers_url: https://jobs.ashbyhq.com/output
+  - name: Pendulum Intelligence
+    slug: pendulum-intelligence
+    ats: rippling
+    board_token: pendulum-intelligence-jobs
+    careers_url: https://ats.rippling.com/pendulum-intelligence-jobs
+  - name: Periodic Labs
+    slug: periodic-labs
+    ats: ashby
+    board_token: periodic-labs
+    careers_url: https://jobs.ashbyhq.com/periodic-labs
+  - name: Persona AI
+    slug: persona-ai
+    ats: ashby
+    board_token: "persona.ai"
+    careers_url: https://jobs.ashbyhq.com/persona.ai
+  - name: Phamily
+    slug: phamily
+    ats: greenhouse
+    board_token: jobsatphamily
+    careers_url: https://job-boards.greenhouse.io/jobsatphamily
+  - name: Phlair
+    slug: phlair
+    ats: ashby
+    board_token: phlair
+    careers_url: https://jobs.ashbyhq.com/phlair
+  - name: Phonely
+    slug: phonely
+    ats: ashby
+    board_token: phonely
+    careers_url: https://jobs.ashbyhq.com/phonely
+  - name: Phonic
+    slug: phonic
+    ats: ashby
+    board_token: phonic
+    careers_url: https://jobs.ashbyhq.com/phonic
+  - name: PlusAI
+    slug: plusai
+    ats: lever
+    board_token: plus-2
+    careers_url: https://jobs.lever.co/plus-2
+  - name: pony.ai
+    slug: ponyai
+    ats: workable
+    board_token: pony-dot-ai
+    careers_url: https://apply.workable.com/pony-dot-ai
+  - name: Quadrillion
+    slug: quadrillion
+    ats: ashby
+    board_token: quadrillion-labs
+    careers_url: https://jobs.ashbyhq.com/quadrillion-labs
+  - name: Rainmaker
+    slug: rainmaker
+    ats: lever
+    board_token: make-rain
+    careers_url: https://jobs.lever.co/make-rain
+  - name: RAVL
+    slug: ravl
+    ats: lever
+    board_token: ravl_io
+    careers_url: https://jobs.lever.co/ravl_io
+  - name: Remarcable
+    slug: remarcable
+    ats: ashby
+    board_token: remarcable-inc
+    careers_url: https://jobs.ashbyhq.com/remarcable-inc
+  - name: Revise Robotics
+    slug: revise-robotics
+    ats: ashby
+    board_token: reviserobotics
+    careers_url: https://jobs.ashbyhq.com/reviserobotics
+  - name: Rise8
+    slug: rise8
+    ats: greenhouse
+    board_token: rise8
+    careers_url: https://job-boards.greenhouse.io/rise8
+  - name: Rivian and Volkswagen Group Technologies
+    slug: rivian-and-volkswagen-group-technologies
+    ats: ashby
+    board_token: "rivianvw.tech"
+    careers_url: https://jobs.ashbyhq.com/rivianvw.tech
+  - name: Roam
+    slug: roam
+    ats: ashby
+    board_token: tryroam
+    careers_url: https://jobs.ashbyhq.com/tryroam
+  - name: Saronic
+    slug: saronic
+    ats: ashby
+    board_token: saronic
+    careers_url: https://jobs.ashbyhq.com/saronic
+  - name: Seven Research
+    slug: seven-research
+    ats: greenhouse
+    board_token: sevenresearch
+    careers_url: https://job-boards.greenhouse.io/sevenresearch
+  - name: ShyftLabs
+    slug: shyftlabs
+    ats: lever
+    board_token: shyftlabs
+    careers_url: https://jobs.lever.co/shyftlabs
+  - name: Sika
+    slug: sika
+    ats: smartrecruiters
+    board_token: SikaAG
+    careers_url: https://jobs.smartrecruiters.com/SikaAG
+  - name: Smiths Detection Group
+    slug: smiths-detection-group
+    ats: smartrecruiters
+    board_token: SmithsGroup2
+    careers_url: https://jobs.smartrecruiters.com/SmithsGroup2
+  - name: SoloPulse
+    slug: solopulse
+    ats: lever
+    board_token: solopulseco
+    careers_url: https://jobs.lever.co/solopulseco
+  - name: Spacial AI
+    slug: spacial-ai
+    ats: ashby
+    board_token: spacial
+    careers_url: https://jobs.ashbyhq.com/spacial
+  - name: Sparksoft
+    slug: sparksoft
+    ats: greenhouse
+    board_token: sparksoftcorporation
+    careers_url: https://job-boards.greenhouse.io/sparksoftcorporation
+  - name: SpreeAI
+    slug: spreeai
+    ats: rippling
+    board_token: spreeai
+    careers_url: https://ats.rippling.com/spreeai
+  - name: Telesat
+    slug: telesat
+    ats: lever
+    board_token: telesat
+    careers_url: https://jobs.lever.co/telesat
+  - name: Tenstorrent
+    slug: tenstorrent-tenstorrentuniversity
+    ats: greenhouse
+    board_token: tenstorrentuniversity
+    careers_url: https://job-boards.greenhouse.io/tenstorrentuniversity
+  - name: The Wonderful Company
+    slug: the-wonderful-company
+    ats: smartrecruiters
+    board_token: TheWonderfulCompany
+    careers_url: https://jobs.smartrecruiters.com/TheWonderfulCompany
+  - name: Torc Robotics
+    slug: torc-robotics
+    ats: greenhouse
+    board_token: torcrobotics
+    careers_url: https://job-boards.greenhouse.io/torcrobotics
+  - name: Toyota Research Institute
+    slug: toyota-research-institute
+    ats: lever
+    board_token: tri
+    careers_url: https://jobs.lever.co/tri
+  - name: TribalScale
+    slug: tribalscale
+    ats: greenhouse
+    board_token: tribalscale
+    careers_url: https://job-boards.greenhouse.io/tribalscale
+  - name: Two Six Technologies
+    slug: two-six-technologies
+    ats: greenhouse
+    board_token: twosixtechnologies
+    careers_url: https://job-boards.greenhouse.io/twosixtechnologies
+  - name: Varick Agents
+    slug: varick-agents
+    ats: ashby
+    board_token: varick-agents
+    careers_url: https://jobs.ashbyhq.com/varick-agents
+  - name: Veeda AI
+    slug: veeda-ai
+    ats: ashby
+    board_token: veeda-labs
+    careers_url: https://jobs.ashbyhq.com/veeda-labs
+  - name: Vega Investment Technologies
+    slug: vega-investment-technologies
+    ats: ashby
+    board_token: vega
+    careers_url: https://jobs.ashbyhq.com/vega
+  - name: Vital Lyfe
+    slug: vital-lyfe
+    ats: ashby
+    board_token: vital-lyfe
+    careers_url: https://jobs.ashbyhq.com/vital-lyfe
+  - name: Voloridge
+    slug: voloridge
+    ats: greenhouse
+    board_token: voloridgeinvestmentmanagement
+    careers_url: https://job-boards.greenhouse.io/voloridgeinvestmentmanagement
+  - name: Western Digital
+    slug: western-digital
+    ats: smartrecruiters
+    board_token: WesternDigital
+    careers_url: https://jobs.smartrecruiters.com/WesternDigital
+  - name: WindBorne Systems
+    slug: windborne-systems
+    ats: ashby
+    board_token: windborne-systems
+    careers_url: https://jobs.ashbyhq.com/windborne-systems
+  - name: World Surf League
+    slug: world-surf-league
+    ats: greenhouse
+    board_token: worldsurfleague
+    careers_url: https://job-boards.greenhouse.io/worldsurfleague
+  - name: XPENG Motors
+    slug: xpeng-motors
+    ats: greenhouse
+    board_token: xpengmotors
+    careers_url: https://job-boards.greenhouse.io/xpengmotors
+  - name: Xsolla
+    slug: xsolla
+    ats: lever
+    board_token: xsolla
+    careers_url: https://jobs.lever.co/xsolla
+  - name: Zuru
+    slug: zuru
+    ats: ashby
+    board_token: zuru
+    careers_url: https://jobs.ashbyhq.com/zuru
+
+# Added from SimplifyJobs Apply-URL extraction (2026-07-22)
+  - name: ABB
+    slug: abb
+    ats: workday
+    board_token: "abb|wd3|external_career_page"
+    careers_url: https://abb.wd3.myworkdayjobs.com/external_career_page
+  - name: Agilent Technologies
+    slug: agilent-technologies
+    ats: workday
+    board_token: "agilent|wd5|Agilent_Student_Careers"
+    careers_url: https://agilent.wd5.myworkdayjobs.com/Agilent_Student_Careers
+  - name: Altasciences
+    slug: altasciences
+    ats: workday
+    board_token: "altasciences|wd1|Careers"
+    careers_url: https://altasciences.wd1.myworkdayjobs.com/Careers
+  - name: Amentum
+    slug: amentum
+    ats: workday
+    board_token: "pae|wd1|amentum_careers"
+    careers_url: https://pae.wd1.myworkdayjobs.com/amentum_careers
+  - name: Amgen
+    slug: amgen-amgenwd1careers
+    ats: workday
+    board_token: "amgen|wd1|careers"
+    careers_url: https://amgen.wd1.myworkdayjobs.com/careers
+  - name: Ancestry
+    slug: ancestry
+    ats: workday
+    board_token: "ancestry|wd501|Careers"
+    careers_url: https://ancestry.wd501.myworkdayjobs.com/Careers
+  - name: Aptiv
+    slug: aptiv
+    ats: workday
+    board_token: "aptiv|wd5|aptiv_careers"
+    careers_url: https://aptiv.wd5.myworkdayjobs.com/aptiv_careers
+  - name: Argonne National Laboratory
+    slug: argonne-national-laboratory
+    ats: workday
+    board_token: "argonne|wd1|EDU_PUB"
+    careers_url: https://argonne.wd1.myworkdayjobs.com/EDU_PUB
+  - name: Autodesk
+    slug: autodesk
+    ats: workday
+    board_token: "autodesk|wd1|Ext"
+    careers_url: https://autodesk.wd1.myworkdayjobs.com/Ext
+  - name: Autodesk
+    slug: autodesk-autodeskwd1uni
+    ats: workday
+    board_token: "autodesk|wd1|uni"
+    careers_url: https://autodesk.wd1.myworkdayjobs.com/uni
+  - name: AVEVA
+    slug: aveva
+    ats: workday
+    board_token: "aveva|wd3|AVEVA_careers"
+    careers_url: https://aveva.wd3.myworkdayjobs.com/AVEVA_careers
+  - name: Baker Hughes
+    slug: baker-hughes
+    ats: workday
+    board_token: "bakerhughes|wd5|BakerHughes"
+    careers_url: https://bakerhughes.wd5.myworkdayjobs.com/BakerHughes
+  - name: Bank of Montreal
+    slug: bank-of-montreal
+    ats: workday
+    board_token: "bmo|wd3|External"
+    careers_url: https://bmo.wd3.myworkdayjobs.com/External
+  - name: BlackRock
+    slug: blackrock-blackrockwd1blackrock-early-careers-program
+    ats: workday
+    board_token: "blackrock|wd1|BlackRock_Early_Careers_Program"
+    careers_url: https://blackrock.wd1.myworkdayjobs.com/BlackRock_Early_Careers_Program
+  - name: Boys Town
+    slug: boys-town
+    ats: workday
+    board_token: "boystown|wd1|boystowncareers"
+    careers_url: https://boystown.wd1.myworkdayjobs.com/boystowncareers
+  - name: Brookfield
+    slug: brookfield
+    ats: workday
+    board_token: "brookfield|wd5|brookfieldprivate"
+    careers_url: https://brookfield.wd5.myworkdayjobs.com/brookfieldprivate
+  - name: Cadence Design Systems
+    slug: cadence-design-systems
+    ats: workday
+    board_token: "cadence|wd1|External_Careers"
+    careers_url: https://cadence.wd1.myworkdayjobs.com/External_Careers
+  - name: Cadence Design Systems
+    slug: cadence-design-systems-cadencewd1university-talent
+    ats: workday
+    board_token: "cadence|wd1|University_Talent"
+    careers_url: https://cadence.wd1.myworkdayjobs.com/University_Talent
+  - name: Cadence Design Systems
+    slug: cadence-design-systems-cadencewd1university-talent-intern
+    ats: workday
+    board_token: "cadence|wd1|University_Talent_Intern"
+    careers_url: https://cadence.wd1.myworkdayjobs.com/University_Talent_Intern
+  - name: CAE
+    slug: cae
+    ats: workday
+    board_token: "cae|wd3|career"
+    careers_url: https://cae.wd3.myworkdayjobs.com/career
+  - name: Carnegie Mellon University
+    slug: carnegie-mellon-university
+    ats: workday
+    board_token: "cmu|wd5|cmu"
+    careers_url: https://cmu.wd5.myworkdayjobs.com/cmu
+  - name: Centerstone
+    slug: centerstone
+    ats: workday
+    board_token: "centerstone|wd5|centerstonecareers"
+    careers_url: https://centerstone.wd5.myworkdayjobs.com/centerstonecareers
+  - name: CHEP
+    slug: chep
+    ats: workday
+    board_token: "brambles|wd5|Brambles_Careers"
+    careers_url: https://brambles.wd5.myworkdayjobs.com/Brambles_Careers
+  - name: Chevron Corporation
+    slug: chevron-corporation
+    ats: workday
+    board_token: "chevron|wd5|University"
+    careers_url: https://chevron.wd5.myworkdayjobs.com/University
+  - name: Ciena
+    slug: ciena
+    ats: workday
+    board_token: "ciena|wd5|Careers"
+    careers_url: https://ciena.wd5.myworkdayjobs.com/Careers
+  - name: Circle K
+    slug: circle-k
+    ats: workday
+    board_token: "circlek|wd3|circlekstorejobs"
+    careers_url: https://circlek.wd3.myworkdayjobs.com/circlekstorejobs
+  - name: City of Charlotte
+    slug: city-of-charlotte
+    ats: workday
+    board_token: "charlottenc|wd12|citgov"
+    careers_url: https://charlottenc.wd12.myworkdayjobs.com/citgov
+  - name: Colonial Pipeline Company
+    slug: colonial-pipeline-company
+    ats: workday
+    board_token: "colpipe|wd1|Search"
+    careers_url: https://colpipe.wd1.myworkdayjobs.com/Search
+  - name: Copart
+    slug: copart
+    ats: workday
+    board_token: "copart|wd12|copart"
+    careers_url: https://copart.wd12.myworkdayjobs.com/copart
+  - name: DataRobot
+    slug: datarobot
+    ats: workday
+    board_token: "datarobot|wd1|DataRobot_External_Careers"
+    careers_url: https://datarobot.wd1.myworkdayjobs.com/DataRobot_External_Careers
+  - name: Datasite
+    slug: datasite
+    ats: workday
+    board_token: "datasite|wd1|datasite"
+    careers_url: https://datasite.wd1.myworkdayjobs.com/datasite
+  - name: Delta Dental
+    slug: delta-dental
+    ats: workday
+    board_token: "rhsc|wd5|delta_dental_of_michigan"
+    careers_url: https://rhsc.wd5.myworkdayjobs.com/delta_dental_of_michigan
+  - name: Ensemble Health Partners
+    slug: ensemble-health-partners
+    ats: workday
+    board_token: "ensemblehp|wd5|ensemblehealthpartnerscareers"
+    careers_url: https://ensemblehp.wd5.myworkdayjobs.com/ensemblehealthpartnerscareers
+  - name: Equifax
+    slug: equifax
+    ats: workday
+    board_token: "equifax|wd5|UR_External"
+    careers_url: https://equifax.wd5.myworkdayjobs.com/UR_External
+  - name: Evonik
+    slug: evonik
+    ats: workday
+    board_token: "evonik|wd3|External_Careers"
+    careers_url: https://evonik.wd3.myworkdayjobs.com/External_Careers
+  - name: GE Appliances
+    slug: ge-appliances
+    ats: workday
+    board_token: "haier|wd3|ge_appliances"
+    careers_url: https://haier.wd3.myworkdayjobs.com/ge_appliances
+  - name: GE Healthcare
+    slug: ge-healthcare
+    ats: workday
+    board_token: "gehc|wd5|GEHC_ExternalSite"
+    careers_url: https://gehc.wd5.myworkdayjobs.com/GEHC_ExternalSite
+  - name: GE Vernova
+    slug: ge-vernova
+    ats: workday
+    board_token: "gevernova|wd5|vernova_externalsite"
+    careers_url: https://gevernova.wd5.myworkdayjobs.com/vernova_externalsite
+  - name: GE Vernova
+    slug: ge-vernova-gevernovawd5only-confidential-executive-recruiting
+    ats: workday
+    board_token: "gevernova|wd5|only_confidential_executive_recruiting"
+    careers_url: https://gevernova.wd5.myworkdayjobs.com/only_confidential_executive_recruiting
+  - name: Generac
+    slug: generac
+    ats: workday
+    board_token: "generac|wd5|external"
+    careers_url: https://generac.wd5.myworkdayjobs.com/external
+  - name: General Motors
+    slug: general-motors
+    ats: workday
+    board_token: "generalmotors|wd5|Careers_GM"
+    careers_url: https://generalmotors.wd5.myworkdayjobs.com/Careers_GM
+  - name: Global Infrastructure
+    slug: global-infrastructure
+    ats: workday
+    board_token: "gi|wd1|Global_Infrastructure"
+    careers_url: https://gi.wd1.myworkdayjobs.com/Global_Infrastructure
+  - name: Harris Computer
+    slug: harris-computer
+    ats: workday
+    board_token: "harriscomputer|wd3|1"
+    careers_url: https://harriscomputer.wd3.myworkdayjobs.com/1
+  - name: Hendrick Motorsports
+    slug: hendrick-motorsports
+    ats: workday
+    board_token: "hendrick|wd5|HMSCareers"
+    careers_url: https://hendrick.wd5.myworkdayjobs.com/HMSCareers
+  - name: Hitachi
+    slug: hitachi
+    ats: workday
+    board_token: "hitachi|wd1|hitachi"
+    careers_url: https://hitachi.wd1.myworkdayjobs.com/hitachi
+  - name: iHeartMedia
+    slug: iheartmedia
+    ats: workday
+    board_token: "iheartmedia|wd5|External_iHM"
+    careers_url: https://iheartmedia.wd5.myworkdayjobs.com/External_iHM
+  - name: Integrity
+    slug: integrity
+    ats: workday
+    board_token: "integritymarketing|wd1|Integrity"
+    careers_url: https://integritymarketing.wd1.myworkdayjobs.com/Integrity
+  - name: Intel
+    slug: intel-intelwd1external
+    ats: workday
+    board_token: "intel|wd1|external"
+    careers_url: https://intel.wd1.myworkdayjobs.com/external
+  - name: Interac
+    slug: interac
+    ats: workday
+    board_token: "interac|wd3|Interac"
+    careers_url: https://interac.wd3.myworkdayjobs.com/Interac
+  - name: International Rescue Committee (IRC)
+    slug: international-rescue-committee-irc
+    ats: workday
+    board_token: "theirc|wd1|External_Careers"
+    careers_url: https://theirc.wd1.myworkdayjobs.com/External_Careers
+  - name: Ivy Tech Community College
+    slug: ivy-tech-community-college
+    ats: workday
+    board_token: "ivytech|wd1|ivy_tech_careers"
+    careers_url: https://ivytech.wd1.myworkdayjobs.com/ivy_tech_careers
+  - name: JINGDONG
+    slug: jingdong
+    ats: workday
+    board_token: "jd|wd103|Campus_Career_Site"
+    careers_url: https://jd.wd103.myworkdayjobs.com/Campus_Career_Site
+  - name: KBR
+    slug: kbr
+    ats: workday
+    board_token: "kbr|wd5|KBR_Careers"
+    careers_url: https://kbr.wd5.myworkdayjobs.com/KBR_Careers
+  - name: KLA Corporation
+    slug: kla-corporation
+    ats: workday
+    board_token: "kla|wd1|Search"
+    careers_url: https://kla.wd1.myworkdayjobs.com/Search
+  - name: LexisNexis Risk Solutions
+    slug: lexisnexis-risk-solutions
+    ats: workday
+    board_token: "relx|wd3|RiskSolutions"
+    careers_url: https://relx.wd3.myworkdayjobs.com/RiskSolutions
+  - name: Liberty University
+    slug: liberty-university
+    ats: workday
+    board_token: "liberty|wd5|lu_job_board_staff"
+    careers_url: https://liberty.wd5.myworkdayjobs.com/lu_job_board_staff
+  - name: Littelfuse
+    slug: littelfuse
+    ats: workday
+    board_token: "littelfuse|wd1|Littelfuse-Careers"
+    careers_url: https://littelfuse.wd1.myworkdayjobs.com/Littelfuse-Careers
+  - name: Marvell
+    slug: marvell-marvellwd1marvellcareers
+    ats: workday
+    board_token: "marvell|wd1|MarvellCareers"
+    careers_url: https://marvell.wd1.myworkdayjobs.com/MarvellCareers
+  - name: Marvell
+    slug: marvell-marvellwd1marvellcareers2
+    ats: workday
+    board_token: "marvell|wd1|MarvellCareers2"
+    careers_url: https://marvell.wd1.myworkdayjobs.com/MarvellCareers2
+  - name: McKesson
+    slug: mckesson
+    ats: workday
+    board_token: "mckesson|wd3|External_Careers"
+    careers_url: https://mckesson.wd3.myworkdayjobs.com/External_Careers
+  - name: Mosaic
+    slug: mosaic
+    ats: workday
+    board_token: "mosaic|wd5|mosaic"
+    careers_url: https://mosaic.wd5.myworkdayjobs.com/mosaic
+  - name: "Moss & Associates"
+    slug: moss-associates
+    ats: workday
+    board_token: "mosscm|wd1|moss_careers"
+    careers_url: https://mosscm.wd1.myworkdayjobs.com/moss_careers
+  - name: National Laboratory of the Rockies
+    slug: national-laboratory-of-the-rockies
+    ats: workday
+    board_token: "nrel|wd5|NLR"
+    careers_url: https://nrel.wd5.myworkdayjobs.com/NLR
+  - name: Nelnet
+    slug: nelnet
+    ats: workday
+    board_token: "nelnet|wd1|MyNelnet"
+    careers_url: https://nelnet.wd1.myworkdayjobs.com/MyNelnet
+  - name: Nidec
+    slug: nidec
+    ats: workday
+    board_token: "nidec|wd1|nidec"
+    careers_url: https://nidec.wd1.myworkdayjobs.com/nidec
+  - name: Nio
+    slug: nio
+    ats: workday
+    board_token: "nio|wd3|NIO_Careers"
+    careers_url: https://nio.wd3.myworkdayjobs.com/NIO_Careers
+  - name: NVIDIA
+    slug: nvidia-nvidiawd5nvidiaexternalcareersite
+    ats: workday
+    board_token: "nvidia|wd5|NVIDIAExternalCareerSite"
+    careers_url: https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
+  - name: NXP Semiconductors
+    slug: nxp-semiconductors
+    ats: workday
+    board_token: "nxp|wd3|careers"
+    careers_url: https://nxp.wd3.myworkdayjobs.com/careers
+  - name: Palo Alto Networks
+    slug: palo-alto-networks-paloaltonetworkswd5panwexternalcareers
+    ats: workday
+    board_token: "paloaltonetworks|wd5|panwexternalcareers"
+    careers_url: https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers
+  - name: Pennsylvania State University
+    slug: pennsylvania-state-university
+    ats: workday
+    board_token: "psu|wd1|PSU_Staff"
+    careers_url: https://psu.wd1.myworkdayjobs.com/PSU_Staff
+  - name: Protech Automotive Solutions
+    slug: protech-automotive-solutions
+    ats: workday
+    board_token: "calibercollision|wd1|protech"
+    careers_url: https://calibercollision.wd1.myworkdayjobs.com/protech
+  - name: RELX
+    slug: relx
+    ats: workday
+    board_token: "relx|wd3|relx"
+    careers_url: https://relx.wd3.myworkdayjobs.com/relx
+  - name: Revvity
+    slug: revvity
+    ats: workday
+    board_token: "revvity|wd103|External"
+    careers_url: https://revvity.wd103.myworkdayjobs.com/External
+  - name: RFCUNY
+    slug: rfcuny
+    ats: workday
+    board_token: "rfcuny|wd108|RFCUNY"
+    careers_url: https://rfcuny.wd108.myworkdayjobs.com/RFCUNY
+  - name: Rockwell Automation
+    slug: rockwell-automation
+    ats: workday
+    board_token: "rockwellautomation|wd1|External_Rockwell_Automation"
+    careers_url: https://rockwellautomation.wd1.myworkdayjobs.com/External_Rockwell_Automation
+  - name: Rockwell Automation
+    slug: rockwell-automation-rockwellautomationwd1external-rockwell-automation-early-careers
+    ats: workday
+    board_token: "rockwellautomation|wd1|External-Rockwell-Automation-Early-Careers"
+    careers_url: https://rockwellautomation.wd1.myworkdayjobs.com/External-Rockwell-Automation-Early-Careers
+  - name: ROCKWOOL Group
+    slug: rockwool-group
+    ats: workday
+    board_token: "rockwoolgroup|wd3|ROCKWOOL"
+    careers_url: https://rockwoolgroup.wd3.myworkdayjobs.com/ROCKWOOL
+  - name: Royal Bank of Canada
+    slug: royal-bank-of-canada
+    ats: workday
+    board_token: "rbc|wd3|rbcglobal1"
+    careers_url: https://rbc.wd3.myworkdayjobs.com/rbcglobal1
+  - name: RTX
+    slug: rtx
+    ats: workday
+    board_token: "globalhr|wd5|rec_rtx_ext_gateway"
+    careers_url: https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway
+  - name: Samsung
+    slug: samsung
+    ats: workday
+    board_token: "sec|wd3|Samsung_Careers"
+    careers_url: https://sec.wd3.myworkdayjobs.com/Samsung_Careers
+  - name: Schweitzer Engineering Laboratories
+    slug: schweitzer-engineering-laboratories
+    ats: workday
+    board_token: "selinc|wd1|SEL"
+    careers_url: https://selinc.wd1.myworkdayjobs.com/SEL
+  - name: Semtech
+    slug: semtech
+    ats: workday
+    board_token: "semtech|wd1|SemtechJobs"
+    careers_url: https://semtech.wd1.myworkdayjobs.com/SemtechJobs
+  - name: Semtech
+    slug: semtech-semtechwd1semtechcareers
+    ats: workday
+    board_token: "semtech|wd1|SemtechCareers"
+    careers_url: https://semtech.wd1.myworkdayjobs.com/SemtechCareers
+  - name: Sentara Health
+    slug: sentara-health
+    ats: workday
+    board_token: "sentara|wd1|SCS"
+    careers_url: https://sentara.wd1.myworkdayjobs.com/SCS
+  - name: Sony
+    slug: sony
+    ats: workday
+    board_token: "sonyglobal|wd1|SonyGlobalCareers"
+    careers_url: https://sonyglobal.wd1.myworkdayjobs.com/SonyGlobalCareers
+  - name: "SS&C"
+    slug: ssc
+    ats: workday
+    board_token: "ssctech|wd1|ssctechnologies"
+    careers_url: https://ssctech.wd1.myworkdayjobs.com/ssctechnologies
+  - name: Synchrony Financial
+    slug: synchrony-financial
+    ats: workday
+    board_token: "synchronyfinancial|wd5|University"
+    careers_url: https://synchronyfinancial.wd5.myworkdayjobs.com/University
+  - name: Teledyne
+    slug: teledyne
+    ats: workday
+    board_token: "flir|wd1|flircareers"
+    careers_url: https://flir.wd1.myworkdayjobs.com/flircareers
+  - name: TelevisaUnivision
+    slug: televisaunivision
+    ats: workday
+    board_token: "univision|wd1|External"
+    careers_url: https://univision.wd1.myworkdayjobs.com/External
+  - name: Tencent
+    slug: tencent
+    ats: workday
+    board_token: "tencent|wd1|Tencent_Careers"
+    careers_url: https://tencent.wd1.myworkdayjobs.com/Tencent_Careers
+  - name: Tencent
+    slug: tencent-tencentwd1oa-huoshui-platform
+    ats: workday
+    board_token: "tencent|wd1|OA_Huoshui_Platform"
+    careers_url: https://tencent.wd1.myworkdayjobs.com/OA_Huoshui_Platform
+  - name: The Boeing Company
+    slug: the-boeing-company
+    ats: workday
+    board_token: "boeing|wd1|INTERN"
+    careers_url: https://boeing.wd1.myworkdayjobs.com/INTERN
+  - name: "The Campbell's Company"
+    slug: the-campbells-company
+    ats: workday
+    board_token: "campbellsoup|wd5|externalcareers_globalsite"
+    careers_url: https://campbellsoup.wd5.myworkdayjobs.com/externalcareers_globalsite
+  - name: thyssenkrupp
+    slug: thyssenkrupp
+    ats: workday
+    board_token: "thyssenkruppmaterialsna|wd12|1"
+    careers_url: https://thyssenkruppmaterialsna.wd12.myworkdayjobs.com/1
+  - name: TMX Group
+    slug: tmx-group
+    ats: workday
+    board_token: "tmx|wd3|TMX_Careers"
+    careers_url: https://tmx.wd3.myworkdayjobs.com/TMX_Careers
+  - name: UMB
+    slug: umb
+    ats: workday
+    board_token: "umb|wd1|UMBExternal"
+    careers_url: https://umb.wd1.myworkdayjobs.com/UMBExternal
+  - name: United Parcel Service (UPS)
+    slug: united-parcel-service-ups
+    ats: workday
+    board_token: "hcmportal|wd5|Search"
+    careers_url: https://hcmportal.wd5.myworkdayjobs.com/Search
+  - name: University of Maryland - College Park
+    slug: university-of-maryland-college-park
+    ats: workday
+    board_token: "umd|wd1|UMCP"
+    careers_url: https://umd.wd1.myworkdayjobs.com/UMCP
+  - name: University of Virginia
+    slug: university-of-virginia
+    ats: workday
+    board_token: "uva|wd1|uvastudentjobs"
+    careers_url: https://uva.wd1.myworkdayjobs.com/uvastudentjobs
+  - name: University System of New Hampshire
+    slug: university-system-of-new-hampshire
+    ats: workday
+    board_token: "usnh|wd5|Careers"
+    careers_url: https://usnh.wd5.myworkdayjobs.com/Careers
+  - name: Valeo
+    slug: valeo
+    ats: workday
+    board_token: "valeo|wd3|valeo_jobs"
+    careers_url: https://valeo.wd3.myworkdayjobs.com/valeo_jobs
+  - name: Veralto
+    slug: veralto
+    ats: workday
+    board_token: "veralto|wd1|hachjobs"
+    careers_url: https://veralto.wd1.myworkdayjobs.com/hachjobs
+  - name: Viavi Solutions
+    slug: viavi-solutions
+    ats: workday
+    board_token: "viavisolutions|wd1|careers"
+    careers_url: https://viavisolutions.wd1.myworkdayjobs.com/careers
+  - name: Viridien
+    slug: viridien
+    ats: workday
+    board_token: "cgg|wd103|viridiencareers"
+    careers_url: https://cgg.wd103.myworkdayjobs.com/viridiencareers

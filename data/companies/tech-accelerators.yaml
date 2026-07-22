@@ -1,0 +1,564 @@
+# YC / a16z accelerator ATS discoveries (probe-OK only)
+companies:
+  - name: CircuitHub
+    slug: circuithub
+    ats: ashby
+    board_token: circuithub
+    website_url: https://circuithub.com
+  - name: Rescale
+    slug: rescale
+    ats: ashby
+    board_token: rescale
+    website_url: https://rescale.com
+  - name: Y Combinator
+    slug: y-combinator
+    ats: ashby
+    board_token: ycombinator
+    website_url: https://www.ycombinator.com
+  - name: Apollo
+    slug: apollo
+    ats: greenhouse
+    board_token: apollo
+    website_url: http://apollographql.com/
+  - name: HackerRank
+    slug: hackerrank
+    ats: greenhouse
+    board_token: hackerrank
+    website_url: http://hackerrank.com
+  - name: OneSignal
+    slug: onesignal
+    ats: smartrecruiters
+    board_token: onesignal
+    website_url: https://onesignal.com
+  - name: Streak
+    slug: streak
+    ats: smartrecruiters
+    board_token: streak
+    website_url: http://streak.com
+  - name: Quartzy
+    slug: quartzy
+    ats: lever
+    board_token: quartzy
+    website_url: https://www.quartzy.com
+  - name: AgileMD
+    slug: agilemd
+    ats: workable
+    board_token: agilemd
+    website_url: https://agilemd.com
+  - name: Sift
+    slug: sift
+    ats: ashby
+    board_token: sift
+    website_url: https://sift.com/
+  - name: MixRank
+    slug: mixrank
+    ats: smartrecruiters
+    board_token: mixrank
+    website_url: https://mixrank.com
+  - name: Mino Games
+    slug: mino-games
+    ats: workable
+    board_token: mino-games
+    website_url: http://minomonsters.com
+  - name: GOAT Group
+    slug: goat-group
+    ats: greenhouse
+    board_token: goatgroup
+    website_url: https://www.goatgroup.com/
+  - name: Volantio
+    slug: volantio
+    ats: workable
+    board_token: volantio
+    website_url: http://www.volantio.com
+  - name: Zentail
+    slug: zentail
+    ats: workable
+    board_token: zentail
+    website_url: https://zentail.com
+  - name: SmartAsset
+    slug: smartasset
+    ats: greenhouse
+    board_token: smartasset
+    website_url: http://smartasset.com
+  - name: BuildZoom
+    slug: buildzoom
+    ats: workable
+    board_token: buildzoom
+    website_url: https://www.buildzoom.com
+  - name: Padlet
+    slug: padlet
+    ats: ashby
+    board_token: padlet
+    website_url: https://padlet.com
+  - name: Etleap
+    slug: etleap
+    ats: smartrecruiters
+    board_token: etleap
+    website_url: https://etleap.com
+  - name: InfluxData
+    slug: influxdata
+    ats: ashby
+    board_token: influxdata
+    website_url: https://influxdata.com
+  - name: RADAR
+    slug: radar
+    ats: ashby
+    board_token: radar
+    website_url: https://goradar.com
+  - name: SimplyInsured
+    slug: simplyinsured
+    ats: workable
+    board_token: simplyinsured
+    website_url: http://simplyinsured.com
+  - name: Wefunder
+    slug: wefunder
+    ats: workable
+    board_token: wefunder
+    website_url: http://wefunder.com
+  - name: Goldbelly
+    slug: goldbelly
+    ats: smartrecruiters
+    board_token: goldbelly
+    website_url: https://www.goldbelly.com/
+  - name: Lob
+    slug: lob
+    ats: greenhouse
+    board_token: lob
+    website_url: http://lob.com
+  - name: AptDeco
+    slug: aptdeco
+    ats: smartrecruiters
+    board_token: aptdeco
+    website_url: https://www.aptdeco.com/
+  - name: Cambly
+    slug: cambly
+    ats: ashby
+    board_token: cambly
+    website_url: http://www.cambly.com
+  - name: Noora Health
+    slug: noora-health
+    ats: smartrecruiters
+    board_token: noora-health
+    website_url: http://noorahealth.org
+  - name: PiinPoint
+    slug: piinpoint
+    ats: smartrecruiters
+    board_token: piinpoint
+    website_url: https://piinpoint.com
+  - name: Algolia
+    slug: algolia
+    ats: greenhouse
+    board_token: algolia
+    website_url: http://www.algolia.com
+  - name: Checkr
+    slug: checkr
+    ats: greenhouse
+    board_token: checkr
+    website_url: http://www.checkr.com
+  - name: PicnicAI
+    slug: picnicai
+    ats: greenhouse
+    board_token: picnicai
+    website_url: https://picnic.ai
+  - name: ShipBob
+    slug: shipbob
+    ats: workable
+    board_token: shipbob
+    website_url: http://shipbob.com
+  - name: Hive
+    slug: hive
+    ats: greenhouse
+    board_token: hive
+    website_url: http://www.hive.co
+  - name: Notable Labs
+    slug: notable-labs
+    ats: ashby
+    board_token: notable
+    website_url: http://notablelabs.com
+  - name: Qventus
+    slug: qventus
+    ats: greenhouse
+    board_token: qventus
+    website_url: http://qventus.com
+  - name: Tempo
+    slug: tempo
+    ats: ashby
+    board_token: tempo
+    website_url: https://tempo.fit/
+  - name: Giveffect
+    slug: giveffect
+    ats: workable
+    board_token: giveffect
+    website_url: http://giveffect.com
+  - name: Razorpay
+    slug: razorpay
+    ats: workable
+    board_token: razorpay
+    website_url: https://razorpay.com
+  - name: Tab
+    slug: tab
+    ats: workable
+    board_token: tab
+    website_url: https://www.tab.travel
+  - name: Tara AI
+    slug: tara-ai
+    ats: workable
+    board_token: tara
+    website_url: http://www.tara.ai
+  - name: Mashgin
+    slug: mashgin
+    ats: lever
+    board_token: mashgin
+    website_url: http://mashgin.com
+  - name: Lugg
+    slug: lugg
+    ats: smartrecruiters
+    board_token: lugg
+    website_url: http://lugg.com
+  - name: New Story
+    slug: new-story
+    ats: ashby
+    board_token: new-story
+    website_url: http://newstoryhomes.org
+  - name: Gemnote
+    slug: gemnote
+    ats: smartrecruiters
+    board_token: gemnote
+    website_url: http://gemnote.com
+  - name: SnapMagic
+    slug: snapmagic
+    ats: ashby
+    board_token: snapmagic
+    website_url: https://www.snapmagic.com
+  - name: Heroic Labs
+    slug: heroic-labs
+    ats: workable
+    board_token: heroic-labs
+    website_url: http://heroiclabs.com
+  - name: Branch8
+    slug: branch8
+    ats: smartrecruiters
+    board_token: branch8
+    website_url: https://www.branch8.com
+  - name: Reach
+    slug: reach
+    ats: ashby
+    board_token: reach
+    website_url: https://reachpower.com
+  - name: Verge Genomics
+    slug: verge-genomics
+    ats: ashby
+    board_token: verge-genomics
+    website_url: http://vergegenomics.com
+  - name: Drip Capital
+    slug: drip-capital
+    ats: workable
+    board_token: drip-capital
+    website_url: http://dripcapital.com
+  - name: GiveCampus
+    slug: givecampus
+    ats: greenhouse
+    board_token: givecampus
+    website_url: http://go.givecampus.com
+  - name: Circle Medical
+    slug: circle-medical
+    ats: ashby
+    board_token: circle
+    website_url: https://circlemedical.com
+  - name: Shape (ShapeScale)
+    slug: shape-shapescale
+    ats: workable
+    board_token: shape
+    website_url: https://shapescale.com
+  - name: Xendit
+    slug: xendit
+    ats: greenhouse
+    board_token: xendit
+    website_url: https://www.xendit.co/
+  - name: Go1
+    slug: go1
+    ats: workable
+    board_token: go1
+    website_url: https://go1.com
+  - name: Bitmovin
+    slug: bitmovin
+    ats: greenhouse
+    board_token: bitmovin
+    website_url: http://bitmovin.com
+  - name: Instawork
+    slug: instawork
+    ats: greenhouse
+    board_token: instawork
+    website_url: http://instawork.com
+  - name: Human Interest
+    slug: human-interest
+    ats: ashby
+    board_token: human
+    website_url: http://humaninterest.com
+  - name: Mux
+    slug: mux
+    ats: ashby
+    board_token: mux
+    website_url: http://mux.com
+  - name: SOUNDBOKS
+    slug: soundboks
+    ats: workable
+    board_token: soundboks
+    website_url: http://soundboks.com
+  - name: Deepgram
+    slug: deepgram
+    ats: ashby
+    board_token: deepgram
+    website_url: https://www.deepgram.com
+  - name: iSono Health
+    slug: isono-health
+    ats: rippling
+    board_token: isonohealth
+    website_url: http://www.isonohealth.com
+  - name: Tovala
+    slug: tovala
+    ats: lever
+    board_token: tovala
+    website_url: http://www.tovala.com
+  - name: Mason
+    slug: mason
+    ats: smartrecruiters
+    board_token: mason
+    website_url: http://www.bymason.com
+  - name: PocketSuite
+    slug: pocketsuite
+    ats: smartrecruiters
+    board_token: pocketsuite
+    website_url: https://pocketsuite.io
+  - name: MailTime
+    slug: mailtime
+    ats: smartrecruiters
+    board_token: mailtime
+    website_url: http://mailtime.com
+  - name: Castle
+    slug: castle
+    ats: ashby
+    board_token: castle
+    website_url: https://castle.io
+  - name: Netomi
+    slug: netomi
+    ats: lever
+    board_token: netomi
+    website_url: https://netomi.com
+  - name: Function of Beauty
+    slug: function-of-beauty
+    ats: rippling
+    board_token: functionofbeauty
+    website_url: http://www.functionofbeauty.com
+  - name: Podium
+    slug: podium
+    ats: ashby
+    board_token: podium
+    website_url: https://podium.com
+  - name: "Apollo.io"
+    slug: apolloio
+    ats: greenhouse
+    board_token: apolloio
+    website_url: https://www.apollo.io/
+  - name: Thunkable
+    slug: thunkable
+    ats: lever
+    board_token: thunkable
+    website_url: http://thunkable.com
+  - name: Gecko Robotics
+    slug: gecko-robotics
+    ats: ashby
+    board_token: gecko-robotics
+    website_url: https://www.geckorobotics.com
+  - name: Sendbird
+    slug: sendbird
+    ats: greenhouse
+    board_token: sendbird
+    website_url: https://sendbird.com
+  - name: Rappi
+    slug: rappi
+    ats: workable
+    board_token: rappi
+    website_url: http://www.rappi.com
+  - name: BillionToOne
+    slug: billiontoone
+    ats: greenhouse
+    board_token: billiontoone
+    website_url: https://www.billiontoone.com
+  - name: Vetcove
+    slug: vetcove
+    ats: ashby
+    board_token: vetcove
+    website_url: https://www.vetcove.com
+  - name: Joy
+    slug: joy
+    ats: workable
+    board_token: joy
+    website_url: http://withjoy.com
+  - name: Rose Rocket
+    slug: rose-rocket
+    ats: workable
+    board_token: rose-rocket
+    website_url: http://roserocket.com
+  - name: Instrumentl
+    slug: instrumentl
+    ats: workable
+    board_token: instrumentl
+    website_url: https://www.instrumentl.com
+  - name: Nova Credit
+    slug: nova-credit
+    ats: greenhouse
+    board_token: novacredit
+    website_url: http://www.novacredit.com/
+  - name: OneChronos
+    slug: onechronos
+    ats: ashby
+    board_token: onechronos
+    website_url: https://www.onechronos.com/
+  - name: Women Who Code
+    slug: women-who-code
+    ats: workable
+    board_token: women-who-code
+    website_url: https://www.womenwhocode.com/
+  - name: Multiply Labs
+    slug: multiply-labs
+    ats: ashby
+    board_token: multiply
+    website_url: http://multiplylabs.com/
+  - name: Legalist
+    slug: legalist
+    ats: greenhouse
+    board_token: legalist
+    website_url: https://www.legalist.com
+  - name: HiOperator
+    slug: hioperator
+    ats: workable
+    board_token: hioperator
+    website_url: http://www.hioperator.com
+  - name: GoGoGrandparent
+    slug: gogograndparent
+    ats: smartrecruiters
+    board_token: gogograndparent
+    website_url: https://gogograndparent.com
+  - name: Meesho
+    slug: meesho
+    ats: lever
+    board_token: meesho
+    website_url: http://www.meesho.com
+  - name: Miso
+    slug: miso
+    ats: ashby
+    board_token: miso
+    website_url: http://miso.kr
+  - name: Athelas
+    slug: athelas
+    ats: smartrecruiters
+    board_token: athelas
+    website_url: http://athelas.com
+  - name: "People.ai"
+    slug: peopleai
+    ats: lever
+    board_token: people-ai
+    website_url: https://people.ai
+  - name: ClassDojo
+    slug: classdojo
+    ats: ashby
+    board_token: classdojo
+    website_url: http://www.classdojo.com
+  - name: Voiceops
+    slug: voiceops
+    ats: smartrecruiters
+    board_token: voiceops
+    website_url: https://voiceops.com
+  - name: Speak
+    slug: speak
+    ats: ashby
+    board_token: speak
+    website_url: http://speak.com
+  - name: Bountiful
+    slug: bountiful
+    ats: workable
+    board_token: bountiful
+    website_url: https://bountiful.ag/
+  - name: "MDalgorithms Inc."
+    slug: mdalgorithms-inc
+    ats: smartrecruiters
+    board_token: mdalgorithms-inc
+    website_url: https://www.mdalgorithms.com
+  - name: Ledger Investing
+    slug: ledger-investing
+    ats: ashby
+    board_token: ledger
+    website_url: https://ledgerinvesting.com/
+  - name: Clipboard
+    slug: clipboard
+    ats: ashby
+    board_token: clipboard
+    website_url: https://www.clipboardworks.com/careers
+  - name: "Ambient.ai"
+    slug: ambientai
+    ats: workable
+    board_token: ambient
+    website_url: https://ambient.ai
+  - name: Snappr
+    slug: snappr
+    ats: lever
+    board_token: snappr
+    website_url: https://www.snappr.com
+  - name: Mednet
+    slug: mednet
+    ats: ashby
+    board_token: mednet
+    website_url: https://www.themednet.org
+  - name: "Veryfi, Inc."
+    slug: veryfi-inc
+    ats: workable
+    board_token: veryfiinc
+    website_url: https://www.veryfi.com/
+
+# Added from accelerator ATS discovery (2026-07-22)
+  - name: Anysphere
+    slug: anysphere
+    ats: workable
+    board_token: anysphere
+    website_url: https://cursor.com
+  - name: Navan
+    slug: navan
+    ats: workable
+    board_token: navan
+    website_url: https://navan.com
+  - name: Harness
+    slug: harness
+    ats: workable
+    board_token: harness
+    website_url: https://www.harness.io
+  - name: Snyk
+    slug: snyk
+    ats: ashby
+    board_token: snyk
+    website_url: https://snyk.io
+  - name: Wiz
+    slug: wiz
+    ats: ashby
+    board_token: wiz
+    website_url: https://www.wiz.io
+  - name: Cribl
+    slug: cribl
+    ats: greenhouse
+    board_token: cribl
+    website_url: https://cribl.io
+  - name: Gong
+    slug: gong
+    ats: workable
+    board_token: gong
+    website_url: https://www.gong.io
+  - name: Dialpad
+    slug: dialpad
+    ats: greenhouse
+    board_token: dialpad
+    website_url: https://www.dialpad.com
+  - name: Opendoor
+    slug: opendoor
+    ats: rippling
+    board_token: opendoor
+    website_url: https://www.opendoor.com
