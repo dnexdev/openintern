@@ -1,3 +1,13 @@
+import {
+  parseWorkdayToken,
+  workdayApplyUrl,
+  workdayDetailUrl,
+  workdayJobsUrl,
+} from "./workday.js";
+import { fetchCitadel, fetchCitadelSecurities } from "./citadel.js";
+import { fetchTesla } from "./tesla.js";
+import { fetchBytedance, fetchTiktok } from "./bytedance.js";
+
 export type NormalizedJob = {
   externalId: string;
   title: string;
@@ -16,7 +26,22 @@ export type AtsName =
   | "smartrecruiters"
   | "recruitee"
   | "rippling"
-  | "bamboohr";
+  | "bamboohr"
+  | "workday"
+  | "citadel"
+  | "citadel_securities"
+  | "tesla"
+  | "bytedance"
+  | "tiktok";
+
+/** Proprietary careers adapters (not Greenhouse-style public boards). */
+export const PROPRIETARY_ATS: AtsName[] = [
+  "citadel",
+  "citadel_securities",
+  "tesla",
+  "bytedance",
+  "tiktok",
+];
 
 async function sleep(ms: number) {
   await new Promise((r) => setTimeout(r, ms));
@@ -443,6 +468,137 @@ export async function fetchBambooHr(boardToken: string): Promise<NormalizedJob[]
   });
 }
 
+type WorkdayPosting = {
+  title?: string;
+  externalPath?: string;
+  locationsText?: string;
+  bulletFields?: { timeType?: string; workerSubType?: string };
+};
+
+type WorkdayListResponse = {
+  total?: number;
+  jobPostings?: WorkdayPosting[];
+};
+
+type WorkdayDetailResponse = {
+  jobPostingInfo?: {
+    id?: string;
+    jobReqId?: string;
+    title?: string;
+    jobDescription?: string;
+    location?: string;
+    additionalLocations?: string[];
+    postedOn?: string;
+    startDate?: string;
+    timeType?: string;
+  };
+  hiringOrganization?: { name?: string };
+};
+
+async function fetchJsonPost<T>(url: string, body: unknown, retries = 3): Promise<T> {
+  let lastErr: Error | null = null;
+  for (let attempt = 0; attempt < retries; attempt++) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "User-Agent": "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)",
+        },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) return (await res.json()) as T;
+      if (res.status !== 429 && res.status < 500) {
+        throw new Error(`HTTP ${res.status} for ${url}`);
+      }
+      lastErr = new Error(`HTTP ${res.status} for ${url}`);
+    } catch (err) {
+      lastErr = err instanceof Error ? err : new Error(String(err));
+      if (lastErr.message.startsWith("HTTP 4") && !lastErr.message.includes("HTTP 429")) {
+        throw lastErr;
+      }
+    }
+    await sleep(500 * 2 ** attempt);
+  }
+  throw lastErr ?? new Error(`Failed to POST ${url}`);
+}
+
+/**
+ * Fetch public Workday CXS board.
+ * boardToken format: tenant|wdN|site (see workday.ts)
+ */
+export async function fetchWorkday(boardToken: string): Promise<NormalizedJob[]> {
+  const board = parseWorkdayToken(boardToken);
+  if (!board) {
+    throw new Error(`Invalid workday board_token (want tenant|wdN|site): ${boardToken}`);
+  }
+
+  const listUrl = workdayJobsUrl(board);
+  const limit = 20;
+  const postings: WorkdayPosting[] = [];
+  let total = Infinity;
+
+  for (let offset = 0; offset < total; offset += limit) {
+    const page = await fetchJsonPost<WorkdayListResponse>(listUrl, {
+      appliedFacets: {},
+      limit,
+      offset,
+      searchText: "",
+    });
+    const batch = page.jobPostings ?? [];
+    if (typeof page.total === "number") total = page.total;
+    postings.push(...batch);
+    if (batch.length === 0) break;
+    if (batch.length < limit) break;
+    // polite pacing — Workday throttles aggressive paging
+    await sleep(400);
+  }
+
+  const withDetails = await mapWithConcurrency(postings, 4, async (p) => {
+    if (!p.externalPath) {
+      return { posting: p, description: "", postedAt: null as Date | null, id: p.externalPath ?? p.title ?? "" };
+    }
+    try {
+      const detail = await fetchJson<WorkdayDetailResponse>(
+        workdayDetailUrl(board, p.externalPath),
+      );
+      const info = detail.jobPostingInfo;
+      const description = info?.jobDescription
+        ? stripHtmlTags(info.jobDescription)
+        : "";
+      const postedAt = info?.postedOn
+        ? new Date(info.postedOn)
+        : info?.startDate
+          ? new Date(info.startDate)
+          : null;
+      const id = info?.id ?? info?.jobReqId ?? p.externalPath;
+      return { posting: p, description, postedAt, id: String(id) };
+    } catch {
+      return {
+        posting: p,
+        description: "",
+        postedAt: null as Date | null,
+        id: p.externalPath,
+      };
+    }
+  });
+
+  return withDetails.map(({ posting: p, description, postedAt, id }) => {
+    const locations: string[] = [];
+    if (p.locationsText) locations.push(p.locationsText);
+    return {
+      externalId: id,
+      title: p.title ?? "Untitled",
+      locations,
+      applyUrl: p.externalPath ? workdayApplyUrl(board, p.externalPath) : workdayJobsUrl(board),
+      excerpt: description ? description.slice(0, 400) : null,
+      postedAt,
+      description,
+    };
+  });
+}
+
 export async function fetchJobsForAts(
   ats: AtsName,
   boardToken: string,
@@ -464,6 +620,18 @@ export async function fetchJobsForAts(
       return fetchRippling(boardToken);
     case "bamboohr":
       return fetchBambooHr(boardToken);
+    case "workday":
+      return fetchWorkday(boardToken);
+    case "citadel":
+      return fetchCitadel(boardToken);
+    case "citadel_securities":
+      return fetchCitadelSecurities(boardToken);
+    case "tesla":
+      return fetchTesla(boardToken);
+    case "bytedance":
+      return fetchBytedance(boardToken);
+    case "tiktok":
+      return fetchTiktok(boardToken);
     default:
       throw new Error(`Unsupported ATS: ${ats}`);
   }
