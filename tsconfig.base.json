@@ -12,6 +12,8 @@
     "noEmit": true,
     "declaration": true,
     "declarationMap": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    // TypeScript 7 defaults `types` to [] (no ambient @types). Keep Node globals.
+    "types": ["node"]
   }
 }

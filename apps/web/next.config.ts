@@ -10,6 +10,8 @@ loadDotenv({ path: path.join(root, ".env") });
 const nextConfig: NextConfig = {
   transpilePackages: ["@openintern/db"],
   experimental: {
+    // TypeScript 7 has no JS Compiler API; run project-local `tsc` instead.
+    useTypeScriptCli: true,
     serverActions: {
       bodySizeLimit: "1mb",
     },
