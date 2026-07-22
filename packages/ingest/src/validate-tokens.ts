@@ -9,30 +9,24 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import YAML from "yaml";
 import { companiesFileSchema } from "./schema.js";
-import { countJobsFromProbeBody, probeUrl } from "./probe-url.js";
+import { probeAtsBoard } from "./probe-url.js";
 import { defaultCompaniesDir } from "./sync-companies.js";
 
-type Probe = { ats: string; token: string; url: string };
+/** Proprietary boards that may 403 without dump/browser gates. */
+const DUMP_GATED_ATS = new Set(["citadel", "citadel_securities", "tesla"]);
 
-async function check(probe: Probe): Promise<string | null> {
-  try {
-    const res = await fetch(probe.url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "User-Agent": "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)",
-      },
-    });
-    if (res.status === 404) return `HTTP 404 for ${probe.url}`;
-    if (!res.ok && res.status !== 429) return `HTTP ${res.status} for ${probe.url}`;
-    return null;
-  } catch (err) {
-    return err instanceof Error ? err.message : String(err);
-  }
+function isDumpGateBlock(ats: string, err: string): boolean {
+  return DUMP_GATED_ATS.has(ats) && /blocked|HTTP 403|OPENINTERN_/i.test(err);
 }
 
 async function loadFromFiles(files: string[]) {
-  const companies: { name: string; slug: string; ats: string; board_token: string }[] = [];
+  const companies: {
+    name: string;
+    slug: string;
+    ats: string;
+    board_token: string;
+    active: boolean;
+  }[] = [];
   for (const file of files) {
     const raw = await fs.readFile(file, "utf8");
     const data = companiesFileSchema.parse(YAML.parse(raw));
@@ -60,26 +54,42 @@ async function main() {
     return;
   }
 
-  const companies = await loadFromFiles(targets);
+  const companies = (await loadFromFiles(targets)).filter((c) => c.active);
   const failures: string[] = [];
+  const skipped: string[] = [];
 
-  // Cap concurrency
+  if (companies.length === 0) {
+    console.log("No active companies to validate.");
+    return;
+  }
+
+  const inCi = process.env.CI === "true" || process.env.CI === "1";
+
   const CHUNK = 10;
   for (let i = 0; i < companies.length; i += CHUNK) {
     const chunk = companies.slice(i, i + CHUNK);
     const results = await Promise.all(
       chunk.map(async (c) => {
-        const err = await check({
+        const result = await probeAtsBoard(c.ats, c.board_token);
+        return {
+          slug: c.slug,
           ats: c.ats,
-          token: c.board_token,
-          url: probeUrl(c.ats, c.board_token),
-        });
-        return { slug: c.slug, err };
+          err: result.ok ? null : result.error ?? `HTTP ${result.status}`,
+        };
       }),
     );
     for (const r of results) {
-      if (r.err) failures.push(`${r.slug}: ${r.err}`);
-      else console.log(`ok ${r.slug}`);
+      if (!r.err) {
+        console.log(`ok ${r.slug}`);
+        continue;
+      }
+      // CI runners often cannot reach Akamai-gated careers sites without dumps/browser.
+      if (inCi && isDumpGateBlock(r.ats, r.err)) {
+        skipped.push(`${r.slug}: ${r.err}`);
+        console.warn(`skip ${r.slug} (dump-gated proprietary in CI)`);
+        continue;
+      }
+      failures.push(`${r.slug}: ${r.err}`);
     }
   }
 
@@ -88,7 +98,11 @@ async function main() {
     for (const f of failures) console.error(`  - ${f}`);
     process.exitCode = 1;
   } else {
-    console.log(`\nValidated ${companies.length} companies.`);
+    console.log(
+      `\nValidated ${companies.length - skipped.length} companies` +
+        (skipped.length ? ` (${skipped.length} dump-gated skipped in CI)` : "") +
+        ".",
+    );
   }
 }
 

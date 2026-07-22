@@ -22,6 +22,17 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Install Playwright Chromium (Citadel CDN bypass)
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Materialize Tesla state dump (optional secret)
+        env:
+          TESLA_STATE_JSON: ${{ secrets.TESLA_STATE_JSON }}
+        run: |
+          if [ -n "$TESLA_STATE_JSON" ]; then
+            mkdir -p dumps
+            printf '%s' "$TESLA_STATE_JSON" > dumps/tesla-state.json
+            echo "OPENINTERN_TESLA_STATE_PATH=$GITHUB_WORKSPACE/dumps/tesla-state.json" >> "$GITHUB_ENV"
+          fi
       - name: Require DATABASE_URL secret
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -38,6 +49,7 @@ jobs:
         id: ingest
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          OPENINTERN_BROWSER: "1"
         run: pnpm ingest
       - name: Notify on failure
         if: failure()

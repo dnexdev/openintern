@@ -29,7 +29,7 @@ OpenIntern is an **open data layer** for tech internships (SWE, data, AI/ML, qua
 | Applied | Local browser only (`localStorage`) |
 | Apply | Always outbound to the employer |
 
-We poll public **Greenhouse / Lever / Ashby / Workable / SmartRecruiters / Recruitee / Rippling / BambooHR** job board APIs. We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
+We poll public **Greenhouse / Lever / Ashby / Workable / SmartRecruiters / Recruitee / Rippling / BambooHR / Workday** job board APIs. We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
 
 ## Quick start (local)
 

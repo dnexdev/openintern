@@ -32,7 +32,7 @@ function avatarColor(name: string) {
 const BOARD_SUBDOMAINS = /^(careers|jobs|apply|boards|www|ats)\./i;
 
 const ATS_HOST =
-  /greenhouse\.io|lever\.co|ashbyhq\.com|workable\.com|smartrecruiters\.com|recruitee\.com|rippling\.com|bamboohr\.com/i;
+  /greenhouse\.io|lever\.co|ashbyhq\.com|workable\.com|smartrecruiters\.com|recruitee\.com|rippling\.com|bamboohr\.com|myworkdayjobs\.com/i;
 
 /**
  * Brand domains when registry website_url is missing or wrong.

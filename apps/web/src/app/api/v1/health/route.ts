@@ -6,6 +6,14 @@ import { parseFunnel, sumFunnels, isZeroMatchRun } from "@/lib/ingest-health";
 
 export const dynamic = "force-dynamic";
 
+const PROPRIETARY_ATS = new Set([
+  "citadel",
+  "citadel_securities",
+  "tesla",
+  "bytedance",
+  "tiktok",
+]);
+
 export async function GET() {
   const db = getDb();
 
@@ -32,6 +40,7 @@ export async function GET() {
       ran_at: ingestRuns.ranAt,
       company_slug: companies.slug,
       company_name: companies.name,
+      company_ats: companies.ats,
     })
     .from(ingestRuns)
     .leftJoin(companies, eq(ingestRuns.companyId, companies.id))
@@ -49,8 +58,10 @@ export async function GET() {
       company_id: ingestRuns.companyId,
       status: ingestRuns.status,
       error: ingestRuns.error,
+      job_count: ingestRuns.jobCount,
       ran_at: ingestRuns.ranAt,
       company_slug: companies.slug,
+      company_ats: companies.ats,
     })
     .from(ingestRuns)
     .leftJoin(companies, eq(ingestRuns.companyId, companies.id))
@@ -80,6 +91,32 @@ export async function GET() {
     .map((r) => ({
       company_slug: r.company_slug,
       company_name: r.company_name,
+      company_ats: r.company_ats,
+      error: r.error,
+      ran_at: r.ran_at.toISOString(),
+    }));
+
+  const proprietaryLatest = latestRuns.filter(
+    (r) => r.company_ats && PROPRIETARY_ATS.has(r.company_ats),
+  );
+  const proprietary_failures = proprietaryLatest
+    .filter((r) => r.status === "error")
+    .map((r) => ({
+      company_slug: r.company_slug,
+      company_ats: r.company_ats,
+      error: r.error,
+      ran_at: r.ran_at.toISOString(),
+    }));
+  const proprietary_zero_job_runs = proprietaryLatest
+    .filter(
+      (r) =>
+        r.status === "ok" &&
+        (isZeroMatchRun(r.error) || (typeof r.job_count === "number" && r.job_count === 0)),
+    )
+    .map((r) => ({
+      company_slug: r.company_slug,
+      company_ats: r.company_ats,
+      job_count: r.job_count,
       error: r.error,
       ran_at: r.ran_at.toISOString(),
     }));
@@ -99,6 +136,10 @@ export async function GET() {
     pipeline: {
       zero_match_companies: zeroMatchCompanies,
       recent_failures: recentFailures,
+      proprietary_ats: {
+        failures: proprietary_failures,
+        zero_job_runs: proprietary_zero_job_runs,
+      },
       triage:
         "Check /health → pnpm recover-tokens → fix data/companies YAML → pnpm validate-tokens → re-run ingest.",
     },

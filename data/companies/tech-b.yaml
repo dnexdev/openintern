@@ -37,11 +37,20 @@ companies:
     ats: greenhouse
     board_token: janestreet
   - name: Citadel
+    # Proprietary HTML adapter. Anonymous CDN often 403 — use OPENINTERN_BROWSER=1 or OPENINTERN_CITADEL_HTML_PATH.
     slug: citadel
-    ats: greenhouse
-    board_token: citadel
-    active: false
+    ats: citadel
+    board_token: open-opportunities
+    active: true
     website_url: https://www.citadel.com
+    careers_url: https://www.citadel.com/careers/open-opportunities/
+  - name: Citadel Securities
+    slug: citadel-securities
+    ats: citadel_securities
+    board_token: open-opportunities
+    active: true
+    website_url: https://www.citadelsecurities.com
+    careers_url: https://www.citadelsecurities.com/careers/open-opportunities/
   - name: Hudson River Trading
     slug: hrt
     ats: greenhouse
@@ -70,6 +79,12 @@ companies:
     slug: akuna
     ats: greenhouse
     board_token: akunacapital
+  - name: Connor, Clark & Lunn Investment Management
+    slug: cclim
+    ats: greenhouse
+    board_token: cclim
+    careers_url: https://job-boards.greenhouse.io/cclim
+    website_url: https://www.cclgroup.com
   - name: Susquehanna
     slug: sig
     ats: greenhouse
@@ -126,11 +141,27 @@ companies:
     active: false
     website_url: https://www.rivian.com
   - name: Tesla
+    # Proprietary cua-api adapter. Akamai often 403 — OPENINTERN_TESLA_STATE_PATH dump or OPENINTERN_BROWSER=1.
     slug: tesla
-    ats: greenhouse
-    board_token: tesla
-    active: false
+    ats: tesla
+    board_token: careers
+    active: true
     website_url: https://www.tesla.com
+    careers_url: https://www.tesla.com/careers
+  - name: ByteDance
+    slug: bytedance
+    ats: bytedance
+    board_token: en
+    active: true
+    website_url: https://www.bytedance.com
+    careers_url: https://joinbytedance.com/search
+  - name: TikTok
+    slug: tiktok
+    ats: tiktok
+    board_token: tiktok
+    active: true
+    website_url: https://www.tiktok.com
+    careers_url: https://lifeattiktok.com/search
   - name: SpaceX
     slug: spacex
     ats: greenhouse

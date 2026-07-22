@@ -50,6 +50,20 @@
       "when": 1783700000000,
       "tag": "0006_job_fingerprint_families",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1783800000000,
+      "tag": "0007_ats_workday",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1783900000000,
+      "tag": "0008_ats_proprietary",
+      "breakpoints": true
     }
   ]
 }
