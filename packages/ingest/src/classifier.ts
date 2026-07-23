@@ -21,32 +21,30 @@ const EXCLUDE_MANAGER = /\bmanager\b/i;
 const ALLOWED_MANAGER =
   /\b(product|program|project|technical\s*program)\s*managers?\b/i;
 
-/**
- * Tech signal. Bare "engineer" is OK only after NEG_DOMAIN rejects industrial/process/etc.
- * Includes campus / forward-deployed phrasings common on public internship lists.
- */
-const TECH_HINT =
-  /\b(software|developer|swe|sde|engineer|engineering|frontend|backend|full[\s-]?stack|data\s*(science|scientist|engineer|analytics|analyst)|machine learning|\bml\b|\bai\b|artificial intelligence|research(\s*(engineer|scientist|intern))?|security|cyber|infosec|infra|infrastructure|devops|sre|platform|mobile|\bios\b|android|firmware|hardware|embedded|quant|quantitative|product\s*manager|\bpm\b|design\s*engineer|site reliability|robotics|computer\s*(science|vision)|cloud|analytics|scientist|technical\s*support|forward\s*deployed|campus)\b/i;
-
-/** Non-tech / non-CS engineering domains — drop even if "engineer" appears. */
+/** Non-tech / non-CS domains — drop even when a description mentions engineers. */
 const NEG_DOMAIN =
-  /\b(marketing|sales|\bsdr\b|account\s*(executive|manager)|hr\b|human\s*resources|people\s*(ops|operations|team)?|talent|recruit(er|ing|ment)|finance|financial|accounting|accountant|audit|tax\b|legal|paralegal|counsel|customer\s*(success|support|service|experience)|business\s*development|bd\b|partnerships?|community|content|copywrit|social\s*media|brand|communications?|pr\b|public\s*relations|government\s*affairs|events?\s*(coordinator|manager|intern)|admin(istrative)?|office\s*(manager|coordinator)|executive\s*assistant|retail|store|warehouse|logistics|supply\s*chain|procurement|facilities|culinary|barista|driver|electrician|plumber|hvac|mechanic|weld(er|ing)?|machinist|assembler|janitor|custodian|landscap|nurse|clinical|pharmac|industrial\s*engineer(ing)?|process\s*engineer(ing)?|manufacturing\s*engineer(ing)?|mechanical\s*engineer(ing)?|civil\s*engineer(ing)?|chemical\s*engineer(ing)?|quality\s*engineer(ing)?|tires?\b|lab\s*(technician|tech|assistant)|production\s*engineer(ing)?|trade\s*compliance|network\s*strategy|business\s*operations)\b/i;
+  /\b(marketing|sales|\bsdr\b|account\s*(executive|manager)|hr\b|human\s*resources|people\s*(ops|operations|team)?|talent|recruit(er|ing|ment)|finance|financial|accounting|accountant|audit|tax\b|legal|paralegal|counsel|customer\s*(success|support|service|experience)|technical\s*support|business\s*development|bd\b|partnerships?|community|content|copywrit|social\s*media|brand|communications?|pr\b|public\s*relations|government\s*affairs|policy|events?\s*(coordinator|manager|intern)|admin(istrative)?|office\s*(manager|coordinator)|executive\s*assistant|retail|store|warehouse|logistics|supply\s*chain|procurement|facilities|culinary|barista|driver|electrician|plumber|hvac|mechanic|weld(er|ing)?|machinist|assembler|janitor|custodian|landscap|nurse|clinical|pharmac|industrial\s*engineer(ing)?|process\s*engineer(ing)?|manufacturing\s*engineer(ing)?|mechanical\s*engineer(ing)?|civil\s*engineer(ing)?|chemical\s*engineer(ing)?|quality\s*engineer(ing)?|tires?\b|lab\s*(technician|tech|assistant)|production\s*engineer(ing)?|trade\s*compliance|network\s*strategy|business\s*operations|(?:platform|business|content|marketing|growth|commercial|sales|brand|product)\s+strategy|product\s*operations|program\s*management|project\s*management|user\s*research|ux\s*(research|design))\b/i;
 
-/** Software-specific keywords for the roles fallback (not bare TECH_HINT). */
-const SOFTWARE_ROLE_HINT =
-  /\b(software|swe|sde|developer|full[\s-]?stack|frontend|backend)\b/i;
+/**
+ * Ambiguous titles may use the description only when the title itself says the
+ * internship is technical. A plain "Project Intern" must never pass because a
+ * long description happens to mention software or an engineering team.
+ */
+const GENERIC_TECH_TITLE =
+  /\b(engineer(?:ing)?|technical|technology|computer\s+science|computing|systems)\s+(?:intern(?:ship)?|co-?op|coop|apprentice)\b|\b(?:intern(?:ship)?|co-?op|coop|apprentice)[,\s-]+(?:engineer(?:ing)?|technical|technology|computer\s+science|computing|systems)\b/i;
 
 export function isTechInternship(title: string, description = ""): boolean {
   if (!INTERNSHIP_TITLE.test(title)) return false;
   if (EXCLUDE_SENIORITY.test(title)) return false;
   if (EXCLUDE_MANAGER.test(title) && !ALLOWED_MANAGER.test(title)) return false;
-
-  // Non-tech domains (incl. industrial/process engineering) — drop first.
   if (NEG_DOMAIN.test(title)) return false;
 
-  if (TECH_HINT.test(title)) return true;
+  // Every admitted posting must map to at least one filterable tech role.
+  if (extractRoles(title).length > 0) return true;
 
-  return TECH_HINT.test(description);
+  // Description fallback is intentionally limited to explicitly technical but
+  // otherwise generic titles such as "Engineering Internship".
+  return GENERIC_TECH_TITLE.test(title) && extractRoles("", description).length > 0;
 }
 
 export function looksRemote(locations: string[], title = ""): boolean {
@@ -292,39 +290,47 @@ export function extractCohortYear(text: string): number | null {
 
 const ROLE_PATTERNS: { role: JobRole; re: RegExp }[] = [
   { role: "fullstack", re: /\b(full[\s-]?stack)\b/i },
-  { role: "frontend", re: /\b(frontend|front[\s-]?end|ui engineer|react|next\.?js)\b/i },
-  { role: "backend", re: /\b(backend|back[\s-]?end|server[\s-]?side|api engineer)\b/i },
-  { role: "ml", re: /\b(machine learning|\bml\b|deep learning|\bai\b|artificial intelligence|llm)\b/i },
-  { role: "data", re: /\b(data\s*(science|scientist|engineer|analytics|analyst)|analytics)\b/i },
+  { role: "frontend", re: /\b(frontend|front[\s-]?end|ui\s+engineer|web\s+(developer|engineer)|react|next\.?js)\b/i },
+  { role: "backend", re: /\b(backend|back[\s-]?end|server[\s-]?side|api\s+engineer|distributed\s+systems)\b/i },
+  { role: "ml", re: /\b(machine learning|\bml\b|deep learning|\bai\b|artificial intelligence|llm|nlp|natural language|computer vision|applied scientist)\b/i },
+  { role: "data", re: /\b(data\s*(science|scientist|engineer|analytics|analyst)|analytics|business intelligence)\b/i },
   { role: "mobile", re: /\b(mobile|\bios\b|android|react native|flutter)\b/i },
-  { role: "security", re: /\b(security|cyber|infosec|appsec)\b/i },
-  { role: "devops", re: /\b(devops|sre|site reliability|infrastructure|platform engineer|cloud engineer)\b/i },
-  { role: "hardware", re: /\b(hardware|firmware|embedded|fpga|asic|robotics)\b/i },
+  { role: "security", re: /\b(security|cyber|infosec|appsec|privacy\s+engineer)\b/i },
+  { role: "devops", re: /\b(devops|sre|site reliability|infrastructure|platform\s+engineer|cloud\s+engineer|network\s+engineer)\b/i },
+  { role: "hardware", re: /\b(hardware|firmware|embedded|fpga|asic|robotics|silicon|semiconductor|rtl|vlsi|chip\s+design|electrical\s+engineer)\b/i },
   { role: "quant", re: /\b(quant|quantitative)\b/i },
-  { role: "product", re: /\b(product\s*manager|\bpm\b|product designer|product intern)\b/i },
-  { role: "research", re: /\b(research(\s*(engineer|intern|scientist))?)\b/i },
-  // No bare industrial engineer — software keywords only for the software role tag.
-  { role: "software", re: /\b(software|swe|sde|developer|full[\s-]?stack)\b/i },
+  { role: "product", re: /\b(product\s*manager|technical\s+product|\bpm\b|product\s+intern)\b/i },
+  {
+    role: "research",
+    re: /\b(research\s+(engineer|scientist)|(?:ai|ml|machine learning|computer vision|quantitative|software)\s+research)\b/i,
+  },
+  { role: "software", re: /\b(software|swe|sde|developer|programming|algorithm\s+engineer|full[\s-]?stack|forward\s+deployed\s+engineer)\b/i },
 ];
 
+function rolesIn(text: string): Set<JobRole> {
+  const found = new Set<JobRole>();
+  for (const { role, re } of ROLE_PATTERNS) {
+    if (re.test(text)) found.add(role);
+  }
+  // Technical research titles often state the domain separately, e.g.
+  // "Research Intern — Machine Learning".
+  if (
+    /\bresearch\b/i.test(text) &&
+    [...found].some((role) => ["software", "data", "ml", "hardware", "quant"].includes(role))
+  ) {
+    found.add("research");
+  }
+  return found;
+}
+
 export function extractRoles(title: string, description = ""): JobRole[] {
-  const fromTitle = new Set<JobRole>();
-  for (const { role, re } of ROLE_PATTERNS) {
-    if (re.test(title)) fromTitle.add(role);
-  }
-  if (fromTitle.size > 0) {
-    return ROLE_OPTIONS.filter((r) => fromTitle.has(r));
-  }
-  // Generic titles ("Intern", "Co-op") — fall back to description.
-  const fromDesc = new Set<JobRole>();
-  for (const { role, re } of ROLE_PATTERNS) {
-    if (re.test(description)) fromDesc.add(role);
-  }
-  // Only default to software when an actual software keyword is present.
-  if (fromDesc.size === 0 && SOFTWARE_ROLE_HINT.test(`${title} ${description}`)) {
-    fromDesc.add("software");
-  }
-  return ROLE_OPTIONS.filter((r) => fromDesc.has(r));
+  const fromTitle = rolesIn(title);
+  if (fromTitle.size > 0) return ROLE_OPTIONS.filter((r) => fromTitle.has(r));
+
+  // Descriptions are only a fallback for generic technical titles. Never union
+  // every discipline mentioned in a job description into an otherwise clear title.
+  const fromDescription = rolesIn(description);
+  return ROLE_OPTIONS.filter((r) => fromDescription.has(r));
 }
 
 // Prefer full names + city landmarks; state abbrevs after a comma so "CA" ≠ Canada.

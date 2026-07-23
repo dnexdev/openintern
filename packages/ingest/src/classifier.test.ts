@@ -25,8 +25,16 @@ function assertEq<T>(actual: T, expected: T, msg: string) {
 assert(isTechInternship("Software Engineer Intern"), "swe intern");
 assert(isTechInternship("Machine Learning Co-op"), "ml coop");
 assert(isTechInternship("Product Manager Intern"), "pm intern");
-assert(isTechInternship("Technical Support Engineer Intern"), "support eng intern");
+assert(!isTechInternship("Technical Support Engineer Intern"), "support is not a corpus role");
 assert(isTechInternship("Engineering Internship", "Build software systems in TypeScript"), "generic eng + tech desc");
+assert(!isTechInternship("Engineering Internship", "Support manufacturing process improvements"), "generic eng needs tech desc");
+assert(!isTechInternship("Platform Strategy Project Intern", "Partner with software engineering and data teams"), "strategy project false positive");
+assert(!isTechInternship("Product Operations Intern", "Work with engineers on platform tooling"), "product ops false positive");
+assert(!isTechInternship("Research Intern", "Interview users and partner with product teams"), "nontechnical research");
+assert(isTechInternship("Research Intern - Machine Learning"), "technical research");
+assert(isTechInternship("Robotics Software Intern"), "robotics software");
+assert(isTechInternship("Quantitative Strategy Intern"), "quant strategy remains technical");
+assert(isTechInternship("Hardware Design Intern"), "hardware design remains technical");
 assert(isTechInternship("Full Stack Software Engineer Intern - Winter 2027"), "fullstack winter");
 assert(!isTechInternship("New Grad Software Engineer"), "new grad");
 assert(!isTechInternship("Marketing Intern"), "marketing");
@@ -120,6 +128,9 @@ assert(
 assertEq(extractRoles("Software Engineer Intern"), ["software"], "swe role");
 assertEq(extractRoles("ML Backend Intern"), ["backend", "ml"], "multi roles");
 assertEq(extractRoles("Data Science Co-op"), ["data"], "data role");
+assertEq(extractRoles("Research Intern - Computer Vision"), ["ml", "research"], "technical research tags");
+assertEq(extractRoles("Algorithm Engineer Intern"), ["software"], "algorithm software tag");
+assertEq(extractRoles("Firmware Intern - ASIC"), ["hardware"], "hardware synonyms");
 assertEq(extractRoles("Industrial Engineering Internship"), [], "industrial no role");
 assertEq(extractRoles("Engineering Internship"), [], "bare eng no software role");
 assertEq(
