@@ -239,7 +239,8 @@ async function ingestCompany(
 
   for (const j of filtered) {
     seenIds.push(j.externalId);
-    const excerpt = j.excerpt ?? excerptFromHtml(j.description);
+    const excerpt =
+      excerptFromHtml(j.excerpt) ?? excerptFromHtml(j.description);
     const isRemote = looksRemote(j.locations, j.title);
     const classifierText = `${j.title} ${j.description}`;
     const terms = extractTerms(classifierText);

@@ -263,7 +263,21 @@ export async function fetchSmartRecruiters(boardToken: string): Promise<Normaliz
     all.push(...batch);
     if (batch.length < limit) break;
   }
-  return all.map((j) => {
+
+  // List responses frequently omit jobAd.sections. Fetch public details so card
+  // excerpts and description-based classification are based on the real posting.
+  const withDetails = await mapWithConcurrency(all, 8, async (posting) => {
+    try {
+      const detail = await fetchJson<SmartRecruitersPosting>(
+        `https://api.smartrecruiters.com/v1/companies/${encodeURIComponent(boardToken)}/postings/${encodeURIComponent(posting.id)}`,
+      );
+      return { ...posting, ...detail };
+    } catch {
+      return posting;
+    }
+  });
+
+  return withDetails.map((j) => {
     const locations: string[] = [];
     const parts = [j.location?.city, j.location?.region, j.location?.country].filter(Boolean);
     if (parts.length > 0) locations.push(parts.join(", "));
@@ -272,7 +286,8 @@ export async function fetchSmartRecruiters(boardToken: string): Promise<Normaliz
     }
     const description = Object.values(j.jobAd?.sections ?? {})
       .map((s) => s?.text ?? "")
-      .join(" ");
+      .filter(Boolean)
+      .join("\n\n");
     return {
       externalId: j.uuid ?? j.id,
       title: j.name,
@@ -547,7 +562,13 @@ export async function fetchWorkday(boardToken: string): Promise<NormalizedJob[]>
 
   const withDetails = await mapWithConcurrency(postings, 4, async (p) => {
     if (!p.externalPath) {
-      return { posting: p, description: "", postedAt: null as Date | null, id: p.externalPath ?? p.title ?? "" };
+      return {
+        posting: p,
+        description: "",
+        postedAt: null as Date | null,
+        id: p.externalPath ?? p.title ?? "",
+        detailLocations: [] as string[],
+      };
     }
     try {
       const detail = await fetchJson<WorkdayDetailResponse>(
@@ -563,20 +584,27 @@ export async function fetchWorkday(boardToken: string): Promise<NormalizedJob[]>
           ? new Date(info.startDate)
           : null;
       const id = info?.id ?? info?.jobReqId ?? p.externalPath;
-      return { posting: p, description, postedAt, id: String(id) };
+      const detailLocations = [info?.location, ...(info?.additionalLocations ?? [])]
+        .map((location) => location?.trim())
+        .filter((location): location is string => Boolean(location));
+      return { posting: p, description, postedAt, id: String(id), detailLocations };
     } catch {
       return {
         posting: p,
         description: "",
         postedAt: null as Date | null,
         id: p.externalPath,
+        detailLocations: [] as string[],
       };
     }
   });
 
-  return withDetails.map(({ posting: p, description, postedAt, id }) => {
+  return withDetails.map(({ posting: p, description, postedAt, id, detailLocations }) => {
     const locations: string[] = [];
-    if (p.locationsText) locations.push(p.locationsText);
+    for (const location of [p.locationsText, ...detailLocations]) {
+      const value = location?.trim();
+      if (value && !locations.includes(value)) locations.push(value);
+    }
     return {
       externalId: id,
       title: p.title ?? "Untitled",
