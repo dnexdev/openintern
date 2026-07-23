@@ -993,6 +993,7 @@ companies:
     ats: ashby
     board_token: aptura
     careers_url: https://jobs.ashbyhq.com/aptura
+    website_url: https://fluidai.md
   - name: Architect Labs
     slug: architect-labs
     ats: ashby
@@ -1213,6 +1214,7 @@ companies:
     ats: ashby
     board_token: frontier-health
     careers_url: https://jobs.ashbyhq.com/frontier-health
+    website_url: https://www.frontierhealth.ai
   - name: GenMD
     slug: genmd
     ats: ashby
@@ -1223,6 +1225,7 @@ companies:
     ats: ashby
     board_token: georgian
     careers_url: https://jobs.ashbyhq.com/georgian
+    website_url: https://georgian.io
   - name: Gritt Robotics Inc
     slug: gritt-robotics-inc
     ats: ashby
@@ -1254,6 +1257,7 @@ companies:
     ats: greenhouse
     board_token: horizonindustrieslimited
     careers_url: https://job-boards.greenhouse.io/horizonindustrieslimited
+    website_url: https://hil.us
   - name: Hubs.is
     slug: hubsis
     ats: ashby
@@ -1304,6 +1308,7 @@ companies:
     ats: greenhouse
     board_token: kensingtontours
     careers_url: https://job-boards.greenhouse.io/kensingtontours
+    website_url: https://www.kensingtontours.com
   - name: Kinetic Systems
     slug: kinetic-systems
     ats: ashby
@@ -1359,6 +1364,7 @@ companies:
     ats: ashby
     board_token: meshy
     careers_url: https://jobs.ashbyhq.com/meshy
+    website_url: https://www.meshy.ai
   - name: Mistral AI
     slug: mistral-ai
     ats: ashby
@@ -1399,6 +1405,7 @@ companies:
     ats: ashby
     board_token: neocognition
     careers_url: https://jobs.ashbyhq.com/neocognition
+    website_url: https://neocognition.io
   - name: NeoSigma
     slug: neosigma
     ats: rippling
@@ -1444,6 +1451,7 @@ companies:
     ats: greenhouse
     board_token: orennia
     careers_url: https://job-boards.greenhouse.io/orennia
+    website_url: https://www.orennia.com
   - name: Outpost Technologies
     slug: outpost-technologies
     ats: ashby
@@ -1459,11 +1467,13 @@ companies:
     ats: rippling
     board_token: pendulum-intelligence-jobs
     careers_url: https://ats.rippling.com/pendulum-intelligence-jobs
+    website_url: https://www.pendulumintel.com
   - name: Periodic Labs
     slug: periodic-labs
     ats: ashby
     board_token: periodic-labs
     careers_url: https://jobs.ashbyhq.com/periodic-labs
+    website_url: https://periodiclabs.com
   - name: Persona AI
     slug: persona-ai
     ats: ashby
@@ -1485,11 +1495,13 @@ companies:
     ats: ashby
     board_token: phonely
     careers_url: https://jobs.ashbyhq.com/phonely
+    website_url: https://phonely.ai
   - name: Phonic
     slug: phonic
     ats: ashby
     board_token: phonic
     careers_url: https://jobs.ashbyhq.com/phonic
+    website_url: https://www.phonic.co
   - name: PlusAI
     slug: plusai
     ats: lever
@@ -1505,6 +1517,7 @@ companies:
     ats: ashby
     board_token: quadrillion-labs
     careers_url: https://jobs.ashbyhq.com/quadrillion-labs
+    website_url: https://getquadrillion.com
   - name: Rainmaker
     slug: rainmaker
     ats: lever
@@ -1530,11 +1543,13 @@ companies:
     ats: greenhouse
     board_token: rise8
     careers_url: https://job-boards.greenhouse.io/rise8
+    website_url: https://rise8.us
   - name: Rivian and Volkswagen Group Technologies
     slug: rivian-and-volkswagen-group-technologies
     ats: ashby
     board_token: "rivianvw.tech"
     careers_url: https://jobs.ashbyhq.com/rivianvw.tech
+    website_url: https://rivianvw.tech
   - name: Roam
     slug: roam
     ats: ashby
@@ -1565,6 +1580,7 @@ companies:
     ats: smartrecruiters
     board_token: SmithsGroup2
     careers_url: https://jobs.smartrecruiters.com/SmithsGroup2
+    website_url: https://www.smithsdetection.com
   - name: SoloPulse
     slug: solopulse
     ats: lever
@@ -1575,11 +1591,13 @@ companies:
     ats: ashby
     board_token: spacial
     careers_url: https://jobs.ashbyhq.com/spacial
+    website_url: https://spacial.io
   - name: Sparksoft
     slug: sparksoft
     ats: greenhouse
     board_token: sparksoftcorporation
     careers_url: https://job-boards.greenhouse.io/sparksoftcorporation
+    website_url: https://www.sparksoftcorp.com
   - name: SpreeAI
     slug: spreeai
     ats: rippling
@@ -1610,6 +1628,7 @@ companies:
     ats: lever
     board_token: tri
     careers_url: https://jobs.lever.co/tri
+    website_url: https://www.tri.global
   - name: TribalScale
     slug: tribalscale
     ats: greenhouse
@@ -1630,11 +1649,13 @@ companies:
     ats: ashby
     board_token: veeda-labs
     careers_url: https://jobs.ashbyhq.com/veeda-labs
+    website_url: https://veeda.ai
   - name: Vega Investment Technologies
     slug: vega-investment-technologies
     ats: ashby
     board_token: vega
     careers_url: https://jobs.ashbyhq.com/vega
+    website_url: https://vegainvtech.com
   - name: Vital Lyfe
     slug: vital-lyfe
     ats: ashby
@@ -1665,6 +1686,7 @@ companies:
     ats: greenhouse
     board_token: xpengmotors
     careers_url: https://job-boards.greenhouse.io/xpengmotors
+    website_url: https://www.xpeng.com
   - name: Xsolla
     slug: xsolla
     ats: lever

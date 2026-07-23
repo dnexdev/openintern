@@ -94,6 +94,7 @@ companies:
     slug: virtu
     ats: greenhouse
     board_token: virtu
+    website_url: https://www.virtu.com
   - name: Bloomberg
     slug: bloomberg
     ats: greenhouse
