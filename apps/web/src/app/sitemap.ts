@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { and, eq } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
-import { freshnessSql } from "@/lib/freshness";
+import { publicJobSql } from "@/lib/freshness";
 import { jobPath } from "@/lib/job-slug";
 
 export const dynamic = "force-dynamic";
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
       .from(jobs)
       .innerJoin(companies, eq(jobs.companyId, companies.id))
-      .where(and(eq(jobs.isActive, true), freshnessSql()))
+      .where(and(eq(jobs.isActive, true), publicJobSql()))
       .limit(JOB_SITEMAP_LIMIT);
     return [
       ...staticEntries,

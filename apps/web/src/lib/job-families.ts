@@ -2,7 +2,7 @@ import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getTier1Slugs } from "@/lib/curated";
 import { getDb } from "@/lib/db";
-import { freshnessSql } from "@/lib/freshness";
+import { publicJobSql } from "@/lib/freshness";
 import { formatPostingLocations } from "@/lib/posting-label";
 
 export type FamilySort = "first_seen" | "posted" | "prestige";
@@ -31,6 +31,7 @@ export type JobFamily = {
   roles: string[];
   regions: string[];
   terms: string[];
+  durationMonths: number[];
   excerpt: string | null;
   source: string;
   firstSeenAt: string;
@@ -51,7 +52,7 @@ export type FamilyQueryOpts = {
 };
 
 function buildConditions(opts: FamilyQueryOpts): SQL | undefined {
-  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), freshnessSql()];
+  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), publicJobSql()];
 
   if (opts.query) conditions.push(ilike(jobs.title, `%${opts.query}%`));
   if (opts.company) conditions.push(eq(companies.slug, opts.company));
@@ -114,6 +115,7 @@ type FamilyAcc = {
   roles: string[];
   regions: string[];
   terms: string[];
+  durationMonths: number[];
   excerpt: string | null;
   source: string;
   sortKey: number;
@@ -186,6 +188,7 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
       applyUrl: jobs.applyUrl,
       excerpt: jobs.excerpt,
       terms: jobs.terms,
+      durationMonths: jobs.durationMonths,
       roles: jobs.roles,
       regions: jobs.regions,
       isRemote: jobs.isRemote,
@@ -227,6 +230,7 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
         roles: row.roles ?? [],
         regions: row.regions ?? [],
         terms: row.terms ?? [],
+        durationMonths: row.durationMonths ?? [],
         excerpt: row.excerpt,
         source: row.source,
         sortKey: 0,
@@ -235,6 +239,12 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
       byFamily.set(familyKey, acc);
     }
     acc.titles.push(row.title);
+    acc.roles = [...new Set([...acc.roles, ...(row.roles ?? [])])];
+    acc.regions = [...new Set([...acc.regions, ...(row.regions ?? [])])];
+    acc.terms = [...new Set([...acc.terms, ...(row.terms ?? [])])];
+    acc.durationMonths = [
+      ...new Set([...acc.durationMonths, ...(row.durationMonths ?? [])]),
+    ].sort((a, b) => a - b);
     const sortTs = (
       opts.sort === "posted"
         ? row.postedAt ?? row.firstSeenAt
@@ -271,6 +281,7 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
     roles: acc.roles,
     regions: acc.regions,
     terms: acc.terms,
+    durationMonths: acc.durationMonths,
     excerpt: acc.excerpt,
     source: acc.source,
     firstSeenAt: new Date(acc.sortKey).toISOString(),

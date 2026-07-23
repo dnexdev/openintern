@@ -49,3 +49,15 @@ export function freshnessSql(): SQL {
     )
   )`;
 }
+
+/**
+ * Public corpus rows must be fresh and have at least one canonical role tag.
+ * This is a defensive gate for legacy data while stricter ingest retires noise.
+ */
+export function publicJobSql(): SQL {
+  return sql`(
+    ${freshnessSql()}
+    AND jsonb_typeof(coalesce(${jobs.roles}, '[]'::jsonb)) = 'array'
+    AND jsonb_array_length(coalesce(${jobs.roles}, '[]'::jsonb)) > 0
+  )`;
+}

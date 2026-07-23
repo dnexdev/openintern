@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
-import { freshnessSql } from "@/lib/freshness";
+import { publicJobSql } from "@/lib/freshness";
 import type { FamilySort } from "@/lib/job-families";
 
 /** Lightweight card shape used by the landing hero preview. */
@@ -211,7 +211,7 @@ export async function loadHeroPreviewPool(): Promise<{
     .select({ count: sql<number>`count(*)::int` })
     .from(jobs)
     .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(and(eq(jobs.isActive, true), freshnessSql()));
+    .where(and(eq(jobs.isActive, true), publicJobSql()));
 
   const rows = await db
     .select(jobSelect)
@@ -220,7 +220,7 @@ export async function loadHeroPreviewPool(): Promise<{
     .where(
       and(
         eq(jobs.isActive, true),
-        freshnessSql(),
+        publicJobSql(),
         inArray(companies.slug, slugs),
       ),
     )
@@ -273,9 +273,10 @@ export async function loadCorpusStats() {
 export async function loadCompanyOptions() {
   const db = getDb();
   return db
-    .select({ slug: companies.slug, name: companies.name })
+    .selectDistinct({ slug: companies.slug, name: companies.name })
     .from(companies)
-    .where(eq(companies.active, true))
+    .innerJoin(jobs, eq(jobs.companyId, companies.id))
+    .where(and(eq(companies.active, true), eq(jobs.isActive, true), publicJobSql()))
     .orderBy(asc(companies.name));
 }
 
@@ -291,7 +292,7 @@ export async function loadJobs(opts: {
   offset: number;
 }) {
   const db = getDb();
-  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), freshnessSql()];
+  const conditions: (SQL | undefined)[] = [eq(jobs.isActive, true), publicJobSql()];
 
   if (opts.query) conditions.push(ilike(jobs.title, `%${opts.query}%`));
   if (opts.company) conditions.push(eq(companies.slug, opts.company));

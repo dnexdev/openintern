@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { and, eq } from "drizzle-orm";
-import { companies, freshnessSql, jobs, type Db } from "@openintern/db";
+import { companies, publicJobSql, jobs, type Db } from "@openintern/db";
 
 export async function writeDumps(db: Db, outDir: string) {
   await fs.mkdir(outDir, { recursive: true });
@@ -30,7 +30,7 @@ export async function writeDumps(db: Db, outDir: string) {
     })
     .from(jobs)
     .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(and(eq(jobs.isActive, true), freshnessSql()));
+    .where(and(eq(jobs.isActive, true), publicJobSql()));
 
   const payload = {
     generatedAt: new Date().toISOString(),

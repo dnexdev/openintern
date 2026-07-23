@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { asc, eq, sql } from "drizzle-orm";
-import { companies, jobs } from "@openintern/db";
+import { companies, jobs, publicJobSql } from "@openintern/db";
 import { getDb } from "@/lib/db";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 
@@ -28,7 +28,9 @@ export async function GET(request: Request) {
       active: companies.active,
       active_jobs: sql<number>`(
         select count(*)::int from ${jobs}
-        where ${jobs.companyId} = ${companies.id} and ${jobs.isActive} = true
+        where ${jobs.companyId} = ${companies.id}
+          and ${jobs.isActive} = true
+          and ${publicJobSql()}
       )`,
     })
     .from(companies)

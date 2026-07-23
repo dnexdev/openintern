@@ -1,7 +1,7 @@
 import { and, eq, sql } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
-import { freshnessSql } from "@/lib/freshness";
+import { publicJobSql } from "@/lib/freshness";
 
 export type JobDetailRow = {
   id: string;
@@ -55,7 +55,7 @@ export async function loadJobById(id: string): Promise<JobDetailRow | null> {
     .select(jobSelect)
     .from(jobs)
     .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(and(eq(jobs.id, id), eq(jobs.isActive, true), freshnessSql()))
+    .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
     .limit(1);
   return row ?? null;
 }
@@ -74,7 +74,7 @@ export async function loadJobByCompanyAndIdPrefix(
         eq(companies.slug, companySlug),
         sql`replace(${jobs.id}::text, '-', '') like ${idPrefix + "%"}`,
         eq(jobs.isActive, true),
-        freshnessSql(),
+        publicJobSql(),
       ),
     )
     .limit(2);

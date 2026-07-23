@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
-import { freshnessSql } from "@/lib/freshness";
+import { publicJobSql } from "@/lib/freshness";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
@@ -48,7 +48,7 @@ export async function GET(
     })
     .from(jobs)
     .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(and(eq(jobs.id, id), eq(jobs.isActive, true), freshnessSql()))
+    .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
     .limit(1);
 
   if (!row) {
