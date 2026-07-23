@@ -90,6 +90,7 @@ export function FilterSidebar({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [search, setSearch] = useState(query);
   useEffect(() => setSearch(query), [query]);
   const activeCount =
@@ -178,8 +179,13 @@ export function FilterSidebar({
             ))}
           </select>
         </div>
-        <details className="filters-group" open={roles.length > 0}>
-          <summary>
+        <details className="filters-group" open={openGroup === "roles"}>
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              setOpenGroup((current) => (current === "roles" ? null : "roles"));
+            }}
+          >
             Role{roles.length > 0 ? ` (${roles.length})` : ""}
           </summary>
           <div className="chip-grid">
@@ -204,8 +210,13 @@ export function FilterSidebar({
             ))}
           </div>
         </details>
-        <details className="filters-group" open={regions.length > 0}>
-          <summary>
+        <details className="filters-group" open={openGroup === "regions"}>
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              setOpenGroup((current) => (current === "regions" ? null : "regions"));
+            }}
+          >
             Location{regions.length > 0 ? ` (${regions.length})` : ""}
           </summary>
           <div className="chip-grid">
@@ -230,8 +241,13 @@ export function FilterSidebar({
             ))}
           </div>
         </details>
-        <details className="filters-group" open={terms.length > 0}>
-          <summary>
+        <details className="filters-group" open={openGroup === "terms"}>
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              setOpenGroup((current) => (current === "terms" ? null : "terms"));
+            }}
+          >
             Term{terms.length > 0 ? ` (${terms.length})` : ""}
           </summary>
           <div className="chip-grid">
@@ -256,8 +272,13 @@ export function FilterSidebar({
             ))}
           </div>
         </details>
-        <details className="filters-group" open={durations.length > 0}>
-          <summary>
+        <details className="filters-group" open={openGroup === "durations"}>
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              setOpenGroup((current) => (current === "durations" ? null : "durations"));
+            }}
+          >
             Duration{durations.length > 0 ? ` (${durations.length})` : ""}
           </summary>
           <div className="chip-grid">
