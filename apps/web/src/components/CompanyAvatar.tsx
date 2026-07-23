@@ -78,13 +78,6 @@ const DOMAIN_OVERRIDES: Record<string, string> = {
   square: "block.xyz",
   "1password": "1password.com",
   "cursor": "cursor.com",
-  "gritt-robotics-inc": "gritt.ai",
-  grittroboticsinc: "gritt.ai",
-  "persona-ai": "personainc.ai",
-  personaai: "personainc.ai",
-  quadrillion: "getquadrillion.com",
-  "quadrillion-labs": "getquadrillion.com",
-  quadrillionlabs: "getquadrillion.com",
 };
 
 /** Direct logo URLs when favicon CDNs return generic placeholders. */
