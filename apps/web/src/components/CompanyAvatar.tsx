@@ -78,6 +78,13 @@ const DOMAIN_OVERRIDES: Record<string, string> = {
   square: "block.xyz",
   "1password": "1password.com",
   "cursor": "cursor.com",
+  "gritt-robotics-inc": "gritt.ai",
+  grittroboticsinc: "gritt.ai",
+  "persona-ai": "personainc.ai",
+  personaai: "personainc.ai",
+  quadrillion: "getquadrillion.com",
+  "quadrillion-labs": "getquadrillion.com",
+  quadrillionlabs: "getquadrillion.com",
 };
 
 /** Direct logo URLs when favicon CDNs return generic placeholders. */
@@ -116,6 +123,7 @@ function logoCandidates(domain: string, slug?: string | null): string[] {
   const d = encodeURIComponent(domain);
   return [
     ...direct,
+    `https://${domain}/favicon.ico`,
     `https://icons.duckduckgo.com/ip3/${d}.ico`,
     `https://www.google.com/s2/favicons?domain=${d}&sz=128`,
     `https://icon.horse/icon/${d}`,

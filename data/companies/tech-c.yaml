@@ -1228,6 +1228,7 @@ companies:
     ats: ashby
     board_token: gritt
     careers_url: https://jobs.ashbyhq.com/gritt
+    website_url: https://gritt.ai
   - name: Heron Power
     slug: heron-power
     ats: ashby
@@ -1468,6 +1469,7 @@ companies:
     ats: ashby
     board_token: "persona.ai"
     careers_url: https://jobs.ashbyhq.com/persona.ai
+    website_url: https://personainc.ai
   - name: Phamily
     slug: phamily
     ats: greenhouse
