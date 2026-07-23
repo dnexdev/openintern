@@ -47,6 +47,15 @@ function FamilyBadges({ family }: { family: JobFamily }) {
       label: r === "europe" ? "UK/Europe" : capitalize(r),
     });
   }
+  if (family.durationMonths.length > 0) {
+    const months = [...family.durationMonths].sort((a, b) => a - b);
+    const contiguous = months.every((month, index) => index === 0 || month === months[index - 1]! + 1);
+    const label =
+      contiguous && months.length > 1
+        ? `${months[0]}–${months[months.length - 1]} mo`
+        : `${months.join("/")} mo`;
+    badges.push({ key: "duration", className: "badge duration", label });
+  }
   return (
     <div className="meta">
       {badges.map((b) => (
