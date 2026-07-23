@@ -14,6 +14,7 @@
 
 import fs from "node:fs/promises";
 import type { NormalizedJob } from "./ats.js";
+import { mapWithConcurrency } from "./ats.js";
 import { BROWSER_UA, browserEnabled, loadPlaywrightChromium } from "./browser.js";
 
 export type CitadelBrand = "citadel" | "citadel_securities";
@@ -101,6 +102,34 @@ export function citadelListingUrl(brand: CitadelBrand, boardToken: string, page 
   return `${origin}/careers/${token}/page/${page}/`;
 }
 
+/** Parse job description from a Citadel detail page HTML. */
+function parseDetailDescription(html: string): string {
+  // Citadel detail pages use a `.career-details__content` or similar wrapper
+  const contentMatch =
+    html.match(/<div[^>]*class="[^"]*career-details[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/i) ??
+    html.match(/<article[^>]*>([\s\S]*?)<\/article>/i) ??
+    html.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
+  if (!contentMatch) return "";
+  return stripTags(contentMatch[1] ?? "").slice(0, 2000);
+}
+
+/** Fetch descriptions from individual detail pages (best-effort, tolerant of 403). */
+async function fetchDetailDescriptions(
+  jobs: NormalizedJob[],
+): Promise<NormalizedJob[]> {
+  return mapWithConcurrency(jobs, 4, async (job) => {
+    if (job.description) return job;
+    try {
+      const html = await fetchHtmlHttp(job.applyUrl);
+      const description = parseDetailDescription(html);
+      return { ...job, description, excerpt: description ? description.slice(0, 400) : null };
+    } catch {
+      // CDN may block detail pages — keep the job with empty description
+      return job;
+    }
+  });
+}
+
 async function fetchHtmlHttp(url: string): Promise<string> {
   const res = await fetch(url, {
     headers: {
@@ -179,7 +208,7 @@ export async function fetchCitadelBrand(
     if (jobs.length === 0) {
       throw new Error(`${DUMP_ENV[brand]} parsed zero listing cards`);
     }
-    return jobs;
+    return fetchDetailDescriptions(jobs);
   }
 
   const all: NormalizedJob[] = [];
@@ -203,7 +232,7 @@ export async function fetchCitadelBrand(
       if (added === 0) break;
       if (!/class="[^"]*next page-numbers/i.test(html) && batch.length < 5) break;
     }
-    if (all.length > 0) return all;
+    if (all.length > 0) return fetchDetailDescriptions(all);
     httpFailed = new Error("Citadel listing HTML returned zero cards");
   } catch (err) {
     httpFailed = err instanceof Error ? err : new Error(String(err));
@@ -215,7 +244,7 @@ export async function fetchCitadelBrand(
     if (jobs.length === 0) {
       throw new Error(`${brand} browser fetch parsed zero listing cards`);
     }
-    return jobs;
+    return fetchDetailDescriptions(jobs);
   }
 
   throw new Error(

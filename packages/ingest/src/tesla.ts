@@ -195,6 +195,38 @@ export async function fetchTesla(_boardToken: string): Promise<NormalizedJob[]> 
   if (jobs.length === 0) {
     throw new Error("Tesla careers state parsed zero listings");
   }
+
+  // Enrich jobs that are missing descriptions from the state endpoint.
+  const needDescription = jobs.filter((j) => !j.description.trim());
+  if (needDescription.length > 0) {
+    const { mapWithConcurrency: mapConcurrency } = await import("./ats.js");
+    await mapConcurrency(needDescription, 4, async (job) => {
+      try {
+        const detailUrl = `https://www.tesla.com/cua-api/apps/careers/posting/${encodeURIComponent(job.externalId)}`;
+        const res = await fetch(detailUrl, {
+          headers: {
+            Accept: "application/json",
+            "User-Agent": BROWSER_UA,
+            Referer: "https://www.tesla.com/careers/search/",
+          },
+        });
+        if (!res.ok) return;
+        const detail = (await res.json()) as Record<string, unknown>;
+        const desc =
+          asString(detail.description) ??
+          asString(detail.jobDescription) ??
+          asString(detail.d) ??
+          "";
+        if (desc) {
+          job.description = desc;
+          job.excerpt = desc.slice(0, 400);
+        }
+      } catch {
+        // Best-effort — CDN may block
+      }
+    });
+  }
+
   return jobs;
 }
 
