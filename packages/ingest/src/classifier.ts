@@ -388,12 +388,21 @@ function stripTags(text: string): string {
     .replace(/<[^>]+>/g, " ");
 }
 
+/** Drop embedded images / data URIs that would poison card excerpts. */
+function stripEmbeddedMedia(text: string): string {
+  return text
+    .replace(/!\[[^\]]*]\([^)]*\)/g, " ")
+    .replace(/\[[^\]]*]\(data:[^)]*\)/gi, " ")
+    .replace(/\[?data:[a-z0-9.+/-]+;base64,[a-z0-9+/=]*/gi, " ");
+}
+
 export function excerptFromHtml(html: string | undefined | null, max = 400): string | null {
   if (!html) return null;
   let text = stripTags(html);
   text = decodeEntities(text);
   text = stripTags(text);
   text = decodeEntities(text);
+  text = stripEmbeddedMedia(text);
   text = text.replace(/\s+/g, " ").trim();
   if (!text) return null;
   return text.length > max ? `${text.slice(0, max - 1)}…` : text;

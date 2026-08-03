@@ -161,5 +161,19 @@ assertEq(
   "Hello & welcome",
   "basic html",
 );
+assertEq(
+  excerptFromHtml(
+    "![banner](data:image/png;base64,iVBORw0KGgoAAAANSUhEUg) About the role: build robots.",
+  ),
+  "About the role: build robots.",
+  "strips markdown data-uri image",
+);
+assertEq(
+  excerptFromHtml(
+    "[data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABaAAAAEsCAYAAAA1nRR4AAAQAElEQVR4AezdW3bTSvb48V2mT+JzzkP7vJFw1mozgoYRdDKChhGQjIBkBIQREEZAGAH0CJIeAfQIUK/1J8lb5/dwwA4H1b+2hMmF2FHJupRKXy07F1uXqk/JsrS1VRoIAwIIIIAAAggggAACCCCAAAIIxC5A/RBAAAEEEGhFgAB0K+wsFAEEEEAAAQT6K0DNEUAAAQQQQAABBBBAAIH+CBCA7k9bU9PrAvyPAAIIIIAAAggggAACCCCAAALxC1BDBBoVYAAdKv8LBwBBBBAAAEEEEAAgf4IUFMEEEAAAQQQQACB/gkQgO5fm1NjBBBAAAEEEEAAA",
+  ),
+  null,
+  "strips orphaned data-uri excerpt",
+);
 
 console.log("classifier ok");
