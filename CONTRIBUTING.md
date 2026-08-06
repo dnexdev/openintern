@@ -14,14 +14,15 @@ Thanks for helping grow the open tech internship corpus.
    - **Rippling:** `https://ats.rippling.com/{token}` → `https://api.rippling.com/platform/api/ats/v1/board/{token}/jobs`
    - **BambooHR:** `https://{token}.bamboohr.com/careers` → `https://{token}.bamboohr.com/careers/list`
    - **Workday:** `https://{tenant}.{wdN}.myworkdayjobs.com/{site}` → `board_token: tenant|wdN|site` (e.g. `nvidia|wd5|NVIDIAExternalCareerSite`). Uses public CXS JSON (`POST .../wday/cxs/.../jobs`).
-   - **Proprietary (named adapters only):** `citadel` / `citadel_securities` (`board_token: open-opportunities`), `tesla` (`board_token: careers`), `bytedance` (`board_token: en`), `tiktok` (`board_token: tiktok`). See [Custom careers](#custom-careers-proprietary-adapters).
+   - **Platform adapters:** `phenom` (`amd` → careers.amd.com), `avature` (`bloomberg`), `icims` (`careers-sig`), `eightfold` (`microsoft` or `microsoft|ai`).
+   - **Named proprietary:** `citadel` / `citadel_securities` (`open-opportunities`), `tesla` (`careers`), `bytedance` (`en`), `tiktok` (`tiktok`), `google` (`google`|`deepmind`), `ibm` (`ibmglobal`), `deshaw` (`internships`), `shopify` (`careers`), `x` (`x`). See [Custom careers](#custom-careers-proprietary-adapters).
 2. Add an entry to a file under `data/companies/` (or create `data/companies/your-org.yaml`):
 
 ```yaml
 companies:
   - name: Example Corp
     slug: example-corp
-    ats: greenhouse   # greenhouse | lever | ashby | workable | smartrecruiters | recruitee | rippling | bamboohr | workday | citadel | citadel_securities | tesla | bytedance | tiktok
+    ats: greenhouse   # greenhouse | lever | ashby | workable | smartrecruiters | recruitee | rippling | bamboohr | workday | phenom | avature | icims | eightfold | google | ibm | deshaw | shopify | x | citadel | …
     board_token: example
     careers_url: https://example.com/careers
     website_url: https://example.com
@@ -91,6 +92,15 @@ Named HTTP adapters for employers without Greenhouse/Lever/Ashby/Workday boards.
 | `tesla` | `careers` | `tesla.com/cua-api/apps/careers/state` | Often **403**; use `OPENINTERN_TESLA_STATE_PATH` dump |
 | `bytedance` | `en` | `jobs.bytedance.com/.../supplier/search/job/posts` | Campus facet (`recruitment_id=2`); `website-path: en` |
 | `tiktok` | `tiktok` | `api.lifeattiktok.com/.../supplier/search/job/posts` | Same protocol; apply links on `lifeattiktok.com/search/{id}` |
+| `phenom` | `amd` | `careers.{token}.com/api/jobs` | Phenom JSON (AMD, etc.) |
+| `avature` | `bloomberg` | `{token}.avature.net/careers/SearchJobs/` | HTML parse; optional `OPENINTERN_AVATURE_HTML_PATH` |
+| `icims` | `careers-sig` | `{token}.icims.com/jobs/search` | HTML parse; optional `OPENINTERN_ICIMS_HTML_PATH` |
+| `eightfold` | `microsoft` or `microsoft\|ai` | PCSX search on apply.careers.microsoft.com | AI filter for microsoft-ai |
+| `google` | `google` / `deepmind` | Google careers applications HTML | Company filter for DeepMind |
+| `ibm` | `ibmglobal` | IBM Avature SearchJobs | Same Avature parser |
+| `deshaw` | `internships` | `deshaw.com/careers/internships` `__NEXT_DATA__` | Internship roles |
+| `shopify` | `careers` | `shopify.com/careers` job cards | Public listings only (many internships gated) |
+| `x` | `x` | `careers.x.com` | Often 403; use `OPENINTERN_X_HTML_PATH` |
 
 **CDN / Akamai gates:** anonymous datacenter IPs often get HTTP 403. Fallbacks:
 
@@ -99,6 +109,9 @@ Named HTTP adapters for employers without Greenhouse/Lever/Ashby/Workday boards.
 | `OPENINTERN_CITADEL_HTML_PATH` | Saved HTML of Citadel open-opportunities (may include multiple pages concatenated) |
 | `OPENINTERN_CITADEL_SECURITIES_HTML_PATH` | Same for Citadel Securities |
 | `OPENINTERN_TESLA_STATE_PATH` | JSON dump of `https://www.tesla.com/cua-api/apps/careers/state` (or compatible `{ listings: [...] }`) |
+| `OPENINTERN_AVATURE_HTML_PATH` | Saved Avature SearchJobs HTML |
+| `OPENINTERN_ICIMS_HTML_PATH` | Saved iCIMS search HTML |
+| `OPENINTERN_X_HTML_PATH` | Saved X careers HTML |
 | `OPENINTERN_BROWSER=1` | Use Playwright Chromium when live HTTP is blocked (install: `pnpm add -Dw playwright && pnpm exec playwright install chromium`) |
 
 Citadel listing HTML is usually reachable via Playwright even when `curl` gets 403. Tesla `cua-api` may still be blocked from some networks — then use a browser Save-As dump into `OPENINTERN_TESLA_STATE_PATH`.

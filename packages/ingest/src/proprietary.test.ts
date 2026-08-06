@@ -5,6 +5,13 @@ import assert from "node:assert/strict";
 import { parseCitadelListingHtml } from "./citadel.js";
 import { parseTeslaCareersState } from "./tesla.js";
 import { mapBytedancePosts, TIKTOK_PORTAL, BYTEDANCE_PORTAL } from "./bytedance.js";
+import { mapPhenomJobs } from "./phenom.js";
+import { mapEightfoldPositions, parseEightfoldToken } from "./eightfold.js";
+import { parseAvatureSearchHtml } from "./avature.js";
+import { parseIcimsSearchHtml } from "./icims.js";
+import { parseDeshawNextData } from "./deshaw.js";
+import { parseShopifyCareersHtml } from "./shopify.js";
+import { parseGoogleCareersHtml } from "./google.js";
 
 const citadelHtml = `
 <div class="career-listing__container">
@@ -74,5 +81,105 @@ const bd = mapBytedancePosts(
   BYTEDANCE_PORTAL,
 );
 assert.equal(bd[0]!.applyUrl, "https://joinbytedance.com/search/1");
+
+const phenomJobs = mapPhenomJobs(
+  [
+    {
+      data: {
+        req_id: "77690",
+        slug: "77690",
+        title: "FPGA Design Intern",
+        description: "<p>Build chips</p>",
+        full_location: "Austin, TX",
+        meta_data: { canonical_url: "https://careers.amd.com/jobs/77690?lang=en-us" },
+        posted_date: "2026-08-01T00:00:00Z",
+      },
+    },
+  ],
+  "https://careers.amd.com",
+);
+assert.equal(phenomJobs[0]!.externalId, "77690");
+assert.equal(phenomJobs[0]!.title, "FPGA Design Intern");
+assert.equal(phenomJobs[0]!.applyUrl, "https://careers.amd.com/jobs/77690?lang=en-us");
+
+const efBoard = parseEightfoldToken("microsoft|ai");
+assert.equal(efBoard.domain, "microsoft.com");
+assert.ok(efBoard.titleFilter);
+const efJobs = mapEightfoldPositions(
+  [
+    {
+      id: 1970393556951950,
+      name: "Software Engineer: AI/ML & LLM Intern Opportunities",
+      locations: ["United States, Washington, Redmond"],
+      positionUrl: "/careers/job/1970393556951950",
+      postedTs: 1785740400,
+      department: "Software Engineering",
+    },
+    {
+      id: 99,
+      name: "Account Management INTERN",
+      locations: ["Germany"],
+      positionUrl: "/careers/job/99",
+    },
+  ],
+  efBoard,
+);
+assert.equal(efJobs.length, 1);
+assert.equal(efJobs[0]!.externalId, "1970393556951950");
+assert.match(efJobs[0]!.applyUrl, /1970393556951950/);
+
+const avatureHtml2 = `
+<a class="link" href="https://bloomberg.avature.net/careers/JobDetail/Software-Engineer-Intern/21267">Software Engineer Intern</a>
+<div>JobDetail/Software-Engineer-Intern/21267</div>
+<span class="list-item-location">New York, NY</span>
+`;
+const avJobs = parseAvatureSearchHtml(avatureHtml2, "https://bloomberg.avature.net/careers/SearchJobs/");
+assert.equal(avJobs.length, 1);
+assert.equal(avJobs[0]!.externalId, "21267");
+assert.equal(avJobs[0]!.title, "Software Engineer Intern");
+
+const icimsHtml = `
+<a href="https://careers-sig.icims.com/jobs/11099/analytics-internship%3a-fall-2026/job?in_iframe=1"></a>
+<h3>Analytics Internship: Fall 2026</h3>
+`;
+const icJobs = parseIcimsSearchHtml(icimsHtml, "https://careers-sig.icims.com/jobs/search");
+assert.equal(icJobs.length, 1);
+assert.equal(icJobs[0]!.externalId, "11099");
+assert.match(icJobs[0]!.title, /Analytics Internship/i);
+
+const deshawJobs = parseDeshawNextData({
+  props: {
+    pageProps: {
+      internships: [
+        {
+          office: [{ name: "New York" }],
+          data: {
+            id: 5894,
+            displayName: "Software Developer Intern (New York) – Summer 2027",
+            jobUrl: "Software-Developer-Intern-New-York-Summer-2027-5894",
+            jobDescription: "<p>Write code</p>",
+          },
+        },
+      ],
+    },
+  },
+});
+assert.equal(deshawJobs[0]!.externalId, "5894");
+assert.equal(
+  deshawJobs[0]!.applyUrl,
+  "https://www.deshaw.com/careers/Software-Developer-Intern-New-York-Summer-2027-5894",
+);
+
+const shopJobs = parseShopifyCareersHtml(
+  `<a href="/careers/software-engineer-intern_a4b8357e-2849-4ef4-80da-459e232f9f16"> intern </a>`,
+);
+assert.equal(shopJobs[0]!.externalId, "a4b8357e-2849-4ef4-80da-459e232f9f16");
+assert.match(shopJobs[0]!.title, /Software Engineer Intern/i);
+
+const gJobs = parseGoogleCareersHtml(
+  `ssk='17:12345'<div class="x">jobs/results/12345-software-engineering-intern</div><h3 class="QJPWVe">Software Engineering Intern</h3>`,
+);
+assert.equal(gJobs[0]!.externalId, "12345");
+assert.equal(gJobs[0]!.title, "Software Engineering Intern");
 
 console.log("proprietary adapter tests ok");

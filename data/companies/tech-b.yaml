@@ -12,9 +12,11 @@ companies:
     website_url: https://www.spotify.com
   - name: Shopify
     slug: shopify
-    ats: greenhouse
-    board_token: shopify
-    active: false
+    ats: shopify
+    board_token: careers
+    careers_url: https://www.shopify.com/careers
+    website_url: https://www.shopify.com
+    active: true
   - name: Square Enix
     slug: square-enix
     ats: greenhouse
@@ -70,6 +72,8 @@ companies:
     ats: greenhouse
     board_token: imc
     website_url: https://www.imc.com
+    careers_url: https://job-boards.greenhouse.io/imc
+    active: true
   - name: DRW
     slug: drw
     ats: greenhouse
@@ -87,9 +91,11 @@ companies:
     website_url: https://www.cclgroup.com
   - name: Susquehanna
     slug: sig
-    ats: greenhouse
-    board_token: sig
-    active: false
+    ats: icims
+    board_token: careers-sig
+    careers_url: https://careers.sig.com
+    website_url: https://www.sig.com
+    active: true
   - name: Virtu Financial
     slug: virtu
     ats: greenhouse
@@ -97,9 +103,18 @@ companies:
     website_url: https://www.virtu.com
   - name: Bloomberg
     slug: bloomberg
-    ats: greenhouse
+    ats: avature
     board_token: bloomberg
-    active: false
+    careers_url: https://bloomberg.avature.net/careers
+    website_url: https://www.bloomberg.com
+    active: true
+  - name: D. E. Shaw
+    slug: deshaw
+    ats: deshaw
+    board_token: internships
+    careers_url: https://www.deshaw.com/careers/internships
+    website_url: https://www.deshaw.com
+    active: true
   - name: Capital One
     slug: capital-one
     ats: greenhouse

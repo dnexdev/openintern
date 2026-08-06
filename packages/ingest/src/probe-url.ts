@@ -4,6 +4,15 @@ import { citadelListingUrl, probeCitadelListing } from "./citadel.js";
 import { BYTEDANCE_PORTAL, TIKTOK_PORTAL } from "./bytedance.js";
 import { TESLA_STATE_URL, parseTeslaCareersState, probeTeslaState } from "./tesla.js";
 import { parseWorkdayToken, workdayJobsUrl } from "./workday.js";
+import { phenomJobsApiUrl, probePhenom } from "./phenom.js";
+import { eightfoldSearchUrl, parseEightfoldToken, probeEightfold } from "./eightfold.js";
+import { avatureSearchUrl, probeAvature } from "./avature.js";
+import { icimsSearchUrl, probeIcims } from "./icims.js";
+import { googleCareersSearchUrl, probeGoogle } from "./google.js";
+import { probeIbm } from "./ibm.js";
+import { DESHAW_INTERNSHIPS_URL, probeDeshaw } from "./deshaw.js";
+import { SHOPIFY_CAREERS_URL, probeShopify } from "./shopify.js";
+import { probeX } from "./x.js";
 
 export function probeUrl(ats: AtsName | string, token: string): string {
   switch (ats) {
@@ -38,6 +47,24 @@ export function probeUrl(ats: AtsName | string, token: string): string {
       return `${BYTEDANCE_PORTAL.apiBase}/search/job/posts`;
     case "tiktok":
       return `${TIKTOK_PORTAL.apiBase}/search/job/posts`;
+    case "phenom":
+      return phenomJobsApiUrl(token, 1);
+    case "eightfold":
+      return eightfoldSearchUrl(parseEightfoldToken(token), 0);
+    case "avature":
+      return avatureSearchUrl(token);
+    case "icims":
+      return icimsSearchUrl(token);
+    case "google":
+      return googleCareersSearchUrl(token);
+    case "ibm":
+      return avatureSearchUrl(token || "ibmglobal", "Software Intern");
+    case "deshaw":
+      return DESHAW_INTERNSHIPS_URL;
+    case "shopify":
+      return SHOPIFY_CAREERS_URL;
+    case "x":
+      return "https://careers.x.com/en";
     default:
       throw new Error(`Unknown ATS: ${ats}`);
   }
@@ -144,6 +171,15 @@ export async function probeAtsBoard(
     if (ats === "bytedance" || ats === "tiktok") {
       return probeBytedancePortal(ats, token);
     }
+    if (ats === "phenom") return probePhenom(token);
+    if (ats === "eightfold") return probeEightfold(token);
+    if (ats === "avature") return probeAvature(token);
+    if (ats === "icims") return probeIcims(token);
+    if (ats === "google") return probeGoogle(token);
+    if (ats === "ibm") return probeIbm(token);
+    if (ats === "deshaw") return probeDeshaw();
+    if (ats === "shopify") return probeShopify();
+    if (ats === "x") return probeX();
 
     const url = probeUrl(ats, token);
     if (ats === "workday") {
@@ -180,7 +216,12 @@ export async function probeAtsBoard(
     }
     if (res.status === 429) return { ok: true, status: 429 };
     const data = (await res.json()) as unknown;
-    return { ok: true, status: res.status, count: countJobsFromProbeBody(ats, data) };
+    const count = countJobsFromProbeBody(ats, data);
+    // Empty SmartRecruiters boards return HTTP 200 with totalFound=0 — treat as failure.
+    if (ats === "smartrecruiters" && count === 0) {
+      return { ok: false, status: res.status, count: 0, error: "empty SmartRecruiters board" };
+    }
+    return { ok: true, status: res.status, count };
   } catch (err) {
     return {
       ok: false,

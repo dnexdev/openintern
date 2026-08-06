@@ -1,33 +1,53 @@
-# Tier-1 scale employers — SmartRecruiters public boards (case-sensitive tokens).
+# Tier-1 scale employers — proprietary / platform adapters (not empty SmartRecruiters).
 
 companies:
   - name: Google
     slug: google
-    ats: smartrecruiters
-    board_token: Google
-    careers_url: https://careers.google.com
+    ats: google
+    board_token: google
+    careers_url: https://www.google.com/about/careers/applications/
     website_url: https://www.google.com
+    active: true
   - name: Meta
     slug: meta
     ats: smartrecruiters
     board_token: Meta
     careers_url: https://www.metacareers.com
     website_url: https://www.meta.com
+    active: false
   - name: Apple
     slug: apple
     ats: smartrecruiters
     board_token: Apple
     careers_url: https://jobs.apple.com
     website_url: https://www.apple.com
+    active: false
   - name: Amazon
     slug: amazon
     ats: smartrecruiters
     board_token: Amazon
     careers_url: https://www.amazon.jobs
     website_url: https://www.amazon.com
+    active: false
   - name: Microsoft
     slug: microsoft
-    ats: smartrecruiters
-    board_token: Microsoft
+    ats: eightfold
+    board_token: microsoft
     careers_url: https://careers.microsoft.com
     website_url: https://www.microsoft.com
+    active: true
+  - name: Microsoft AI
+    slug: microsoft-ai
+    ats: eightfold
+    board_token: "microsoft|ai"
+    careers_url: https://careers.microsoft.com
+    website_url: https://www.microsoft.com
+    active: true
+  - name: X
+    slug: x
+    ats: x
+    board_token: x
+    careers_url: https://careers.x.com
+    website_url: https://x.com
+    # CDN often 403 — set OPENINTERN_X_HTML_PATH then flip active
+    active: false

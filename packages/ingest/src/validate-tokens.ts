@@ -13,7 +13,14 @@ import { probeAtsBoard } from "./probe-url.js";
 import { defaultCompaniesDir } from "./sync-companies.js";
 
 /** Proprietary boards that may 403 without dump/browser gates. */
-const DUMP_GATED_ATS = new Set(["citadel", "citadel_securities", "tesla"]);
+const DUMP_GATED_ATS = new Set([
+  "citadel",
+  "citadel_securities",
+  "tesla",
+  "x",
+  "avature",
+  "icims",
+]);
 
 function isDumpGateBlock(ats: string, err: string): boolean {
   return DUMP_GATED_ATS.has(ats) && /blocked|HTTP 403|OPENINTERN_/i.test(err);

@@ -27,6 +27,15 @@ export const atsEnum = pgEnum("ats", [
   "tesla",
   "bytedance",
   "tiktok",
+  "phenom",
+  "avature",
+  "icims",
+  "eightfold",
+  "google",
+  "ibm",
+  "deshaw",
+  "shopify",
+  "x",
 ]);
 
 export const companies = pgTable(

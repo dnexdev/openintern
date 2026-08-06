@@ -7,6 +7,15 @@ import {
 import { fetchCitadel, fetchCitadelSecurities } from "./citadel.js";
 import { fetchTesla } from "./tesla.js";
 import { fetchBytedance, fetchTiktok } from "./bytedance.js";
+import { fetchPhenom } from "./phenom.js";
+import { fetchEightfold } from "./eightfold.js";
+import { fetchAvature } from "./avature.js";
+import { fetchIcims } from "./icims.js";
+import { fetchGoogle } from "./google.js";
+import { fetchIbm } from "./ibm.js";
+import { fetchDeshaw } from "./deshaw.js";
+import { fetchShopify } from "./shopify.js";
+import { fetchX } from "./x.js";
 import { stripHtmlTags } from "./strip-html.js";
 
 export type NormalizedJob = {
@@ -33,7 +42,16 @@ export type AtsName =
   | "citadel_securities"
   | "tesla"
   | "bytedance"
-  | "tiktok";
+  | "tiktok"
+  | "phenom"
+  | "avature"
+  | "icims"
+  | "eightfold"
+  | "google"
+  | "ibm"
+  | "deshaw"
+  | "shopify"
+  | "x";
 
 /** Proprietary careers adapters (not Greenhouse-style public boards). */
 export const PROPRIETARY_ATS: AtsName[] = [
@@ -42,6 +60,15 @@ export const PROPRIETARY_ATS: AtsName[] = [
   "tesla",
   "bytedance",
   "tiktok",
+  "phenom",
+  "avature",
+  "icims",
+  "eightfold",
+  "google",
+  "ibm",
+  "deshaw",
+  "shopify",
+  "x",
 ];
 
 async function sleep(ms: number) {
@@ -650,6 +677,24 @@ export async function fetchJobsForAts(
       return fetchBytedance(boardToken);
     case "tiktok":
       return fetchTiktok(boardToken);
+    case "phenom":
+      return fetchPhenom(boardToken);
+    case "avature":
+      return fetchAvature(boardToken);
+    case "icims":
+      return fetchIcims(boardToken);
+    case "eightfold":
+      return fetchEightfold(boardToken);
+    case "google":
+      return fetchGoogle(boardToken);
+    case "ibm":
+      return fetchIbm(boardToken);
+    case "deshaw":
+      return fetchDeshaw(boardToken);
+    case "shopify":
+      return fetchShopify(boardToken);
+    case "x":
+      return fetchX(boardToken);
     default:
       throw new Error(`Unsupported ATS: ${ats}`);
   }

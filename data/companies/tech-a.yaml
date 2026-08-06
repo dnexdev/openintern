@@ -78,6 +78,12 @@ companies:
     ats: ashby
     board_token: ramp
     website_url: https://ramp.com
+  - name: Wealthsimple
+    slug: wealthsimple
+    ats: ashby
+    board_token: wealthsimple
+    careers_url: https://jobs.ashbyhq.com/wealthsimple
+    website_url: https://www.wealthsimple.com
   - name: Scale AI
     slug: scale-ai
     ats: greenhouse
