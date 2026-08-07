@@ -7,7 +7,15 @@ export function createDbClient(connectionString = process.env.DATABASE_URL) {
   if (!connectionString) {
     throw new Error("DATABASE_URL is required");
   }
-  const client = postgres(connectionString, { max: 10 });
+  // Neon / PgBouncer: disable prepared statements; recycle idle sockets so
+  // long ingest runs (many ATS HTTP waits) don't hit CONNECTION_CLOSED.
+  const client = postgres(connectionString, {
+    max: Number(process.env.OPENINTERN_DB_POOL_MAX ?? 5),
+    idle_timeout: 20,
+    max_lifetime: 60 * 10,
+    connect_timeout: 30,
+    prepare: false,
+  });
   const db = drizzle(client, { schema });
   return { db, client };
 }

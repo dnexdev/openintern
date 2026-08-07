@@ -9,6 +9,7 @@
 
 import type { NormalizedJob } from "./ats.js";
 import { stripHtmlTags } from "./strip-html.js";
+import { safeDate } from "./safe-date.js";
 
 const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 const PAGE_LIMIT = 100;
@@ -103,7 +104,7 @@ export function mapPhenomJobs(
       locations: locationLabels(d),
       applyUrl,
       excerpt: description ? description.slice(0, 400) : null,
-      postedAt: postedRaw ? new Date(postedRaw) : null,
+      postedAt: safeDate(postedRaw),
       description,
     });
   }

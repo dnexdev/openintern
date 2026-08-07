@@ -53,6 +53,7 @@ jobs:
         run: pnpm ingest
       - name: Notify on failure
         if: failure()
+        continue-on-error: true
         uses: actions/github-script@v9
         with:
           script: |
@@ -65,27 +66,31 @@ jobs:
               "Common causes: missing `DATABASE_URL` secret, Neon unreachable, or every company fetch failed.",
               "Check `/health` for per-company errors after a successful run.",
             ].join("\n");
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: "open",
-              labels: "ingest-failure",
-              per_page: 5,
-            });
-            const existing = issues.data.find((i) => i.title.startsWith("Ingest failed"));
-            if (existing) {
-              await github.rest.issues.createComment({
+            try {
+              const issues = await github.rest.issues.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: existing.number,
-                body,
+                state: "open",
+                labels: "ingest-failure",
+                per_page: 5,
               });
-            } else {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title,
-                body,
-                labels: ["ingest-failure"],
-              });
+              const existing = issues.data.find((i) => i.title.startsWith("Ingest failed"));
+              if (existing) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  body,
+                });
+              } else {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title,
+                  body,
+                  labels: ["ingest-failure"],
+                });
+              }
+            } catch (err) {
+              core.warning(`Could not open/comment ingest-failure issue (permissions?): ${err}`);
             }

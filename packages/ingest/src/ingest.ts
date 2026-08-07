@@ -22,6 +22,7 @@ import {
   normalizeTitle,
   roleFamilyId,
 } from "./normalize-title.js";
+import { safeDate } from "./safe-date.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
 
 export type CompanyFunnel = {
@@ -50,6 +51,46 @@ export type IngestSummary = {
     upserted: number;
   };
 };
+
+function isTransientDbError(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err);
+  const code =
+    err && typeof err === "object" && "code" in err
+      ? String((err as { code?: unknown }).code)
+      : "";
+  const cause =
+    err && typeof err === "object" && "cause" in err
+      ? (err as { cause?: unknown }).cause
+      : undefined;
+  const causeMsg = cause instanceof Error ? cause.message : String(cause ?? "");
+  const causeCode =
+    cause && typeof cause === "object" && "code" in cause
+      ? String((cause as { code?: unknown }).code)
+      : "";
+  const hay = `${msg} ${code} ${causeMsg} ${causeCode}`;
+  return /CONNECTION_CLOSED|CONNECTION_ENDED|ECONNRESET|ETIMEDOUT|EPIPE|connect ECONNREFUSED|57P01|08006|08003|53300/i.test(
+    hay,
+  );
+}
+
+async function withDbRetry<T>(label: string, fn: () => Promise<T>): Promise<T> {
+  const attempts = 3;
+  let last: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      last = err;
+      if (!isTransientDbError(err) || i === attempts - 1) throw err;
+      const waitMs = 400 * 2 ** i;
+      console.warn(
+        `Transient DB error during ${label} (attempt ${i + 1}/${attempts}); retrying in ${waitMs}ms`,
+      );
+      await new Promise((r) => setTimeout(r, waitMs));
+    }
+  }
+  throw last;
+}
 
 const CONSECUTIVE_FAILURE_LIMIT = 24;
 const UPSERT_CHUNK = 100;
@@ -133,24 +174,45 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
           upserted: 0,
           stale: 0,
         });
-        await db.insert(ingestRuns).values({
-          companyId: company.id,
-          status: "error",
-          jobCount: 0,
-          error: message,
-        });
-        await maybeAutoDisable(db, company.id, company.slug);
+        try {
+          await withDbRetry(`ingestRuns:${company.slug}`, () =>
+            db.insert(ingestRuns).values({
+              companyId: company.id,
+              status: "error",
+              jobCount: 0,
+              error: message.slice(0, 2000),
+            }),
+          );
+          await withDbRetry(`autoDisable:${company.slug}`, () =>
+            maybeAutoDisable(db, company.id, company.slug),
+          );
+        } catch (recordErr) {
+          // Never abort the whole ingest because Neon dropped a socket mid-run.
+          console.warn(
+            `Failed to record failure for ${company.slug}:`,
+            recordErr instanceof Error ? recordErr.message : recordErr,
+          );
+        }
       }
     }
   }
 
   const cutoff = new Date(Date.now() - LAST_SEEN_STALE_DAYS * 24 * 60 * 60 * 1000);
-  const unseen = await db
-    .update(jobs)
-    .set({ isActive: false, updatedAt: new Date() })
-    .where(and(eq(jobs.isActive, true), lt(jobs.lastSeenAt, cutoff)))
-    .returning({ id: jobs.id });
-  lastSeenDeactivated = unseen.length;
+  try {
+    const unseen = await withDbRetry("lastSeenSweep", () =>
+      db
+        .update(jobs)
+        .set({ isActive: false, updatedAt: new Date() })
+        .where(and(eq(jobs.isActive, true), lt(jobs.lastSeenAt, cutoff)))
+        .returning({ id: jobs.id }),
+    );
+    lastSeenDeactivated = unseen.length;
+  } catch (err) {
+    console.warn(
+      "Last-seen sweep failed (continuing):",
+      err instanceof Error ? err.message : err,
+    );
+  }
 
   funnel.sort((a, b) => b.fetched - a.fetched || a.slug.localeCompare(b.slug));
   const funnelTotals = funnel.reduce(
@@ -255,7 +317,7 @@ async function ingestCompany(
 
     const existing = existingByFingerprint.get(fingerprint);
     const firstSeenAt = existing?.firstSeenAt ?? now;
-    const postedAt = j.postedAt ?? existing?.postedAt ?? null;
+    const postedAt = safeDate(j.postedAt) ?? existing?.postedAt ?? null;
 
     const staleByTerms = isStaleByTermYears(termYears as TermYear[], now);
     const staleByAge = isStaleByAge({
@@ -286,7 +348,7 @@ async function ingestCompany(
       isRemote,
       isActive: !stale,
       source: company.ats,
-      postedAt: j.postedAt,
+      postedAt,
       firstSeenAt,
       lastSeenAt: now,
       updatedAt: now,

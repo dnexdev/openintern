@@ -8,6 +8,7 @@
  */
 
 import type { NormalizedJob } from "./ats.js";
+import { safeDate } from "./safe-date.js";
 
 const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 const PAGE_SIZE = 10;
@@ -119,7 +120,7 @@ export function mapEightfoldPositions(
       locations,
       applyUrl,
       excerpt: p.department ? p.department.slice(0, 400) : null,
-      postedAt: ts ? new Date(ts * 1000) : null,
+      postedAt: ts ? safeDate(ts) : null,
       description: p.department || "",
     });
   }

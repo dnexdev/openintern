@@ -1,4 +1,5 @@
 import { companyDeactivationPolicy } from "./ingest.js";
+import { safeDate } from "./safe-date.js";
 
 function parseFunnelForTest(error: string | null) {
   const match = error?.match(
@@ -43,6 +44,19 @@ const funnel = parseFunnelForTest(
 );
 if (!funnel || funnel.fetched !== 12 || funnel.descriptionMissing !== 3) {
   throw new Error("funnel message with description_missing should parse");
+}
+
+assertEqual(safeDate(null), null, "null date");
+assertEqual(safeDate("not-a-date"), null, "invalid string");
+assertEqual(safeDate(Number.NaN), null, "NaN");
+assertEqual(safeDate(new Date("nope")), null, "Invalid Date instance");
+const fromSec = safeDate(1785740400);
+if (!fromSec || fromSec.getUTCFullYear() < 2026) {
+  throw new Error("epoch seconds should coerce");
+}
+const fromIso = safeDate("2026-08-01T00:00:00Z");
+if (!fromIso || fromIso.toISOString() !== "2026-08-01T00:00:00.000Z") {
+  throw new Error("ISO string should parse");
 }
 
 console.log("ingest policy ok");
