@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { desc, eq, sql } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
+import { apiDbError } from "@/lib/api-error";
 import { getDb } from "@/lib/db";
 import { parseFunnel, sumFunnels, isZeroMatchRun } from "@/lib/ingest-health";
 
@@ -15,9 +16,10 @@ const PROPRIETARY_ATS = new Set([
 ]);
 
 export async function GET() {
-  const db = getDb();
+  try {
+    const db = getDb();
 
-  const [jobStats] = await db
+    const [jobStats] = await db
     .select({
       active_jobs: sql<number>`count(*) filter (where ${jobs.isActive})::int`,
       total_jobs: sql<number>`count(*)::int`,
@@ -121,29 +123,32 @@ export async function GET() {
       ran_at: r.ran_at.toISOString(),
     }));
 
-  return NextResponse.json({
-    status: "ok",
-    product: "OpenIntern",
-    version: "0.1.0",
-    stats: {
-      ...jobStats,
-      ...companyStats,
-      last_successful_ingest: lastOk?.ran_at?.toISOString() ?? null,
-      zero_match_companies: zeroMatchCompanies.length,
-      season_note:
-        "Live board focuses on Fall/Winter 2026–27 and Summer 2027; many Summer 2026 boards are closed.",
-    },
-    pipeline: {
-      zero_match_companies: zeroMatchCompanies,
-      recent_failures: recentFailures,
-      proprietary_ats: {
-        failures: proprietary_failures,
-        zero_job_runs: proprietary_zero_job_runs,
+    return NextResponse.json({
+      status: "ok",
+      product: "OpenIntern",
+      version: "0.1.0",
+      stats: {
+        ...jobStats,
+        ...companyStats,
+        last_successful_ingest: lastOk?.ran_at?.toISOString() ?? null,
+        zero_match_companies: zeroMatchCompanies.length,
+        season_note:
+          "Live board focuses on Fall/Winter 2026–27 and Summer 2027; many Summer 2026 boards are closed.",
       },
-      triage:
-        "Check /health → pnpm recover-tokens → fix data/companies YAML → pnpm validate-tokens → re-run ingest.",
-    },
-    funnel_totals_latest_per_company: funnelTotals,
-    recent_ingest_runs: mapped,
-  });
+      pipeline: {
+        zero_match_companies: zeroMatchCompanies,
+        recent_failures: recentFailures,
+        proprietary_ats: {
+          failures: proprietary_failures,
+          zero_job_runs: proprietary_zero_job_runs,
+        },
+        triage:
+          "Check /health → pnpm recover-tokens → fix data/companies YAML → pnpm validate-tokens → re-run ingest.",
+      },
+      funnel_totals_latest_per_company: funnelTotals,
+      recent_ingest_runs: mapped,
+    });
+  } catch (err) {
+    return apiDbError(err);
+  }
 }

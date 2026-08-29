@@ -2,7 +2,7 @@ name: Ingest
 
 on:
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: "0 12 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -59,7 +59,7 @@ jobs:
           script: |
             const title = `Ingest failed (${new Date().toISOString().slice(0, 10)})`;
             const body = [
-              `Hourly ingest workflow failed on \`${context.sha.slice(0, 7)}\`.`,
+              `Daily ingest workflow failed on \`${context.sha.slice(0, 7)}\`.`,
               "",
               `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
               "",
