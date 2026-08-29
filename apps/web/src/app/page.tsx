@@ -1,5 +1,6 @@
 import { CurlBar } from "@/components/CurlBar";
 import { HeroPreview } from "@/components/HeroPreview";
+import { StaleDataBanner } from "@/components/StaleDataBanner";
 import {
   formatIngestAge,
   loadCorpusStats,
@@ -13,6 +14,7 @@ export default async function HomePage() {
   let previewJobs: Awaited<ReturnType<typeof loadHeroPreviewPool>>["preview"] = [];
   let total = 0;
   let dbError: string | null = null;
+  let staleDumpAt: string | null = null;
   let corpusStats: { activeCompanies: number; lastIngest: string | null } = {
     activeCompanies: 0,
     lastIngest: null,
@@ -23,6 +25,8 @@ export default async function HomePage() {
     previewJobs = hero.preview;
     total = hero.total;
     corpusStats = stats;
+    if (hero.dataSource.kind === "dump") staleDumpAt = hero.dataSource.generatedAt;
+    else if (stats.dataSource.kind === "dump") staleDumpAt = stats.dataSource.generatedAt;
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }
@@ -31,6 +35,11 @@ export default async function HomePage() {
 
   return (
     <>
+      {staleDumpAt ? (
+        <div className="stale-banner-wrap">
+          <StaleDataBanner generatedAt={staleDumpAt} />
+        </div>
+      ) : null}
       <section className="hero hero-viewport">
         <div className="hero-viewport-inner">
           <div className="hero-copy">

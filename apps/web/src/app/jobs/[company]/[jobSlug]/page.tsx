@@ -29,7 +29,7 @@ export async function generateMetadata({
   if (!idPrefix) return { title: "Job not found · OpenIntern" };
 
   try {
-    const job = await loadJobByCompanyAndIdPrefix(company, idPrefix);
+    const { job } = await loadJobByCompanyAndIdPrefix(company, idPrefix);
     if (!job) return { title: "Job not found · OpenIntern" };
 
     const description = jobDescription(job);
@@ -59,7 +59,7 @@ export default async function JobSlugDetailPage({
   const idPrefix = parseIdPrefixFromJobSlug(jobSlug);
   if (!idPrefix) notFound();
 
-  const job = await loadJobByCompanyAndIdPrefix(company, idPrefix).catch(() => null);
+  const { job } = await loadJobByCompanyAndIdPrefix(company, idPrefix);
   if (!job) notFound();
 
   return <JobDetailView job={job} />;

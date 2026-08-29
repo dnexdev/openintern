@@ -1,8 +1,11 @@
 import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getTier1Slugs } from "@/lib/curated";
+import type { DataSource } from "@/lib/data-source";
+import { dumpSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
+import { liveDumpJobs, loadJobsDump, type DumpJob } from "@/lib/job-dump";
 import { formatPostingLocations } from "@/lib/posting-label";
 
 export type FamilySort = "first_seen" | "posted" | "prestige";
@@ -170,47 +173,34 @@ function orderFamilies(accList: FamilyAcc[], sort: FamilySort): FamilyAcc[] {
   return diversifyByCompany(chrono);
 }
 
-/** Load role families (grouped postings) for board + public API. */
-export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
-  families: JobFamily[];
-  total: number;
-}> {
-  const db = getDb();
-  const where = buildConditions(opts);
+type FamilyRow = {
+  id: string;
+  title: string;
+  normalizedTitle: string | null;
+  roleFamilyId: string | null;
+  locations: string[] | null;
+  applyUrl: string;
+  excerpt: string | null;
+  terms: string[] | null;
+  durationMonths: number[] | null;
+  roles: string[] | null;
+  regions: string[] | null;
+  isRemote: boolean;
+  source: string;
+  postedAt: Date | null;
+  firstSeenAt: Date;
+  companyName: string;
+  companySlug: string;
+  companyAts: string;
+  companyWebsiteUrl: string | null;
+  companyCareersUrl: string | null;
+};
 
-  const rows = await db
-    .select({
-      id: jobs.id,
-      title: jobs.title,
-      normalizedTitle: jobs.normalizedTitle,
-      roleFamilyId: jobs.roleFamilyId,
-      locations: jobs.locations,
-      applyUrl: jobs.applyUrl,
-      excerpt: jobs.excerpt,
-      terms: jobs.terms,
-      durationMonths: jobs.durationMonths,
-      roles: jobs.roles,
-      regions: jobs.regions,
-      isRemote: jobs.isRemote,
-      source: jobs.source,
-      postedAt: jobs.postedAt,
-      firstSeenAt: jobs.firstSeenAt,
-      companyName: companies.name,
-      companySlug: companies.slug,
-      companyAts: companies.ats,
-      companyWebsiteUrl: companies.websiteUrl,
-      companyCareersUrl: companies.careersUrl,
-    })
-    .from(jobs)
-    .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(where)
-    .orderBy(
-      opts.sort === "posted" ? desc(jobs.postedAt) : desc(jobs.firstSeenAt),
-    );
-
-  type Acc = FamilyAcc;
-
-  const byFamily = new Map<string, Acc>();
+function familiesFromRows(
+  rows: FamilyRow[],
+  opts: FamilyQueryOpts,
+): { families: JobFamily[]; total: number } {
+  const byFamily = new Map<string, FamilyAcc>();
 
   for (const row of rows) {
     const familyKey =
@@ -289,4 +279,122 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
   }));
 
   return { families, total };
+}
+
+function filterDumpJobs(jobs: DumpJob[], opts: FamilyQueryOpts): DumpJob[] {
+  const query = opts.query.toLowerCase();
+  return jobs.filter((job) => {
+    if (query && !job.title.toLowerCase().includes(query)) return false;
+    if (opts.company && job.company.slug !== opts.company) return false;
+    if (opts.roles.length > 0 && !opts.roles.some((r) => job.roles?.includes(r))) {
+      return false;
+    }
+    if (opts.regions.length > 0 && !opts.regions.some((r) => job.regions?.includes(r))) {
+      return false;
+    }
+    if (opts.terms.length > 0 && !opts.terms.some((t) => job.terms?.includes(t))) {
+      return false;
+    }
+    if (
+      opts.durations.length > 0 &&
+      !opts.durations.some((d) => job.duration_months?.includes(d))
+    ) {
+      return false;
+    }
+    if (opts.postedAfter) {
+      const posted = job.posted_at ? new Date(job.posted_at) : null;
+      if (!posted || posted < opts.postedAfter) return false;
+    }
+    return true;
+  });
+}
+
+function dumpJobToFamilyRow(job: DumpJob): FamilyRow {
+  return {
+    id: job.id,
+    title: job.title,
+    normalizedTitle: job.title,
+    roleFamilyId: null,
+    locations: job.locations,
+    applyUrl: job.apply_url,
+    excerpt: job.excerpt,
+    terms: job.terms,
+    durationMonths: job.duration_months,
+    roles: job.roles,
+    regions: job.regions,
+    isRemote: job.is_remote,
+    source: job.source,
+    postedAt: job.posted_at ? new Date(job.posted_at) : null,
+    firstSeenAt: new Date(job.first_seen_at),
+    companyName: job.company.name,
+    companySlug: job.company.slug,
+    companyAts: job.company.ats,
+    companyWebsiteUrl: null,
+    companyCareersUrl: null,
+  };
+}
+
+async function loadJobFamiliesFromDb(opts: FamilyQueryOpts) {
+  const db = getDb();
+  const where = buildConditions(opts);
+
+  const rows = await db
+    .select({
+      id: jobs.id,
+      title: jobs.title,
+      normalizedTitle: jobs.normalizedTitle,
+      roleFamilyId: jobs.roleFamilyId,
+      locations: jobs.locations,
+      applyUrl: jobs.applyUrl,
+      excerpt: jobs.excerpt,
+      terms: jobs.terms,
+      durationMonths: jobs.durationMonths,
+      roles: jobs.roles,
+      regions: jobs.regions,
+      isRemote: jobs.isRemote,
+      source: jobs.source,
+      postedAt: jobs.postedAt,
+      firstSeenAt: jobs.firstSeenAt,
+      companyName: companies.name,
+      companySlug: companies.slug,
+      companyAts: companies.ats,
+      companyWebsiteUrl: companies.websiteUrl,
+      companyCareersUrl: companies.careersUrl,
+    })
+    .from(jobs)
+    .innerJoin(companies, eq(jobs.companyId, companies.id))
+    .where(where)
+    .orderBy(
+      opts.sort === "posted" ? desc(jobs.postedAt) : desc(jobs.firstSeenAt),
+    );
+
+  return familiesFromRows(rows, opts);
+}
+
+async function loadJobFamiliesFromDump(opts: FamilyQueryOpts) {
+  const dump = await loadJobsDump();
+  const rows = filterDumpJobs(liveDumpJobs(dump), opts)
+    .map(dumpJobToFamilyRow)
+    .sort((a, b) => {
+      const aTs = (opts.sort === "posted" ? a.postedAt ?? a.firstSeenAt : a.firstSeenAt).getTime();
+      const bTs = (opts.sort === "posted" ? b.postedAt ?? b.firstSeenAt : b.firstSeenAt).getTime();
+      return bTs - aTs;
+    });
+  return { ...familiesFromRows(rows, opts), dataSource: dumpSource(dump.generatedAt) };
+}
+
+/** Load role families (grouped postings) for board + public API. */
+export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
+  families: JobFamily[];
+  total: number;
+  dataSource: DataSource;
+}> {
+  try {
+    const result = await loadJobFamiliesFromDb(opts);
+    return { ...result, dataSource: { kind: "db" } };
+  } catch (dbErr) {
+    console.warn("[jobs] database unavailable, falling back to dump:", dbErr);
+    const dump = await loadJobsDump();
+    return loadJobFamiliesFromDump(opts);
+  }
 }

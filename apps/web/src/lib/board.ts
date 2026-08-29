@@ -1,7 +1,10 @@
 import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
+import type { DataSource } from "@/lib/data-source";
+import { dumpSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
+import { liveDumpJobs, loadJobsDump, type DumpJob } from "@/lib/job-dump";
 import type { FamilySort } from "@/lib/job-families";
 
 /** Lightweight card shape used by the landing hero preview. */
@@ -203,35 +206,77 @@ const jobSelect = {
 export async function loadHeroPreviewPool(): Promise<{
   preview: JobCardData[];
   total: number;
+  dataSource: DataSource;
 }> {
-  const db = getDb();
+  try {
+    const db = getDb();
+    const slugs = [...HERO_PREVIEW_SLUGS, ...HERO_PREVIEW_BACKUP_SLUGS];
+
+    const [countRow] = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(jobs)
+      .innerJoin(companies, eq(jobs.companyId, companies.id))
+      .where(and(eq(jobs.isActive, true), publicJobSql()));
+
+    const rows = await db
+      .select(jobSelect)
+      .from(jobs)
+      .innerJoin(companies, eq(jobs.companyId, companies.id))
+      .where(
+        and(
+          eq(jobs.isActive, true),
+          publicJobSql(),
+          inArray(companies.slug, slugs),
+        ),
+      )
+      .orderBy(desc(jobs.firstSeenAt));
+
+    return {
+      ...heroPreviewFromCards(toJobCards(rows), countRow?.count ?? 0),
+      dataSource: { kind: "db" },
+    };
+  } catch (dbErr) {
+    console.warn("[hero] database unavailable, falling back to dump:", dbErr);
+    const dump = await loadJobsDump();
+    const live = liveDumpJobs(dump);
+    const cards = live.map(dumpJobToCard);
+    return {
+      ...heroPreviewFromCards(cards, live.length),
+      dataSource: dumpSource(dump.generatedAt),
+    };
+  }
+}
+
+function dumpJobToCard(job: DumpJob): JobCardData {
+  return {
+    id: job.id,
+    title: job.title,
+    locations: job.locations,
+    applyUrl: job.apply_url,
+    excerpt: job.excerpt,
+    terms: job.terms,
+    termYears: job.term_years,
+    durationMonths: job.duration_months,
+    roles: job.roles,
+    regions: job.regions,
+    isRemote: job.is_remote,
+    source: job.source,
+    postedAt: job.posted_at,
+    firstSeenAt: job.first_seen_at,
+    companyName: job.company.name,
+    companySlug: job.company.slug,
+    companyWebsiteUrl: null,
+    companyCareersUrl: null,
+  };
+}
+
+function heroPreviewFromCards(cards: JobCardData[], total: number) {
   const slugs = [...HERO_PREVIEW_SLUGS, ...HERO_PREVIEW_BACKUP_SLUGS];
-
-  const [countRow] = await db
-    .select({ count: sql<number>`count(*)::int` })
-    .from(jobs)
-    .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(and(eq(jobs.isActive, true), publicJobSql()));
-
-  const rows = await db
-    .select(jobSelect)
-    .from(jobs)
-    .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(
-      and(
-        eq(jobs.isActive, true),
-        publicJobSql(),
-        inArray(companies.slug, slugs),
-      ),
-    )
-    .orderBy(desc(jobs.firstSeenAt));
-
   const bySlug = new Map<string, JobCardData>();
-  for (const job of toJobCards(rows)) {
+  for (const job of cards) {
     const slug = job.companySlug;
-    if (!slug) continue;
+    if (!slug || !slugs.includes(slug as (typeof slugs)[number])) continue;
     const prev = bySlug.get(slug);
-    // Prefer US locations; among equal scores, keep the newer row (query order).
     if (!prev || previewLocationScore(job) > previewLocationScore(prev)) {
       bySlug.set(slug, job);
     }
@@ -248,36 +293,69 @@ export async function loadHeroPreviewPool(): Promise<{
     if (job) preview.push(job);
   }
 
-  return { preview: preview.slice(0, 6), total: countRow?.count ?? 0 };
+  return { preview: preview.slice(0, 6), total };
 }
 
-export async function loadCorpusStats() {
-  const db = getDb();
-  const [companyRow] = await db
-    .select({
-      activeCompanies: sql<number>`count(*) filter (where ${companies.active})::int`,
-    })
-    .from(companies);
-  const [lastOk] = await db
-    .select({ ranAt: ingestRuns.ranAt })
-    .from(ingestRuns)
-    .where(eq(ingestRuns.status, "ok"))
-    .orderBy(desc(ingestRuns.ranAt))
-    .limit(1);
-  return {
-    activeCompanies: companyRow?.activeCompanies ?? 0,
-    lastIngest: lastOk?.ranAt?.toISOString() ?? null,
-  };
+export async function loadCorpusStats(): Promise<{
+  activeCompanies: number;
+  lastIngest: string | null;
+  dataSource: DataSource;
+}> {
+  try {
+    const db = getDb();
+    const [companyRow] = await db
+      .select({
+        activeCompanies: sql<number>`count(*) filter (where ${companies.active})::int`,
+      })
+      .from(companies);
+    const [lastOk] = await db
+      .select({ ranAt: ingestRuns.ranAt })
+      .from(ingestRuns)
+      .where(eq(ingestRuns.status, "ok"))
+      .orderBy(desc(ingestRuns.ranAt))
+      .limit(1);
+    return {
+      activeCompanies: companyRow?.activeCompanies ?? 0,
+      lastIngest: lastOk?.ranAt?.toISOString() ?? null,
+      dataSource: { kind: "db" },
+    };
+  } catch (dbErr) {
+    console.warn("[stats] database unavailable, falling back to dump:", dbErr);
+    const dump = await loadJobsDump();
+    const slugs = new Set(liveDumpJobs(dump).map((j) => j.company.slug));
+    return {
+      activeCompanies: slugs.size,
+      lastIngest: dump.generatedAt,
+      dataSource: dumpSource(dump.generatedAt),
+    };
+  }
 }
 
-export async function loadCompanyOptions() {
-  const db = getDb();
-  return db
-    .selectDistinct({ slug: companies.slug, name: companies.name })
-    .from(companies)
-    .innerJoin(jobs, eq(jobs.companyId, companies.id))
-    .where(and(eq(companies.active, true), eq(jobs.isActive, true), publicJobSql()))
-    .orderBy(asc(companies.name));
+export async function loadCompanyOptions(): Promise<{
+  options: { slug: string; name: string }[];
+  dataSource: DataSource;
+}> {
+  try {
+    const db = getDb();
+    const options = await db
+      .selectDistinct({ slug: companies.slug, name: companies.name })
+      .from(companies)
+      .innerJoin(jobs, eq(jobs.companyId, companies.id))
+      .where(and(eq(companies.active, true), eq(jobs.isActive, true), publicJobSql()))
+      .orderBy(asc(companies.name));
+    return { options, dataSource: { kind: "db" } };
+  } catch (dbErr) {
+    console.warn("[companies] database unavailable, falling back to dump:", dbErr);
+    const dump = await loadJobsDump();
+    const bySlug = new Map<string, string>();
+    for (const job of liveDumpJobs(dump)) {
+      bySlug.set(job.company.slug, job.company.name);
+    }
+    const options = [...bySlug.entries()]
+      .map(([slug, name]) => ({ slug, name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    return { options, dataSource: dumpSource(dump.generatedAt) };
+  }
 }
 
 export async function loadJobs(opts: {

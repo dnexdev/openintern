@@ -15,7 +15,7 @@ export default async function LegacyJobIdRedirectPage({
   const { company: legacyId } = await params;
   if (!UUID.test(legacyId)) notFound();
 
-  const job = await loadJobById(legacyId).catch(() => null);
+  const { job } = await loadJobById(legacyId);
   if (!job) notFound();
   redirect(jobPath(job.companySlug, job.title, job.id));
 }

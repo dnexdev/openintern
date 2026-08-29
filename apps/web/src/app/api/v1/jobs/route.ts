@@ -87,7 +87,7 @@ export async function GET(request: Request) {
           ? "prestige"
           : "first_seen";
 
-    const { families, total } = await loadJobFamilies({
+    const { families, total, dataSource } = await loadJobFamilies({
       query: q,
       company,
       roles,
@@ -130,6 +130,12 @@ export async function GET(request: Request) {
         headers: {
           "X-RateLimit-Remaining": String(rl.remaining),
           "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          ...(dataSource.kind === "dump"
+            ? {
+                "X-Data-Source": "dump",
+                "X-Dump-Generated-At": dataSource.generatedAt,
+              }
+            : { "X-Data-Source": "db" }),
         },
       },
     );

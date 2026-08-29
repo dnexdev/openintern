@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { JobResults } from "@/components/JobResults";
+import { StaleDataBanner } from "@/components/StaleDataBanner";
 import { getTier1Slugs } from "@/lib/curated";
 import { loadJobFamilies } from "@/lib/job-families";
 import {
@@ -33,9 +34,10 @@ export default async function JobsPage({
   let total = 0;
   let dbError: string | null = null;
   let companyOptions: { slug: string; name: string }[] = [];
+  let staleDumpAt: string | null = null;
 
   try {
-    const [loaded, options] = await Promise.all([
+    const [loaded, companies] = await Promise.all([
       loadJobFamilies({
         query,
         company,
@@ -51,7 +53,11 @@ export default async function JobsPage({
     ]);
     families = loaded.families;
     total = loaded.total;
-    companyOptions = options;
+    companyOptions = companies.options;
+    if (loaded.dataSource.kind === "dump") staleDumpAt = loaded.dataSource.generatedAt;
+    else if (companies.dataSource.kind === "dump") {
+      staleDumpAt = companies.dataSource.generatedAt;
+    }
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }
@@ -98,6 +104,7 @@ export default async function JobsPage({
       />
 
       <section className="board-results">
+        {staleDumpAt ? <StaleDataBanner generatedAt={staleDumpAt} /> : null}
         {dbError ? (
           <div className="panel">
             <p className="empty">
