@@ -3,6 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
+import { liveDumpJobs, loadJobsDump } from "@/lib/job-dump";
 import { jobPath } from "@/lib/job-slug";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +18,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/jobs`, changeFrequency: "hourly", priority: 0.95 },
     { url: `${base}/docs`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/privacy`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${base}/health`, changeFrequency: "daily", priority: 0.5 },
     { url: `${base}/vs/intern-insider`, changeFrequency: "monthly", priority: 0.6 },
   ];
 
@@ -44,6 +44,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
     ];
   } catch {
-    return staticEntries;
+    try {
+      const dump = await loadJobsDump();
+      return [
+        ...staticEntries,
+        ...liveDumpJobs(dump)
+          .slice(0, JOB_SITEMAP_LIMIT)
+          .map((j) => ({
+            url: `${base}${jobPath(j.company.slug, j.title, j.id)}`,
+            lastModified: new Date(j.last_seen_at),
+            changeFrequency: "daily" as const,
+            priority: 0.7,
+          })),
+      ];
+    } catch {
+      return staticEntries;
+    }
   }
 }

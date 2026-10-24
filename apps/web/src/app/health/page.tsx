@@ -3,7 +3,7 @@ import { companies, ingestRuns, jobs } from "@openintern/db";
 import { getDb } from "@/lib/db";
 import { parseFunnel, sumFunnels } from "@/lib/ingest-health";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function HealthPage() {
   let error: string | null = null;

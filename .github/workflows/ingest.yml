@@ -9,6 +9,9 @@ concurrency:
   group: ingest
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   ingest:
     runs-on: ubuntu-latest
@@ -51,46 +54,32 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           OPENINTERN_BROWSER: "1"
         run: pnpm ingest
-      - name: Notify on failure
-        if: failure()
-        continue-on-error: true
-        uses: actions/github-script@v9
-        with:
-          script: |
-            const title = `Ingest failed (${new Date().toISOString().slice(0, 10)})`;
-            const body = [
-              `Daily ingest workflow failed on \`${context.sha.slice(0, 7)}\`.`,
-              "",
-              `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
-              "",
-              "Common causes: missing `DATABASE_URL` secret, Neon unreachable, or every company fetch failed.",
-              "Check `/health` for per-company errors after a successful run.",
-            ].join("\n");
-            try {
-              const issues = await github.rest.issues.listForRepo({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                state: "open",
-                labels: "ingest-failure",
-                per_page: 5,
-              });
-              const existing = issues.data.find((i) => i.title.startsWith("Ingest failed"));
-              if (existing) {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: existing.number,
-                  body,
-                });
-              } else {
-                await github.rest.issues.create({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  title,
-                  body,
-                  labels: ["ingest-failure"],
-                });
-              }
-            } catch (err) {
-              core.warning(`Could not open/comment ingest-failure issue (permissions?): ${err}`);
-            }
+
+  # Separate job so the token that can open issues never sits next to
+  # DATABASE_URL. Assigning the owner makes GitHub Mobile push the alert.
+  notify:
+    needs: ingest
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - shell: bash
+        run: |
+          gh label create ingest-failure --color B60205 --force
+          body="Daily ingest failed on ${GITHUB_SHA::7} (attempt $GITHUB_RUN_ATTEMPT): $RUN_URL
+
+          Common causes: Neon unreachable or over quota, missing DATABASE_URL, or every company fetch failed."
+          n=$(gh issue list --state open --label ingest-failure --json number --jq '.[0].number // empty')
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body "$body"
+            gh issue edit "$n" --add-assignee "$GITHUB_REPOSITORY_OWNER"
+          else
+            gh issue create --title "Ingest failed ($(date -u +%F))" --body "$body" \
+              --label ingest-failure --assignee "$GITHUB_REPOSITORY_OWNER"
+          fi

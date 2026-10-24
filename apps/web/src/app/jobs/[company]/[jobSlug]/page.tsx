@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JobDetailView } from "@/components/JobDetailView";
 import { jobPath, parseIdPrefixFromJobSlug } from "@/lib/job-slug";
+import { StaleDataBanner } from "@/components/StaleDataBanner";
 import { loadJobByCompanyAndIdPrefix } from "@/lib/load-job";
 
 export const dynamic = "force-dynamic";
@@ -59,8 +60,13 @@ export default async function JobSlugDetailPage({
   const idPrefix = parseIdPrefixFromJobSlug(jobSlug);
   if (!idPrefix) notFound();
 
-  const { job } = await loadJobByCompanyAndIdPrefix(company, idPrefix);
+  const { job, dataSource } = await loadJobByCompanyAndIdPrefix(company, idPrefix);
   if (!job) notFound();
 
-  return <JobDetailView job={job} />;
+  return (
+    <>
+      {dataSource.kind === "dump" ? <StaleDataBanner generatedAt={dataSource.generatedAt} /> : null}
+      <JobDetailView job={job} />
+    </>
+  );
 }

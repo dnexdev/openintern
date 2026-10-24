@@ -147,7 +147,7 @@ export async function GET() {
       },
       funnel_totals_latest_per_company: funnelTotals,
       recent_ingest_runs: mapped,
-    });
+    }, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60" } });
   } catch (err) {
     return apiDbError(err);
   }
