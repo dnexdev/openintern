@@ -383,8 +383,8 @@ function decodeEntities(text: string): string {
 
 function stripTags(text: string): string {
   return text
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, " ")
+    .replace(/<style\b[\s\S]*?<\/style[^>]*>/gi, " ")
     .replace(/<[^>]+>/g, " ");
 }
 

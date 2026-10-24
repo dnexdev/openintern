@@ -34,12 +34,13 @@ function decodeHtmlEntities(text: string): string {
     .replace(/&#8211;/g, "–")
     .replace(/&#8212;/g, "—")
     .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
-    .replace(/&nbsp;/g, " ");
+    .replace(/&nbsp;/g, " ")
+    // Last, so "&amp;lt;" decodes to "&lt;" rather than "<".
+    .replace(/&amp;/g, "&");
 }
 
 function stripTags(html: string): string {
