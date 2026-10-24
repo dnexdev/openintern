@@ -1,3 +1,8 @@
+import {
+  isZeroMatchRun as provenIsZeroMatchRun,
+  sumFunnels as provenSumFunnels,
+} from "@openintern/proven";
+
 export type Funnel = {
   fetched: number | null;
   title: number | null;
@@ -46,18 +51,9 @@ export function parseFunnel(error: string | null): Funnel {
 }
 
 export function sumFunnels(funnels: Funnel[]): FunnelTotals {
-  return funnels.reduce<FunnelTotals>(
-    (total, funnel) => ({
-      fetched: total.fetched + (funnel.fetched ?? 0),
-      title: total.title + (funnel.title ?? 0),
-      tech: total.tech + (funnel.tech ?? 0),
-      upserted: total.upserted + (funnel.upserted ?? 0),
-      descriptionMissing: total.descriptionMissing + (funnel.descriptionMissing ?? 0),
-    }),
-    { fetched: 0, title: 0, tech: 0, upserted: 0, descriptionMissing: 0 },
-  );
+  return provenSumFunnels(funnels);
 }
 
 export function isZeroMatchRun(error: string | null): boolean {
-  return Boolean(error?.startsWith("zero_match:"));
+  return provenIsZeroMatchRun(error);
 }

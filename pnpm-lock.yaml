@@ -21,6 +21,9 @@ importers:
       '@openintern/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@openintern/proven':
+        specifier: workspace:*
+        version: link:../../packages/proven
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -61,6 +64,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@openintern/proven':
+        specifier: workspace:*
+        version: link:../proven
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -89,6 +95,9 @@ importers:
       '@openintern/db':
         specifier: workspace:*
         version: link:../db
+      '@openintern/proven':
+        specifier: workspace:*
+        version: link:../proven
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -104,6 +113,18 @@ importers:
       zod:
         specifier: ^4.4.3
         version: 4.4.3
+    devDependencies:
+      '@types/node':
+        specifier: ^26.1.1
+        version: 26.1.1
+      tsx:
+        specifier: ^4.23.1
+        version: 4.23.1
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
+  packages/proven:
     devDependencies:
       '@types/node':
         specifier: ^26.1.1

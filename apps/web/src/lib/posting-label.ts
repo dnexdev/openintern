@@ -1,3 +1,5 @@
+import { needsPicker, qualifySingleTitle, saysOpenings } from "@openintern/proven";
+
 /** Campus site embedded in a job title (India quant campus recruiting). */
 const CAMPUS_IN_TITLE =
   /(?:^|[,–—-]\s*)((?:IIT|BITS|NIT|IIIT)\s+[\p{L}\p{N}&'.-]+)/iu;
@@ -51,9 +53,8 @@ export function formatPostingLocations(
 
 /** True when the user must pick a row — never send Apply to an arbitrary posting. */
 export function needsApplyPicker(postings: FamilyPosting[]): boolean {
-  if (postings.length > 1) return true;
-  const p = postings[0];
-  return p ? p.locations.filter((l) => l.trim()).length > 1 : false;
+  const first = postings[0];
+  return needsPicker(postings.length, first ? first.locations.filter((l) => l.trim()).length : 0);
 }
 
 /** Rows for the inline apply picker (one row per posting, or one row listing sub-locations). */
@@ -74,8 +75,9 @@ export function familyApplyRows(
         jobId: p.id,
         label,
         applyUrl: p.applyUrl,
-        appliedTitle:
-          locs.length > 1 ? `${familyTitle} (${label})` : familyTitle,
+        appliedTitle: qualifySingleTitle(locs.length)
+          ? `${familyTitle} (${label})`
+          : familyTitle,
       },
     ];
   }
@@ -97,7 +99,7 @@ export function familyPostingsLabel(
   postingCount: number,
   uniqueLocationCount: number,
 ): string {
-  if (uniqueLocationCount < postingCount) {
+  if (saysOpenings(postingCount, uniqueLocationCount)) {
     return `${postingCount} opening${postingCount === 1 ? "" : "s"}`;
   }
   return `${postingCount} location${postingCount === 1 ? "" : "s"}`;
@@ -121,7 +123,7 @@ export function familyMetaLabel(
 export function familyPickerButtonLabel(postings: FamilyPosting[]): string {
   if (postings.length > 1) {
     const uniqueLocationCount = new Set(postings.map((p) => p.location)).size;
-    return uniqueLocationCount < postings.length ? "Show openings" : "Show locations";
+    return saysOpenings(postings.length, uniqueLocationCount) ? "Show openings" : "Show locations";
   }
   return "Show locations";
 }

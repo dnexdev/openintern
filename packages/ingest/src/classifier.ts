@@ -4,6 +4,14 @@
  * new-grad/full-time roles are out of scope for this board.
  */
 
+import {
+  LAST_SEEN_STALE_DAYS,
+  MAX_AGE_DAYS_NO_TERM,
+  isStale,
+  isStaleByLastSeen as provenStaleByLastSeen,
+  termEndDate,
+} from "@openintern/proven";
+
 /**
  * Internship signal — title only.
  * Also matches campus / project / "Year at X" internship phrasings common on public lists.
@@ -135,13 +143,10 @@ export function extractTermYears(text: string, cohortYear: number | null): TermY
 
 /**
  * Season end date (last day of the term window) for freshness checks.
- * summer → Aug 31, fall → Dec 31, winter → Apr 30 of that year.
+ * summer → Aug 31, fall → Dec 31, winter → Apr 30 of that year (Bend-proven table).
  */
 export function termYearEndDate(ty: TermYear): Date {
-  if (ty.term === "summer") return new Date(Date.UTC(ty.year, 7, 31, 23, 59, 59));
-  if (ty.term === "fall") return new Date(Date.UTC(ty.year, 11, 31, 23, 59, 59));
-  // winter = Jan–Apr of that year
-  return new Date(Date.UTC(ty.year, 3, 30, 23, 59, 59));
+  return termEndDate(ty);
 }
 
 /** True if every known term_year is entirely in the past. Empty → not stale. */
@@ -150,14 +155,14 @@ export function isStaleByTermYears(
   now: Date = new Date(),
 ): boolean {
   if (termYears.length === 0) return false;
-  return termYears.every((ty) => termYearEndDate(ty).getTime() < now.getTime());
+  return isStale({ termYears, anchor: now, now });
 }
 
 /** Max age for jobs with no term_years (days). */
-export const MAX_AGE_DAYS_NO_TERM = 120;
+export { MAX_AGE_DAYS_NO_TERM };
 
 /** Deactivate if not seen in this many days (covers failing company fetches). */
-export const LAST_SEEN_STALE_DAYS = 14;
+export { LAST_SEEN_STALE_DAYS };
 
 /**
  * Freshness beyond term_years: empty term_years + old posted/firstSeen → stale.
@@ -170,11 +175,12 @@ export function isStaleByAge(opts: {
   maxAgeDays?: number;
 }): boolean {
   if (opts.termYears.length > 0) return false;
-  const now = opts.now ?? new Date();
-  const maxAgeDays = opts.maxAgeDays ?? MAX_AGE_DAYS_NO_TERM;
-  const anchor = opts.postedAt ?? opts.firstSeenAt;
-  const ageMs = now.getTime() - anchor.getTime();
-  return ageMs > maxAgeDays * 24 * 60 * 60 * 1000;
+  return isStale({
+    termYears: [],
+    anchor: opts.postedAt ?? opts.firstSeenAt,
+    now: opts.now ?? new Date(),
+    maxAgeDays: opts.maxAgeDays,
+  });
 }
 
 export function isStaleByLastSeen(
@@ -182,7 +188,7 @@ export function isStaleByLastSeen(
   now: Date = new Date(),
   maxDays: number = LAST_SEEN_STALE_DAYS,
 ): boolean {
-  return now.getTime() - lastSeenAt.getTime() > maxDays * 24 * 60 * 60 * 1000;
+  return provenStaleByLastSeen(lastSeenAt, now, maxDays);
 }
 
 /**

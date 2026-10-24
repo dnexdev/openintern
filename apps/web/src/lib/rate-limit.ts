@@ -1,24 +1,23 @@
-type Bucket = { count: number; resetAt: number };
+import { rateLimitStep, type RateBucket } from "@openintern/proven";
 
-const buckets = new Map<string, Bucket>();
+const buckets = new Map<string, RateBucket>();
 
+const DEFAULT_LIMIT_PER_MINUTE = 60;
+
+function envLimit(): number {
+  const n = Number(process.env.API_RATE_LIMIT_PER_MINUTE ?? DEFAULT_LIMIT_PER_MINUTE);
+  return Number.isInteger(n) && n >= 0 ? n : DEFAULT_LIMIT_PER_MINUTE;
+}
+
+/** Fixed-window limiter; each decision comes from the Bend-proven `rate_limit.step`. */
 export function rateLimit(
   key: string,
-  limit = Number(process.env.API_RATE_LIMIT_PER_MINUTE ?? 60),
+  limit = envLimit(),
   windowMs = 60_000,
 ): { ok: boolean; remaining: number; resetAt: number } {
-  const now = Date.now();
-  const existing = buckets.get(key);
-  if (!existing || existing.resetAt <= now) {
-    const resetAt = now + windowMs;
-    buckets.set(key, { count: 1, resetAt });
-    return { ok: true, remaining: limit - 1, resetAt };
-  }
-  if (existing.count >= limit) {
-    return { ok: false, remaining: 0, resetAt: existing.resetAt };
-  }
-  existing.count += 1;
-  return { ok: true, remaining: limit - existing.count, resetAt: existing.resetAt };
+  const verdict = rateLimitStep(buckets.get(key), Date.now(), limit, windowMs);
+  buckets.set(key, verdict.bucket);
+  return { ok: verdict.ok, remaining: verdict.remaining, resetAt: verdict.bucket.resetAt };
 }
 
 export function clientIp(request: Request): string {

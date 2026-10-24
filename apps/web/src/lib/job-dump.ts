@@ -1,4 +1,4 @@
-import { isFreshJob } from "@openintern/db";
+import { isPublic } from "@openintern/proven";
 
 const DEFAULT_DUMP_URL =
   "https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json";
@@ -62,15 +62,11 @@ export async function loadJobsDump(): Promise<JobsDump> {
 /** Same gates as {@link publicJobSql} — dump rows are pre-filtered but re-check on read. */
 export function isPublicDumpJob(job: DumpJob, now = new Date()): boolean {
   const roles = job.roles ?? [];
-  if (!Array.isArray(roles) || roles.length === 0) return false;
-  return isFreshJob(
-    {
-      termYears: job.term_years,
-      postedAt: job.posted_at ? new Date(job.posted_at) : null,
-      firstSeenAt: new Date(job.first_seen_at),
-    },
+  return isPublic(Array.isArray(roles) ? roles.length : 0, {
+    termYears: job.term_years,
+    anchor: new Date(job.posted_at || job.first_seen_at),
     now,
-  );
+  });
 }
 
 export function liveDumpJobs(dump: JobsDump): DumpJob[] {

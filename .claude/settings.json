@@ -1,0 +1,57 @@
+{
+  "env": {
+    "BEND_NO_TELEMETRY": "1",
+    "DO_NOT_TRACK": "1",
+    "BUN_ENABLE_CRASH_REPORTING": "0"
+  },
+  "permissions": {
+    "deny": [
+      "Bash(bend login*)",
+      "Bash(bend update*)",
+      "Bash(bend link*)",
+      "Bash(*bend/bin/bend login*)",
+      "Bash(*bend/bin/bend update*)",
+      "Bash(*bend/bin/bend link*)",
+      "Bash(*--publish*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/bend-gate.mjs\" laws",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/bend-gate.mjs\" post",
+            "timeout": 60,
+            "statusMessage": "Checking Bend proofs..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/bend-gate.mjs\" stop",
+            "timeout": 120,
+            "statusMessage": "Running Bend proof gate..."
+          }
+        ]
+      }
+    ]
+  }
+}

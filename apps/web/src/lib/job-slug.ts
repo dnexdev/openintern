@@ -1,3 +1,5 @@
+import { jobSlugSegment as provenSegment, parseIdPrefix } from "@openintern/proven";
+
 /** Human-readable job URL segment: slugified title + first 8 chars of UUID. */
 export function slugifyTitle(title: string): string {
   return title
@@ -9,9 +11,7 @@ export function slugifyTitle(title: string): string {
 }
 
 export function jobSlugSegment(title: string, id: string): string {
-  const base = slugifyTitle(title) || "job";
-  const suffix = id.replace(/-/g, "").slice(0, 8);
-  return `${base}-${suffix}`;
+  return provenSegment(slugifyTitle(title) || "job", id);
 }
 
 export function jobPath(companySlug: string, title: string, id: string): string {
@@ -20,6 +20,5 @@ export function jobPath(companySlug: string, title: string, id: string): string 
 
 /** Parse trailing 8-char id prefix from a job slug segment. */
 export function parseIdPrefixFromJobSlug(jobSlug: string): string | null {
-  const match = jobSlug.match(/-([a-f0-9]{8})$/i);
-  return match?.[1]?.toLowerCase() ?? null;
+  return parseIdPrefix(jobSlug);
 }

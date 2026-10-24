@@ -22,6 +22,27 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
+      # Bend proof gate: LAWS.bend must be proven by PROOF.bend, and the
+      # committed packages/proven/generated/proven.mjs must match a rebuild.
+      # Pinned release + sha256 from bend-lang.com/install.sh (v2.0.39).
+      - name: Install Bend
+        env:
+          BEND_VERSION: 2.0.39
+          BEND_SHA256: 6cf462fd8f70b094a4950ebb709a9c4ffd8f1d1189d9cedf1fd63cd5d041c7ab
+        run: |
+          name="bend-${BEND_VERSION}-linux-x64.tar.gz"
+          curl --proto '=https' --tlsv1.2 -fsSL -o "$RUNNER_TEMP/$name" \
+            "https://github.com/bendlang/bend/releases/download/v${BEND_VERSION}/$name"
+          echo "$BEND_SHA256  $RUNNER_TEMP/$name" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/$name" -C "$RUNNER_TEMP"
+          echo "BEND_BIN=$RUNNER_TEMP/bend/bin/bend" >> "$GITHUB_ENV"
+        shell: bash
+      - name: Bend proofs
+        env:
+          BEND_NO_TELEMETRY: "1"
+          DO_NOT_TRACK: "1"
+          BUN_ENABLE_CRASH_REPORTING: "0"
+        run: pnpm proofs
       - run: pnpm validate-curated
       - run: pnpm validate-companies
       - name: Validate company tokens

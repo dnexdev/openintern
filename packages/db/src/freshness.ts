@@ -1,8 +1,9 @@
 import { sql, type SQL } from "drizzle-orm";
+import { isFresh, MAX_AGE_DAYS_NO_TERM } from "@openintern/proven";
 import { jobs } from "./schema";
 
 /** Max age for jobs without an explicit term/year. */
-export const MAX_AGE_DAYS_NO_TERM = 120;
+export { MAX_AGE_DAYS_NO_TERM };
 
 export type FreshnessInput = {
   termYears: { term: string; year: number }[] | null;
@@ -10,18 +11,13 @@ export type FreshnessInput = {
   firstSeenAt: Date;
 };
 
+/** Bend-proven (law fr_stale_iff_not_fresh): exactly the opposite of ingest's staleness. */
 export function isFreshJob(input: FreshnessInput, now = new Date()): boolean {
-  const termYears = input.termYears ?? [];
-  if (termYears.length > 0) {
-    return termYears.some(({ term, year }) => {
-      const month = term === "winter" ? 3 : term === "summer" ? 7 : 11;
-      const day = term === "winter" ? 30 : 31;
-      return new Date(Date.UTC(year, month, day, 23, 59, 59)) >= now;
-    });
-  }
-
-  const reference = input.postedAt ?? input.firstSeenAt;
-  return now.getTime() - reference.getTime() <= MAX_AGE_DAYS_NO_TERM * 86_400_000;
+  return isFresh({
+    termYears: input.termYears,
+    anchor: input.postedAt ?? input.firstSeenAt,
+    now,
+  });
 }
 
 /**
