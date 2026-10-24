@@ -1,4 +1,5 @@
-import { sql, type SQL } from "drizzle-orm";
+import { notInArray, sql, type SQL } from "drizzle-orm";
+import { DELISTED_JOBS } from "./delisted";
 import { jobs } from "./schema";
 
 /** Max age for jobs without an explicit term/year. */
@@ -51,13 +52,15 @@ export function freshnessSql(): SQL {
 }
 
 /**
- * Public corpus rows must be fresh and have at least one canonical role tag.
- * This is a defensive gate for legacy data while stricter ingest retires noise.
+ * Public corpus rows must be fresh, have at least one canonical role tag, and
+ * not be delisted. This is a defensive gate for legacy data while stricter
+ * ingest retires noise.
  */
 export function publicJobSql(): SQL {
   return sql`(
     ${freshnessSql()}
     AND jsonb_typeof(coalesce(${jobs.roles}, '[]'::jsonb)) = 'array'
     AND jsonb_array_length(coalesce(${jobs.roles}, '[]'::jsonb)) > 0
+    AND ${DELISTED_JOBS.size > 0 ? notInArray(jobs.id, [...DELISTED_JOBS.keys()]) : sql`true`}
   )`;
 }

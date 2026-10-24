@@ -29,3 +29,4 @@ export type SqlClient = ReturnType<typeof postgres>;
 
 export * from "./schema";
 export * from "./freshness";
+export * from "./delisted";
