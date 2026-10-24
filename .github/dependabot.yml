@@ -4,12 +4,17 @@
     {
       "package-ecosystem": "npm",
       "directory": "/",
-      "schedule": { "interval": "weekly" }
+      "schedule": { "interval": "weekly" },
+      "cooldown": { "default-days": 14 },
+      "groups": {
+        "react": { "patterns": ["react", "react-dom", "@types/react", "@types/react-dom"] }
+      }
     },
     {
       "package-ecosystem": "github-actions",
       "directory": "/",
-      "schedule": { "interval": "weekly" }
+      "schedule": { "interval": "weekly" },
+      "cooldown": { "default-days": 14 }
     }
   ]
 }
