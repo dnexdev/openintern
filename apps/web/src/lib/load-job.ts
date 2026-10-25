@@ -1,7 +1,6 @@
 import { and, eq, sql } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
-import type { DataSource } from "@/lib/data-source";
-import { dumpSource } from "@/lib/data-source";
+import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
 import { isPublicDumpJob, loadJobsDump, type DumpJob } from "@/lib/job-dump";
@@ -84,50 +83,60 @@ function idPrefixMatches(id: string, prefix: string) {
 export async function loadJobById(
   id: string,
 ): Promise<{ job: JobDetailRow | null; dataSource: DataSource }> {
-  try {
-    const db = getDb();
-    const [row] = await db
-      .select(jobSelect)
-      .from(jobs)
-      .innerJoin(companies, eq(jobs.companyId, companies.id))
-      .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
-      .limit(1);
-    return { job: row ?? null, dataSource: { kind: "db" } };
-  } catch (dbErr) {
-    console.warn("[job] database unavailable, falling back to dump:", dbErr);
-    const dump = await loadJobsDump();
-    const job = liveDumpJobById(dump.jobs, id);
-    return { job, dataSource: dumpSource(dump.generatedAt) };
-  }
+  return withDumpFirst({
+    label: "job",
+    fromDump: async () => {
+      const dump = await loadJobsDump();
+      return {
+        job: liveDumpJobById(dump.jobs, id),
+        dataSource: dumpSource(dump.generatedAt),
+      };
+    },
+    fromDb: async () => {
+      const db = getDb();
+      const [row] = await db
+        .select(jobSelect)
+        .from(jobs)
+        .innerJoin(companies, eq(jobs.companyId, companies.id))
+        .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
+        .limit(1);
+      return { job: row ?? null, dataSource: { kind: "db" } as const };
+    },
+  });
 }
 
 export async function loadJobByCompanyAndIdPrefix(
   companySlug: string,
   idPrefix: string,
 ): Promise<{ job: JobDetailRow | null; dataSource: DataSource }> {
-  try {
-    const db = getDb();
-    const rows = await db
-      .select(jobSelect)
-      .from(jobs)
-      .innerJoin(companies, eq(jobs.companyId, companies.id))
-      .where(
-        and(
-          eq(companies.slug, companySlug),
-          sql`replace(${jobs.id}::text, '-', '') like ${idPrefix + "%"}`,
-          eq(jobs.isActive, true),
-          publicJobSql(),
-        ),
-      )
-      .limit(2);
-    if (rows.length !== 1) return { job: null, dataSource: { kind: "db" } };
-    return { job: rows[0]!, dataSource: { kind: "db" } };
-  } catch (dbErr) {
-    console.warn("[job] database unavailable, falling back to dump:", dbErr);
-    const dump = await loadJobsDump();
-    const job = liveDumpJobByCompanyPrefix(dump.jobs, companySlug, idPrefix);
-    return { job, dataSource: dumpSource(dump.generatedAt) };
-  }
+  return withDumpFirst({
+    label: "job",
+    fromDump: async () => {
+      const dump = await loadJobsDump();
+      return {
+        job: liveDumpJobByCompanyPrefix(dump.jobs, companySlug, idPrefix),
+        dataSource: dumpSource(dump.generatedAt),
+      };
+    },
+    fromDb: async () => {
+      const db = getDb();
+      const rows = await db
+        .select(jobSelect)
+        .from(jobs)
+        .innerJoin(companies, eq(jobs.companyId, companies.id))
+        .where(
+          and(
+            eq(companies.slug, companySlug),
+            sql`replace(${jobs.id}::text, '-', '') like ${idPrefix + "%"}`,
+            eq(jobs.isActive, true),
+            publicJobSql(),
+          ),
+        )
+        .limit(2);
+      if (rows.length !== 1) return { job: null, dataSource: { kind: "db" } as const };
+      return { job: rows[0]!, dataSource: { kind: "db" } as const };
+    },
+  });
 }
 
 function liveDumpJobById(jobs: DumpJob[], id: string): JobDetailRow | null {

@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { and, eq } from "drizzle-orm";
-import { companies, publicJobSql, jobs, type Db } from "@openintern/db";
+import { buildHealthSnapshot, companies, publicJobSql, jobs, type Db } from "@openintern/db";
 
 export async function writeDumps(db: Db, outDir: string) {
   await fs.mkdir(outDir, { recursive: true });
@@ -90,7 +90,10 @@ export async function writeDumps(db: Db, outDir: string) {
   const csvPath = path.join(outDir, "jobs.csv");
   await fs.writeFile(csvPath, [csvHeader, ...csvLines].join("\n"));
 
-  return { jsonPath, csvPath, count: rows.length };
+  const healthPath = path.join(outDir, "health.json");
+  await fs.writeFile(healthPath, JSON.stringify(await buildHealthSnapshot(db), null, 2));
+
+  return { jsonPath, csvPath, healthPath, count: rows.length };
 }
 
 function csvEscape(value: string): string {

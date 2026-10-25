@@ -3,7 +3,7 @@ import { apiDbError } from "@/lib/api-error";
 import { loadJobFamilies, type FamilySort } from "@/lib/job-families";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 const ROLE_SET = new Set([
   "software",
@@ -129,7 +129,7 @@ export async function GET(request: Request) {
       {
         headers: {
           "X-RateLimit-Remaining": String(rl.remaining),
-          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
           ...(dataSource.kind === "dump"
             ? {
                 "X-Data-Source": "dump",

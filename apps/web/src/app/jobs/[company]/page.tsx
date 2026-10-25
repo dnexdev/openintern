@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { jobPath } from "@/lib/job-slug";
 import { loadJobById } from "@/lib/load-job";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 

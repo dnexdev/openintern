@@ -1,8 +1,7 @@
 import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
 import { companies, jobs } from "@openintern/db";
 import { getTier1Slugs } from "@/lib/curated";
-import type { DataSource } from "@/lib/data-source";
-import { dumpSource } from "@/lib/data-source";
+import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
 import { liveDumpJobs, loadJobsDump, type DumpJob } from "@/lib/job-dump";
@@ -389,12 +388,12 @@ export async function loadJobFamilies(opts: FamilyQueryOpts): Promise<{
   total: number;
   dataSource: DataSource;
 }> {
-  try {
-    const result = await loadJobFamiliesFromDb(opts);
-    return { ...result, dataSource: { kind: "db" } };
-  } catch (dbErr) {
-    console.warn("[jobs] database unavailable, falling back to dump:", dbErr);
-    const dump = await loadJobsDump();
-    return loadJobFamiliesFromDump(opts);
-  }
+  return withDumpFirst({
+    label: "jobs",
+    fromDump: () => loadJobFamiliesFromDump(opts),
+    fromDb: async () => {
+      const result = await loadJobFamiliesFromDb(opts);
+      return { ...result, dataSource: { kind: "db" } as const };
+    },
+  });
 }

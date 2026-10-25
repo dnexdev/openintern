@@ -33,18 +33,33 @@ Then re-run: Actions → Ingest → Run workflow (and Dump once dumps are empty)
 
 1. Import `dnexdev/openintern` at [vercel.com](https://vercel.com)
 2. Framework: Next.js; root `vercel.json` sets install/build for the monorepo
-3. Add env vars from `.env.example` (`DATABASE_URL` required; optional `API_RATE_LIMIT_PER_MINUTE`)
+3. Add env vars from `.env.example`:
+   - `DATABASE_URL` — use Neon’s **pooled** (`-pooler`) connection string (needed for `/health` and dump→DB fallback)
+   - Optional: `API_RATE_LIMIT_PER_MINUTE`
+   - Optional: `NEXT_PUBLIC_PLAUSIBLE_DOMAIN=openintern.dev` to enable privacy-friendly traffic analytics (see below)
+   - Optional: `OPENINTERN_PREFER_DB=1` only if you need live-DB-first reads (burns Neon CU; default is dump-first)
 4. Domains → add **`openintern.dev`** and point DNS at Vercel
 5. Ingest/dumps stay on **GitHub Actions** (not Vercel Cron)
 
-Hobby notes: fine for the board + rate-limited API. Daily dumps remain the bulk path.
+Hobby notes: the board and public job APIs read the daily GitHub `dump-latest` release by default so Neon can autosuspend between ingest runs. Daily dumps remain the bulk path.
+
+### Traffic analytics (Plausible)
+
+The site already loads Plausible when the env var is set (no cookies, no Postgres writes).
+
+1. Create a site for `openintern.dev` at [plausible.io](https://plausible.io) (or self-host)
+2. In Vercel → Project → Settings → Environment Variables, set `NEXT_PUBLIC_PLAUSIBLE_DOMAIN=openintern.dev`
+3. Redeploy
+
+Until that is set, Vercel’s project logs/analytics give a rough traffic picture.
 
 ## 4. Database (Neon)
 
 1. Create a free Neon project
-2. Copy the connection string → `DATABASE_URL`
-3. Locally or in CI: `pnpm db:migrate`
-4. `pnpm sync-companies && pnpm ingest`
+2. Copy the connection string → `DATABASE_URL` (pooled URL on Vercel; direct URL is fine for GitHub Actions ingest)
+3. In the Neon console: confirm **autosuspend** is enabled and compute is the smallest size — public reads no longer keep the DB awake
+4. Locally or in CI: `pnpm db:migrate`
+5. `pnpm sync-companies && pnpm ingest`
 
 ## 5. Enable workflows
 
