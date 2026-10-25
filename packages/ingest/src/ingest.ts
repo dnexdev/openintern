@@ -1,4 +1,4 @@
-import { and, eq, lt, notInArray, sql } from "drizzle-orm";
+import { and, desc, eq, lt, notInArray, sql } from "drizzle-orm";
 import { companies, ingestRuns, jobs, type Db } from "@openintern/db";
 import { fetchJobsForAts } from "./ats.js";
 import {
@@ -40,6 +40,8 @@ export type IngestSummary = {
   jobsDeactivated: number;
   staleDeactivated: number;
   lastSeenDeactivated: number;
+  /** True when the last-seen sweep was skipped because the pipeline had been down. */
+  lastSeenSweepSkipped: boolean;
   zeroMatchCompanies: string[];
   failures: { slug: string; error: string }[];
   /** Per-company fetched → title → tech → upsert funnel (sorted by fetched desc). */
@@ -116,7 +118,31 @@ export function companyDeactivationPolicy(input: {
   return "none";
 }
 
+/** A gap longer than this between successful runs counts as an outage. */
+export const OUTAGE_GAP_DAYS = 2;
+
+/**
+ * The last-seen sweep retires jobs not seen for LAST_SEEN_STALE_DAYS of wall
+ * time. After an outage (Neon down, ingest disabled) every job looks unseen,
+ * so the first run back would retire jobs that are still open. Skip the sweep
+ * when the previous successful run is older than OUTAGE_GAP_DAYS; it resumes
+ * on the next run, once this run has refreshed last_seen_at.
+ */
+export function shouldSkipLastSeenSweep(lastSuccessfulRunAt: Date | null, now: Date): boolean {
+  if (!lastSuccessfulRunAt) return true;
+  return now.getTime() - lastSuccessfulRunAt.getTime() > OUTAGE_GAP_DAYS * 24 * 60 * 60 * 1000;
+}
+
 export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Promise<IngestSummary> {
+  // Read before this run records anything, so it reflects the previous run.
+  const [lastOk] = await db
+    .select({ ranAt: ingestRuns.ranAt })
+    .from(ingestRuns)
+    .where(eq(ingestRuns.status, "ok"))
+    .orderBy(desc(ingestRuns.ranAt))
+    .limit(1);
+  const skipLastSeenSweep = shouldSkipLastSeenSweep(lastOk?.ranAt ?? null, new Date());
+
   if (opts?.syncRegistry !== false) {
     await syncCompaniesFromYaml(db);
   }
@@ -198,20 +224,26 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
   }
 
   const cutoff = new Date(Date.now() - LAST_SEEN_STALE_DAYS * 24 * 60 * 60 * 1000);
-  try {
-    const unseen = await withDbRetry("lastSeenSweep", () =>
-      db
-        .update(jobs)
-        .set({ isActive: false, updatedAt: new Date() })
-        .where(and(eq(jobs.isActive, true), lt(jobs.lastSeenAt, cutoff)))
-        .returning({ id: jobs.id }),
-    );
-    lastSeenDeactivated = unseen.length;
-  } catch (err) {
+  if (skipLastSeenSweep) {
     console.warn(
-      "Last-seen sweep failed (continuing):",
-      err instanceof Error ? err.message : err,
+      `Last-seen sweep skipped: previous successful run ${lastOk?.ranAt.toISOString() ?? "never"} is more than ${OUTAGE_GAP_DAYS} days old.`,
     );
+  } else {
+    try {
+      const unseen = await withDbRetry("lastSeenSweep", () =>
+        db
+          .update(jobs)
+          .set({ isActive: false, updatedAt: new Date() })
+          .where(and(eq(jobs.isActive, true), lt(jobs.lastSeenAt, cutoff)))
+          .returning({ id: jobs.id }),
+      );
+      lastSeenDeactivated = unseen.length;
+    } catch (err) {
+      console.warn(
+        "Last-seen sweep failed (continuing):",
+        err instanceof Error ? err.message : err,
+      );
+    }
   }
 
   funnel.sort((a, b) => b.fetched - a.fetched || a.slug.localeCompare(b.slug));
@@ -232,6 +264,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     jobsDeactivated,
     staleDeactivated,
     lastSeenDeactivated,
+    lastSeenSweepSkipped: skipLastSeenSweep,
     zeroMatchCompanies,
     failures,
     funnel,

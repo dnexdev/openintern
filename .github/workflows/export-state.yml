@@ -1,0 +1,48 @@
+name: Export state
+
+# Run by hand the day Neon is readable again (and before every risky migration).
+# Read-only: copies every table to CSV in one consistent snapshot, so job ids
+# and first_seen_at survive if the database is lost. Takes seconds of compute.
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: export-state
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Export
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::DATABASE_URL secret is not set."
+            exit 1
+          fi
+          scripts/export-state.sh "$RUNNER_TEMP/state"
+      - name: Summary
+        run: |
+          {
+            echo "### State export"
+            echo '```'
+            cat "$RUNNER_TEMP/state/counts.tsv"
+            echo '```'
+            echo "Download the artifact and keep a second copy off GitHub."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: openintern-state-${{ github.run_id }}
+          path: ${{ runner.temp }}/state/
+          retention-days: 90
+          if-no-files-found: error
