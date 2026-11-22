@@ -1,5 +1,6 @@
-import { applyUrlAllowed, isDelisted } from "@openintern/db";
 import { isPublic } from "@openintern/proven";
+import { refreshKillSwitch } from "@/lib/kill-switch";
+import { publishable } from "@/lib/publishable";
 
 const DEFAULT_DUMP_URL =
   "https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json";
@@ -48,6 +49,7 @@ export function dumpUrl() {
 }
 
 export async function loadJobsDump(): Promise<JobsDump> {
+  await refreshKillSwitch();
   const cached = globalForDump.__openinternJobsDump;
   if (cached && Date.now() - cached.fetchedAt < CACHE_MS) {
     return cached.dump;
@@ -69,8 +71,7 @@ export async function loadJobsDump(): Promise<JobsDump> {
 
 /** Same gates as {@link publicJobSql} — dump rows are pre-filtered but re-check on read. */
 export function isPublicDumpJob(job: DumpJob, now = new Date()): boolean {
-  if (isDelisted(job.id)) return false;
-  if (!applyUrlAllowed(job.company.slug, job.apply_url)) return false;
+  if (!publishable(job.company.slug, job.id, job.apply_url)) return false;
   const roles = job.roles ?? [];
   try {
     return isPublic(Array.isArray(roles) ? roles.length : 0, {

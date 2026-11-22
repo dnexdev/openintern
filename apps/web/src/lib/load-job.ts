@@ -1,7 +1,8 @@
 import { and, eq, sql } from "drizzle-orm";
-import { applyUrlAllowed, companies, jobs } from "@openintern/db";
+import { companies, jobs } from "@openintern/db";
 import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
+import { publishable } from "@/lib/publishable";
 import { publicJobSql } from "@/lib/freshness";
 import { isPublicDumpJob, loadJobsDump, type DumpJob } from "@/lib/job-dump";
 
@@ -100,7 +101,7 @@ export async function loadJobById(
         .innerJoin(companies, eq(jobs.companyId, companies.id))
         .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
         .limit(1);
-      const allowed = row && applyUrlAllowed(row.companySlug, row.applyUrl) ? row : null;
+      const allowed = row && publishable(row.companySlug, row.id, row.applyUrl) ? row : null;
       return { job: allowed, dataSource: { kind: "db" } as const };
     },
   });
@@ -134,7 +135,7 @@ export async function loadJobByCompanyAndIdPrefix(
           ),
         )
         .limit(2);
-      if (rows.length !== 1 || !applyUrlAllowed(rows[0]!.companySlug, rows[0]!.applyUrl)) {
+      if (rows.length !== 1 || !publishable(rows[0]!.companySlug, rows[0]!.id, rows[0]!.applyUrl)) {
         return { job: null, dataSource: { kind: "db" } as const };
       }
       return { job: rows[0]!, dataSource: { kind: "db" } as const };

@@ -1,3 +1,5 @@
+import { refreshKillSwitch } from "@/lib/kill-switch";
+
 export type DataSource =
   | { kind: "db" }
   | { kind: "dump"; generatedAt: string };
@@ -20,6 +22,7 @@ export async function withDumpFirst<T>(opts: {
   fromDump: () => Promise<T>;
   fromDb: () => Promise<T>;
 }): Promise<T> {
+  await refreshKillSwitch();
   if (preferDbReads()) {
     try {
       return await opts.fromDb();

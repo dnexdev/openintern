@@ -7,23 +7,12 @@ export function reportIssueUrl(input: {
   applyUrl: string;
   pageUrl: string;
 }): string {
-  const issueTitle = `Listing: ${input.companyName} — ${input.title}`.slice(0, 120);
-  const body = [
-    "## Listing",
-    "",
-    `- Job ID: \`${input.jobId}\``,
-    `- OpenIntern: ${input.pageUrl}`,
-    `- Apply URL: ${input.applyUrl}`,
-    "",
-    "## Issue",
-    "",
-    "<!-- stale listing, wrong location, not an internship, etc. -->",
-    "",
-  ].join("\n");
-
+  // Prefills the "Report a listing" issue form (.github/ISSUE_TEMPLATE/listing.yml).
   const params = new URLSearchParams({
-    title: issueTitle,
-    body,
+    template: "listing.yml",
+    title: `Listing: ${input.companyName} — ${input.title}`.slice(0, 120),
+    url: `${input.pageUrl} (job ${input.jobId})`,
+    details: `Apply URL: ${input.applyUrl}\n\n`,
   });
   return `${REPO}?${params.toString()}`;
 }

@@ -1,0 +1,62 @@
+name: Ops check
+
+# Weekly: re-enable scheduled workflows GitHub disabled for inactivity, check
+# that repository protections are still in place, and flag a stale dump.
+# Problems go to one open "ops-check" issue assigned to the owner.
+on:
+  schedule:
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+      issues: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - shell: bash
+        run: |
+          problems=()
+          for wf in ingest.yml dump.yml; do
+            state=$(gh api "repos/$GH_REPO/actions/workflows/$wf" --jq .state)
+            if [ "$state" != "active" ]; then
+              if [ "$state" = "disabled_inactivity" ]; then
+                gh workflow enable "$wf" && problems+=("re-enabled $wf (GitHub disabled it for inactivity)")
+              else
+                problems+=("$wf is $state")
+              fi
+            fi
+          done
+
+          rulesets=$(gh api "repos/$GH_REPO/rulesets" --jq length 2>/dev/null || echo 0)
+          [ "$rulesets" -gt 0 ] || problems+=("no repository rulesets: main is unprotected (plan Week 0)")
+          allowed=$(gh api "repos/$GH_REPO/actions/permissions" --jq .allowed_actions 2>/dev/null || echo unknown)
+          [ "$allowed" != "all" ] || problems+=("Actions may run any third-party action (plan Week 0)")
+
+          updated=$(gh release view dump-latest --json assets --jq '[.assets[] | select(.name=="jobs.json") | .updatedAt][0]' 2>/dev/null || true)
+          if [ -z "$updated" ]; then
+            problems+=("dump-latest has no jobs.json")
+          else
+            age_h=$(( ( $(date -u +%s) - $(date -u -d "$updated" +%s) ) / 3600 ))
+            [ "$age_h" -le 30 ] || problems+=("dump-latest is ${age_h}h old")
+          fi
+
+          if [ ${#problems[@]} -eq 0 ]; then echo "all good"; exit 0; fi
+          body="Weekly ops check, $(date -u +%F):"$'\n\n'$(printf -- '- %s\n' "${problems[@]}")
+          echo "$body"
+          gh label create ops-check --color 5319E7 --force
+          n=$(gh issue list --state open --label ops-check --json number --jq '.[0].number // empty')
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body "$body"
+          else
+            gh issue create --title "Ops check needs attention" --body "$body" \
+              --label ops-check --assignee "$GITHUB_REPOSITORY_OWNER"
+          fi
