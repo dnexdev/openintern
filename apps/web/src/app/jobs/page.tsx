@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageOffset } from "@openintern/proven";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { JobResults } from "@/components/JobResults";
 import { StaleDataBanner } from "@/components/StaleDataBanner";
@@ -28,7 +29,7 @@ export default async function JobsPage({
   const { query, company, roles, regions, terms, durations, sort, page } =
     parseBoardSearchParams(sp);
   const limit = 27;
-  const offset = (page - 1) * limit;
+  const offset = pageOffset(page, limit);
 
   let families: Awaited<ReturnType<typeof loadJobFamilies>>["families"] = [];
   let total = 0;

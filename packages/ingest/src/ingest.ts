@@ -1,5 +1,6 @@
 import { and, desc, eq, lt, notInArray, sql } from "drizzle-orm";
 import { companies, ingestRuns, jobs, type Db } from "@openintern/db";
+import { DAY_MS, deactivationPolicy, isStale, type DeactivationPolicy } from "@openintern/proven";
 import { fetchJobsForAts } from "./ats.js";
 import {
   LAST_SEEN_STALE_DAYS,
@@ -11,11 +12,8 @@ import {
   extractRoles,
   extractTermYears,
   extractTerms,
-  isStaleByAge,
-  isStaleByTermYears,
   isTechInternship,
   looksRemote,
-  type TermYear,
 } from "./classifier.js";
 import {
   jobFingerprint,
@@ -101,21 +99,19 @@ const UPSERT_CHUNK = 100;
 const INTERNSHIP_TITLE_ONLY =
   /\b(intern|internship|co-?op|coop|apprentice(ship)?|project\s+intern|campus\s+\w+\s+intern|year\s+at\s+\w+)\b/i;
 
-export type DeactivationPolicy = "missing" | "all" | "none";
+export type { DeactivationPolicy };
 
 /**
  * Preserve existing jobs when a non-empty board suddenly has no classifier
  * matches. The last-seen sweep will retire them if that state persists.
+ * Bend-proven: laws dp_* in LAWS.bend.
  */
 export function companyDeactivationPolicy(input: {
   fetchSucceeded: boolean;
   fetched: number;
   techPass: number;
 }): DeactivationPolicy {
-  if (!input.fetchSucceeded) return "none";
-  if (input.techPass > 0) return "missing";
-  if (input.fetched === 0) return "all";
-  return "none";
+  return deactivationPolicy(input);
 }
 
 /** A gap longer than this between successful runs counts as an outage. */
@@ -130,7 +126,7 @@ export const OUTAGE_GAP_DAYS = 2;
  */
 export function shouldSkipLastSeenSweep(lastSuccessfulRunAt: Date | null, now: Date): boolean {
   if (!lastSuccessfulRunAt) return true;
-  return now.getTime() - lastSuccessfulRunAt.getTime() > OUTAGE_GAP_DAYS * 24 * 60 * 60 * 1000;
+  return now.getTime() - lastSuccessfulRunAt.getTime() > OUTAGE_GAP_DAYS * DAY_MS;
 }
 
 export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Promise<IngestSummary> {
@@ -223,7 +219,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     }
   }
 
-  const cutoff = new Date(Date.now() - LAST_SEEN_STALE_DAYS * 24 * 60 * 60 * 1000);
+  const cutoff = new Date(Date.now() - LAST_SEEN_STALE_DAYS * DAY_MS);
   if (skipLastSeenSweep) {
     console.warn(
       `Last-seen sweep skipped: previous successful run ${lastOk?.ranAt.toISOString() ?? "never"} is more than ${OUTAGE_GAP_DAYS} days old.`,
@@ -352,15 +348,13 @@ async function ingestCompany(
     const firstSeenAt = existing?.firstSeenAt ?? now;
     const postedAt = safeDate(j.postedAt) ?? existing?.postedAt ?? null;
 
-    const staleByTerms = isStaleByTermYears(termYears as TermYear[], now);
-    const staleByAge = isStaleByAge({
-      termYears: termYears as TermYear[],
-      postedAt,
-      firstSeenAt,
+    // Bend-proven to be exactly !isFreshJob (law fr_stale_iff_not_fresh).
+    const stale = isStale({
+      termYears,
+      anchor: postedAt ?? firstSeenAt,
       now,
       maxAgeDays: MAX_AGE_DAYS_NO_TERM,
     });
-    const stale = staleByTerms || staleByAge;
 
     rows.push({
       companyId: company.id,

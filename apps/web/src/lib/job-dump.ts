@@ -1,4 +1,5 @@
-import { isDelisted, isFreshJob } from "@openintern/db";
+import { isDelisted } from "@openintern/db";
+import { isPublic } from "@openintern/proven";
 
 const DEFAULT_DUMP_URL =
   "https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json";
@@ -63,15 +64,16 @@ export async function loadJobsDump(): Promise<JobsDump> {
 export function isPublicDumpJob(job: DumpJob, now = new Date()): boolean {
   if (isDelisted(job.id)) return false;
   const roles = job.roles ?? [];
-  if (!Array.isArray(roles) || roles.length === 0) return false;
-  return isFreshJob(
-    {
+  try {
+    return isPublic(Array.isArray(roles) ? roles.length : 0, {
       termYears: job.term_years,
-      postedAt: job.posted_at ? new Date(job.posted_at) : null,
-      firstSeenAt: new Date(job.first_seen_at),
-    },
-    now,
-  );
+      anchor: new Date(job.posted_at || job.first_seen_at),
+      now,
+    });
+  } catch {
+    // Invalid or out-of-range dates: never show the row.
+    return false;
+  }
 }
 
 export function liveDumpJobs(dump: JobsDump): DumpJob[] {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { pageOffset, parseLimit, parsePage } from "@openintern/proven";
 import { apiDbError } from "@/lib/api-error";
 import { loadJobFamilies, type FamilySort } from "@/lib/job-families";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
@@ -25,11 +26,6 @@ const SEASON_SET = new Set(["summer", "fall", "winter"]);
 
 function valuesFor(params: URLSearchParams, ...keys: string[]) {
   return keys.flatMap((key) => params.getAll(key)).flatMap((value) => value.split(","));
-}
-
-function positiveInt(value: string | null, fallback: number) {
-  const parsed = Number(value);
-  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 export async function GET(request: Request) {
@@ -76,9 +72,9 @@ export async function GET(request: Request) {
     const durations = valuesFor(url.searchParams, "duration_months", "duration")
       .map(Number)
       .filter((n) => Number.isInteger(n) && n >= 1 && n <= 24);
-    const page = positiveInt(url.searchParams.get("page"), 1);
-    const limit = Math.min(100, positiveInt(url.searchParams.get("limit"), 27));
-    const offset = (page - 1) * limit;
+    const page = parsePage(url.searchParams.get("page"));
+    const limit = parseLimit(url.searchParams.get("limit"));
+    const offset = pageOffset(page, limit);
     const sortRaw = url.searchParams.get("sort");
     const sort: FamilySort =
       sortRaw === "posted"

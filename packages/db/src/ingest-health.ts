@@ -1,3 +1,9 @@
+import {
+  NAT_LIMIT,
+  isZeroMatchRun as provenIsZeroMatchRun,
+  sumFunnels as provenSumFunnels,
+} from "@openintern/proven";
+
 export type Funnel = {
   fetched: number | null;
   title: number | null;
@@ -13,6 +19,13 @@ export type FunnelTotals = {
   upserted: number;
   descriptionMissing: number;
 };
+
+/** A funnel count, or null when missing or too large to be real. */
+function count(digits: string | undefined): number | null {
+  if (digits == null) return null;
+  const n = Number(digits);
+  return n < NAT_LIMIT ? n : null;
+}
 
 export function parseFunnel(error: string | null): Funnel {
   if (!error) {
@@ -37,27 +50,18 @@ export function parseFunnel(error: string | null): Funnel {
     };
   }
   return {
-    fetched: Number(match[1]),
-    title: Number(match[2]),
-    tech: Number(match[3]),
-    upserted: Number(match[4]),
-    descriptionMissing: match[5] != null ? Number(match[5]) : null,
+    fetched: count(match[1]),
+    title: count(match[2]),
+    tech: count(match[3]),
+    upserted: count(match[4]),
+    descriptionMissing: count(match[5]),
   };
 }
 
 export function sumFunnels(funnels: Funnel[]): FunnelTotals {
-  return funnels.reduce<FunnelTotals>(
-    (total, funnel) => ({
-      fetched: total.fetched + (funnel.fetched ?? 0),
-      title: total.title + (funnel.title ?? 0),
-      tech: total.tech + (funnel.tech ?? 0),
-      upserted: total.upserted + (funnel.upserted ?? 0),
-      descriptionMissing: total.descriptionMissing + (funnel.descriptionMissing ?? 0),
-    }),
-    { fetched: 0, title: 0, tech: 0, upserted: 0, descriptionMissing: 0 },
-  );
+  return provenSumFunnels(funnels);
 }
 
 export function isZeroMatchRun(error: string | null): boolean {
-  return Boolean(error?.startsWith("zero_match:"));
+  return provenIsZeroMatchRun(error);
 }
