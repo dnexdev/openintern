@@ -1,5 +1,5 @@
 import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
-import { companies, jobs } from "@openintern/db";
+import { applyUrlAllowed, companies, jobs } from "@openintern/db";
 import { getTier1Slugs } from "@/lib/curated";
 import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
@@ -196,9 +196,11 @@ type FamilyRow = {
 };
 
 function familiesFromRows(
-  rows: FamilyRow[],
+  allRows: FamilyRow[],
   opts: FamilyQueryOpts,
 ): { families: JobFamily[]; total: number } {
+  // Dump rows are already checked by liveDumpJobs; database rows are not.
+  const rows = allRows.filter((r) => applyUrlAllowed(r.companySlug, r.applyUrl));
   const byFamily = new Map<string, FamilyAcc>();
 
   for (const row of rows) {

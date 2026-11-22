@@ -1,4 +1,4 @@
-import { isDelisted } from "@openintern/db";
+import { applyUrlAllowed, isDelisted } from "@openintern/db";
 import { isPublic } from "@openintern/proven";
 
 const DEFAULT_DUMP_URL =
@@ -63,6 +63,7 @@ export async function loadJobsDump(): Promise<JobsDump> {
 /** Same gates as {@link publicJobSql} — dump rows are pre-filtered but re-check on read. */
 export function isPublicDumpJob(job: DumpJob, now = new Date()): boolean {
   if (isDelisted(job.id)) return false;
+  if (!applyUrlAllowed(job.company.slug, job.apply_url)) return false;
   const roles = job.roles ?? [];
   try {
     return isPublic(Array.isArray(roles) ? roles.length : 0, {

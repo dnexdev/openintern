@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
-import { companies, jobs } from "@openintern/db";
+import { applyUrlAllowed, companies, jobs } from "@openintern/db";
 import { apiDbError } from "@/lib/api-error";
 import { dumpSource, withDumpFirst } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
@@ -94,7 +94,7 @@ export async function GET(
           .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
           .limit(1);
 
-        if (!dbRow) {
+        if (!dbRow || !applyUrlAllowed(dbRow.company.slug, dbRow.apply_url)) {
           return { row: null, dataSource: { kind: "db" as const } };
         }
 
