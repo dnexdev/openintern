@@ -79,7 +79,7 @@ export default async function HealthPage() {
               <a href="/api/v1/health">
                 <code className="mono">GET /api/v1/health</code>
               </a>
-              . Companies with 24 consecutive fetch failures are auto-disabled
+              . Companies with 7 failed daily runs in a row are auto-disabled and retried weekly
               {stats.total_companies != null
                 ? ` (${stats.total_companies - stats.active_companies} inactive)`
                 : ""}

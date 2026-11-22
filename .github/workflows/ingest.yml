@@ -16,6 +16,8 @@ jobs:
   ingest:
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    outputs:
+      digest: ${{ steps.ingest.outputs.digest }}
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -54,7 +56,49 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           OPENINTERN_BROWSER: "1"
-        run: pnpm ingest
+          OPENINTERN_DIGEST_PATH: ${{ runner.temp }}/ingest-digest.md
+        run: |
+          pnpm ingest
+          if [ -s "$OPENINTERN_DIGEST_PATH" ]; then echo "digest=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Upload digest
+        if: steps.ingest.outputs.digest == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: ingest-digest
+          path: ${{ runner.temp }}/ingest-digest.md
+          retention-days: 7
+
+  # One open issue collects auto-disables and suspected blocks for a person to
+  # confirm; each run with something new adds a comment.
+  digest:
+    needs: ingest
+    if: needs.ingest.outputs.digest == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: ingest-digest
+          path: digest
+      - shell: bash
+        run: |
+          gh label create ingest-digest --color FBCA04 --force
+          body="$(cat digest/ingest-digest.md)
+
+          Run: $RUN_URL"
+          n=$(gh issue list --state open --label ingest-digest --json number --jq '.[0].number // empty')
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body "$body"
+          else
+            gh issue create --title "Ingest needs a look" --body "$body" \
+              --label ingest-digest --assignee "$GITHUB_REPOSITORY_OWNER"
+          fi
 
   # Separate job so the token that can open issues never sits next to
   # DATABASE_URL. Assigning the owner makes GitHub Mobile push the alert.
