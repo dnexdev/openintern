@@ -41,14 +41,17 @@ export type PhenomJobsResponse = {
   count?: number;
 };
 
+function stripTrailingSlashes(value: string): string {
+  let end = value.length;
+  while (end > 0 && value.charCodeAt(end - 1) === 47) end -= 1;
+  return end === value.length ? value : value.slice(0, end);
+}
+
 export function phenomCareersOrigin(boardToken: string): string {
-  const raw = boardToken.trim();
-  if (/^https?:\/\//i.test(raw)) {
-    return raw.replace(/\/+$/, "");
-  }
-  if (raw.includes(".")) {
-    return `https://${raw.replace(/\/+$/, "")}`;
-  }
+  const raw = stripTrailingSlashes(boardToken.trim());
+  const head = raw.slice(0, 8).toLowerCase();
+  if (head.startsWith("https://") || head.startsWith("http://")) return raw;
+  if (raw.includes(".")) return `https://${raw}`;
   return `https://careers.${raw}.com`;
 }
 

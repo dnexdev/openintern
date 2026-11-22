@@ -162,6 +162,10 @@ export async function probeEightfold(
     const count = body.data?.count ?? body.data?.positions?.length ?? 0;
     return { ok: count > 0, status: 200, count };
   } catch (err) {
+    // A 429 does not say the token is wrong. The generic probe treats it the same way.
+    if (err instanceof FetchFailure && err.kind === "throttled") {
+      return { ok: true, status: err.status ?? 429 };
+    }
     const status = err instanceof FetchFailure ? (err.status ?? 0) : 0;
     return { ok: false, status, error: err instanceof Error ? err.message : String(err) };
   }

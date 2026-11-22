@@ -15,15 +15,23 @@ const DUMP_ENV = "OPENINTERN_AVATURE_HTML_PATH";
 
 export function avatureSearchUrl(boardToken: string, keywords = "intern"): string {
   const raw = boardToken.trim();
-  if (/^https?:\/\//i.test(raw)) {
+  const scheme = raw.slice(0, 8).toLowerCase();
+  if (scheme.startsWith("https://") || scheme.startsWith("http://")) {
     const u = new URL(raw);
     if (!u.searchParams.has("keywords")) u.searchParams.set("keywords", keywords);
     if (!u.searchParams.has("jobRecordsPerPage")) u.searchParams.set("jobRecordsPerPage", "100");
     return u.toString();
   }
-  const host = raw.includes(".")
-    ? raw.replace(/^https?:\/\//, "").replace(/\/.*$/, "")
-    : `${raw}.avature.net`;
+  let host = raw;
+  if (raw.includes(".")) {
+    const head = raw.slice(0, 8).toLowerCase();
+    if (head.startsWith("https://")) host = raw.slice(8);
+    else if (head.startsWith("http://")) host = raw.slice(7);
+    const slash = host.indexOf("/");
+    if (slash !== -1) host = host.slice(0, slash);
+  } else {
+    host = `${raw}.avature.net`;
+  }
   const path = host.startsWith("ibm") ? "/en_US/careers/SearchJobs/" : "/careers/SearchJobs/";
   const u = new URL(`https://${host}${path}`);
   u.searchParams.set("listFilterMode", "1");

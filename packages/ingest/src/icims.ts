@@ -13,7 +13,12 @@ import { httpText } from "./http.js";
 const DUMP_ENV = "OPENINTERN_ICIMS_HTML_PATH";
 
 export function icimsHost(boardToken: string): string {
-  const raw = boardToken.trim().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+  let raw = boardToken.trim();
+  const head = raw.slice(0, 8).toLowerCase();
+  if (head.startsWith("https://")) raw = raw.slice(8);
+  else if (head.startsWith("http://")) raw = raw.slice(7);
+  const slash = raw.indexOf("/");
+  if (slash !== -1) raw = raw.slice(0, slash);
   if (raw.includes(".")) return raw;
   if (raw.startsWith("careers-")) return `${raw}.icims.com`;
   return `careers-${raw}.icims.com`;

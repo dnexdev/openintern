@@ -5,16 +5,27 @@
  * Usage:
  *   tsx src/validate-tokens.ts [--all] [file.yaml ...]
  */
+import { execFile } from "node:child_process";
 import { existsSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 import YAML from "yaml";
 import { companiesFileSchema } from "./schema.js";
 import { probeAtsBoard } from "./probe-url.js";
 import { defaultCompaniesDir } from "./sync-companies.js";
 
 const repoRoot = fileURLToPath(new URL("../../..", import.meta.url));
+const execFileAsync = promisify(execFile);
+
+type CompanyRecord = {
+  name: string;
+  slug: string;
+  ats: string;
+  board_token: string;
+  active: boolean;
+};
 
 /**
  * CI passes repo-root paths (`data/companies/tech-e.yaml`). `pnpm --filter`
@@ -42,20 +53,55 @@ function isDumpGateBlock(ats: string, err: string): boolean {
   return DUMP_GATED_ATS.has(ats) && /blocked|HTTP 403|OPENINTERN_/i.test(err);
 }
 
-async function loadFromFiles(files: string[]) {
-  const companies: {
-    name: string;
-    slug: string;
-    ats: string;
-    board_token: string;
-    active: boolean;
-  }[] = [];
+function parseCompanies(raw: string): CompanyRecord[] {
+  return companiesFileSchema.parse(YAML.parse(raw)).companies;
+}
+
+async function loadFromFiles(files: string[]): Promise<CompanyRecord[]> {
+  const companies: CompanyRecord[] = [];
   for (const file of files) {
     const raw = await fs.readFile(resolveCompanyFile(file), "utf8");
-    const data = companiesFileSchema.parse(YAML.parse(raw));
-    companies.push(...data.companies);
+    companies.push(...parseCompanies(raw));
   }
   return companies;
+}
+
+/** Identity of the board a company points at. Active defaults to true. */
+function boardKey(company: CompanyRecord): string {
+  return `${company.ats}\0${company.board_token}\0${company.active !== false}`;
+}
+
+/**
+ * A PR that touches a company file re-checks every board in it. Tokens that
+ * already 404 on the base, and rate limits for boards the PR did not change,
+ * are not this PR's failure. Only added or edited active boards are probed.
+ */
+async function companiesChangedSince(
+  files: string[],
+  rev: string,
+): Promise<CompanyRecord[]> {
+  const changed: CompanyRecord[] = [];
+  for (const file of files) {
+    const abs = resolveCompanyFile(file);
+    const rel = path.relative(repoRoot, abs);
+    const head = parseCompanies(await fs.readFile(abs, "utf8"));
+    let base: CompanyRecord[] = [];
+    try {
+      const { stdout } = await execFileAsync("git", ["show", `${rev}:${rel}`], {
+        cwd: repoRoot,
+        maxBuffer: 20 * 1024 * 1024,
+      });
+      base = parseCompanies(stdout);
+    } catch {
+      base = [];
+    }
+    const previous = new Map(base.map((company) => [company.slug, boardKey(company)]));
+    for (const company of head) {
+      if (company.active === false) continue;
+      if (previous.get(company.slug) !== boardKey(company)) changed.push(company);
+    }
+  }
+  return changed;
 }
 
 async function main() {
@@ -77,12 +123,19 @@ async function main() {
     return;
   }
 
-  const companies = (await loadFromFiles(targets)).filter((c) => c.active);
+  const baseRef = process.env.GITHUB_BASE_REF;
+  const companies = baseRef
+    ? await companiesChangedSince(targets, `origin/${baseRef}`)
+    : (await loadFromFiles(targets)).filter((c) => c.active);
   const failures: string[] = [];
   const skipped: string[] = [];
 
   if (companies.length === 0) {
-    console.log("No active companies to validate.");
+    console.log(
+      baseRef
+        ? "No added or edited company tokens to validate."
+        : "No active companies to validate.",
+    );
     return;
   }
 
