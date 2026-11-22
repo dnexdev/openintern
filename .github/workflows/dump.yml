@@ -1,25 +1,37 @@
 name: Dump
 
+# Runs after each successful daily ingest. Two jobs:
+#   build   reads the database and installs npm packages; it can write nothing.
+#   publish holds release-write permission and installs nothing: it checks the
+#           build with plain Node (scripts/dump-gate.mjs) and uploads with gh.
 on:
-  schedule:
-    - cron: "15 6 * * *"
+  workflow_run:
+    workflows: [Ingest]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 concurrency:
   group: dump
   cancel-in-progress: false
 
 jobs:
-  dump:
+  build:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.event != 'pull_request')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      contents: write
+      contents: read
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: pnpm/action-setup@v6
         with:
           version: 9.15.0
@@ -39,36 +51,72 @@ jobs:
       - name: Export dumps
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          OPENINTERN_APPLY_HOSTS: ${{ vars.OPENINTERN_APPLY_HOSTS }}
         run: |
           mkdir -p "$GITHUB_WORKSPACE/dumps"
-          # Write to repo-root dumps/ (filter cwd is packages/ingest otherwise)
           pnpm --filter @openintern/ingest exec tsx src/cli.ts dump "$GITHUB_WORKSPACE/dumps"
           ls -la "$GITHUB_WORKSPACE/dumps"
-          test -s "$GITHUB_WORKSPACE/dumps/jobs.json"
-          test -s "$GITHUB_WORKSPACE/dumps/jobs.csv"
-          test -s "$GITHUB_WORKSPACE/dumps/health.json"
-      - name: Upload artifact
-        uses: actions/upload-artifact@v7
+          test -s "$GITHUB_WORKSPACE/dumps/MANIFEST.json"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: openintern-jobs-${{ github.run_id }}
+          name: openintern-dump-${{ github.run_id }}
           path: dumps/
-      - name: Publish dump-latest release
-        uses: softprops/action-gh-release@v3
+          retention-days: 7
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Protected environment: limit it to main in Settings → Environments.
+    environment: dump-publish
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          tag_name: dump-latest
-          name: Latest daily dump
-          files: |
-            dumps/jobs.json
-            dumps/jobs.csv
-            dumps/health.json
-          generate_release_notes: false
-          make_latest: true
-          overwrite_files: true
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: openintern-dump-${{ github.run_id }}
+          path: new
+      - name: Fetch the current release for comparison
+        run: gh release download dump-latest --pattern jobs.json --dir prev || echo "no previous dump"
+      - name: Gate (integrity, allowlist, delistings, circuit breaker)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENINTERN_APPLY_HOSTS: ${{ vars.OPENINTERN_APPLY_HOSTS }}
+        run: node scripts/dump-gate.mjs new prev
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: new/*
+      - name: Update dump-latest in place (stable URLs)
+        run: |
+          gh release view dump-latest >/dev/null 2>&1 || \
+            gh release create dump-latest --title "Latest daily dump" --notes "Updated daily. See DATA.md." --latest
+          gh release upload dump-latest new/* --clobber
+      - name: Dated snapshot (prerelease, kept 30 days)
+        run: |
+          tag="dump-$(date -u +%F)"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" new/* --clobber
+          else
+            gh release create "$tag" new/* --prerelease --latest=false \
+              --title "Dump $(date -u +%F)" --notes "Daily snapshot. Deleted after 30 days so takedowns take effect; see DATA.md."
+          fi
+      - name: Prune snapshots older than 30 days
+        run: |
+          cutoff=$(date -u -d '30 days ago' +%F)
+          gh release list --limit 200 --json tagName --jq '.[].tagName' | grep -E '^dump-[0-9]{4}-[0-9]{2}-[0-9]{2}$' | while read -r tag; do
+            if [[ "${tag#dump-}" < "$cutoff" ]]; then gh release delete "$tag" --yes --cleanup-tag; fi
+          done
 
   notify:
-    needs: dump
+    needs: [build, publish]
     if: failure()
     runs-on: ubuntu-latest
     timeout-minutes: 5
