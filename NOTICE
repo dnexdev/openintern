@@ -1,0 +1,11 @@
+OpenIntern
+Copyright 2026 the OpenIntern contributors
+
+This product's source code is licensed under the Apache License, Version 2.0.
+
+The Apache-2.0 grant does not cover:
+  - listing data published by the API, the dumps, or stored in data/manual/
+    (see DATA.md): excerpts remain the employers' copyright;
+  - company names and logos, which are trademarks of their owners;
+  - third-party components listed in THIRD_PARTY.md, which keep their own
+    licences.

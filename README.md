@@ -15,7 +15,7 @@
 
 - **Site:** [openintern.dev](https://openintern.dev)
 - **Repo:** [github.com/dnexdev/openintern](https://github.com/dnexdev/openintern)
-- **License:** Apache-2.0
+- **License:** code Apache-2.0; listing data see [DATA.md](DATA.md)
 
 ## What this is
 
@@ -29,7 +29,7 @@ OpenIntern is an **open data layer** for tech internships (SWE, data, AI/ML, qua
 | Applied | Local browser only (`localStorage`) |
 | Apply | Always outbound to the employer |
 
-We poll public **Greenhouse / Lever / Ashby / Workable / SmartRecruiters / Recruitee / Rippling / BambooHR / Workday** job board APIs. We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
+We read public job boards once a day: **Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Rippling, BambooHR and Workday** APIs, plus a few employers' own careers sites (ByteDance/TikTok, AMD/Phenom, Microsoft/Eightfold, Google, IBM and Bloomberg/Avature, SIG/iCIMS, D.E. Shaw, Shopify). Every request identifies itself as OpenIntern; we never pretend to be a browser. Tesla and Citadel refuse automated requests, so their public listing pages are saved by hand ([data/manual](data/manual/README.md)). We do **not** scrape LinkedIn, sell recruiter emails, or gate listings.
 
 ## Quick start (local)
 
@@ -76,6 +76,10 @@ For bulk use, prefer **daily dumps** (flat, one row per posting; stable URLs):
 
 - https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json
 - https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.csv
+- also `companies.json`, `health.json`, `denylist.json`, gzipped copies, and a sha256 `MANIFEST.json` with a build provenance attestation (`gh attestation verify jobs.json -R dnexdev/openintern`)
+- dated snapshots `dump-YYYY-MM-DD` are kept for 30 days
+
+Mirrors must drop the ids in `denylist.json`. Terms for the data: [DATA.md](DATA.md).
 
 Or run `pnpm dump` / self-host — don’t paginate the hosted API all day. Dumps use the same live-job freshness policy as the board and API.
 

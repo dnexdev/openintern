@@ -159,6 +159,19 @@ export async function writeDumps(db: Db, outDir: string, now = new Date()) {
     ),
   );
 
+  await fs.writeFile(
+    path.join(outDir, "LICENSE-DATA.txt"),
+    [
+      "OpenIntern listing data. Terms: https://github.com/dnexdev/openintern/blob/main/DATA.md",
+      "",
+      "Factual fields (title, company, location, dates, apply link) are provided as-is.",
+      "Excerpts remain the employers' copyright and are included for indexing only; no licence is granted.",
+      "Company names and logos are trademarks of their owners. No warranty.",
+      "Mirrors must drop the ids in denylist.json and delete snapshots older than 30 days.",
+      "",
+    ].join("\n"),
+  );
+
   for (const f of [jsonPath, csvPath]) {
     await fs.writeFile(`${f}.gz`, gzipSync(await fs.readFile(f), { level: 9 }));
   }
