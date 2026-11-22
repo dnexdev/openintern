@@ -1,0 +1,27 @@
+name: Report a listing
+description: A listing is closed, wrong, or unsafe.
+title: "Listing: "
+labels: [listing]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong?
+      options:
+        - Unsafe (scam, phishing, asks for money or chat-app interviews)
+        - Closed or no longer accepting applications
+        - Wrong details (location, term, not an internship)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: OpenIntern link or job ID
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What did you see? For unsafe listings, please do not paste personal data.

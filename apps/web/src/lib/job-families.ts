@@ -1,8 +1,9 @@
 import { and, desc, eq, gte, ilike, or, sql, type SQL } from "drizzle-orm";
-import { applyUrlAllowed, companies, jobs } from "@openintern/db";
+import { companies, jobs } from "@openintern/db";
 import { getTier1Slugs } from "@/lib/curated";
 import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
+import { publishable } from "@/lib/publishable";
 import { publicJobSql } from "@/lib/freshness";
 import { liveDumpJobs, loadJobsDump, type DumpJob } from "@/lib/job-dump";
 import { formatPostingLocations } from "@/lib/posting-label";
@@ -200,7 +201,7 @@ function familiesFromRows(
   opts: FamilyQueryOpts,
 ): { families: JobFamily[]; total: number } {
   // Dump rows are already checked by liveDumpJobs; database rows are not.
-  const rows = allRows.filter((r) => applyUrlAllowed(r.companySlug, r.applyUrl));
+  const rows = allRows.filter((r) => publishable(r.companySlug, r.id, r.applyUrl));
   const byFamily = new Map<string, FamilyAcc>();
 
   for (const row of rows) {

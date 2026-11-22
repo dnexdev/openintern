@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
-import { applyUrlAllowed, companies, jobs } from "@openintern/db";
+import { companies, jobs } from "@openintern/db";
 import { apiDbError } from "@/lib/api-error";
 import { dumpSource, withDumpFirst } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
+import { publishable } from "@/lib/publishable";
 import { publicJobSql } from "@/lib/freshness";
 import { isPublicDumpJob, loadJobsDump } from "@/lib/job-dump";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
@@ -94,7 +95,7 @@ export async function GET(
           .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
           .limit(1);
 
-        if (!dbRow || !applyUrlAllowed(dbRow.company.slug, dbRow.apply_url)) {
+        if (!dbRow || !publishable(dbRow.company.slug, dbRow.id, dbRow.apply_url)) {
           return { row: null, dataSource: { kind: "db" as const } };
         }
 
