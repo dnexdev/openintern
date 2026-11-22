@@ -4,7 +4,7 @@ import { companies, jobs, publicJobSql } from "@openintern/db";
 import { apiDbError } from "@/lib/api-error";
 import { dumpSource, withDumpFirst } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
-import { liveDumpJobs, loadJobsDump } from "@/lib/job-dump";
+import { liveDumpJobs, loadCompaniesDump, loadJobsDump } from "@/lib/job-dump";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 export const revalidate = 3600;
@@ -34,7 +34,18 @@ export async function GET(request: Request) {
     const { rows, dataSource } = await withDumpFirst({
       label: "companies-api",
       fromDump: async () => {
-        const dump = await loadJobsDump();
+        const [dump, registry] = await Promise.all([loadJobsDump(), loadCompaniesDump()]);
+        if (registry) {
+          // Live counts come from the jobs the site would show right now.
+          const live = new Map<string, number>();
+          for (const job of liveDumpJobs(dump)) live.set(job.company.slug, (live.get(job.company.slug) ?? 0) + 1);
+          const rows = registry
+            .filter((c) => !activeOnly || c.active)
+            .map((c) => ({ ...c, active_jobs: live.get(c.slug) ?? 0 }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+          return { rows, dataSource: dumpSource(dump.generatedAt) };
+        }
+        // Older releases have no companies.json: derive what we can from jobs.
         const bySlug = new Map<string, CompanyRow>();
         for (const job of liveDumpJobs(dump)) {
           const prev = bySlug.get(job.company.slug);
