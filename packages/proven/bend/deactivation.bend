@@ -7,6 +7,7 @@ type Run is Data:
   Failed{}
   Empty{}
   Listed{}
+  Expired{}
 
 # Where one existing job stands on a Listed board.
 type Seen is Data:
@@ -20,7 +21,8 @@ def retire_after_empty() -> Nat:
   3n
 
 # Run: Failed = fetch failed or refused; Empty = fetched, no postings;
-# Listed = fetched, at least one posting.
+# Listed = fetched, at least one posting; Expired = the source is a manual
+# capture too old to publish.
 # Seen: Gone = not on the board; Rejected = on the board with details, fails the
 # classifier; Unverified = on the board, details missing; Matched = passes.
 # prior_empty: Empty runs in a row before this one.
@@ -28,6 +30,8 @@ def retire(run: Run, prior_empty: Nat, seen: Seen) -> Bool:
   match run:
     case Failed{}:
       False{}
+    case Expired{}:
+      True{}
     case Empty{}:
       Nat.is_le(retire_after_empty(), 1n+prior_empty)
     case Listed{}:
@@ -45,6 +49,8 @@ def retire(run: Run, prior_empty: Nat, seen: Seen) -> Bool:
 def next_empty(run: Run, prior_empty: Nat) -> Nat:
   match run:
     case Failed{}:
+      prior_empty
+    case Expired{}:
       prior_empty
     case Empty{}:
       1n+prior_empty

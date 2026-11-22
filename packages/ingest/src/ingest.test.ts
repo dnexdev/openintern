@@ -6,6 +6,7 @@ import {
   autoDisableState,
   countPriorEmptyRuns,
   ingestDigest,
+  ingestStepSummary,
   shouldSkipLastSeenSweep,
   sightJob,
 } from "./ingest.js";
@@ -100,12 +101,17 @@ assertEqual(
   const base = {
     companies: 1, jobsUpserted: 0, jobsDeactivated: 0, staleDeactivated: 0, lastSeenDeactivated: 0,
     lastSeenSweepSkipped: false, zeroMatchCompanies: [], autoDisabled: [], autoDisabledSkipped: [],
-    suspectedBlocks: [], failures: [], funnel: [],
+    suspectedBlocks: [], shadow: [], failures: [], funnel: [],
     funnelTotals: { fetched: 0, internshipTitle: 0, techPass: 0, upserted: 0 },
   };
   assertEqual(ingestDigest(base), null, "nothing to report");
   const d = ingestDigest({ ...base, autoDisabled: ["acme"], suspectedBlocks: ["tiktok"] }) ?? "";
   assertEqual(d.includes("`acme`") && d.includes("`tiktok`"), true, "digest lists both");
+  const sum = ingestStepSummary({
+    ...base,
+    shadow: [{ source: "tiktok", ok: false, status: 403, count: null, legacyCount: 324, error: "refused: HTTP 403" }],
+  });
+  assertEqual(sum.includes("| tiktok | false | 403 |  | 324 |"), true, "shadow table row");
 }
 
 const funnel = parseFunnelForTest(

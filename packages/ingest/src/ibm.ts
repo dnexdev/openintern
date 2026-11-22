@@ -5,22 +5,15 @@
 
 import type { NormalizedJob } from "./ats.js";
 import { fetchAvature, parseAvatureSearchHtml, avatureSearchUrl } from "./avature.js";
+import { httpText } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 
 export async function fetchIbm(boardToken: string): Promise<NormalizedJob[]> {
   const token = boardToken.trim() || "ibmglobal";
   // Prefer Avature search with Software Intern keywords
   const url = avatureSearchUrl(token, "Software Intern");
-  const res = await fetch(url, {
-    headers: { Accept: "text/html", "User-Agent": UA },
-    redirect: "follow",
-  });
-  if (res.ok) {
-    const html = await res.text();
-    const jobs = parseAvatureSearchHtml(html, url);
-    if (jobs.length > 0) return jobs;
-  }
+  const jobs = parseAvatureSearchHtml(await httpText(url), url);
+  if (jobs.length > 0) return jobs;
   // Fallback: generic intern keyword via shared Avature fetcher
   return fetchAvature(token);
 }

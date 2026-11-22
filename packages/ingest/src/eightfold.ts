@@ -9,8 +9,8 @@
 
 import type { NormalizedJob } from "./ats.js";
 import { safeDate } from "./safe-date.js";
+import { FetchFailure, httpJson } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 const PAGE_SIZE = 10;
 const MAX_PAGES = 40;
 
@@ -137,17 +137,7 @@ export async function fetchEightfold(boardToken: string): Promise<NormalizedJob[
     const start = page * PAGE_SIZE;
     if (start >= total) break;
     const url = eightfoldSearchUrl(board, start);
-    const res = await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "User-Agent": UA,
-        Referer: `${board.applyOrigin}/careers`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error(`Eightfold HTTP ${res.status} for ${url}`);
-    }
-    const body = (await res.json()) as EightfoldSearchResponse;
+    const body = await httpJson<EightfoldSearchResponse>(url);
     const positions = body.data?.positions ?? [];
     if (typeof body.data?.count === "number") total = body.data.count;
     if (positions.length === 0) break;
@@ -168,18 +158,11 @@ export async function probeEightfold(
   try {
     const board = parseEightfoldToken(boardToken);
     const url = eightfoldSearchUrl(board, 0);
-    const res = await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "User-Agent": UA,
-        Referer: `${board.applyOrigin}/careers`,
-      },
-    });
-    if (!res.ok) return { ok: false, status: res.status, error: `HTTP ${res.status}` };
-    const body = (await res.json()) as EightfoldSearchResponse;
+    const body = await httpJson<EightfoldSearchResponse>(url, { attempts: 1 });
     const count = body.data?.count ?? body.data?.positions?.length ?? 0;
-    return { ok: count > 0, status: res.status, count };
+    return { ok: count > 0, status: 200, count };
   } catch (err) {
-    return { ok: false, status: 0, error: err instanceof Error ? err.message : String(err) };
+    const status = err instanceof FetchFailure ? (err.status ?? 0) : 0;
+    return { ok: false, status, error: err instanceof Error ? err.message : String(err) };
   }
 }

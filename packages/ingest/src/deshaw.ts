@@ -5,8 +5,8 @@
 
 import type { NormalizedJob } from "./ats.js";
 import { stripHtmlTags } from "./strip-html.js";
+import { httpText } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 export const DESHAW_INTERNSHIPS_URL = "https://www.deshaw.com/careers/internships";
 
 type DeshawJobData = {
@@ -79,13 +79,7 @@ export function parseDeshawHtml(html: string): NormalizedJob[] {
 }
 
 export async function fetchDeshaw(_boardToken: string): Promise<NormalizedJob[]> {
-  const res = await fetch(DESHAW_INTERNSHIPS_URL, {
-    headers: { Accept: "text/html", "User-Agent": UA },
-  });
-  if (!res.ok) {
-    throw new Error(`D.E. Shaw HTTP ${res.status} for ${DESHAW_INTERNSHIPS_URL}`);
-  }
-  const jobs = parseDeshawHtml(await res.text());
+  const jobs = parseDeshawHtml(await httpText(DESHAW_INTERNSHIPS_URL));
   if (jobs.length === 0) {
     throw new Error("D.E. Shaw internships page parsed zero roles");
   }

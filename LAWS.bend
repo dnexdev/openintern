@@ -212,6 +212,16 @@ law dp_failed_fetch_keeps:
   for +seen: DP.Seen
   {DP.retire(DP.Failed{}, prior, seen) == False{} : Bool}
 
+# A manual capture too old to publish takes all of its jobs down.
+law dp_expired_retires:
+  for +prior: Nat
+  for +seen: DP.Seen
+  {DP.retire(DP.Expired{}, prior, seen) == True{} : Bool}
+
+law dp_expired_keeps_count:
+  for +prior: Nat
+  {DP.next_empty(DP.Expired{}, prior) == prior : Nat}
+
 # A job missing from a board that was fetched successfully is retired (#24:
 # a closed posting used to stay up while nothing else on the board matched).
 law dp_board_gone_retires:

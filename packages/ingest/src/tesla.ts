@@ -1,17 +1,16 @@
 /**
- * Tesla proprietary careers (cua-api) adapter.
+ * Tesla careers: manual capture only.
  *
- * Primary path: GET https://www.tesla.com/cua-api/apps/careers/state
- * Akamai often returns 403 without a browser session. Fallbacks:
- *   - OPENINTERN_TESLA_STATE_PATH: load a JSON dump of that endpoint
- *   - OPENINTERN_BROWSER=1: optional Playwright session (not used in Hobby CI)
+ * Tesla's careers API refuses automated clients, and OpenIntern does not
+ * pretend to be a browser. The maintainer saves the state JSON from
+ * https://www.tesla.com/cua-api/apps/careers/state in a normal browser and runs
+ * `pnpm manual:capture tesla <file>`, which commits data/manual/tesla.json.
  *
- * board_token: unused site key; conventionally `careers`.
+ * board_token: unused; conventionally `careers`.
  */
 
-import fs from "node:fs/promises";
 import type { NormalizedJob } from "./ats.js";
-import { BROWSER_UA, browserEnabled, loadPlaywrightChromium } from "./browser.js";
+import { loadManualJobs, manualProbe } from "./manual.js";
 
 export const TESLA_STATE_URL = "https://www.tesla.com/cua-api/apps/careers/state";
 
@@ -120,165 +119,10 @@ export function parseTeslaCareersState(state: unknown): NormalizedJob[] {
   return jobs;
 }
 
-async function fetchStateHttp(): Promise<unknown> {
-  const res = await fetch(TESLA_STATE_URL, {
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      "User-Agent": BROWSER_UA,
-      Referer: "https://www.tesla.com/careers/search/",
-      Origin: "https://www.tesla.com",
-    },
-  });
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status} for ${TESLA_STATE_URL}`);
-  }
-  return res.json();
-}
-
-export async function loadTeslaStateDump(): Promise<unknown | null> {
-  const path = process.env.OPENINTERN_TESLA_STATE_PATH;
-  if (!path) return null;
-  const raw = await fs.readFile(path, "utf8");
-  return JSON.parse(raw) as unknown;
-}
-
-async function fetchStateWithBrowser(): Promise<unknown> {
-  const chromium = await loadPlaywrightChromium();
-  const browser = await chromium.launch({ headless: true });
-  try {
-    const page = await browser.newPage({ userAgent: BROWSER_UA });
-    await page.goto("https://www.tesla.com/careers/search/", {
-      waitUntil: "domcontentloaded",
-      timeout: 60_000,
-    });
-    await page.waitForTimeout(2000);
-    const state = await page.evaluate(async (url: string) => {
-      const res = await fetch(url, { credentials: "include" });
-      if (!res.ok) throw new Error(`browser fetch HTTP ${res.status}`);
-      return res.json();
-    }, TESLA_STATE_URL);
-    return state;
-  } finally {
-    await browser.close();
-  }
-}
-
 export async function fetchTesla(_boardToken: string): Promise<NormalizedJob[]> {
-  let state: unknown | null = await loadTeslaStateDump();
-
-  if (!state) {
-    try {
-      state = await fetchStateHttp();
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      if (browserEnabled()) {
-        try {
-          state = await fetchStateWithBrowser();
-        } catch (browserErr) {
-          const bmsg = browserErr instanceof Error ? browserErr.message : String(browserErr);
-          throw new Error(
-            `${msg}. Browser fallback also failed (${bmsg}). ` +
-              `Set OPENINTERN_TESLA_STATE_PATH to a JSON dump of ${TESLA_STATE_URL}. See CONTRIBUTING.`,
-          );
-        }
-      } else {
-        throw new Error(
-          `${msg}. Tesla cua-api is often blocked without a browser session. ` +
-            `Set OPENINTERN_TESLA_STATE_PATH to a JSON dump, or OPENINTERN_BROWSER=1 ` +
-            `with playwright installed. See CONTRIBUTING.`,
-        );
-      }
-    }
-  }
-
-  const jobs = parseTeslaCareersState(state);
-  if (jobs.length === 0) {
-    throw new Error("Tesla careers state parsed zero listings");
-  }
-
-  // Enrich jobs that are missing descriptions from the state endpoint.
-  const needDescription = jobs.filter((j) => !j.description.trim());
-  if (needDescription.length > 0) {
-    const { mapWithConcurrency: mapConcurrency } = await import("./ats.js");
-    await mapConcurrency(needDescription, 4, async (job) => {
-      try {
-        const detailUrl = `https://www.tesla.com/cua-api/apps/careers/posting/${encodeURIComponent(job.externalId)}`;
-        const res = await fetch(detailUrl, {
-          headers: {
-            Accept: "application/json",
-            "User-Agent": BROWSER_UA,
-            Referer: "https://www.tesla.com/careers/search/",
-          },
-        });
-        if (!res.ok) return;
-        const detail = (await res.json()) as Record<string, unknown>;
-        const desc =
-          asString(detail.description) ??
-          asString(detail.jobDescription) ??
-          asString(detail.d) ??
-          "";
-        if (desc) {
-          job.description = desc;
-          job.excerpt = desc.slice(0, 400);
-        }
-      } catch {
-        // Best-effort — CDN may block
-      }
-    });
-  }
-
-  return jobs;
+  return loadManualJobs("tesla");
 }
 
-/** Probe helper: dump → live HTTP → browser. */
-export async function probeTeslaState(): Promise<{
-  ok: boolean;
-  status: number;
-  count?: number;
-  error?: string;
-}> {
-  try {
-    const dump = await loadTeslaStateDump();
-    if (dump) {
-      const count = parseTeslaCareersState(dump).length;
-      return {
-        ok: count > 0,
-        status: 200,
-        count,
-        error: count > 0 ? undefined : "empty dump listing",
-      };
-    }
-
-    try {
-      const state = await fetchStateHttp();
-      const count = parseTeslaCareersState(state).length;
-      return {
-        ok: count > 0,
-        status: 200,
-        count,
-        error: count > 0 ? undefined : "empty listing",
-      };
-    } catch {
-      /* fall through */
-    }
-
-    if (browserEnabled()) {
-      const state = await fetchStateWithBrowser();
-      const count = parseTeslaCareersState(state).length;
-      return {
-        ok: count > 0,
-        status: 200,
-        count,
-        error: count > 0 ? undefined : "empty browser listing",
-      };
-    }
-
-    return {
-      ok: false,
-      status: 403,
-      error: `HTTP blocked for ${TESLA_STATE_URL}; set OPENINTERN_TESLA_STATE_PATH or OPENINTERN_BROWSER=1`,
-    };
-  } catch (err) {
-    return { ok: false, status: 0, error: err instanceof Error ? err.message : String(err) };
-  }
+export function probeTeslaState() {
+  return manualProbe("tesla");
 }

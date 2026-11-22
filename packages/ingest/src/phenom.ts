@@ -10,8 +10,8 @@
 import type { NormalizedJob } from "./ats.js";
 import { stripHtmlTags } from "./strip-html.js";
 import { safeDate } from "./safe-date.js";
+import { FetchFailure, httpJson } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 const PAGE_LIMIT = 100;
 const MAX_PAGES = 30;
 
@@ -118,13 +118,7 @@ export async function fetchPhenom(boardToken: string): Promise<NormalizedJob[]> 
 
   for (let page = 1; page <= MAX_PAGES; page++) {
     const url = phenomJobsApiUrl(boardToken, page);
-    const res = await fetch(url, {
-      headers: { Accept: "application/json", "User-Agent": UA },
-    });
-    if (!res.ok) {
-      throw new Error(`Phenom HTTP ${res.status} for ${url}`);
-    }
-    const data = (await res.json()) as PhenomJobsResponse;
+    const data = await httpJson<PhenomJobsResponse>(url);
     const rows = data.jobs ?? [];
     if (rows.length === 0) break;
     for (const job of mapPhenomJobs(rows, origin)) {
@@ -144,14 +138,11 @@ export async function probePhenom(
 ): Promise<{ ok: boolean; status: number; count?: number; error?: string }> {
   const url = phenomJobsApiUrl(boardToken, 1);
   try {
-    const res = await fetch(url, {
-      headers: { Accept: "application/json", "User-Agent": UA },
-    });
-    if (!res.ok) return { ok: false, status: res.status, error: `HTTP ${res.status}` };
-    const data = (await res.json()) as PhenomJobsResponse;
+    const data = await httpJson<PhenomJobsResponse>(url, { attempts: 1 });
     const count = data.totalCount ?? data.count ?? (data.jobs?.length ?? 0);
-    return { ok: count > 0, status: res.status, count, error: count > 0 ? undefined : "empty" };
+    return { ok: count > 0, status: 200, count, error: count > 0 ? undefined : "empty" };
   } catch (err) {
-    return { ok: false, status: 0, error: err instanceof Error ? err.message : String(err) };
+    const status = err instanceof FetchFailure ? (err.status ?? 0) : 0;
+    return { ok: false, status, error: err instanceof Error ? err.message : String(err) };
   }
 }

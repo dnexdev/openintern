@@ -9,8 +9,8 @@
 
 import type { NormalizedJob } from "./ats.js";
 import { stripHtml } from "./strip-html.js";
+import { httpText } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 const DUMP_ENV = "OPENINTERN_AVATURE_HTML_PATH";
 
 export function avatureSearchUrl(boardToken: string, keywords = "intern"): string {
@@ -97,15 +97,7 @@ export async function fetchAvature(boardToken: string): Promise<NormalizedJob[]>
 
   for (const keywords of keywordQueries) {
     const url = avatureSearchUrl(boardToken, keywords);
-    const res = await fetch(url, {
-      headers: {
-        Accept: "text/html",
-        "User-Agent": UA,
-      },
-      redirect: "follow",
-    });
-    if (!res.ok) continue;
-    const html = await res.text();
+    const html = await httpText(url);
     for (const job of parseAvatureSearchHtml(html, url)) {
       if (seen.has(job.externalId)) continue;
       seen.add(job.externalId);

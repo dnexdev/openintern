@@ -5,6 +5,7 @@ import {
   workdayJobsUrl,
 } from "./workday.js";
 import { fetchCitadel, fetchCitadelSecurities } from "./citadel.js";
+import { httpJson } from "./http.js";
 import { fetchTesla } from "./tesla.js";
 import { fetchBytedance, fetchTiktok } from "./bytedance.js";
 import { fetchPhenom } from "./phenom.js";
@@ -15,7 +16,6 @@ import { fetchGoogle } from "./google.js";
 import { fetchIbm } from "./ibm.js";
 import { fetchDeshaw } from "./deshaw.js";
 import { fetchShopify } from "./shopify.js";
-import { fetchX } from "./x.js";
 import { stripHtmlTags } from "./strip-html.js";
 
 export type NormalizedJob = {
@@ -92,33 +92,8 @@ export async function mapWithConcurrency<T, R>(
   return results;
 }
 
-async function fetchJson<T>(url: string, retries = 3): Promise<T> {
-  let lastErr: Error | null = null;
-  for (let attempt = 0; attempt < retries; attempt++) {
-    try {
-      const res = await fetch(url, {
-        headers: {
-          Accept: "application/json",
-          "User-Agent": "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)",
-        },
-      });
-      if (res.ok) {
-        return (await res.json()) as T;
-      }
-      // Don't retry client errors except 429
-      if (res.status !== 429 && res.status < 500) {
-        throw new Error(`HTTP ${res.status} for ${url}`);
-      }
-      lastErr = new Error(`HTTP ${res.status} for ${url}`);
-    } catch (err) {
-      lastErr = err instanceof Error ? err : new Error(String(err));
-      if (lastErr.message.startsWith("HTTP 4") && !lastErr.message.includes("HTTP 429")) {
-        throw lastErr;
-      }
-    }
-    await sleep(400 * 2 ** attempt);
-  }
-  throw lastErr ?? new Error(`Failed to fetch ${url}`);
+function fetchJson<T>(url: string): Promise<T> {
+  return httpJson<T>(url);
 }
 
 type GreenhouseJob = {
@@ -527,33 +502,8 @@ type WorkdayDetailResponse = {
   hiringOrganization?: { name?: string };
 };
 
-async function fetchJsonPost<T>(url: string, body: unknown, retries = 3): Promise<T> {
-  let lastErr: Error | null = null;
-  for (let attempt = 0; attempt < retries; attempt++) {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "User-Agent": "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)",
-        },
-        body: JSON.stringify(body),
-      });
-      if (res.ok) return (await res.json()) as T;
-      if (res.status !== 429 && res.status < 500) {
-        throw new Error(`HTTP ${res.status} for ${url}`);
-      }
-      lastErr = new Error(`HTTP ${res.status} for ${url}`);
-    } catch (err) {
-      lastErr = err instanceof Error ? err : new Error(String(err));
-      if (lastErr.message.startsWith("HTTP 4") && !lastErr.message.includes("HTTP 429")) {
-        throw lastErr;
-      }
-    }
-    await sleep(500 * 2 ** attempt);
-  }
-  throw lastErr ?? new Error(`Failed to POST ${url}`);
+function fetchJsonPost<T>(url: string, body: unknown): Promise<T> {
+  return httpJson<T>(url, { method: "POST", body });
 }
 
 /**
@@ -694,7 +644,8 @@ export async function fetchJobsForAts(
     case "shopify":
       return fetchShopify(boardToken);
     case "x":
-      return fetchX(boardToken);
+      // No public board; X's terms forbid scraping. Dropped 2026-10-24.
+      throw new Error("X is not ingested");
     default:
       throw new Error(`Unsupported ATS: ${ats}`);
   }
