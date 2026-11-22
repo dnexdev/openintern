@@ -1,6 +1,13 @@
-import { and, desc, eq, lt, notInArray, sql } from "drizzle-orm";
-import { companies, ingestRuns, jobs, type Db } from "@openintern/db";
-import { DAY_MS, deactivationPolicy, isStale, type DeactivationPolicy } from "@openintern/proven";
+import { and, desc, eq, inArray, lt, sql } from "drizzle-orm";
+import { companies, ingestRuns, jobs, parseFunnel, type Db } from "@openintern/db";
+import {
+  DAY_MS,
+  RETIRE_AFTER_EMPTY_RUNS,
+  isStale,
+  shouldRetireJob,
+  type BoardRun,
+  type JobSighting,
+} from "@openintern/proven";
 import { fetchJobsForAts } from "./ats.js";
 import {
   LAST_SEEN_STALE_DAYS,
@@ -22,6 +29,7 @@ import {
 } from "./normalize-title.js";
 import { safeDate } from "./safe-date.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
+import { loadTier1Curated } from "./validate-curated.js";
 
 export type CompanyFunnel = {
   slug: string;
@@ -41,6 +49,12 @@ export type IngestSummary = {
   /** True when the last-seen sweep was skipped because the pipeline had been down. */
   lastSeenSweepSkipped: boolean;
   zeroMatchCompanies: string[];
+  /** Companies whose failure this run made them auto-disabled; a person should confirm. */
+  autoDisabled: string[];
+  /** Auto-disabled companies not fetched this run (retried weekly). */
+  autoDisabledSkipped: string[];
+  /** Companies that had several active jobs and now list none: possibly blocking us. */
+  suspectedBlocks: string[];
   failures: { slug: string; error: string }[];
   /** Per-company fetched → title → tech → upsert funnel (sorted by fetched desc). */
   funnel: CompanyFunnel[];
@@ -92,26 +106,60 @@ async function withDbRetry<T>(label: string, fn: () => Promise<T>): Promise<T> {
   throw last;
 }
 
-const CONSECUTIVE_FAILURE_LIMIT = 24;
+/** Daily runs in a row that must fail before a company is auto-disabled. */
+export const CONSECUTIVE_FAILURE_LIMIT = 7;
+/** An auto-disabled company is retried once this many days after its last run. */
+export const DISABLED_RECHECK_DAYS = 7;
+/** A company that had at least this many active jobs and now lists none is flagged. */
+export const SUSPECTED_BLOCK_MIN_JOBS = 5;
 const UPSERT_CHUNK = 100;
 
 /** Title looks like an internship/co-op (before tech filter). */
 const INTERNSHIP_TITLE_ONLY =
   /\b(intern|internship|co-?op|coop|apprentice(ship)?|project\s+intern|campus\s+\w+\s+intern|year\s+at\s+\w+)\b/i;
 
-export type { DeactivationPolicy };
+/**
+ * Empty runs in a row before this one, from the company's recent runs (newest
+ * first). Failed runs are skipped: they leave the count unchanged (law
+ * dp_failed_keeps_count); the first run that listed postings ends it.
+ */
+export function countPriorEmptyRuns(runs: { status: string; error: string | null }[]): number {
+  let empty = 0;
+  for (const r of runs) {
+    if (r.status !== "ok") continue;
+    if (parseFunnel(r.error).fetched !== 0) break;
+    empty += 1;
+  }
+  return empty;
+}
+
+/** Where an existing active job stands after this run's fetch (input to shouldRetireJob). */
+export function sightJob(
+  onBoard: { description: string } | undefined,
+  matched: boolean,
+): JobSighting {
+  if (!onBoard) return "gone";
+  if (matched) return "matched";
+  return onBoard.description.trim() ? "rejected" : "unverified";
+}
 
 /**
- * Preserve existing jobs when a non-empty board suddenly has no classifier
- * matches. The last-seen sweep will retire them if that state persists.
- * Bend-proven: laws dp_* in LAWS.bend.
+ * Auto-disable is derived from run history, so the YAML `active` flag stays
+ * the human switch and registry sync can't silently undo it. A company is
+ * disabled when its last CONSECUTIVE_FAILURE_LIMIT runs all failed, unless it
+ * is exempt (tier-1). It is still fetched once every DISABLED_RECHECK_DAYS.
  */
-export function companyDeactivationPolicy(input: {
-  fetchSucceeded: boolean;
-  fetched: number;
-  techPass: number;
-}): DeactivationPolicy {
-  return deactivationPolicy(input);
+export function autoDisableState(
+  recentRuns: { status: string; ranAt: Date }[],
+  exempt: boolean,
+  now: Date,
+): "enabled" | "disabled" | "recheck" {
+  if (exempt) return "enabled";
+  if (recentRuns.length < CONSECUTIVE_FAILURE_LIMIT) return "enabled";
+  const lastN = recentRuns.slice(0, CONSECUTIVE_FAILURE_LIMIT);
+  if (!lastN.every((r) => r.status === "error")) return "enabled";
+  const last = lastN[0]!.ranAt.getTime();
+  return now.getTime() - last >= DISABLED_RECHECK_DAYS * DAY_MS ? "recheck" : "disabled";
 }
 
 /** A gap longer than this between successful runs counts as an outage. */
@@ -137,7 +185,8 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     .where(eq(ingestRuns.status, "ok"))
     .orderBy(desc(ingestRuns.ranAt))
     .limit(1);
-  const skipLastSeenSweep = shouldSkipLastSeenSweep(lastOk?.ranAt ?? null, new Date());
+  const now = new Date();
+  const skipLastSeenSweep = shouldSkipLastSeenSweep(lastOk?.ranAt ?? null, now);
 
   if (opts?.syncRegistry !== false) {
     await syncCompaniesFromYaml(db);
@@ -159,19 +208,38 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     return allow.has(c.slug);
   });
 
+  const tier1 = new Set((await loadTier1Curated()).slugs);
+  const history = await recentRunsByCompany(
+    db,
+    activeCompanies.map((c) => c.id),
+  );
+  const autoDisabledSkipped: string[] = [];
+  const toFetch = activeCompanies.filter((c) => {
+    if (autoDisableState(history.get(c.id) ?? [], tier1.has(c.slug), now) !== "disabled") return true;
+    autoDisabledSkipped.push(c.slug);
+    return false;
+  });
+
   let jobsUpserted = 0;
   let jobsDeactivated = 0;
   let staleDeactivated = 0;
   let lastSeenDeactivated = 0;
   const zeroMatchCompanies: string[] = [];
+  const autoDisabled: string[] = [];
+  const suspectedBlocks: string[] = [];
   const failures: { slug: string; error: string }[] = [];
   const funnel: CompanyFunnel[] = [];
 
   const CHUNK = 8;
-  for (let i = 0; i < activeCompanies.length; i += CHUNK) {
-    const chunk = activeCompanies.slice(i, i + CHUNK);
+  for (let i = 0; i < toFetch.length; i += CHUNK) {
+    const chunk = toFetch.slice(i, i + CHUNK);
     const results = await Promise.allSettled(
-      chunk.map((company) => ingestCompany(db, company)),
+      chunk.map((company) =>
+        ingestCompany(db, company, {
+          now,
+          priorEmptyRuns: countPriorEmptyRuns(history.get(company.id) ?? []),
+        }),
+      ),
     );
 
     for (let j = 0; j < results.length; j++) {
@@ -183,6 +251,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
         jobsDeactivated += r.jobsDeactivated;
         staleDeactivated += r.staleDeactivated;
         if (r.zeroMatch) zeroMatchCompanies.push(company.slug);
+        if (r.suspectedBlock) suspectedBlocks.push(company.slug);
         funnel.push(r.funnel);
       } else {
         const message =
@@ -196,6 +265,17 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
           upserted: 0,
           stale: 0,
         });
+        const prior = history.get(company.id) ?? [];
+        const exempt = tier1.has(company.slug);
+        if (
+          autoDisableState(prior, exempt, now) === "enabled" &&
+          autoDisableState([{ status: "error", ranAt: now, error: message }, ...prior], exempt, now) === "disabled"
+        ) {
+          autoDisabled.push(company.slug);
+          console.warn(
+            `Auto-disabled ${company.slug} after ${CONSECUTIVE_FAILURE_LIMIT} failed runs in a row; retried every ${DISABLED_RECHECK_DAYS} days.`,
+          );
+        }
         try {
           await withDbRetry(`ingestRuns:${company.slug}`, () =>
             db.insert(ingestRuns).values({
@@ -204,9 +284,6 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
               jobCount: 0,
               error: message.slice(0, 2000),
             }),
-          );
-          await withDbRetry(`autoDisable:${company.slug}`, () =>
-            maybeAutoDisable(db, company.id, company.slug),
           );
         } catch (recordErr) {
           // Never abort the whole ingest because Neon dropped a socket mid-run.
@@ -255,66 +332,96 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
   );
 
   return {
-    companies: activeCompanies.length,
+    companies: toFetch.length,
     jobsUpserted,
     jobsDeactivated,
     staleDeactivated,
     lastSeenDeactivated,
     lastSeenSweepSkipped: skipLastSeenSweep,
     zeroMatchCompanies,
+    autoDisabled,
+    autoDisabledSkipped,
+    suspectedBlocks,
     failures,
     funnel,
     funnelTotals,
   };
 }
 
-async function maybeAutoDisable(
-  db: Db,
-  companyId: string,
-  slug: string,
-): Promise<void> {
-  const recent = await db
-    .select({ status: ingestRuns.status })
-    .from(ingestRuns)
-    .where(eq(ingestRuns.companyId, companyId))
-    .orderBy(sql`${ingestRuns.ranAt} desc`)
-    .limit(CONSECUTIVE_FAILURE_LIMIT);
-
-  if (
-    recent.length >= CONSECUTIVE_FAILURE_LIMIT &&
-    recent.every((r) => r.status === "error")
-  ) {
-    await db
-      .update(companies)
-      .set({ active: false, updatedAt: new Date() })
-      .where(eq(companies.id, companyId));
-    console.warn(
-      `Auto-disabled company ${slug} after ${CONSECUTIVE_FAILURE_LIMIT} consecutive failures`,
+/**
+ * Markdown for things a person must look at, or null when there are none:
+ * new auto-disables (confirm or fix the board token) and suspected blocks.
+ */
+export function ingestDigest(s: IngestSummary): string | null {
+  const lines: string[] = [];
+  if (s.autoDisabled.length) {
+    lines.push(
+      `**Auto-disabled** after ${CONSECUTIVE_FAILURE_LIMIT} failed runs in a row (retried every ${DISABLED_RECHECK_DAYS} days). Fix the board token, set \`active: false\` in YAML, or close this as confirmed:`,
+      ...s.autoDisabled.map((slug) => `- \`${slug}\``),
+      "",
     );
   }
+  if (s.suspectedBlocks.length) {
+    lines.push(
+      `**Suspected blocks**: had at least ${SUSPECTED_BLOCK_MIN_JOBS} active jobs, board now empty. Jobs are kept until ${RETIRE_AFTER_EMPTY_RUNS} empty runs in a row:`,
+      ...s.suspectedBlocks.map((slug) => `- \`${slug}\``),
+      "",
+    );
+  }
+  return lines.length ? lines.join("\n") : null;
+}
+
+type RunRow = { status: string; error: string | null; ranAt: Date };
+
+/** The newest runs per company, enough for auto-disable and the empty-run count. */
+async function recentRunsByCompany(db: Db, companyIds: string[]): Promise<Map<string, RunRow[]>> {
+  const out = new Map<string, RunRow[]>();
+  if (companyIds.length === 0) return out;
+  const keep = Math.max(CONSECUTIVE_FAILURE_LIMIT, RETIRE_AFTER_EMPTY_RUNS) * 2;
+  const rows = (await db.execute(sql`
+    select company_id, status, error, ran_at from (
+      select company_id, status, error, ran_at,
+        row_number() over (partition by company_id order by ran_at desc) as rn
+      from ${ingestRuns}
+      where ${inArray(ingestRuns.companyId, companyIds)}
+    ) recent
+    where rn <= ${keep}
+    order by company_id, ran_at desc
+  `)) as unknown as { company_id: string; status: string; error: string | null; ran_at: Date | string }[];
+  for (const r of rows) {
+    const list = out.get(r.company_id) ?? [];
+    list.push({ status: r.status, error: r.error, ranAt: new Date(r.ran_at) });
+    out.set(r.company_id, list);
+  }
+  return out;
 }
 
 async function ingestCompany(
   db: Db,
   company: typeof companies.$inferSelect,
+  opts: { now: Date; priorEmptyRuns: number },
 ): Promise<{
   jobsUpserted: number;
   jobsDeactivated: number;
   staleDeactivated: number;
   zeroMatch: boolean;
+  suspectedBlock: boolean;
   funnel: CompanyFunnel;
 }> {
   const raw = await fetchJobsForAts(company.ats, company.boardToken);
   const internshipTitleJobs = raw.filter((j) => INTERNSHIP_TITLE_ONLY.test(j.title));
   const filtered = raw.filter((j) => isTechInternship(j.title, j.description));
   const descriptionMissing = raw.filter((j) => !j.description.trim()).length;
-  const seenIds: string[] = [];
+  const matchedIds = new Set<string>();
   let jobsUpserted = 0;
   let staleDeactivated = 0;
-  const now = new Date();
+  const { now } = opts;
 
   const existingRows = await db
     .select({
+      id: jobs.id,
+      externalJobId: jobs.externalJobId,
+      isActive: jobs.isActive,
       fingerprint: jobs.fingerprint,
       firstSeenAt: jobs.firstSeenAt,
       postedAt: jobs.postedAt,
@@ -329,15 +436,15 @@ async function ingestCompany(
   const rows: JobUpsertRow[] = [];
 
   for (const j of filtered) {
-    seenIds.push(j.externalId);
+    matchedIds.add(j.externalId);
     const excerpt =
       excerptFromHtml(j.excerpt) ?? excerptFromHtml(j.description);
     const isRemote = looksRemote(j.locations, j.title);
     const classifierText = `${j.title} ${j.description}`;
     const terms = extractTerms(classifierText);
     const durationMonths = extractDurationMonthsList(classifierText) ?? [];
-    const cohortYear = extractCohortYear(classifierText);
-    const termYears = extractTermYears(classifierText, cohortYear);
+    const cohortYear = extractCohortYear(classifierText, now);
+    const termYears = extractTermYears(classifierText, cohortYear, now);
     const roles = extractRoles(j.title, j.description);
     const regions = extractRegions(j.locations, isRemote);
     const normalized = normalizeTitle(j.title);
@@ -417,33 +524,32 @@ async function ingestCompany(
     jobsUpserted += chunk.length;
   }
 
+  // Per-job retirement, Bend-proven (laws dp_*): a job gone from a board that
+  // was fetched successfully is retired; one whose details failed to load is
+  // kept; an empty board retires everything only on the third empty run.
+  const run: BoardRun = raw.length === 0 ? "empty" : "listed";
+  const onBoard = new Map(raw.map((j) => [j.externalId, j]));
+  const activeBefore = existingRows.filter((row) => row.isActive);
+  const retireIds = activeBefore
+    .filter((row) =>
+      shouldRetireJob(
+        run,
+        opts.priorEmptyRuns,
+        sightJob(onBoard.get(row.externalJobId), matchedIds.has(row.externalJobId)),
+      ),
+    )
+    .map((row) => row.id);
   let jobsDeactivated = 0;
-  const deactivationPolicy = companyDeactivationPolicy({
-    fetchSucceeded: true,
-    fetched: raw.length,
-    techPass: filtered.length,
-  });
-  if (deactivationPolicy === "missing") {
-    const deactivated = await db
+  for (let i = 0; i < retireIds.length; i += UPSERT_CHUNK) {
+    const ids = retireIds.slice(i, i + UPSERT_CHUNK);
+    const retired = await db
       .update(jobs)
       .set({ isActive: false, updatedAt: now })
-      .where(
-        and(
-          eq(jobs.companyId, company.id),
-          eq(jobs.isActive, true),
-          notInArray(jobs.externalJobId, seenIds),
-        ),
-      )
+      .where(and(eq(jobs.companyId, company.id), eq(jobs.isActive, true), inArray(jobs.id, ids)))
       .returning({ id: jobs.id });
-    jobsDeactivated = deactivated.length;
-  } else if (deactivationPolicy === "all") {
-    const deactivated = await db
-      .update(jobs)
-      .set({ isActive: false, updatedAt: now })
-      .where(and(eq(jobs.companyId, company.id), eq(jobs.isActive, true)))
-      .returning({ id: jobs.id });
-    jobsDeactivated = deactivated.length;
+    jobsDeactivated += retired.length;
   }
+  const suspectedBlock = run === "empty" && activeBefore.length >= SUSPECTED_BLOCK_MIN_JOBS;
 
   const zeroMatch = raw.length > 0 && filtered.length === 0;
   const funnelMsg = `funnel fetched=${raw.length} title=${internshipTitleJobs.length} tech=${filtered.length} upserted=${jobsUpserted} description_missing=${descriptionMissing}`;
@@ -452,7 +558,7 @@ async function ingestCompany(
     status: "ok",
     jobCount: filtered.length,
     error: zeroMatch
-      ? `zero_match: no tech internships classified; retaining existing jobs until stale; ${funnelMsg}`
+      ? `zero_match: no tech internships classified; ${funnelMsg}`
       : funnelMsg,
   });
 
@@ -461,6 +567,7 @@ async function ingestCompany(
     jobsDeactivated,
     staleDeactivated,
     zeroMatch,
+    suspectedBlock,
     funnel: {
       slug: company.slug,
       fetched: raw.length,

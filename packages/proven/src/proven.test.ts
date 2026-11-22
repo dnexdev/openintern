@@ -6,7 +6,9 @@
 import assert from "node:assert/strict";
 import {
   DAY_MS,
-  deactivationPolicy,
+  nextEmptyRuns,
+  RETIRE_AFTER_EMPTY_RUNS,
+  shouldRetireJob,
   isFresh,
   isPublic,
   isStale,
@@ -137,15 +139,29 @@ for (let p = 0; p < 5; p++) {
 }
 
 // --- deactivation ----------------------------------------------------------
+// Reference spec, written independently of the Bend model.
 
-for (const fetchSucceeded of [true, false]) {
-  for (const fetched of [0, 1, 20]) {
-    for (const techPass of [0, 1, 3]) {
-      const old = !fetchSucceeded ? "none" : techPass > 0 ? "missing" : fetched === 0 ? "all" : "none";
-      assert.equal(deactivationPolicy({ fetchSucceeded, fetched, techPass }), old);
+function refRetire(run: string, prior: number, seen: string): boolean {
+  if (run === "failed") return false;
+  if (run === "empty") return prior + 1 >= 3;
+  return seen === "gone" || seen === "rejected";
+}
+const RUNS = ["failed", "empty", "listed"] as const;
+const SEENS = ["gone", "rejected", "unverified", "matched"] as const;
+assert.equal(RETIRE_AFTER_EMPTY_RUNS, 3);
+for (const run of RUNS) {
+  for (let prior = 0; prior < 6; prior++) {
+    for (const seen of SEENS) {
+      assert.equal(shouldRetireJob(run, prior, seen), refRetire(run, prior, seen), `retire ${run} ${prior} ${seen}`);
     }
+    const next = run === "failed" ? prior : run === "empty" ? prior + 1 : 0;
+    assert.equal(nextEmptyRuns(run, prior), next, `next ${run} ${prior}`);
   }
 }
+// Unknown tags would fall through to the last compiled case; they must throw.
+assert.throws(() => shouldRetireJob("lisetd" as never, 0, "gone"), RangeError);
+assert.throws(() => shouldRetireJob("listed", 0, "constructor" as never), RangeError);
+assert.throws(() => shouldRetireJob("listed", -1, "gone"), RangeError);
 
 // --- funnel ----------------------------------------------------------------
 

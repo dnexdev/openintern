@@ -178,26 +178,54 @@ export function saysOpenings(postingCount: number, uniqueLocationCount: number):
 // Deactivation policy
 // ---------------------------------------------------------------------------
 
-export type DeactivationPolicy = "missing" | "all" | "none";
+/**
+ * What one ingest run learned about a company's board: "failed" (fetch failed
+ * or was refused), "empty" (fetched, no postings), "listed" (fetched, at least
+ * one posting).
+ */
+export type BoardRun = "failed" | "empty" | "listed";
 
-const policyDef = def<[boolean, number, number], { $: "Missing" | "All" | "Keep" }>(
-  "deactivation",
-  "policy",
-);
+/**
+ * Where one existing job stands on a listed board: "gone" (not on it),
+ * "rejected" (on it with details, fails the classifier), "unverified" (on it,
+ * details missing), "matched" (passes).
+ */
+export type JobSighting = "gone" | "rejected" | "unverified" | "matched";
 
-const POLICY: Record<"Missing" | "All" | "Keep", DeactivationPolicy> = {
-  Missing: "missing",
-  All: "all",
-  Keep: "none",
-};
+const RUN_TAG = { failed: "Failed", empty: "Empty", listed: "Listed" } as const;
+const SEEN_TAG = {
+  gone: "Gone",
+  rejected: "Rejected",
+  unverified: "Unverified",
+  matched: "Matched",
+} as const;
 
-/** Laws dp_*. */
-export function deactivationPolicy(input: {
-  fetchSucceeded: boolean;
-  fetched: number;
-  techPass: number;
-}): DeactivationPolicy {
-  return POLICY[policyDef(input.fetchSucceeded, nat(input.fetched), nat(input.techPass)).$];
+// The compiled matches fall through to their last case, so an unknown tag
+// would silently mean "listed" or "matched": reject it here.
+function tag<K extends string, V>(table: Record<K, V>, key: K, what: string): V {
+  if (!Object.hasOwn(table, key)) throw new RangeError(`unknown ${what}: ${String(key)}`);
+  return table[key];
+}
+
+const retireDef = def<[{ $: string }, number, { $: string }], boolean>("deactivation", "retire");
+const nextEmptyDef = def<[{ $: string }, number], number>("deactivation", "next_empty");
+const retireAfterEmptyDef = def<[], number>("deactivation", "retire_after_empty");
+
+/** Empty runs in a row before every job of a company is retired (law dp_retire_after_three). */
+export const RETIRE_AFTER_EMPTY_RUNS = retireAfterEmptyDef();
+
+/** Whether this run retires one existing active job (laws dp_*). */
+export function shouldRetireJob(run: BoardRun, priorEmptyRuns: number, seen: JobSighting): boolean {
+  return retireDef(
+    { $: tag(RUN_TAG, run, "board run") },
+    nat(priorEmptyRuns, "priorEmptyRuns"),
+    { $: tag(SEEN_TAG, seen, "job sighting") },
+  );
+}
+
+/** The company's empty-run count after this run (laws dp_listed_resets, dp_failed_keeps_count, dp_empty_counts). */
+export function nextEmptyRuns(run: BoardRun, priorEmptyRuns: number): number {
+  return nextEmptyDef({ $: tag(RUN_TAG, run, "board run") }, nat(priorEmptyRuns, "priorEmptyRuns"));
 }
 
 // ---------------------------------------------------------------------------

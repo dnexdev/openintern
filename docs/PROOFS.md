@@ -35,8 +35,10 @@ stated laws, as checked by bend2. Not covered:
   in whole days and can disagree with Bend for up to a day.
 - **Apply picker** (`posting-label.ts`): a picker shows iff there are ≥2 postings
   or ≥2 locations; "openings" vs "locations" copy.
-- **Deactivation policy** (`ingest.ts`): a failed fetch never deactivates; a
-  zero-match board keeps its jobs.
+- **Job retirement** (`ingest.ts`): a failed fetch retires nothing; a job gone
+  from a board fetched successfully is retired, even when nothing else on the
+  board matches (#24); a job whose details failed to load is kept; an empty
+  board retires a company's jobs only on the third empty run in a row.
 - **Funnel totals** (`ingest-health.ts`): summing in pieces equals summing at once.
 - **Pagination** (`board.ts`, `/api/v1/jobs`): any query text gives page in
   [1, 100000] and limit in [1, 100]. This fixed `?page=abc`, which used to give `NaN`.

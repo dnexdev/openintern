@@ -70,7 +70,7 @@ When listings look stale or a company is missing jobs:
 3. Fix `data/companies/*.yaml` (`board_token`, `ats`, `active: true`).
 4. Validate with **`pnpm validate-tokens`** on changed files, then **`pnpm ingest`** locally or wait for the hourly Action.
 
-`zero_match` means the board returned jobs but none passed the tech-internship classifier — existing rows are retained until the 14-day last-seen sweep.
+`zero_match` means the board returned jobs but none passed the tech-internship classifier. Existing jobs that are no longer on the board are retired; ones still listed are kept unless their details loaded and they no longer match.
 
 ### Accelerator discovery
 

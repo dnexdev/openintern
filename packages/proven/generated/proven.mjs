@@ -361,23 +361,35 @@ function $packages_proven_bend_apply_picker_says_openings(_postings_0, _unique_l
   return (_unique_locations_0 < _postings_0);
 }
 
-function $packages_proven_bend_deactivation_policy(_fetch_ok_0, _fetched_0, _tech_0) {
-  if (!_fetch_ok_0) {
-    return {$: "Keep"};
+function $packages_proven_bend_deactivation_retire_after_empty() {
+  return 3;
+}
+
+function $packages_proven_bend_deactivation_retire(_run_0, _prior_empty_0, _seen_0) {
+  if (_run_0.$ === "Failed") {
+    return false;
+  } else if (_run_0.$ === "Empty") {
+    return $Nat_is_le(($packages_proven_bend_deactivation_retire_after_empty()), nat_chk(_prior_empty_0 + 1));
   } else {
-    if (_fetched_0 === 0) {
-      if (_tech_0 === 0) {
-        return {$: "All"};
-      } else {
-        return {$: "Missing"};
-      }
+    if (_seen_0.$ === "Gone") {
+      return true;
+    } else if (_seen_0.$ === "Rejected") {
+      return true;
+    } else if (_seen_0.$ === "Unverified") {
+      return false;
     } else {
-      if (_tech_0 === 0) {
-        return {$: "Keep"};
-      } else {
-        return {$: "Missing"};
-      }
+      return false;
     }
+  }
+}
+
+function $packages_proven_bend_deactivation_next_empty(_run_0, _prior_empty_0) {
+  if (_run_0.$ === "Failed") {
+    return _prior_empty_0;
+  } else if (_run_0.$ === "Empty") {
+    return nat_chk(_prior_empty_0 + 1);
+  } else {
+    return 0;
   }
 }
 
@@ -765,23 +777,51 @@ function $LAWS_ap_repeats_say_openings(_unique_0, _k_0) {
   return $packages_proven_bend_lemmas_lt_succ_add(_unique_0, _k_0);
 }
 
-function $LAWS_dp_failed_fetch_keeps(_fetched_0, _tech_0) {
+function $LAWS_dp_failed_fetch_keeps(_prior_0, _seen_0) {
   return null;
 }
 
-function $LAWS_dp_matches_retire_missing(_fetched_0, _tech_0) {
-  if (_fetched_0 === 0) {
+function $LAWS_dp_board_gone_retires(_prior_0) {
+  return null;
+}
+
+function $LAWS_dp_on_board_keeps(_prior_0) {
+  return null;
+}
+
+function $LAWS_dp_unverified_keeps(_prior_0) {
+  return null;
+}
+
+function $LAWS_dp_rejected_retires(_prior_0) {
+  return null;
+}
+
+function $LAWS_dp_empty_waits(_seen_0) {
+  return null;
+}
+
+function $LAWS_dp_three_empty_runs_retire(_prior_0, _seen_0) {
+  if (_prior_0 === 0) {
     return null;
   } else {
     return null;
   }
 }
 
-function $LAWS_dp_empty_board_retires_all() {
+function $LAWS_dp_retire_after_three() {
   return null;
 }
 
-function $LAWS_dp_zero_match_keeps(_fetched_0) {
+function $LAWS_dp_listed_resets(_prior_0) {
+  return null;
+}
+
+function $LAWS_dp_failed_keeps_count(_prior_0) {
+  return null;
+}
+
+function $LAWS_dp_empty_counts(_prior_0) {
   return null;
 }
 
@@ -1798,7 +1838,9 @@ export default {
   "packages/proven/bend/apply_picker:needs_picker": run_lib((a0,a1) => run_loop($packages_proven_bend_apply_picker_needs_picker(nat_in(a0),nat_in(a1))), 2),
   "packages/proven/bend/apply_picker:qualify_single_title": run_lib((a0) => run_loop($packages_proven_bend_apply_picker_qualify_single_title(nat_in(a0))), 1),
   "packages/proven/bend/apply_picker:says_openings": run_lib((a0,a1) => run_loop($packages_proven_bend_apply_picker_says_openings(nat_in(a0),nat_in(a1))), 2),
-  "packages/proven/bend/deactivation:policy": run_lib((a0,a1,a2) => run_loop($packages_proven_bend_deactivation_policy(a0,nat_in(a1),nat_in(a2))), 3),
+  "packages/proven/bend/deactivation:retire_after_empty": run_lib(() => run_loop($packages_proven_bend_deactivation_retire_after_empty()), 0),
+  "packages/proven/bend/deactivation:retire": run_lib((a0,a1,a2) => run_loop($packages_proven_bend_deactivation_retire(a0,nat_in(a1),a2)), 3),
+  "packages/proven/bend/deactivation:next_empty": run_lib((a0,a1) => run_loop($packages_proven_bend_deactivation_next_empty(a0,nat_in(a1))), 2),
   "packages/proven/bend/funnel:or0": run_lib((a0) => run_loop($packages_proven_bend_funnel_or0(a0)), 1),
   "packages/proven/bend/funnel:zero": run_lib(() => run_loop($packages_proven_bend_funnel_zero()), 0),
   "packages/proven/bend/funnel:of": run_lib((a0) => run_loop($packages_proven_bend_funnel_of(a0)), 1),
@@ -1851,10 +1893,17 @@ export default {
   "LAWS:ap_title_matches_picker": run_lib((a0) => run_loop($LAWS_ap_title_matches_picker(nat_in(a0))), 1),
   "LAWS:ap_distinct_says_locations": run_lib((a0) => run_loop($LAWS_ap_distinct_says_locations(nat_in(a0))), 1),
   "LAWS:ap_repeats_say_openings": run_lib((a0,a1) => run_loop($LAWS_ap_repeats_say_openings(nat_in(a0),nat_in(a1))), 2),
-  "LAWS:dp_failed_fetch_keeps": run_lib((a0,a1) => run_loop($LAWS_dp_failed_fetch_keeps(nat_in(a0),nat_in(a1))), 2),
-  "LAWS:dp_matches_retire_missing": run_lib((a0,a1) => run_loop($LAWS_dp_matches_retire_missing(nat_in(a0),nat_in(a1))), 2),
-  "LAWS:dp_empty_board_retires_all": run_lib(() => run_loop($LAWS_dp_empty_board_retires_all()), 0),
-  "LAWS:dp_zero_match_keeps": run_lib((a0) => run_loop($LAWS_dp_zero_match_keeps(nat_in(a0))), 1),
+  "LAWS:dp_failed_fetch_keeps": run_lib((a0,a1) => run_loop($LAWS_dp_failed_fetch_keeps(nat_in(a0),a1)), 2),
+  "LAWS:dp_board_gone_retires": run_lib((a0) => run_loop($LAWS_dp_board_gone_retires(nat_in(a0))), 1),
+  "LAWS:dp_on_board_keeps": run_lib((a0) => run_loop($LAWS_dp_on_board_keeps(nat_in(a0))), 1),
+  "LAWS:dp_unverified_keeps": run_lib((a0) => run_loop($LAWS_dp_unverified_keeps(nat_in(a0))), 1),
+  "LAWS:dp_rejected_retires": run_lib((a0) => run_loop($LAWS_dp_rejected_retires(nat_in(a0))), 1),
+  "LAWS:dp_empty_waits": run_lib((a0) => run_loop($LAWS_dp_empty_waits(a0)), 1),
+  "LAWS:dp_three_empty_runs_retire": run_lib((a0,a1) => run_loop($LAWS_dp_three_empty_runs_retire(nat_in(a0),a1)), 2),
+  "LAWS:dp_retire_after_three": run_lib(() => run_loop($LAWS_dp_retire_after_three()), 0),
+  "LAWS:dp_listed_resets": run_lib((a0) => run_loop($LAWS_dp_listed_resets(nat_in(a0))), 1),
+  "LAWS:dp_failed_keeps_count": run_lib((a0) => run_loop($LAWS_dp_failed_keeps_count(nat_in(a0))), 1),
+  "LAWS:dp_empty_counts": run_lib((a0) => run_loop($LAWS_dp_empty_counts(nat_in(a0))), 1),
   "LAWS:fn_total_empty": run_lib(() => run_loop($LAWS_fn_total_empty()), 0),
   "LAWS:fn_total_append": run_lib((a0,a1) => run_loop($LAWS_fn_total_append(a0,a1)), 2),
   "LAWS:fn_zero_match_tagged": run_lib((a0) => run_loop($LAWS_fn_zero_match_tagged(str_in(a0))), 1),

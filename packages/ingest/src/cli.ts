@@ -1,8 +1,9 @@
+import fs from "node:fs/promises";
 import path from "node:path";
 import { createDbClient } from "@openintern/db";
 import { backfillRoleFamilies } from "./backfill-role-families.js";
 import { writeDumps } from "./dump.js";
-import { runIngest } from "./ingest.js";
+import { ingestDigest, runIngest } from "./ingest.js";
 import { loadEnv } from "./load-env.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
 
@@ -45,6 +46,10 @@ async function main() {
     if (cmd === "ingest") {
       const summary = await runIngest(db);
       console.log(JSON.stringify(summary, null, 2));
+      // CI hands the digest to a separate job that may open issues.
+      const digestPath = process.env.OPENINTERN_DIGEST_PATH?.trim();
+      const digest = ingestDigest(summary);
+      if (digestPath && digest) await fs.writeFile(digestPath, digest);
       if (
         summary.companies > 0 &&
         summary.jobsUpserted === 0 &&

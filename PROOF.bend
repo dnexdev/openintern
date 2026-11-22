@@ -401,20 +401,41 @@ def Laws.ap_repeats_say_openings(unique, k):
 # Deactivation policy
 # ---------------------------------------------------------------------------
 
-def Laws.dp_failed_fetch_keeps(fetched, tech):
+def Laws.dp_failed_fetch_keeps(prior, seen):
   {==}
 
-def Laws.dp_matches_retire_missing(fetched, tech):
-  match fetched:
+def Laws.dp_board_gone_retires(prior):
+  {==}
+
+def Laws.dp_on_board_keeps(prior):
+  {==}
+
+def Laws.dp_unverified_keeps(prior):
+  {==}
+
+def Laws.dp_rejected_retires(prior):
+  {==}
+
+def Laws.dp_empty_waits(seen):
+  {==}
+
+def Laws.dp_three_empty_runs_retire(prior, seen):
+  match prior:
     case 0n:
       {==}
-    case 1n+f:
+    case 1n+p:
       {==}
 
-def Laws.dp_empty_board_retires_all():
+def Laws.dp_retire_after_three():
   {==}
 
-def Laws.dp_zero_match_keeps(fetched):
+def Laws.dp_listed_resets(prior):
+  {==}
+
+def Laws.dp_failed_keeps_count(prior):
+  {==}
+
+def Laws.dp_empty_counts(prior):
   {==}
 
 # ---------------------------------------------------------------------------

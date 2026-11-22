@@ -111,10 +111,14 @@ export function extractTerms(text: string): InternshipTerm[] {
  * Season+year pairs from text (e.g. "Winter 2026", "Fall 2027").
  * Also pairs bare seasons with a cohort year when present.
  */
-export function extractTermYears(text: string, cohortYear: number | null): TermYear[] {
+export function extractTermYears(
+  text: string,
+  cohortYear: number | null,
+  now: Date = new Date(),
+): TermYear[] {
   const pairs = new Map<string, TermYear>();
   const add = (term: InternshipTerm, year: number) => {
-    const y = clampCohortYear(year);
+    const y = clampCohortYear(year, now);
     if (y == null) return;
     pairs.set(`${term}:${y}`, { term, year: y });
   };
@@ -252,27 +256,27 @@ export function extractDurationMonths(text: string): number | null {
   return list[0] ?? null;
 }
 
-function clampCohortYear(year: number): number | null {
-  const now = new Date().getFullYear();
-  if (year >= now - 1 && year <= now + 3) return year;
+function clampCohortYear(year: number, now: Date): number | null {
+  const current = now.getUTCFullYear();
+  if (year >= current - 1 && year <= current + 3) return year;
   return null;
 }
 
 /**
  * Extract program / cohort year (e.g. 2026 from "Summer 2026" or "Class of 2027").
  */
-export function extractCohortYear(text: string): number | null {
+export function extractCohortYear(text: string, now: Date = new Date()): number | null {
   const seasonYear = text.match(
     /\b(?:winter|spring|summer|fall|autumn)\s+(20\d{2})\b/i,
   );
   if (seasonYear) {
-    const y = clampCohortYear(Number(seasonYear[1]));
+    const y = clampCohortYear(Number(seasonYear[1]), now);
     if (y != null) return y;
   }
 
   const classOf = text.match(/\bclass of\s+(20\d{2})\b/i);
   if (classOf) {
-    const y = clampCohortYear(Number(classOf[1]));
+    const y = clampCohortYear(Number(classOf[1]), now);
     if (y != null) return y;
   }
 
@@ -280,14 +284,14 @@ export function extractCohortYear(text: string): number | null {
     /\b(20\d{2})\b[^.]{0,40}\b(?:intern|internship|co-?op|coop|apprentice)/i,
   );
   if (nearIntern) {
-    const y = clampCohortYear(Number(nearIntern[1]));
+    const y = clampCohortYear(Number(nearIntern[1]), now);
     if (y != null) return y;
   }
   const afterIntern = text.match(
     /\b(?:intern|internship|co-?op|coop|apprentice)[^.]{0,40}\b(20\d{2})\b/i,
   );
   if (afterIntern) {
-    const y = clampCohortYear(Number(afterIntern[1]));
+    const y = clampCohortYear(Number(afterIntern[1]), now);
     if (y != null) return y;
   }
 

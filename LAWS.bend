@@ -206,26 +206,63 @@ law ap_repeats_say_openings:
 # Deactivation policy (packages/ingest/src/ingest.ts)
 # ---------------------------------------------------------------------------
 
-# A failed fetch never deactivates anything.
+# A failed or refused fetch never retires anything.
 law dp_failed_fetch_keeps:
-  for +fetched: Nat
-  for +tech: Nat
-  {DP.policy(False{}, fetched, tech) == DP.Keep{} : DP.Policy}
+  for +prior: Nat
+  for +seen: DP.Seen
+  {DP.retire(DP.Failed{}, prior, seen) == False{} : Bool}
 
-# With matches, only postings missing from the board are retired.
-law dp_matches_retire_missing:
-  for +fetched: Nat
-  for +tech: Nat
-  {DP.policy(True{}, fetched, 1n+tech) == DP.Missing{} : DP.Policy}
+# A job missing from a board that was fetched successfully is retired (#24:
+# a closed posting used to stay up while nothing else on the board matched).
+law dp_board_gone_retires:
+  for +prior: Nat
+  {DP.retire(DP.Listed{}, prior, DP.Gone{}) == True{} : Bool}
 
-# A board that is genuinely empty retires everything.
-law dp_empty_board_retires_all:
-  {DP.policy(True{}, 0n, 0n) == DP.All{} : DP.Policy}
+# A job still on the board that still matches is kept.
+law dp_on_board_keeps:
+  for +prior: Nat
+  {DP.retire(DP.Listed{}, prior, DP.Matched{}) == False{} : Bool}
 
-# A non-empty board with zero classifier matches keeps existing jobs.
-law dp_zero_match_keeps:
-  for +fetched: Nat
-  {DP.policy(True{}, 1n+fetched, 0n) == DP.Keep{} : DP.Policy}
+# A job whose details failed to load keeps its previous classification.
+law dp_unverified_keeps:
+  for +prior: Nat
+  {DP.retire(DP.Listed{}, prior, DP.Unverified{}) == False{} : Bool}
+
+# A fully fetched job that no longer passes the classifier is retired.
+law dp_rejected_retires:
+  for +prior: Nat
+  {DP.retire(DP.Listed{}, prior, DP.Rejected{}) == True{} : Bool}
+
+# The first and second empty runs in a row retire nothing: an empty board can
+# be a blip or a block.
+law dp_empty_waits:
+  for +seen: DP.Seen
+  {Bool.or(DP.retire(DP.Empty{}, 0n, seen), DP.retire(DP.Empty{}, 1n, seen)) == False{} : Bool}
+
+# Three empty runs in a row retire everything, whatever came before.
+law dp_three_empty_runs_retire:
+  for +prior: Nat
+  for +seen: DP.Seen
+  {DP.retire(DP.Empty{}, DP.next_empty(DP.Empty{}, DP.next_empty(DP.Empty{}, prior)), seen)
+    == True{} : Bool}
+
+# PINNED: the empty-run threshold.
+law dp_retire_after_three:
+  {DP.retire_after_empty() == 3n : Nat}
+
+# A listed board resets the empty count; a failed fetch leaves it unchanged;
+# an empty board adds one.
+law dp_listed_resets:
+  for +prior: Nat
+  {DP.next_empty(DP.Listed{}, prior) == 0n : Nat}
+
+law dp_failed_keeps_count:
+  for +prior: Nat
+  {DP.next_empty(DP.Failed{}, prior) == prior : Nat}
+
+law dp_empty_counts:
+  for +prior: Nat
+  {DP.next_empty(DP.Empty{}, prior) == 1n+prior : Nat}
 
 # ---------------------------------------------------------------------------
 # Ingest-health funnel (apps/web/src/lib/ingest-health.ts)
