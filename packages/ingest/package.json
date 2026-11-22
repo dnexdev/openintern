@@ -14,7 +14,7 @@
     "validate-curated": "tsx src/validate-curated.ts",
     "validate-companies": "tsx src/validate-companies.ts",
     "backfill-role-families": "tsx src/cli.ts backfill-role-families",
-    "test": "tsx src/classifier.test.ts && tsx src/ats.test.ts && tsx src/gap-report.test.ts && tsx src/validate-curated.test.ts && tsx src/validate-companies.test.ts && tsx src/ingest.test.ts && tsx src/freshness.test.ts && tsx src/normalize-title.test.ts && tsx src/proprietary.test.ts && tsx src/manual.test.ts && tsx src/http.test.ts && tsx src/apply-hosts.test.ts",
+    "test": "tsx src/classifier.test.ts && tsx src/ats.test.ts && tsx src/gap-report.test.ts && tsx src/validate-curated.test.ts && tsx src/validate-companies.test.ts && tsx src/ingest.test.ts && tsx src/freshness.test.ts && tsx src/normalize-title.test.ts && tsx src/proprietary.test.ts && tsx src/manual.test.ts && tsx src/http.test.ts && tsx src/apply-hosts.test.ts && tsx src/state.test.ts",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "manual:capture": "tsx src/manual-capture.ts",

@@ -11,6 +11,7 @@ import {
   jobs,
   publicJobSql,
   type Db,
+  type HealthSnapshot,
 } from "@openintern/db";
 
 export async function writeDumps(db: Db, outDir: string, now = new Date()) {
@@ -48,6 +49,53 @@ export async function writeDumps(db: Db, outDir: string, now = new Date()) {
     .orderBy(asc(jobs.id))
     .then((all) => all.filter((r) => applyUrlAllowed(r.companySlug, r.applyUrl)));
 
+  const companyRows = await db.select().from(companies).orderBy(asc(companies.slug));
+  return writeDumpFiles(outDir, { rows, companyRows, health: await buildHealthSnapshot(db, now), now });
+}
+
+export type DumpRow = {
+  id: string;
+  title: string;
+  normalizedTitle: string;
+  roleFamilyId: string;
+  locations: string[] | null;
+  applyUrl: string;
+  excerpt: string | null;
+  terms: string[] | null;
+  termYears: { term: string; year: number }[] | null;
+  durationMonths: number[] | null;
+  cohortYear: number | null;
+  roles: string[] | null;
+  regions: string[] | null;
+  isRemote: boolean;
+  source: string;
+  postedAt: Date | null;
+  firstSeenAt: Date;
+  lastSeenAt: Date;
+  companyName: string;
+  companySlug: string;
+  companyAts: string;
+  companyWebsiteUrl: string | null;
+  companyCareersUrl: string | null;
+};
+
+export type DumpCompanyRow = {
+  id: string;
+  name: string;
+  slug: string;
+  ats: string;
+  careersUrl: string | null;
+  websiteUrl: string | null;
+  active: boolean;
+};
+
+/** Write every dump file from public rows (sorted by id) and the company list. */
+export async function writeDumpFiles(
+  outDir: string,
+  input: { rows: DumpRow[]; companyRows: DumpCompanyRow[]; health: HealthSnapshot; now: Date },
+) {
+  await fs.mkdir(outDir, { recursive: true });
+  const { rows, companyRows, now } = input;
   const generatedAt = now.toISOString();
   const payload = {
     generatedAt,
@@ -121,7 +169,6 @@ export async function writeDumps(db: Db, outDir: string, now = new Date()) {
   // Every registry company, so v1 /companies can be served without the database.
   const liveByCompany = new Map<string, number>();
   for (const r of rows) liveByCompany.set(r.companySlug, (liveByCompany.get(r.companySlug) ?? 0) + 1);
-  const companyRows = await db.select().from(companies).orderBy(asc(companies.slug));
   const companiesPath = path.join(outDir, "companies.json");
   await fs.writeFile(
     companiesPath,
@@ -146,7 +193,7 @@ export async function writeDumps(db: Db, outDir: string, now = new Date()) {
   );
 
   const healthPath = path.join(outDir, "health.json");
-  await fs.writeFile(healthPath, JSON.stringify(await buildHealthSnapshot(db, now), null, 2));
+  await fs.writeFile(healthPath, JSON.stringify(input.health, null, 2));
 
   // Mirrors must drop these ids too (DATA.md).
   const denylistPath = path.join(outDir, "denylist.json");

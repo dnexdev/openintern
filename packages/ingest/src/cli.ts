@@ -3,6 +3,10 @@ import path from "node:path";
 import { createDbClient } from "@openintern/db";
 import { backfillRoleFamilies } from "./backfill-role-families.js";
 import { writeDumps } from "./dump.js";
+import { writeDumpsFromState } from "./dump-state.js";
+import { importState } from "./import-state.js";
+import { runIngestFiles } from "./ingest-files.js";
+import { loadState, stateFromExport, writeState } from "./state.js";
 import { ingestDigest, ingestStepSummary, runIngest } from "./ingest.js";
 import { loadEnv } from "./load-env.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
@@ -11,6 +15,41 @@ loadEnv();
 
 async function main() {
   const cmd = process.argv[2] ?? "ingest";
+
+  // Flat-file state commands (plan phase D) need no database.
+  if (cmd === "state-from-export") {
+    const [exportDir, stateDir] = process.argv.slice(3);
+    if (!exportDir || !stateDir) throw new Error("usage: state-from-export <export-dir> <state-dir>");
+    const state = await stateFromExport(exportDir);
+    await writeState(stateDir, state);
+    console.log(`state: ${state.companies.size} companies, ${state.jobs.size} jobs, ${state.runs.length} runs → ${stateDir}`);
+    return;
+  }
+  if (cmd === "ingest-state") {
+    const stateDir = process.argv[3];
+    if (!stateDir) throw new Error("usage: ingest-state <state-dir>");
+    const state = await loadState(stateDir);
+    const only = process.env.OPENINTERN_ONLY_SLUGS?.trim();
+    const summary = await runIngestFiles(state, {
+      only: only ? new Set(only.split(",").map((x) => x.trim()).filter(Boolean)) : undefined,
+    });
+    await writeState(stateDir, state);
+    console.log(JSON.stringify(summary, null, 2));
+    const digestPath = process.env.OPENINTERN_DIGEST_PATH?.trim();
+    const digest = ingestDigest(summary);
+    if (digestPath && digest) await fs.writeFile(digestPath, digest);
+    const stepSummary = process.env.GITHUB_STEP_SUMMARY?.trim();
+    if (stepSummary) await fs.appendFile(stepSummary, ingestStepSummary(summary));
+    if (summary.companies > 0 && summary.jobsUpserted === 0 && summary.failures.length > 0) process.exitCode = 1;
+    return;
+  }
+  if (cmd === "dump-state") {
+    const [stateDir, outDir] = process.argv.slice(3);
+    if (!stateDir || !outDir) throw new Error("usage: dump-state <state-dir> <out-dir>");
+    const result = await writeDumpsFromState(await loadState(stateDir), outDir);
+    console.log(`Wrote ${result.count} jobs to ${outDir}`);
+    return;
+  }
 
   if (!process.env.DATABASE_URL?.trim()) {
     console.error(
@@ -34,6 +73,13 @@ async function main() {
       console.log(
         `Wrote ${result.count} jobs to ${result.jsonPath}, ${result.csvPath} and ${result.healthPath}`,
       );
+      return;
+    }
+
+    if (cmd === "import-state") {
+      const stateDir = process.argv[3];
+      if (!stateDir) throw new Error("usage: import-state <state-dir>");
+      console.log(JSON.stringify(await importState(db, await loadState(stateDir))));
       return;
     }
 

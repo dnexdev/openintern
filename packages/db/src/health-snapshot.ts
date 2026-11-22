@@ -180,3 +180,82 @@ export async function buildHealthSnapshot(db: Db, now = new Date()): Promise<Hea
     })),
   };
 }
+
+/** The same snapshot from in-memory records (flat-file state). */
+export function healthSnapshotFromRecords(
+  input: {
+    companies: { id: string; slug: string; name: string; ats: string; active: boolean }[];
+    jobs: { is_active: boolean }[];
+    runs: { id: string; company_id: string; status: string; job_count: number; error: string | null; ran_at: string }[];
+  },
+  now = new Date(),
+): HealthSnapshot {
+  const byId = new Map(input.companies.map((c) => [c.id, c]));
+  const runs = [...input.runs].sort((a, b) => b.ran_at.localeCompare(a.ran_at));
+  const latest = new Map<string, (typeof runs)[number]>();
+  for (const r of runs) if (!latest.has(r.company_id)) latest.set(r.company_id, r);
+  const withCo = (r: (typeof runs)[number]) => {
+    const c = byId.get(r.company_id);
+    return { ...r, company_slug: c?.slug ?? null, company_name: c?.name ?? null, company_ats: c?.ats ?? null };
+  };
+  const recent = runs.slice(0, 100).map(withCo);
+  const latestRuns = [...latest.values()].map(withCo);
+  const zeroMatch = latestRuns
+    .filter((r) => r.status === "ok" && isZeroMatchRun(r.error))
+    .map((r) => r.company_slug)
+    .filter((s): s is string => Boolean(s))
+    .sort();
+  const proprietary = latestRuns.filter((r) => r.company_ats && PROPRIETARY_ATS.has(r.company_ats));
+  const lastOk = runs.find((r) => r.status === "ok");
+  return {
+    generatedAt: now.toISOString(),
+    stats: {
+      active_jobs: input.jobs.filter((j) => j.is_active).length,
+      total_jobs: input.jobs.length,
+      active_companies: input.companies.filter((c) => c.active).length,
+      total_companies: input.companies.length,
+      last_successful_ingest: lastOk ? new Date(lastOk.ran_at).toISOString() : null,
+      zero_match_companies: zeroMatch.length,
+    },
+    pipeline: {
+      zero_match_companies: zeroMatch,
+      recent_failures: recent
+        .filter((r) => r.status === "error")
+        .slice(0, 20)
+        .map((r) => ({
+          company_slug: r.company_slug,
+          company_name: r.company_name,
+          company_ats: r.company_ats,
+          error: r.error,
+          ran_at: new Date(r.ran_at).toISOString(),
+        })),
+      proprietary_ats: {
+        failures: proprietary
+          .filter((r) => r.status === "error")
+          .map((r) => ({ company_slug: r.company_slug, company_ats: r.company_ats, error: r.error, ran_at: new Date(r.ran_at).toISOString() })),
+        zero_job_runs: proprietary
+          .filter((r) => r.status === "ok" && (isZeroMatchRun(r.error) || r.job_count === 0))
+          .map((r) => ({
+            company_slug: r.company_slug,
+            company_ats: r.company_ats,
+            job_count: r.job_count,
+            error: r.error,
+            ran_at: new Date(r.ran_at).toISOString(),
+          })),
+      },
+    },
+    funnel_totals_latest_per_company: sumFunnels(latestRuns.map((r) => parseFunnel(r.error))),
+    recent_ingest_runs: recent.map((r) => ({
+      id: r.id,
+      status: r.status,
+      job_count: r.job_count,
+      error: r.error,
+      ran_at: new Date(r.ran_at).toISOString(),
+      company_slug: r.company_slug,
+      company_name: r.company_name,
+      company_ats: r.company_ats,
+      funnel: parseFunnel(r.error),
+      zero_match: isZeroMatchRun(r.error),
+    })),
+  };
+}

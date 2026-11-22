@@ -4,6 +4,17 @@ on:
   schedule:
     - cron: "0 12 * * *"
   workflow_dispatch:
+    inputs:
+      files_dry_run:
+        description: "Run against flat-file state but publish nothing (cutover rehearsal)"
+        type: boolean
+        default: false
+
+# State lives in Neon (default) or, once vars.OPENINTERN_STATE is "files", in
+# the vars.OPENINTERN_STATE_REPO git repository (plan phase D). In files mode
+# the ingest job never sees a write credential: it uploads the new state as an
+# artifact, and publish-state (no npm, deploy key in a protected environment)
+# gates it and pushes it.
 
 concurrency:
   group: ingest
@@ -16,10 +27,28 @@ jobs:
   ingest:
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    env:
+      FILES_MODE: ${{ vars.OPENINTERN_STATE == 'files' || inputs.files_dry_run == true }}
     outputs:
       digest: ${{ steps.ingest.outputs.digest }}
+      state_base: ${{ steps.base.outputs.sha }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Check out current state (read-only)
+        if: env.FILES_MODE == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ vars.OPENINTERN_STATE_REPO }}
+          path: state-current
+          persist-credentials: false
+          # Only needed if the state repo is private: a read-only deploy key.
+          ssh-key: ${{ secrets.STATE_READ_KEY }}
+      - name: Record the state commit this run starts from
+        id: base
+        if: env.FILES_MODE == 'true'
+        run: echo "sha=$(git -C state-current rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v6
         with:
           version: 9.15.0
@@ -29,6 +58,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Require DATABASE_URL secret
+        if: env.FILES_MODE != 'true'
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
@@ -37,18 +67,34 @@ jobs:
             exit 1
           fi
       - name: Run migrations
+        if: env.FILES_MODE != 'true'
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: pnpm db:migrate
       - name: Run ingest
         id: ingest
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ vars.OPENINTERN_STATE != 'files' && secrets.DATABASE_URL || '' }}
           OPENINTERN_SHADOW_HONEST: "1"
           OPENINTERN_DIGEST_PATH: ${{ runner.temp }}/ingest-digest.md
         run: |
-          pnpm ingest
+          if [ "$FILES_MODE" = true ]; then
+            state="$RUNNER_TEMP/state"
+            mkdir -p "$state"
+            cp state-current/*.jsonl state-current/*.tsv "$state/"
+            pnpm --filter @openintern/ingest exec tsx src/cli.ts ingest-state "$state"
+          else
+            pnpm ingest
+          fi
           if [ -s "$OPENINTERN_DIGEST_PATH" ]; then echo "digest=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Upload new state
+        if: env.FILES_MODE == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: state-${{ github.run_id }}
+          path: ${{ runner.temp }}/state/
+          retention-days: 30
+          if-no-files-found: error
       - name: Upload digest
         if: steps.ingest.outputs.digest == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -56,6 +102,53 @@ jobs:
           name: ingest-digest
           path: ${{ runner.temp }}/ingest-digest.md
           retention-days: 7
+
+  # Holds the only write credential for the state repo and installs nothing:
+  # plain Node runs the gate, git pushes. Refuses if the state moved since the
+  # ingest job read it.
+  publish-state:
+    needs: ingest
+    if: vars.OPENINTERN_STATE == 'files' && inputs.files_dry_run != true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: state-publish
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: state-${{ github.run_id }}
+          path: state-new
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ vars.OPENINTERN_STATE_REPO }}
+          path: state-repo
+          ssh-key: ${{ secrets.STATE_DEPLOY_KEY }}
+      - name: Refuse if the state changed during the run
+        env:
+          BASE: ${{ needs.ingest.outputs.state_base }}
+        run: |
+          head=$(git -C state-repo rev-parse HEAD)
+          if [ "$head" != "$BASE" ]; then
+            echo "::error::state repo moved from $BASE to $head during this run; not publishing."
+            exit 1
+          fi
+      - name: Gate
+        run: node scripts/state-gate.mjs state-repo state-new
+      - name: Push
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          cp state-new/*.jsonl state-new/*.tsv state-repo/
+          cd state-repo
+          git add -A
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git -c user.name="openintern-ingest" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "ingest $(date -u +%F)" -m "$RUN_URL"
+          git push origin HEAD
 
   # One open issue collects auto-disables and suspected blocks for a person to
   # confirm; each run with something new adds a comment.
@@ -92,7 +185,7 @@ jobs:
   # Separate job so the token that can open issues never sits next to
   # DATABASE_URL. Assigning the owner makes GitHub Mobile push the alert.
   notify:
-    needs: ingest
+    needs: [ingest, publish-state]
     if: failure()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -108,7 +201,7 @@ jobs:
           gh label create ingest-failure --color B60205 --force
           body="Daily ingest failed on ${GITHUB_SHA::7} (attempt $GITHUB_RUN_ATTEMPT): $RUN_URL
 
-          Common causes: Neon unreachable or over quota, missing DATABASE_URL, or every company fetch failed."
+          Common causes: Neon unreachable or over quota, missing DATABASE_URL, every company fetch failed, or the state gate refused the new state."
           n=$(gh issue list --state open --label ingest-failure --json number --jq '.[0].number // empty')
           if [ -n "$n" ]; then
             gh issue comment "$n" --body "$body"
