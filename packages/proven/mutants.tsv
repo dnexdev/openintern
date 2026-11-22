@@ -1,0 +1,19 @@
+# Code changes the laws must catch. file	exact text	replacement	why
+packages/proven/bend/pagination.bend	      Nat.mul(p, limit)	      0n	offset always 0
+packages/proven/bend/pagination.bend	      Nat.mul(p, limit)	      Nat.mul(p, 27n)	offset ignores limit
+packages/proven/bend/pagination.bend	  clamp(raw, 0n, 99999n)	  clamp(raw, 0n, 999999n)	page cap raised
+packages/proven/bend/freshness.bend	def max_age_days() -> Nat:\n  120n	def max_age_days() -> Nat:\n  12n	age limit 120 → 12 days
+packages/proven/bend/freshness.bend	def last_seen_days() -> Nat:\n  14n	def last_seen_days() -> Nat:\n  1n	unseen limit 14 → 1 day
+packages/proven/bend/freshness.bend	  86400000n	  1000n	day_ms wrong
+packages/proven/bend/freshness.bend	      MonthDay{7n, 31n}	      MonthDay{6n, 31n}	summer ends a month early
+packages/proven/bend/job_slug.bend	  String.take(strip_dashes(id), 8n)	  String.take(id, 8n)	suffix keeps dashes
+packages/proven/bend/job_slug.bend	      U32.is_le(x, 102)	      U32.is_le(x, 122)	is_hex accepts g-z
+packages/proven/bend/funnel.bend	  String.starts_with(error, zero_match_tag())	  Bool.not(String.starts_with(error, "funnel"))	zero-match = not a funnel report
+packages/proven/bend/deactivation.bend	        case Gone{}:\n          True{}	        case Gone{}:\n          False{}	#24: gone jobs kept
+packages/proven/bend/deactivation.bend	        case Unverified{}:\n          False{}	        case Unverified{}:\n          True{}	unverified jobs retired (flapping)
+packages/proven/bend/deactivation.bend	      Nat.is_le(retire_after_empty(), 1n+prior_empty)	      True{}	first empty run retires everything
+packages/proven/bend/deactivation.bend	    case Failed{}:\n      False{}	    case Failed{}:\n      True{}	failed fetch retires
+packages/proven/bend/deactivation.bend	    case Listed{}:\n      0n	    case Listed{}:\n      prior_empty	listed board keeps the empty count
+packages/proven/bend/rate_limit.bend	      Verdict{True{}, l, Bucket{1n, Nat.add(now, window)}}	      Verdict{False{}, l, Bucket{1n, Nat.add(now, window)}}	deny-all: first request of a window refused
+packages/proven/bend/rate_limit.bend	      step.go(Nat.is_le(t, now), c, t, now, limit, window)	      step.go(Nat.is_lt(t, now), c, t, now, limit, window)	window resets one ms late
+packages/proven/bend/rate_limit.bend	      Verdict{True{}, l, Bucket{1n, reset_at}}	      Verdict{True{}, l, Bucket{0n, reset_at}}	admitted request not counted

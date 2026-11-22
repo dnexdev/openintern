@@ -647,3 +647,21 @@ def Laws.js_roundtrip(base, id):
       %js.drop_append(base, tail) :
         {JS.parse.tail(_) == Some{JS.hex_str(hs)} : Maybe<&2, String>}
       js.digits_hex(hs)
+
+def Laws.pg_offset_exact(p, limit):
+  {==}
+
+def Laws.pg_parse_digits_only():
+  {==}
+
+def Laws.fn_errors_not_zero_match():
+  {==}
+
+def Laws.js_suffix_skips_dashes(id):
+  {==}
+
+def Laws.js_hex_digits():
+  {==}
+
+def Laws.fr_constants():
+  {==}

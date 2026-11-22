@@ -5,6 +5,8 @@
 //                                   and generated/proven.mjs is up to date
 //   node scripts/proofs.mjs prove   only the proofs (no proven.mjs freshness check)
 //   node scripts/proofs.mjs build   check the proofs, then regenerate proven.mjs
+//   node scripts/proofs.mjs mutants every change in packages/proven/mutants.tsv
+//                                   must make the proofs fail (the laws catch it)
 //
 // Runs `bend` with telemetry and crash reporting off. A pass needs exit status
 // 0 and exactly bend2's success output. BEND_VERDICT=1 adds `--verdict`, which
@@ -40,8 +42,8 @@ function bendBin() {
   return "bend";
 }
 
-function bend(args) {
-  const r = spawnSync(bendBin(), args, { cwd: root, env, encoding: "utf8" });
+function bend(args, cwd = root) {
+  const r = spawnSync(bendBin(), args, { cwd, env, encoding: "utf8" });
   if (r.error) fail(`could not run bend (${r.error.message}); install it or set BEND_BIN`);
   return { status: r.status, out: `${r.stdout ?? ""}${r.stderr ?? ""}` };
 }
@@ -88,6 +90,41 @@ function check() {
   if (status !== 0 || !passed) fail(`proofs do not check (exit status ${status})`);
 }
 
+// Each row: file, exact text, replacement, why (\n and \t escaped). The text
+// must occur exactly once; the mutated proof tree must fail to check.
+function mutants() {
+  guard();
+  const rows = fs
+    .readFileSync(path.join(root, "packages/proven/mutants.tsv"), "utf8")
+    .split("\n")
+    .filter((l) => l.trim() && !l.startsWith("#"))
+    .map((l) => l.split("\t").map((c) => c.replace(/\\n/g, "\n").replace(/\\t/g, "\t")));
+  const tree = [...proofFiles, ...fs.readdirSync(bendDir).map((f) => path.join(bendDir, f))]
+    .filter((f) => f.endsWith(".bend"))
+    .map((f) => path.relative(root, f));
+  const survivors = [];
+  for (const [file, find, replace, why] of rows) {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "mutant-"));
+    for (const rel of tree) {
+      fs.mkdirSync(path.join(tmp, path.dirname(rel)), { recursive: true });
+      fs.copyFileSync(path.join(root, rel), path.join(tmp, rel));
+    }
+    const target = path.join(tmp, file);
+    const text = fs.readFileSync(target, "utf8");
+    const count = text.split(find).length - 1;
+    if (count !== 1) fail(`mutant "${why}": text occurs ${count} times in ${file}`);
+    fs.writeFileSync(target, text.replace(find, replace));
+    const { status, out } = bend(["PROOF.bend"], tmp);
+    fs.rmSync(tmp, { recursive: true, force: true });
+    const lines = out.trim().split("\n").map((l) => l.trim());
+    const passed = status === 0 && lines.length === PASS.length && lines.every((l, i) => l === PASS[i]);
+    console.log(`${passed ? "SURVIVED" : "killed  "}  ${why}`);
+    if (passed) survivors.push(why);
+  }
+  if (survivors.length) fail(`${survivors.length} mutant(s) survived; strengthen LAWS.bend`);
+  console.log(`proofs: all ${rows.length} mutants killed`);
+}
+
 function compile(to) {
   const { status, out } = bend(["PROOF.bend", "-o", to]);
   if (status !== 0) fail(`build failed:\n${out}`);
@@ -108,6 +145,8 @@ if (mode === "check") {
   check();
   compile(generated);
   console.log(`proofs: wrote ${path.relative(root, generated)}`);
+} else if (mode === "mutants") {
+  mutants();
 } else {
-  fail(`unknown mode ${mode}; use check, prove or build`);
+  fail(`unknown mode ${mode}; use check, prove, build or mutants`);
 }

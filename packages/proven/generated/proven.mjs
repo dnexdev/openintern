@@ -757,6 +757,10 @@ function $LAWS_fr_other_end() {
   return null;
 }
 
+function $LAWS_fr_constants() {
+  return null;
+}
+
 function $LAWS_ap_empty(_locations_0) {
   return null;
 }
@@ -857,6 +861,10 @@ function $LAWS_fn_funnel_not_zero_match(_rest_0) {
   return null;
 }
 
+function $LAWS_fn_errors_not_zero_match() {
+  return null;
+}
+
 function $LAWS_pg_page_min(_raw_0) {
   const _x_0 = ($packages_proven_bend_pagination_pred_or(($packages_proven_bend_pagination_parse(_raw_0)), 0));
   return $packages_proven_bend_lemmas_le_one_succ((99999 < _x_0 ? 99999 : _x_0));
@@ -879,7 +887,23 @@ function $LAWS_pg_defaults() {
   return null;
 }
 
+function $LAWS_pg_offset_exact(_p_0, _limit_0) {
+  return null;
+}
+
+function $LAWS_pg_parse_digits_only() {
+  return null;
+}
+
 function $LAWS_pg_first_page_offset(_limit_0) {
+  return null;
+}
+
+function $LAWS_js_suffix_skips_dashes(_id_0) {
+  return null;
+}
+
+function $LAWS_js_hex_digits() {
   return null;
 }
 
@@ -1899,6 +1923,7 @@ export default {
   "LAWS:fr_fall_end": run_lib(() => run_loop($LAWS_fr_fall_end()), 0),
   "LAWS:fr_winter_end": run_lib(() => run_loop($LAWS_fr_winter_end()), 0),
   "LAWS:fr_other_end": run_lib(() => run_loop($LAWS_fr_other_end()), 0),
+  "LAWS:fr_constants": run_lib(() => run_loop($LAWS_fr_constants()), 0),
   "LAWS:ap_empty": run_lib((a0) => run_loop($LAWS_ap_empty(nat_in(a0))), 1),
   "LAWS:ap_many_postings": run_lib((a0,a1) => run_loop($LAWS_ap_many_postings(nat_in(a0),nat_in(a1))), 2),
   "LAWS:ap_one_posting": run_lib((a0) => run_loop($LAWS_ap_one_posting(nat_in(a0))), 1),
@@ -1922,12 +1947,17 @@ export default {
   "LAWS:fn_total_append": run_lib((a0,a1) => run_loop($LAWS_fn_total_append(a0,a1)), 2),
   "LAWS:fn_zero_match_tagged": run_lib((a0) => run_loop($LAWS_fn_zero_match_tagged(str_in(a0))), 1),
   "LAWS:fn_funnel_not_zero_match": run_lib((a0) => run_loop($LAWS_fn_funnel_not_zero_match(str_in(a0))), 1),
+  "LAWS:fn_errors_not_zero_match": run_lib(() => run_loop($LAWS_fn_errors_not_zero_match()), 0),
   "LAWS:pg_page_min": run_lib((a0) => run_loop($LAWS_pg_page_min(a0)), 1),
   "LAWS:pg_page_max": run_lib((a0) => run_loop($LAWS_pg_page_max(a0)), 1),
   "LAWS:pg_limit_min": run_lib((a0) => run_loop($LAWS_pg_limit_min(a0)), 1),
   "LAWS:pg_limit_max": run_lib((a0) => run_loop($LAWS_pg_limit_max(a0)), 1),
   "LAWS:pg_defaults": run_lib(() => run_loop($LAWS_pg_defaults()), 0),
+  "LAWS:pg_offset_exact": run_lib((a0,a1) => run_loop($LAWS_pg_offset_exact(nat_in(a0),nat_in(a1))), 2),
+  "LAWS:pg_parse_digits_only": run_lib(() => run_loop($LAWS_pg_parse_digits_only()), 0),
   "LAWS:pg_first_page_offset": run_lib((a0) => run_loop($LAWS_pg_first_page_offset(nat_in(a0))), 1),
+  "LAWS:js_suffix_skips_dashes": run_lib((a0) => run_loop($LAWS_js_suffix_skips_dashes(str_in(a0))), 1),
+  "LAWS:js_hex_digits": run_lib(() => run_loop($LAWS_js_hex_digits()), 0),
   "LAWS:js_roundtrip": run_lib((a0,a1) => run_loop($LAWS_js_roundtrip(str_in(a0),a1)), 2),
   "packages/proven/bend/lemmas:TrueDisc": run_lib((a0) => run_loop($packages_proven_bend_lemmas_TrueDisc(a0)), 1),
   "packages/proven/bend/lemmas:ft_empty": run_lib((a0) => run_loop($packages_proven_bend_lemmas_ft_empty(a0)), 1),

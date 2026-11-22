@@ -9,7 +9,11 @@ import ./packages/proven/bend/job_slug.bend as JS
 
 # LAWS.bend: the specification of openintern's decision logic.
 #
-# Every law below is a claim PROOF.bend must prove. `bend PROOF.bend` prints
+# Every law below is a claim PROOF.bend must prove. A law marked PINNED fixes a
+# constant or a concrete example (it exists so a changed value fails CI); the
+# rest are properties. packages/proven/mutants.tsv lists code changes these
+# laws must catch (`node scripts/proofs.mjs mutants`).
+# `bend PROOF.bend` prints
 # ALL PROOFS CHECK only when every one holds. This file is the human-owned
 # spec: change a law only on purpose, never to make a proof go through.
 
@@ -166,6 +170,11 @@ law fr_winter_end:
 law fr_other_end:
   {FR.term_end(FR.Other{}) == FR.term_end(FR.Fall{}) : FR.MonthDay}
 
+# PINNED: the freshness constants (one day in ms, 120-day age limit, 14 days
+# unseen).
+law fr_constants:
+  {(FR.day_ms(), (FR.max_age_days(), FR.last_seen_days())) == (86400000n, (120n, 14n)) : Nat & Nat & Nat}
+
 # ---------------------------------------------------------------------------
 # Apply picker (apps/web/src/lib/posting-label.ts)
 # ---------------------------------------------------------------------------
@@ -298,6 +307,10 @@ law fn_funnel_not_zero_match:
   for +rest: String
   {FN.is_zero_match("funnel " ++ rest) == False{} : Bool}
 
+# PINNED: neither is an error message or an empty string.
+law fn_errors_not_zero_match:
+  {(FN.is_zero_match("HTTP 500"), FN.is_zero_match("")) == (False{}, False{}) : Bool & Bool}
+
 # ---------------------------------------------------------------------------
 # Pagination (apps/web/src/lib/board.ts, apps/web/src/app/api/v1/jobs)
 # ---------------------------------------------------------------------------
@@ -324,6 +337,17 @@ law pg_limit_max:
 law pg_defaults:
   {(PG.page(None{}), PG.limit(None{})) == (1n, 27n) : Nat & Nat}
 
+# Page n+1 starts after exactly n full pages.
+law pg_offset_exact:
+  for +p: Nat
+  for +limit: Nat
+  {PG.offset(1n+p, limit) == Nat.mul(p, limit) : Nat}
+
+# PINNED: only plain digits are a page number; anything else is page 1.
+law pg_parse_digits_only:
+  {(PG.page(Some{"3"}), PG.page(Some{"+2"}), PG.page(Some{"2abc"}), PG.page(Some{""}))
+    == (3n, (1n, (1n, 1n))) : Nat & Nat & Nat & Nat}
+
 # Page 1 starts at the first row.
 law pg_first_page_offset:
   for +limit: Nat
@@ -332,6 +356,18 @@ law pg_first_page_offset:
 # ---------------------------------------------------------------------------
 # Job slugs (apps/web/src/lib/job-slug.ts)
 # ---------------------------------------------------------------------------
+
+# A dash in the id never reaches the slug suffix.
+law js_suffix_skips_dashes:
+  for +id: String
+  {JS.suffix(SCon{'-', id}) == JS.suffix(id) : String}
+
+# PINNED: hex digits are 0-9 and a-f in either case, nothing else.
+law js_hex_digits:
+  {(JS.is_hex('0'), JS.is_hex('9'), JS.is_hex('a'), JS.is_hex('f'), JS.is_hex('F'),
+    JS.is_hex('g'), JS.is_hex('G'), JS.is_hex('-'))
+    == (True{}, (True{}, (True{}, (True{}, (True{}, (False{}, (False{}, False{})))))))
+    : Bool & Bool & Bool & Bool & Bool & Bool & Bool & Bool}
 
 # Whatever the title part is, a slug ending in "-" and an id prefix parses
 # back to exactly that prefix, so every job link resolves to its job.
