@@ -5,12 +5,28 @@
  * Usage:
  *   tsx src/validate-tokens.ts [--all] [file.yaml ...]
  */
+import { existsSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import YAML from "yaml";
 import { companiesFileSchema } from "./schema.js";
 import { probeAtsBoard } from "./probe-url.js";
 import { defaultCompaniesDir } from "./sync-companies.js";
+
+const repoRoot = fileURLToPath(new URL("../../..", import.meta.url));
+
+/**
+ * CI passes repo-root paths (`data/companies/tech-e.yaml`). `pnpm --filter`
+ * runs this script with cwd `packages/ingest`, so those paths do not exist
+ * relative to cwd. Fall back to the repo root.
+ */
+function resolveCompanyFile(file: string): string {
+  if (path.isAbsolute(file)) return file;
+  const fromCwd = path.resolve(file);
+  if (existsSync(fromCwd)) return fromCwd;
+  return path.resolve(repoRoot, file);
+}
 
 /** Proprietary boards that may 403 without dump/browser gates. */
 const DUMP_GATED_ATS = new Set([
@@ -35,7 +51,7 @@ async function loadFromFiles(files: string[]) {
     active: boolean;
   }[] = [];
   for (const file of files) {
-    const raw = await fs.readFile(file, "utf8");
+    const raw = await fs.readFile(resolveCompanyFile(file), "utf8");
     const data = companiesFileSchema.parse(YAML.parse(raw));
     companies.push(...data.companies);
   }
