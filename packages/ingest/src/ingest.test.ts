@@ -1,4 +1,4 @@
-import { companyDeactivationPolicy } from "./ingest.js";
+import { OUTAGE_GAP_DAYS, companyDeactivationPolicy, shouldSkipLastSeenSweep } from "./ingest.js";
 import { safeDate } from "./safe-date.js";
 
 function parseFunnelForTest(error: string | null) {
@@ -37,6 +37,30 @@ assertEqual(
   companyDeactivationPolicy({ fetchSucceeded: false, fetched: 0, techPass: 0 }),
   "none",
   "failed fetch retains existing jobs",
+);
+
+const day = 24 * 60 * 60 * 1000;
+const sweepNow = new Date("2026-11-20T12:00:00Z");
+assertEqual(shouldSkipLastSeenSweep(null, sweepNow), true, "no previous run skips the sweep");
+assertEqual(
+  shouldSkipLastSeenSweep(new Date(sweepNow.getTime() - day), sweepNow),
+  false,
+  "daily runs keep sweeping",
+);
+assertEqual(
+  shouldSkipLastSeenSweep(new Date(sweepNow.getTime() - OUTAGE_GAP_DAYS * day), sweepNow),
+  false,
+  "exactly the gap limit still sweeps",
+);
+assertEqual(
+  shouldSkipLastSeenSweep(new Date(sweepNow.getTime() - OUTAGE_GAP_DAYS * day - 1), sweepNow),
+  true,
+  "first run after an outage skips the sweep",
+);
+assertEqual(
+  shouldSkipLastSeenSweep(new Date("2026-10-23T16:23:00Z"), sweepNow),
+  true,
+  "Neon quota outage from 2026-10-24 skips the sweep",
 );
 
 const funnel = parseFunnelForTest(
