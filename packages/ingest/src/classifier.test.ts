@@ -67,8 +67,24 @@ assertEq(
 assert(looksRemote(["Remote - US"], "Engineer Intern"), "remote loc");
 assert(!looksRemote(["New York, NY"], "Engineer Intern"), "nyc");
 
-// spring → summer
-assertEq(extractTerms("Software Intern (Spring 2026)"), ["summer"], "spring→summer");
+// Spring is its own term (it used to be folded into summer).
+assertEq(extractTerms("Software Intern (Spring 2026)"), ["spring"], "spring");
+assertEq(
+  extractTermYears("Software Intern (Spring 2027)", null, new Date("2026-10-24T00:00:00Z")),
+  [{ term: "spring", year: 2027 }],
+  "spring 2027 pair",
+);
+assertEq(extractCohortYear("New Grad Software Engineer - 2027 Start", new Date("2026-10-24T00:00:00Z")), 2027, "2027 Start");
+assertEq(extractCohortYear("Engineer, starting in 2027", new Date("2026-10-24T00:00:00Z")), 2027, "starting in 2027");
+// A listing comes down once its term has started.
+assert(
+  isStaleByTermYears([{ term: "fall", year: 2026 }], new Date("2026-10-24T12:00:00Z")),
+  "fall 2026 stale once fall has started",
+);
+assert(
+  !isStaleByTermYears([{ term: "winter", year: 2027 }], new Date("2026-10-24T12:00:00Z")),
+  "winter 2027 still open in October",
+);
 assertEq(extractTerms("Software Intern (Summer 2026)"), ["summer"], "summer");
 assertEq(
   extractTerms("Fall or Winter co-op, autumn start"),

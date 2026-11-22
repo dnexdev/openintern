@@ -89,7 +89,10 @@ export function rateLimitStep(
 
 export type TermYearLike = { term: string; year: number };
 
-const termEndDef = def<[{ $: string }], { month0: number; day: number }>("freshness", "term_end");
+const applyByDef = def<[{ $: string }], { years_back: number; month0: number; day: number }>(
+  "freshness",
+  "apply_by",
+);
 const isFreshDef = def<[BendList<number>, number, number, number], boolean>("freshness", "is_fresh");
 const isStaleDef = def<[BendList<number>, number, number, number], boolean>("freshness", "is_stale");
 const isPublicDef = def<[number, BendList<number>, number, number, number], boolean>(
@@ -102,12 +105,21 @@ export const DAY_MS = def<[], number>("freshness", "day_ms")();
 export const MAX_AGE_DAYS_NO_TERM = def<[], number>("freshness", "max_age_days")();
 export const LAST_SEEN_STALE_DAYS = def<[], number>("freshness", "last_seen_days")();
 
-const TERM_CTOR: Record<string, string> = { summer: "Summer", fall: "Fall", winter: "Winter" };
+const TERM_CTOR: Record<string, string> = {
+  summer: "Summer",
+  fall: "Fall",
+  winter: "Winter",
+  spring: "Spring",
+};
 
-/** Last instant (23:59:59 UTC) of a term window (laws fr_*_end). */
-export function termEndDate(ty: TermYearLike): Date {
-  const { month0, day } = termEndDef({ $: TERM_CTOR[ty.term] ?? "Other" });
-  return new Date(Date.UTC(ty.year, month0, day, 23, 59, 59));
+/**
+ * Last instant (23:59:59 UTC) a student can usefully apply for a term: the
+ * day before it starts (laws fr_*_apply_by).
+ */
+export function applyByDate(ty: TermYearLike): Date {
+  const ctor = Object.hasOwn(TERM_CTOR, ty.term) ? TERM_CTOR[ty.term]! : "Other";
+  const { years_back, month0, day } = applyByDef({ $: ctor });
+  return new Date(Date.UTC(ty.year - years_back, month0, day, 23, 59, 59));
 }
 
 /** Epoch ms of a valid Date in [1970, 2^48 ms). Invalid dates throw. */
@@ -116,7 +128,7 @@ function ms(d: Date, what = "date"): number {
 }
 
 function termEnds(termYears: readonly TermYearLike[] | null | undefined): BendList<number> {
-  return list((termYears ?? []).map((ty) => ms(termEndDate(ty))));
+  return list((termYears ?? []).map((ty) => ms(applyByDate(ty))));
 }
 
 export type FreshnessFacts = {

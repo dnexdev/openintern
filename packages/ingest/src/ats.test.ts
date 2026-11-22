@@ -2,6 +2,7 @@
  * Lightweight ATS normalizer smoke tests (no network).
  */
 import assert from "node:assert/strict";
+import { WORKDAY_LOCATION_COUNT } from "./ats.js";
 
 // Recruitee-shaped mapping (inline mirror of fetchRecruitee mapping)
 function mapRecruitee(offers: {
@@ -88,3 +89,7 @@ assert.equal(bamboo[0]!.externalId, "9");
 assert.deepEqual(bamboo[0]!.locations, ["Provo, Utah"]);
 
 console.log("ats normalizers ok");
+
+if (!WORKDAY_LOCATION_COUNT.test("3 Locations") || !WORKDAY_LOCATION_COUNT.test("2 locations") || WORKDAY_LOCATION_COUNT.test("Santa Clara, CA")) {
+  throw new Error("Workday location-count placeholder");
+}

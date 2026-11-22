@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { JOB_ALIASES } from "@openintern/db/aliases";
 
 const STORAGE_KEY = "openintern:applied";
 const HIDE_APPLIED_KEY = "openintern:hide-applied";
@@ -23,9 +24,19 @@ function readIds(): string[] {
       return cachedIds;
     }
     const parsed = JSON.parse(raw);
-    cachedIds = Array.isArray(parsed)
+    const ids = Array.isArray(parsed)
       ? parsed.filter((x): x is string => typeof x === "string")
       : EMPTY_IDS;
+    // Jobs replaced after a company merge keep their applied mark.
+    const moved = ids.map((id) => JOB_ALIASES.get(id) ?? id);
+    if (moved.some((id, i) => id !== ids[i])) {
+      const unique = [...new Set(moved)];
+      cachedRaw = JSON.stringify(unique);
+      localStorage.setItem(STORAGE_KEY, cachedRaw);
+      cachedIds = unique;
+      return cachedIds;
+    }
+    cachedIds = ids;
     return cachedIds;
   } catch {
     cachedRaw = null;

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
-import { companies, jobs } from "@openintern/db";
+import { companies, jobAlias, jobs } from "@openintern/db";
 import { apiDbError } from "@/lib/api-error";
 import { dumpSource, withDumpFirst } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
@@ -112,6 +112,14 @@ export async function GET(
     });
 
     if (!row) {
+      const replacement = jobAlias(id);
+      if (replacement) {
+        // 308 keeps the method; short max-age so a wrong alias isn't cached forever.
+        return new NextResponse(null, {
+          status: 308,
+          headers: { Location: `/api/v1/jobs/${replacement}`, "Cache-Control": "public, max-age=3600" },
+        });
+      }
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 

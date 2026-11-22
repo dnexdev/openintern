@@ -1,4 +1,5 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
+import { jobAlias } from "@openintern/db";
 import { jobPath } from "@/lib/job-slug";
 import { loadJobById } from "@/lib/load-job";
 
@@ -16,6 +17,10 @@ export default async function LegacyJobIdRedirectPage({
   if (!UUID.test(legacyId)) notFound();
 
   const { job } = await loadJobById(legacyId);
-  if (!job) notFound();
+  if (!job) {
+    const replacement = jobAlias(legacyId);
+    if (replacement) permanentRedirect(`/jobs/${replacement}`);
+    notFound();
+  }
   redirect(jobPath(job.companySlug, job.title, job.id));
 }

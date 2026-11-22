@@ -28,7 +28,7 @@ const REGION_OPTIONS = [
   { value: "other", label: "Other" },
 ] as const;
 
-const TERM_OPTIONS = ["summer", "fall", "winter"] as const;
+const TERM_OPTIONS = ["summer", "fall", "winter", "spring"] as const;
 const DURATION_OPTIONS = [3, 4, 6, 8, 12] as const;
 
 function capitalize(s: string) {

@@ -5,7 +5,7 @@ packages/proven/bend/pagination.bend	  clamp(raw, 0n, 99999n)	  clamp(raw, 0n, 9
 packages/proven/bend/freshness.bend	def max_age_days() -> Nat:\n  120n	def max_age_days() -> Nat:\n  12n	age limit 120 → 12 days
 packages/proven/bend/freshness.bend	def last_seen_days() -> Nat:\n  14n	def last_seen_days() -> Nat:\n  1n	unseen limit 14 → 1 day
 packages/proven/bend/freshness.bend	  86400000n	  1000n	day_ms wrong
-packages/proven/bend/freshness.bend	      MonthDay{7n, 31n}	      MonthDay{6n, 31n}	summer ends a month early
+packages/proven/bend/freshness.bend	    case Summer{}:\n      ApplyBy{0n, 3n, 30n}	    case Summer{}:\n      ApplyBy{0n, 7n, 31n}	summer roles stay up after the term starts
 packages/proven/bend/job_slug.bend	  String.take(strip_dashes(id), 8n)	  String.take(id, 8n)	suffix keeps dashes
 packages/proven/bend/job_slug.bend	      U32.is_le(x, 102)	      U32.is_le(x, 122)	is_hex accepts g-z
 packages/proven/bend/funnel.bend	  String.starts_with(error, zero_match_tag())	  Bool.not(String.starts_with(error, "funnel"))	zero-match = not a funnel report
@@ -17,3 +17,4 @@ packages/proven/bend/deactivation.bend	    case Listed{}:\n      0n	    case Lis
 packages/proven/bend/rate_limit.bend	      Verdict{True{}, l, Bucket{1n, Nat.add(now, window)}}	      Verdict{False{}, l, Bucket{1n, Nat.add(now, window)}}	deny-all: first request of a window refused
 packages/proven/bend/rate_limit.bend	      step.go(Nat.is_le(t, now), c, t, now, limit, window)	      step.go(Nat.is_lt(t, now), c, t, now, limit, window)	window resets one ms late
 packages/proven/bend/rate_limit.bend	      Verdict{True{}, l, Bucket{1n, reset_at}}	      Verdict{True{}, l, Bucket{0n, reset_at}}	admitted request not counted
+packages/proven/bend/freshness.bend	    case Spring{}:\n      ApplyBy{1n, 11n, 31n}	    case Spring{}:\n      ApplyBy{0n, 3n, 30n}	spring folded into summer

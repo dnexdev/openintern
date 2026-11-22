@@ -18,6 +18,18 @@ the first thing to do when it is readable again is copy everything out.
 If ingest runs first anyway, it no longer retires outage-era jobs: the last-seen
 sweep is skipped when the previous successful run is more than 2 days old.
 
+## After the first ingest that follows
+
+Companies merged on 2026-10-24 (data/company-aliases.tsv) get new job ids for
+postings that moved to the surviving company. Once ingest has run:
+
+```sh
+DATABASE_URL='postgres://…' pnpm job-aliases && pnpm gen-aliases
+```
+
+and commit `data/job-aliases.tsv` plus the regenerated module, so old links and
+applied marks follow.
+
 ## Laptop fallback
 
 ```sh

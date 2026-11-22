@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import YAML from "yaml";
-import { eq } from "drizzle-orm";
-import { companies, type Db } from "@openintern/db";
+import { and, eq, inArray, notInArray } from "drizzle-orm";
+import { companies, jobs, type Db } from "@openintern/db";
 import { companiesFileSchema } from "./schema.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -65,5 +65,23 @@ export async function syncCompaniesFromYaml(db: Db, dir = defaultCompaniesDir())
     }
     upserted += 1;
   }
-  return { upserted, total: bySlug.size };
+
+  // Companies no longer in the registry (renamed or merged slugs) must stop
+  // being ingested, and their jobs come down: the surviving company lists them.
+  const orphans = await db
+    .update(companies)
+    .set({ active: false, updatedAt: new Date() })
+    .where(and(eq(companies.active, true), notInArray(companies.slug, [...bySlug.keys()])))
+    .returning({ id: companies.id, slug: companies.slug });
+  let orphanJobsRetired = 0;
+  if (orphans.length) {
+    const retired = await db
+      .update(jobs)
+      .set({ isActive: false, updatedAt: new Date() })
+      .where(and(eq(jobs.isActive, true), inArray(jobs.companyId, orphans.map((o) => o.id))))
+      .returning({ id: jobs.id });
+    orphanJobsRetired = retired.length;
+    console.warn(`Deactivated companies no longer in the registry: ${orphans.map((o) => o.slug).join(", ")}`);
+  }
+  return { upserted, total: bySlug.size, orphansDeactivated: orphans.map((o) => o.slug), orphanJobsRetired };
 }

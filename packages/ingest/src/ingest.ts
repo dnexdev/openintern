@@ -30,7 +30,7 @@ import {
   roleFamilyId,
 } from "./normalize-title.js";
 import { safeDate } from "./safe-date.js";
-import { syncCompaniesFromYaml } from "./sync-companies.js";
+import { loadCompanyYamlFiles, syncCompaniesFromYaml } from "./sync-companies.js";
 import { loadTier1Curated } from "./validate-curated.js";
 
 export type CompanyFunnel = {
@@ -220,6 +220,9 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
   });
 
   const tier1 = new Set((await loadTier1Curated()).slugs);
+  const extraBoards = new Map(
+    (await loadCompanyYamlFiles()).map((c) => [c.slug, c.extra_board_tokens ?? []] as const),
+  );
   const history = await recentRunsByCompany(
     db,
     activeCompanies.map((c) => c.id),
@@ -250,6 +253,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
       chunk.map((company) =>
         ingestCompany(db, company, {
           now,
+          extraBoardTokens: extraBoards.get(company.slug) ?? [],
           priorEmptyRuns: countPriorEmptyRuns(history.get(company.id) ?? []),
         }),
       ),
@@ -411,6 +415,29 @@ export function ingestDigest(s: IngestSummary): string | null {
   return lines.length ? lines.join("\n") : null;
 }
 
+/**
+ * Every board of a company, merged by posting id (the same requisition is often
+ * listed on several Workday sites). One failed board fails the whole run, so a
+ * partial fetch never retires the other boards' jobs.
+ */
+export async function fetchAllBoards(
+  ats: string,
+  tokens: string[],
+  fetchBoard: (ats: string, token: string) => Promise<NormalizedJob[]> = (a, t) =>
+    fetchJobsForAts(a as Parameters<typeof fetchJobsForAts>[0], t),
+): Promise<NormalizedJob[]> {
+  const seen = new Set<string>();
+  const out: NormalizedJob[] = [];
+  for (const token of tokens) {
+    for (const job of await fetchBoard(ats, token)) {
+      if (seen.has(job.externalId)) continue;
+      seen.add(job.externalId);
+      out.push(job);
+    }
+  }
+  return out;
+}
+
 type RunRow = { status: string; error: string | null; ranAt: Date };
 
 /** The newest runs per company, enough for auto-disable and the empty-run count. */
@@ -439,7 +466,7 @@ async function recentRunsByCompany(db: Db, companyIds: string[]): Promise<Map<st
 async function ingestCompany(
   db: Db,
   company: typeof companies.$inferSelect,
-  opts: { now: Date; priorEmptyRuns: number },
+  opts: { now: Date; priorEmptyRuns: number; extraBoardTokens?: string[] },
 ): Promise<{
   jobsUpserted: number;
   jobsDeactivated: number;
@@ -455,7 +482,7 @@ async function ingestCompany(
   let raw: NormalizedJob[];
   let expired: FetchFailure | null = null;
   try {
-    raw = await fetchJobsForAts(company.ats, company.boardToken);
+    raw = await fetchAllBoards(company.ats, [company.boardToken, ...(opts.extraBoardTokens ?? [])]);
   } catch (err) {
     if (!(err instanceof FetchFailure && err.kind === "manual-expired")) throw err;
     expired = err;

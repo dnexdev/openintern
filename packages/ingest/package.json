@@ -18,7 +18,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "manual:capture": "tsx src/manual-capture.ts",
-    "gen-apply-hosts": "tsx src/gen-apply-hosts.ts"
+    "gen-apply-hosts": "tsx src/gen-apply-hosts.ts",
+    "gen-aliases": "tsx src/gen-aliases.ts",
+    "job-aliases": "tsx src/job-aliases.ts"
   },
   "dependencies": {
     "@openintern/db": "workspace:*",

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { canonicalCompanySlug } from "@openintern/db";
 import { pageOffset, parseLimit, parsePage } from "@openintern/proven";
 import { apiDbError } from "@/lib/api-error";
 import { loadJobFamilies, type FamilySort } from "@/lib/job-families";
@@ -22,7 +23,7 @@ const ROLE_SET = new Set([
   "research",
 ]);
 const REGION_SET = new Set(["remote", "us", "canada", "europe", "other"]);
-const SEASON_SET = new Set(["summer", "fall", "winter"]);
+const SEASON_SET = new Set(["summer", "fall", "winter", "spring"]);
 
 function valuesFor(params: URLSearchParams, ...keys: string[]) {
   return keys.flatMap((key) => params.getAll(key)).flatMap((value) => value.split(","));
@@ -48,7 +49,7 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const q = url.searchParams.get("q")?.trim() || "";
-    const company = url.searchParams.get("company")?.trim() || "";
+    const company = canonicalCompanySlug(url.searchParams.get("company")?.trim() || "");
     const postedAfterRaw = url.searchParams.get("posted_after");
     let postedAfter: Date | null = null;
     if (postedAfterRaw) {
@@ -67,7 +68,7 @@ export async function GET(request: Request) {
       .filter((s) => REGION_SET.has(s));
     const seasons = valuesFor(url.searchParams, "season", "term")
       .map((s) => s.trim().toLowerCase())
-      .map((s) => (s === "spring" ? "summer" : s === "autumn" ? "fall" : s))
+      .map((s) => (s === "autumn" ? "fall" : s))
       .filter((s) => SEASON_SET.has(s));
     const durations = valuesFor(url.searchParams, "duration_months", "duration")
       .map(Number)

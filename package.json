@@ -27,7 +27,9 @@
     "validate-companies": "pnpm --filter @openintern/ingest validate-companies",
     "backfill-role-families": "pnpm --filter @openintern/ingest backfill-role-families",
     "manual:capture": "pnpm --filter @openintern/ingest manual:capture",
-    "gen-apply-hosts": "pnpm --filter @openintern/ingest gen-apply-hosts"
+    "gen-apply-hosts": "pnpm --filter @openintern/ingest gen-apply-hosts",
+    "gen-aliases": "pnpm --filter @openintern/ingest gen-aliases",
+    "job-aliases": "pnpm --filter @openintern/ingest job-aliases"
   },
   "engines": {
     "node": ">=20"

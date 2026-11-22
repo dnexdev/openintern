@@ -363,18 +363,6 @@ def Laws.fr_public_needs_role(ends, anchor, now, max_ms):
 def Laws.fr_public_is_fresh(roles, ends, anchor, now, max_ms):
   {==}
 
-def Laws.fr_summer_end():
-  {==}
-
-def Laws.fr_fall_end():
-  {==}
-
-def Laws.fr_winter_end():
-  {==}
-
-def Laws.fr_other_end():
-  {==}
-
 # ---------------------------------------------------------------------------
 # Apply picker
 # ---------------------------------------------------------------------------
@@ -664,4 +652,19 @@ def Laws.js_hex_digits():
   {==}
 
 def Laws.fr_constants():
+  {==}
+
+def Laws.fr_summer_apply_by():
+  {==}
+
+def Laws.fr_fall_apply_by():
+  {==}
+
+def Laws.fr_winter_apply_by():
+  {==}
+
+def Laws.fr_spring_apply_by():
+  {==}
+
+def Laws.fr_other_apply_by():
   {==}

@@ -97,7 +97,11 @@ export async function buildApplyHosts(): Promise<{ ts: string; json: string }> {
   };
   const companies = await loadCompanyYamlFiles();
   const slugs = new Set(companies.map((c) => c.slug));
-  for (const c of companies) for (const [h, p] of derivedHosts(c.ats, c.board_token)) add(c.slug, h, p);
+  for (const c of companies) {
+    for (const token of [c.board_token, ...(c.extra_board_tokens ?? [])]) {
+      for (const [h, p] of derivedHosts(c.ats, token)) add(c.slug, h, p);
+    }
+  }
   for (const r of parseApplyHostsTsv(await fs.readFile(tsvPath, "utf8"))) {
     if (!slugs.has(r.company)) continue; // company left the registry
     add(r.company, r.host, r.prefix);
