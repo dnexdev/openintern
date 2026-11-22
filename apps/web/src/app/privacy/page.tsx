@@ -3,8 +3,8 @@ export default function PrivacyPage() {
     <article className="prose-page">
       <h1>Privacy</h1>
       <p>
-        OpenIntern is a no-account product. We do not run user accounts, login,
-        or server-side application tracking.
+        OpenIntern has no accounts, no login and no cookies. This page lists
+        everything that is stored and who handles it.
       </p>
       <h2>What we store</h2>
       <ul>
@@ -14,29 +14,49 @@ export default function PrivacyPage() {
           them. We never see them.
         </li>
         <li>
-          <strong>Job corpus</strong> is public internship metadata polled from
-          employer ATS APIs (titles, locations, apply URLs, etc.).
+          <strong>Job corpus</strong>: public internship listings (titles,
+          locations, apply links, a short excerpt of at most 400 characters)
+          read from employer job boards and careers sites. For a few employers
+          whose sites refuse automated requests, the maintainer saves the public
+          listing page by hand. The full source list is in the README.
         </li>
         <li>
-          <strong>API / hosting logs</strong> may include standard request
-          metadata (IP, user-agent, path) from Vercel or similar for rate
-          limiting and abuse prevention.
+          <strong>Request logs</strong>: our host, Vercel, records standard
+          request metadata (IP address, user agent, path) to serve the site,
+          rate-limit the API and stop abuse. On our plan Vercel keeps runtime
+          logs for about an hour. We do not keep our own copy.
         </li>
         <li>
-          <strong>Aggregate analytics</strong> (optional): when enabled, we use{" "}
-          <a href="https://plausible.io">Plausible</a> for privacy-friendly page
-          view counts. No cookies, no accounts, no personal profiles.
+          <strong>Page-view counts</strong> (only when enabled): Vercel Web
+          Analytics, loaded from this site, without cookies, counting page views,
+          referrers, countries and device types. It does not build personal
+          profiles.
         </li>
       </ul>
+      <h2>Who processes data</h2>
+      <ul>
+        <li>Vercel Inc. hosts the site and API.</li>
+        <li>GitHub hosts the code, the issue tracker and the daily data dumps.</li>
+        <li>
+          Company logos are not loaded from third parties; fonts are served from
+          this site.
+        </li>
+      </ul>
+      <h2>Lawful basis</h2>
+      <p>
+        Request metadata is processed for our legitimate interest in running a
+        free service securely. We don’t sell or share personal data.
+      </p>
       <h2>What we don’t do</h2>
       <ul>
-        <li>No accounts, cookies for identity, or email collection on the board.</li>
-        <li>Apply links go to the employer — we don’t proxy applications.</li>
-        <li>We don’t sell listings or personal data.</li>
+        <li>No accounts, identity cookies, or email collection on the board.</li>
+        <li>Apply links go to the employer; we don’t proxy applications.</li>
       </ul>
       <h2>Contact</h2>
       <p>
-        Questions: open an issue on{" "}
+        Questions, data requests and takedowns: see{" "}
+        <a href="https://github.com/dnexdev/openintern/blob/main/DATA.md">DATA.md</a>{" "}
+        or open an issue on{" "}
         <a href="https://github.com/dnexdev/openintern">github.com/dnexdev/openintern</a>.
       </p>
     </article>

@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 
-const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN?.trim();
+// Vercel Web Analytics: a same-origin script, no cookies, page views only.
+// Enable Analytics on the Vercel project, then set OPENINTERN_ANALYTICS=vercel.
+const analyticsEnabled = process.env.OPENINTERN_ANALYTICS?.trim() === "vercel";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openintern.dev"),
@@ -46,20 +47,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        {plausibleDomain ? (
-          <Script
-            defer
-            data-domain={plausibleDomain}
-            src="https://plausible.io/js/script.js"
-            strategy="afterInteractive"
-          />
-        ) : null}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
+          rel="preload"
+          href="/fonts/IBMPlexSans-Regular-Latin1.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin=""
         />
+        {analyticsEnabled ? <script defer src="/_vercel/insights/script.js" /> : null}
       </head>
       <body>
         <header className="site-header">
