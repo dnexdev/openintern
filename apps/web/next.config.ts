@@ -8,7 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 loadDotenv({ path: path.join(root, ".env") });
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@openintern/db"],
+  transpilePackages: ["@openintern/db", "@openintern/proven"],
   experimental: {
     // TypeScript 7 has no JS Compiler API; run project-local `tsc` instead.
     useTypeScriptCli: true,

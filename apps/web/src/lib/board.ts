@@ -1,5 +1,6 @@
 import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
+import { parsePage } from "@openintern/proven";
 import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
@@ -481,6 +482,6 @@ export function parseBoardSearchParams(
       : sortRaw === "prestige"
         ? "prestige"
         : "first_seen";
-  const page = Math.max(1, Number(Array.isArray(sp.page) ? sp.page[0] : sp.page ?? 1));
+  const page = parsePage(sp.page);
   return { query, company, roles, regions, terms, durations, sort, page };
 }
