@@ -8,7 +8,7 @@ import {
 } from "@/lib/board";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default async function HomePage() {
   let previewJobs: Awaited<ReturnType<typeof loadHeroPreviewPool>>["preview"] = [];
@@ -65,11 +65,11 @@ export default async function HomePage() {
                   companies polled
                 </li>
                 <li>
-                  Updated hourly
+                  Updated daily
                   {ingestAge ? (
                     <>
                       {" "}
-                      · last ingest <strong>{ingestAge}</strong>
+                      · last update <strong>{ingestAge}</strong>
                     </>
                   ) : null}
                 </li>

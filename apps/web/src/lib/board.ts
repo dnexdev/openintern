@@ -1,7 +1,6 @@
 import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 import { companies, ingestRuns, jobs } from "@openintern/db";
-import type { DataSource } from "@/lib/data-source";
-import { dumpSource } from "@/lib/data-source";
+import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
 import { liveDumpJobs, loadJobsDump, type DumpJob } from "@/lib/job-dump";
@@ -208,43 +207,46 @@ export async function loadHeroPreviewPool(): Promise<{
   total: number;
   dataSource: DataSource;
 }> {
-  try {
-    const db = getDb();
-    const slugs = [...HERO_PREVIEW_SLUGS, ...HERO_PREVIEW_BACKUP_SLUGS];
+  return withDumpFirst({
+    label: "hero",
+    fromDump: async () => {
+      const dump = await loadJobsDump();
+      const live = liveDumpJobs(dump);
+      const cards = live.map(dumpJobToCard);
+      return {
+        ...heroPreviewFromCards(cards, live.length),
+        dataSource: dumpSource(dump.generatedAt),
+      };
+    },
+    fromDb: async () => {
+      const db = getDb();
+      const slugs = [...HERO_PREVIEW_SLUGS, ...HERO_PREVIEW_BACKUP_SLUGS];
 
-    const [countRow] = await db
-      .select({ count: sql<number>`count(*)::int` })
-      .from(jobs)
-      .innerJoin(companies, eq(jobs.companyId, companies.id))
-      .where(and(eq(jobs.isActive, true), publicJobSql()));
+      const [countRow] = await db
+        .select({ count: sql<number>`count(*)::int` })
+        .from(jobs)
+        .innerJoin(companies, eq(jobs.companyId, companies.id))
+        .where(and(eq(jobs.isActive, true), publicJobSql()));
 
-    const rows = await db
-      .select(jobSelect)
-      .from(jobs)
-      .innerJoin(companies, eq(jobs.companyId, companies.id))
-      .where(
-        and(
-          eq(jobs.isActive, true),
-          publicJobSql(),
-          inArray(companies.slug, slugs),
-        ),
-      )
-      .orderBy(desc(jobs.firstSeenAt));
+      const rows = await db
+        .select(jobSelect)
+        .from(jobs)
+        .innerJoin(companies, eq(jobs.companyId, companies.id))
+        .where(
+          and(
+            eq(jobs.isActive, true),
+            publicJobSql(),
+            inArray(companies.slug, slugs),
+          ),
+        )
+        .orderBy(desc(jobs.firstSeenAt));
 
-    return {
-      ...heroPreviewFromCards(toJobCards(rows), countRow?.count ?? 0),
-      dataSource: { kind: "db" },
-    };
-  } catch (dbErr) {
-    console.warn("[hero] database unavailable, falling back to dump:", dbErr);
-    const dump = await loadJobsDump();
-    const live = liveDumpJobs(dump);
-    const cards = live.map(dumpJobToCard);
-    return {
-      ...heroPreviewFromCards(cards, live.length),
-      dataSource: dumpSource(dump.generatedAt),
-    };
-  }
+      return {
+        ...heroPreviewFromCards(toJobCards(rows), countRow?.count ?? 0),
+        dataSource: { kind: "db" } as const,
+      };
+    },
+  });
 }
 
 function dumpJobToCard(job: DumpJob): JobCardData {
@@ -301,61 +303,67 @@ export async function loadCorpusStats(): Promise<{
   lastIngest: string | null;
   dataSource: DataSource;
 }> {
-  try {
-    const db = getDb();
-    const [companyRow] = await db
-      .select({
-        activeCompanies: sql<number>`count(*) filter (where ${companies.active})::int`,
-      })
-      .from(companies);
-    const [lastOk] = await db
-      .select({ ranAt: ingestRuns.ranAt })
-      .from(ingestRuns)
-      .where(eq(ingestRuns.status, "ok"))
-      .orderBy(desc(ingestRuns.ranAt))
-      .limit(1);
-    return {
-      activeCompanies: companyRow?.activeCompanies ?? 0,
-      lastIngest: lastOk?.ranAt?.toISOString() ?? null,
-      dataSource: { kind: "db" },
-    };
-  } catch (dbErr) {
-    console.warn("[stats] database unavailable, falling back to dump:", dbErr);
-    const dump = await loadJobsDump();
-    const slugs = new Set(liveDumpJobs(dump).map((j) => j.company.slug));
-    return {
-      activeCompanies: slugs.size,
-      lastIngest: dump.generatedAt,
-      dataSource: dumpSource(dump.generatedAt),
-    };
-  }
+  return withDumpFirst({
+    label: "stats",
+    fromDump: async () => {
+      const dump = await loadJobsDump();
+      const slugs = new Set(liveDumpJobs(dump).map((j) => j.company.slug));
+      return {
+        activeCompanies: slugs.size,
+        lastIngest: dump.generatedAt,
+        dataSource: dumpSource(dump.generatedAt),
+      };
+    },
+    fromDb: async () => {
+      const db = getDb();
+      const [companyRow] = await db
+        .select({
+          activeCompanies: sql<number>`count(*) filter (where ${companies.active})::int`,
+        })
+        .from(companies);
+      const [lastOk] = await db
+        .select({ ranAt: ingestRuns.ranAt })
+        .from(ingestRuns)
+        .where(eq(ingestRuns.status, "ok"))
+        .orderBy(desc(ingestRuns.ranAt))
+        .limit(1);
+      return {
+        activeCompanies: companyRow?.activeCompanies ?? 0,
+        lastIngest: lastOk?.ranAt?.toISOString() ?? null,
+        dataSource: { kind: "db" } as const,
+      };
+    },
+  });
 }
 
 export async function loadCompanyOptions(): Promise<{
   options: { slug: string; name: string }[];
   dataSource: DataSource;
 }> {
-  try {
-    const db = getDb();
-    const options = await db
-      .selectDistinct({ slug: companies.slug, name: companies.name })
-      .from(companies)
-      .innerJoin(jobs, eq(jobs.companyId, companies.id))
-      .where(and(eq(companies.active, true), eq(jobs.isActive, true), publicJobSql()))
-      .orderBy(asc(companies.name));
-    return { options, dataSource: { kind: "db" } };
-  } catch (dbErr) {
-    console.warn("[companies] database unavailable, falling back to dump:", dbErr);
-    const dump = await loadJobsDump();
-    const bySlug = new Map<string, string>();
-    for (const job of liveDumpJobs(dump)) {
-      bySlug.set(job.company.slug, job.company.name);
-    }
-    const options = [...bySlug.entries()]
-      .map(([slug, name]) => ({ slug, name }))
-      .sort((a, b) => a.name.localeCompare(b.name));
-    return { options, dataSource: dumpSource(dump.generatedAt) };
-  }
+  return withDumpFirst({
+    label: "companies",
+    fromDump: async () => {
+      const dump = await loadJobsDump();
+      const bySlug = new Map<string, string>();
+      for (const job of liveDumpJobs(dump)) {
+        bySlug.set(job.company.slug, job.company.name);
+      }
+      const options = [...bySlug.entries()]
+        .map(([slug, name]) => ({ slug, name }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      return { options, dataSource: dumpSource(dump.generatedAt) };
+    },
+    fromDb: async () => {
+      const db = getDb();
+      const options = await db
+        .selectDistinct({ slug: companies.slug, name: companies.name })
+        .from(companies)
+        .innerJoin(jobs, eq(jobs.companyId, companies.id))
+        .where(and(eq(companies.active, true), eq(jobs.isActive, true), publicJobSql()))
+        .orderBy(asc(companies.name));
+      return { options, dataSource: { kind: "db" } as const };
+    },
+  });
 }
 
 export async function loadJobs(opts: {

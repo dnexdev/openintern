@@ -31,7 +31,7 @@ async function main() {
       const outDir = process.argv[3] ?? path.resolve(process.cwd(), "dumps");
       const result = await writeDumps(db, outDir);
       console.log(
-        `Wrote ${result.count} jobs to ${result.jsonPath} and ${result.csvPath}`,
+        `Wrote ${result.count} jobs to ${result.jsonPath}, ${result.csvPath} and ${result.healthPath}`,
       );
       return;
     }

@@ -5,7 +5,7 @@ import { jobPath, parseIdPrefixFromJobSlug } from "@/lib/job-slug";
 import { StaleDataBanner } from "@/components/StaleDataBanner";
 import { loadJobByCompanyAndIdPrefix } from "@/lib/load-job";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 function jobDescription(job: {
   title: string;

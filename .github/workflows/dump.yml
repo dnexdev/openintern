@@ -46,6 +46,7 @@ jobs:
           ls -la "$GITHUB_WORKSPACE/dumps"
           test -s "$GITHUB_WORKSPACE/dumps/jobs.json"
           test -s "$GITHUB_WORKSPACE/dumps/jobs.csv"
+          test -s "$GITHUB_WORKSPACE/dumps/health.json"
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
@@ -59,6 +60,7 @@ jobs:
           files: |
             dumps/jobs.json
             dumps/jobs.csv
+            dumps/health.json
           generate_release_notes: false
           make_latest: true
           overwrite_files: true

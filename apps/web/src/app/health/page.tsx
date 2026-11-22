@@ -1,87 +1,40 @@
-import { desc, eq, sql } from "drizzle-orm";
-import { companies, ingestRuns, jobs } from "@openintern/db";
-import { getDb } from "@/lib/db";
-import { parseFunnel, sumFunnels } from "@/lib/ingest-health";
+import { loadHealthSnapshot } from "@/lib/health-snapshot";
+import { liveDumpJobs, loadJobsDump } from "@/lib/job-dump";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export default async function HealthPage() {
+  // Reads the dump job's published snapshot; never queries the database.
+  const snapshot = await loadHealthSnapshot();
   let error: string | null = null;
   let stats = {
     active_jobs: 0,
-    total_jobs: 0,
+    total_jobs: null as number | null,
     active_companies: 0,
-    total_companies: 0,
+    total_companies: null as number | null,
     last_ok: null as string | null,
   };
-  let recent: {
-    status: string;
-    job_count: number;
-    error: string | null;
-    ran_at: Date;
-    company_slug: string | null;
-    company_name: string | null;
-    funnel: ReturnType<typeof parseFunnel>;
-  }[] = [];
+  let recent: NonNullable<typeof snapshot>["recent_ingest_runs"] = [];
   let funnelTotals = { fetched: 0, title: 0, tech: 0, upserted: 0 };
 
-  try {
-    const db = getDb();
-    const [jobStats] = await db
-      .select({
-        active_jobs: sql<number>`count(*) filter (where ${jobs.isActive})::int`,
-        total_jobs: sql<number>`count(*)::int`,
-      })
-      .from(jobs);
-    const [companyStats] = await db
-      .select({
-        active_companies: sql<number>`count(*) filter (where ${companies.active})::int`,
-        total_companies: sql<number>`count(*)::int`,
-      })
-      .from(companies);
-    const [lastOk] = await db
-      .select({ ran_at: ingestRuns.ranAt })
-      .from(ingestRuns)
-      .where(eq(ingestRuns.status, "ok"))
-      .orderBy(desc(ingestRuns.ranAt))
-      .limit(1);
-    const rows = await db
-      .select({
-        status: ingestRuns.status,
-        job_count: ingestRuns.jobCount,
-        error: ingestRuns.error,
-        ran_at: ingestRuns.ranAt,
-        company_slug: companies.slug,
-        company_name: companies.name,
-      })
-      .from(ingestRuns)
-      .leftJoin(companies, eq(ingestRuns.companyId, companies.id))
-      .orderBy(desc(ingestRuns.ranAt))
-      .limit(100);
-    const latestRows = await db
-      .selectDistinctOn([ingestRuns.companyId], {
-        company_id: ingestRuns.companyId,
-        error: ingestRuns.error,
-        ran_at: ingestRuns.ranAt,
-      })
-      .from(ingestRuns)
-      .orderBy(ingestRuns.companyId, desc(ingestRuns.ranAt));
-
-    recent = rows.map((r) => ({
-      ...r,
-      funnel: parseFunnel(r.error),
-    }));
-    funnelTotals = sumFunnels(latestRows.map((r) => parseFunnel(r.error)));
-
+  if (snapshot) {
     stats = {
-      active_jobs: jobStats?.active_jobs ?? 0,
-      total_jobs: jobStats?.total_jobs ?? 0,
-      active_companies: companyStats?.active_companies ?? 0,
-      total_companies: companyStats?.total_companies ?? 0,
-      last_ok: lastOk?.ran_at?.toISOString() ?? null,
+      active_jobs: snapshot.stats.active_jobs,
+      total_jobs: snapshot.stats.total_jobs,
+      active_companies: snapshot.stats.active_companies,
+      total_companies: snapshot.stats.total_companies,
+      last_ok: snapshot.stats.last_successful_ingest,
     };
-  } catch (err) {
-    error = err instanceof Error ? err.message : "Database unavailable";
+    recent = snapshot.recent_ingest_runs;
+    funnelTotals = snapshot.funnel_totals_latest_per_company;
+  } else {
+    try {
+      const live = liveDumpJobs(await loadJobsDump());
+      stats.active_jobs = live.length;
+      stats.active_companies = new Set(live.map((j) => j.company.slug)).size;
+    } catch {
+      error = "Health data unavailable";
+    }
   }
 
   return (
@@ -109,9 +62,13 @@ export default async function HealthPage() {
             <h2>Corpus</h2>
             <div className="meta">
               <span className="pill accent">{stats.active_jobs} active jobs</span>
-              <span className="pill">{stats.total_jobs} total seen</span>
+              {stats.total_jobs != null ? (
+                <span className="pill">{stats.total_jobs} total seen</span>
+              ) : null}
               <span className="pill">
-                {stats.active_companies}/{stats.total_companies} companies active
+                {stats.active_companies}
+                {stats.total_companies != null ? `/${stats.total_companies}` : ""} companies
+                active
               </span>
               <span className="pill">
                 last ok: {stats.last_ok ?? "never"}
@@ -123,7 +80,13 @@ export default async function HealthPage() {
                 <code className="mono">GET /api/v1/health</code>
               </a>
               . Companies with 24 consecutive fetch failures are auto-disabled
-              ({stats.total_companies - stats.active_companies} inactive).
+              {stats.total_companies != null
+                ? ` (${stats.total_companies - stats.active_companies} inactive)`
+                : ""}
+              .{" "}
+              {snapshot
+                ? `Snapshot from ${snapshot.generatedAt.slice(0, 16).replace("T", " ")} UTC.`
+                : "No pipeline snapshot published yet; counts come from the public dump."}
             </p>
           </div>
 
@@ -167,8 +130,8 @@ export default async function HealthPage() {
                     </tr>
                   ) : (
                     recent.map((r, i) => (
-                      <tr key={`${r.ran_at.toISOString()}-${i}`}>
-                        <td className="mono">{r.ran_at.toISOString().slice(0, 19)}Z</td>
+                      <tr key={`${r.ran_at}-${i}`}>
+                        <td className="mono">{r.ran_at.slice(0, 19)}Z</td>
                         <td>
                           {r.company_name ?? "—"}
                           {r.company_slug ? (
