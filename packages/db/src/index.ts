@@ -32,3 +32,4 @@ export * from "./freshness";
 export * from "./delisted";
 export * from "./ingest-health";
 export * from "./health-snapshot";
+export * from "./apply-hosts";

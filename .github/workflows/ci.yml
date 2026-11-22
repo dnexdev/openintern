@@ -28,6 +28,7 @@ jobs:
       - run: pnpm validate-curated
       - run: pnpm validate-companies
       - run: node scripts/check-honest-requests.mjs
+      - run: pnpm gen-apply-hosts --check
       - name: Validate company tokens
         if: github.event_name == 'pull_request'
         run: |

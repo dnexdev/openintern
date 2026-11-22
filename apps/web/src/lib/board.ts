@@ -1,5 +1,5 @@
 import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
-import { companies, ingestRuns, jobs } from "@openintern/db";
+import { applyUrlAllowed, companies, ingestRuns, jobs } from "@openintern/db";
 import { parsePage } from "@openintern/proven";
 import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
@@ -243,7 +243,10 @@ export async function loadHeroPreviewPool(): Promise<{
         .orderBy(desc(jobs.firstSeenAt));
 
       return {
-        ...heroPreviewFromCards(toJobCards(rows), countRow?.count ?? 0),
+        ...heroPreviewFromCards(
+          toJobCards(rows.filter((r) => applyUrlAllowed(r.companySlug, r.applyUrl))),
+          countRow?.count ?? 0,
+        ),
         dataSource: { kind: "db" } as const,
       };
     },
@@ -452,7 +455,10 @@ export async function loadJobs(opts: {
     .limit(opts.limit)
     .offset(opts.offset);
 
-  return { rows, total: countRow?.count ?? 0 };
+  return {
+    rows: rows.filter((r) => applyUrlAllowed(r.companySlug, r.applyUrl)),
+    total: countRow?.count ?? 0,
+  };
 }
 
 export function parseBoardSearchParams(

@@ -101,7 +101,7 @@ assertEqual(
   const base = {
     companies: 1, jobsUpserted: 0, jobsDeactivated: 0, staleDeactivated: 0, lastSeenDeactivated: 0,
     lastSeenSweepSkipped: false, zeroMatchCompanies: [], autoDisabled: [], autoDisabledSkipped: [],
-    suspectedBlocks: [], shadow: [], failures: [], funnel: [],
+    suspectedBlocks: [], shadow: [], applyHostViolations: [], failures: [], funnel: [],
     funnelTotals: { fetched: 0, internshipTitle: 0, techPass: 0, upserted: 0 },
   };
   assertEqual(ingestDigest(base), null, "nothing to report");

@@ -1,5 +1,5 @@
 import { and, desc, eq, inArray, lt, sql } from "drizzle-orm";
-import { companies, ingestRuns, jobs, parseFunnel, type Db } from "@openintern/db";
+import { applyHostMode, checkApplyUrl, companies, ingestRuns, jobs, parseFunnel, type Db } from "@openintern/db";
 import {
   DAY_MS,
   RETIRE_AFTER_EMPTY_RUNS,
@@ -42,6 +42,8 @@ export type CompanyFunnel = {
   stale: number;
 };
 
+export type ApplyHostViolation = { company: string; host: string | null; reason: string; example: string };
+
 export type IngestSummary = {
   companies: number;
   jobsUpserted: number;
@@ -59,6 +61,8 @@ export type IngestSummary = {
   suspectedBlocks: string[];
   /** Honest-request shadow tests run beside legacy requests (logged only). */
   shadow: ShadowResult[];
+  /** Apply links not on data/apply-hosts.tsv (held when OPENINTERN_APPLY_HOSTS=enforce). */
+  applyHostViolations: ApplyHostViolation[];
   failures: { slug: string; error: string }[];
   /** Per-company fetched → title → tech → upsert funnel (sorted by fetched desc). */
   funnel: CompanyFunnel[];
@@ -233,6 +237,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
   let staleDeactivated = 0;
   let lastSeenDeactivated = 0;
   const zeroMatchCompanies: string[] = [];
+  const applyHostViolations: ApplyHostViolation[] = [];
   const autoDisabled: string[] = [];
   const suspectedBlocks: string[] = [];
   const failures: { slug: string; error: string }[] = [];
@@ -260,6 +265,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
         staleDeactivated += r.staleDeactivated;
         if (r.zeroMatch) zeroMatchCompanies.push(company.slug);
         if (r.suspectedBlock) suspectedBlocks.push(company.slug);
+        applyHostViolations.push(...r.applyHostViolations);
         funnel.push(r.funnel);
       } else {
         const message =
@@ -351,6 +357,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     autoDisabledSkipped,
     suspectedBlocks,
     shadow: [...shadowResults],
+    applyHostViolations,
     failures,
     funnel,
     funnelTotals,
@@ -384,6 +391,13 @@ export function ingestDigest(s: IngestSummary): string | null {
     lines.push(
       `**Auto-disabled** after ${CONSECUTIVE_FAILURE_LIMIT} failed runs in a row (retried every ${DISABLED_RECHECK_DAYS} days). Fix the board token, set \`active: false\` in YAML, or close this as confirmed:`,
       ...s.autoDisabled.map((slug) => `- \`${slug}\``),
+      "",
+    );
+  }
+  if (s.applyHostViolations.length) {
+    lines.push(
+      "**Apply links off the allowlist** (`data/apply-hosts.tsv`). Verify the employer owns each before adding a row:",
+      ...s.applyHostViolations.map((v) => `- \`${v.company}\`: ${v.reason} \`${v.host ?? "?"}\` e.g. ${v.example}`),
       "",
     );
   }
@@ -432,6 +446,7 @@ async function ingestCompany(
   staleDeactivated: number;
   zeroMatch: boolean;
   suspectedBlock: boolean;
+  applyHostViolations: ApplyHostViolation[];
   funnel: CompanyFunnel;
 }> {
   // A manual capture past its age limit is not an error to wait out: its jobs
@@ -472,7 +487,18 @@ async function ingestCompany(
   type JobUpsertRow = typeof jobs.$inferInsert;
   const rows: JobUpsertRow[] = [];
 
+  const enforceHosts = applyHostMode() === "enforce";
+  const violations = new Map<string, ApplyHostViolation>();
   for (const j of filtered) {
+    const check = checkApplyUrl(company.slug, j.applyUrl);
+    if (!check.ok) {
+      const key = `${check.host} ${check.reason}`;
+      if (!violations.has(key)) {
+        violations.set(key, { company: company.slug, host: check.host, reason: check.reason, example: j.applyUrl });
+      }
+      // Held: not ingested, and an existing copy is retired as no longer matching.
+      if (enforceHosts) continue;
+    }
     matchedIds.add(j.externalId);
     const excerpt =
       excerptFromHtml(j.excerpt) ?? excerptFromHtml(j.description);
@@ -601,6 +627,7 @@ async function ingestCompany(
       staleDeactivated: 0,
       zeroMatch: false,
       suspectedBlock: false,
+      applyHostViolations: [],
       funnel: { slug: company.slug, fetched: 0, internshipTitle: 0, techPass: 0, upserted: 0, stale: 0 },
     };
   }
@@ -622,6 +649,7 @@ async function ingestCompany(
     staleDeactivated,
     zeroMatch,
     suspectedBlock,
+    applyHostViolations: [...violations.values()],
     funnel: {
       slug: company.slug,
       fetched: raw.length,

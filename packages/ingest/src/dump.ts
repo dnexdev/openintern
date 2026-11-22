@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { and, eq } from "drizzle-orm";
-import { buildHealthSnapshot, companies, publicJobSql, jobs, type Db } from "@openintern/db";
+import { applyUrlAllowed, buildHealthSnapshot, companies, publicJobSql, jobs, type Db } from "@openintern/db";
 
 export async function writeDumps(db: Db, outDir: string) {
   await fs.mkdir(outDir, { recursive: true });
@@ -30,7 +30,8 @@ export async function writeDumps(db: Db, outDir: string) {
     })
     .from(jobs)
     .innerJoin(companies, eq(jobs.companyId, companies.id))
-    .where(and(eq(jobs.isActive, true), publicJobSql()));
+    .where(and(eq(jobs.isActive, true), publicJobSql()))
+    .then((all) => all.filter((r) => applyUrlAllowed(r.companySlug, r.applyUrl)));
 
   const payload = {
     generatedAt: new Date().toISOString(),

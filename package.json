@@ -26,7 +26,8 @@
     "validate-curated": "pnpm --filter @openintern/ingest validate-curated",
     "validate-companies": "pnpm --filter @openintern/ingest validate-companies",
     "backfill-role-families": "pnpm --filter @openintern/ingest backfill-role-families",
-    "manual:capture": "pnpm --filter @openintern/ingest manual:capture"
+    "manual:capture": "pnpm --filter @openintern/ingest manual:capture",
+    "gen-apply-hosts": "pnpm --filter @openintern/ingest gen-apply-hosts"
   },
   "engines": {
     "node": ">=20"

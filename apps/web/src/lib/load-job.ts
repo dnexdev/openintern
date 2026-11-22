@@ -1,5 +1,5 @@
 import { and, eq, sql } from "drizzle-orm";
-import { companies, jobs } from "@openintern/db";
+import { applyUrlAllowed, companies, jobs } from "@openintern/db";
 import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
 import { publicJobSql } from "@/lib/freshness";
@@ -100,7 +100,8 @@ export async function loadJobById(
         .innerJoin(companies, eq(jobs.companyId, companies.id))
         .where(and(eq(jobs.id, id), eq(jobs.isActive, true), publicJobSql()))
         .limit(1);
-      return { job: row ?? null, dataSource: { kind: "db" } as const };
+      const allowed = row && applyUrlAllowed(row.companySlug, row.applyUrl) ? row : null;
+      return { job: allowed, dataSource: { kind: "db" } as const };
     },
   });
 }
@@ -133,7 +134,9 @@ export async function loadJobByCompanyAndIdPrefix(
           ),
         )
         .limit(2);
-      if (rows.length !== 1) return { job: null, dataSource: { kind: "db" } as const };
+      if (rows.length !== 1 || !applyUrlAllowed(rows[0]!.companySlug, rows[0]!.applyUrl)) {
+        return { job: null, dataSource: { kind: "db" } as const };
+      }
       return { job: rows[0]!, dataSource: { kind: "db" } as const };
     },
   });
