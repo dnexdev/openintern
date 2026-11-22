@@ -14,6 +14,8 @@ the first thing to do when it is readable again is copy everything out.
    informational; record the numbers).
 3. Download the `openintern-state-<run id>` artifact and keep a second copy off
    GitHub. Check it with `sha256sum -c SHA256SUMS`.
+4. Seed the state repo from it and switch ingest off Neon:
+   `RUNBOOK-phase-d.md`.
 
 If ingest runs first anyway, it no longer retires outage-era jobs: the last-seen
 sweep is skipped when the previous successful run is more than 2 days old.

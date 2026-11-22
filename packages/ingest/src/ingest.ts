@@ -32,17 +32,17 @@ import {
 import { safeDate } from "./safe-date.js";
 import { loadCompanyYamlFiles, syncCompaniesFromYaml } from "./sync-companies.js";
 import { loadTier1Curated } from "./validate-curated.js";
+import {
+  SUSPECTED_BLOCK_MIN_JOBS,
+  planCompanyRun,
+  sightJob,
+  type ApplyHostViolation,
+  type CompanyFunnel,
+} from "./plan.js";
 
-export type CompanyFunnel = {
-  slug: string;
-  fetched: number;
-  internshipTitle: number;
-  techPass: number;
-  upserted: number;
-  stale: number;
-};
+export { SUSPECTED_BLOCK_MIN_JOBS, sightJob, type ApplyHostViolation, type CompanyFunnel };
 
-export type ApplyHostViolation = { company: string; host: string | null; reason: string; example: string };
+
 
 export type IngestSummary = {
   companies: number;
@@ -121,13 +121,9 @@ export const DISABLED_RECHECK_DAYS = 7;
 /** Sources read from committed manual captures (data/manual/<ats>.json). */
 export const MANUAL_ATS = new Set(["tesla", "citadel", "citadel_securities"]);
 
-/** A company that had at least this many active jobs and now lists none is flagged. */
-export const SUSPECTED_BLOCK_MIN_JOBS = 5;
+
 const UPSERT_CHUNK = 100;
 
-/** Title looks like an internship/co-op (before tech filter). */
-const INTERNSHIP_TITLE_ONLY =
-  /\b(intern|internship|co-?op|coop|apprentice(ship)?|project\s+intern|campus\s+\w+\s+intern|year\s+at\s+\w+)\b/i;
 
 /**
  * Empty runs in a row before this one, from the company's recent runs (newest
@@ -144,15 +140,6 @@ export function countPriorEmptyRuns(runs: { status: string; error: string | null
   return empty;
 }
 
-/** Where an existing active job stands after this run's fetch (input to shouldRetireJob). */
-export function sightJob(
-  onBoard: { description: string } | undefined,
-  matched: boolean,
-): JobSighting {
-  if (!onBoard) return "gone";
-  if (matched) return "matched";
-  return onBoard.description.trim() ? "rejected" : "unverified";
-}
 
 /**
  * Auto-disable is derived from run history, so the YAML `active` flag stays
@@ -476,27 +463,8 @@ async function ingestCompany(
   applyHostViolations: ApplyHostViolation[];
   funnel: CompanyFunnel;
 }> {
-  // A manual capture past its age limit is not an error to wait out: its jobs
-  // come down now (law dp_expired_retires). Every other failure propagates and
-  // is recorded as a failed run, which retires nothing.
-  let raw: NormalizedJob[];
-  let expired: FetchFailure | null = null;
-  try {
-    raw = await fetchAllBoards(company.ats, [company.boardToken, ...(opts.extraBoardTokens ?? [])]);
-  } catch (err) {
-    if (!(err instanceof FetchFailure && err.kind === "manual-expired")) throw err;
-    expired = err;
-    raw = [];
-  }
-  const internshipTitleJobs = raw.filter((j) => INTERNSHIP_TITLE_ONLY.test(j.title));
-  const filtered = raw.filter((j) => isTechInternship(j.title, j.description));
-  const descriptionMissing = raw.filter((j) => !j.description.trim()).length;
-  const matchedIds = new Set<string>();
-  let jobsUpserted = 0;
-  let staleDeactivated = 0;
-  const { now } = opts;
-
-  const existingRows = await db
+  const { raw, expired } = await fetchCompanyBoards(company, opts.extraBoardTokens ?? []);
+  const existing = await db
     .select({
       id: jobs.id,
       externalJobId: jobs.externalJobId,
@@ -507,78 +475,15 @@ async function ingestCompany(
     })
     .from(jobs)
     .where(eq(jobs.companyId, company.id));
-  const existingByFingerprint = new Map(
-    existingRows.map((row) => [row.fingerprint, row]),
-  );
-
-  type JobUpsertRow = typeof jobs.$inferInsert;
-  const rows: JobUpsertRow[] = [];
-
-  const enforceHosts = applyHostMode() === "enforce";
-  const violations = new Map<string, ApplyHostViolation>();
-  for (const j of filtered) {
-    const check = checkApplyUrl(company.slug, j.applyUrl);
-    if (!check.ok) {
-      const key = `${check.host} ${check.reason}`;
-      if (!violations.has(key)) {
-        violations.set(key, { company: company.slug, host: check.host, reason: check.reason, example: j.applyUrl });
-      }
-      // Held: not ingested, and an existing copy is retired as no longer matching.
-      if (enforceHosts) continue;
-    }
-    matchedIds.add(j.externalId);
-    const excerpt =
-      excerptFromHtml(j.excerpt) ?? excerptFromHtml(j.description);
-    const isRemote = looksRemote(j.locations, j.title);
-    const classifierText = `${j.title} ${j.description}`;
-    const terms = extractTerms(classifierText);
-    const durationMonths = extractDurationMonthsList(classifierText) ?? [];
-    const cohortYear = extractCohortYear(classifierText, now);
-    const termYears = extractTermYears(classifierText, cohortYear, now);
-    const roles = extractRoles(j.title, j.description);
-    const regions = extractRegions(j.locations, isRemote);
-    const normalized = normalizeTitle(j.title);
-    const fingerprint = jobFingerprint(company.id, company.ats, j.externalId);
-    const familyId = roleFamilyId(company.slug, normalized);
-
-    const existing = existingByFingerprint.get(fingerprint);
-    const firstSeenAt = existing?.firstSeenAt ?? now;
-    const postedAt = safeDate(j.postedAt) ?? existing?.postedAt ?? null;
-
-    // Bend-proven to be exactly !isFreshJob (law fr_stale_iff_not_fresh).
-    const stale = isStale({
-      termYears,
-      anchor: postedAt ?? firstSeenAt,
-      now,
-      maxAgeDays: MAX_AGE_DAYS_NO_TERM,
-    });
-
-    rows.push({
-      companyId: company.id,
-      externalJobId: j.externalId,
-      fingerprint,
-      title: j.title,
-      normalizedTitle: normalized,
-      roleFamilyId: familyId,
-      locations: j.locations,
-      applyUrl: j.applyUrl,
-      excerpt,
-      terms,
-      termYears,
-      durationMonths,
-      cohortYear,
-      roles,
-      regions,
-      isRemote,
-      isActive: !stale,
-      source: company.ats,
-      postedAt,
-      firstSeenAt,
-      lastSeenAt: now,
-      updatedAt: now,
-    });
-    if (stale) staleDeactivated += 1;
-  }
+  const plan = planCompanyRun({
+    company,
+    raw,
+    expired,
+    existing,
+    priorEmptyRuns: opts.priorEmptyRuns,
+    now: opts.now,
+    enforceApplyHosts: applyHostMode() === "enforce",
+  });
 
   const updateFields = {
     externalJobId: sql`excluded.external_job_id`,
@@ -601,89 +506,50 @@ async function ingestCompany(
     lastSeenAt: sql`excluded.last_seen_at`,
     updatedAt: sql`excluded.updated_at`,
   };
-
-  for (let i = 0; i < rows.length; i += UPSERT_CHUNK) {
-    const chunk = rows.slice(i, i + UPSERT_CHUNK);
+  for (let i = 0; i < plan.upserts.length; i += UPSERT_CHUNK) {
     await db
       .insert(jobs)
-      .values(chunk)
-      .onConflictDoUpdate({
-        target: jobs.fingerprint,
-        set: updateFields,
-      });
-    jobsUpserted += chunk.length;
+      .values(plan.upserts.slice(i, i + UPSERT_CHUNK))
+      .onConflictDoUpdate({ target: jobs.fingerprint, set: updateFields });
   }
-
-  // Per-job retirement, Bend-proven (laws dp_*): a job gone from a board that
-  // was fetched successfully is retired; one whose details failed to load is
-  // kept; an empty board retires everything only on the third empty run.
-  const run: BoardRun = expired ? "expired" : raw.length === 0 ? "empty" : "listed";
-  const onBoard = new Map(raw.map((j) => [j.externalId, j]));
-  const activeBefore = existingRows.filter((row) => row.isActive);
-  const retireIds = activeBefore
-    .filter((row) =>
-      shouldRetireJob(
-        run,
-        opts.priorEmptyRuns,
-        sightJob(onBoard.get(row.externalJobId), matchedIds.has(row.externalJobId)),
-      ),
-    )
-    .map((row) => row.id);
   let jobsDeactivated = 0;
-  for (let i = 0; i < retireIds.length; i += UPSERT_CHUNK) {
-    const ids = retireIds.slice(i, i + UPSERT_CHUNK);
+  for (let i = 0; i < plan.retireIds.length; i += UPSERT_CHUNK) {
     const retired = await db
       .update(jobs)
-      .set({ isActive: false, updatedAt: now })
-      .where(and(eq(jobs.companyId, company.id), eq(jobs.isActive, true), inArray(jobs.id, ids)))
+      .set({ isActive: false, updatedAt: opts.now })
+      .where(
+        and(eq(jobs.companyId, company.id), eq(jobs.isActive, true), inArray(jobs.id, plan.retireIds.slice(i, i + UPSERT_CHUNK))),
+      )
       .returning({ id: jobs.id });
     jobsDeactivated += retired.length;
   }
-  const suspectedBlock = run === "empty" && activeBefore.length >= SUSPECTED_BLOCK_MIN_JOBS;
-
-  if (expired) {
-    await db.insert(ingestRuns).values({
-      companyId: company.id,
-      status: "error",
-      jobCount: 0,
-      error: expired.message.slice(0, 2000),
-    });
-    return {
-      jobsUpserted: 0,
-      jobsDeactivated,
-      staleDeactivated: 0,
-      zeroMatch: false,
-      suspectedBlock: false,
-      applyHostViolations: [],
-      funnel: { slug: company.slug, fetched: 0, internshipTitle: 0, techPass: 0, upserted: 0, stale: 0 },
-    };
-  }
-
-  const zeroMatch = raw.length > 0 && filtered.length === 0;
-  const funnelMsg = `funnel fetched=${raw.length} title=${internshipTitleJobs.length} tech=${filtered.length} upserted=${jobsUpserted} description_missing=${descriptionMissing}`;
-  await db.insert(ingestRuns).values({
-    companyId: company.id,
-    status: "ok",
-    jobCount: filtered.length,
-    error: zeroMatch
-      ? `zero_match: no tech internships classified; ${funnelMsg}`
-      : funnelMsg,
-  });
+  await db.insert(ingestRuns).values({ companyId: company.id, ...plan.run });
 
   return {
-    jobsUpserted,
+    jobsUpserted: plan.upserts.length,
     jobsDeactivated,
-    staleDeactivated,
-    zeroMatch,
-    suspectedBlock,
-    applyHostViolations: [...violations.values()],
-    funnel: {
-      slug: company.slug,
-      fetched: raw.length,
-      internshipTitle: internshipTitleJobs.length,
-      techPass: filtered.length,
-      upserted: jobsUpserted,
-      stale: staleDeactivated,
-    },
+    staleDeactivated: plan.staleDeactivated,
+    zeroMatch: plan.zeroMatch,
+    suspectedBlock: plan.suspectedBlock,
+    applyHostViolations: plan.applyHostViolations,
+    funnel: plan.funnel,
   };
+}
+
+/**
+ * Fetch every board of a company. A manual capture past its age limit is not
+ * an error to wait out: it comes back as `expired` so its jobs come down now
+ * (law dp_expired_retires). Every other failure propagates and is recorded as
+ * a failed run, which retires nothing.
+ */
+export async function fetchCompanyBoards(
+  company: { ats: string; boardToken: string },
+  extraBoardTokens: string[],
+): Promise<{ raw: NormalizedJob[]; expired: FetchFailure | null }> {
+  try {
+    return { raw: await fetchAllBoards(company.ats, [company.boardToken, ...extraBoardTokens]), expired: null };
+  } catch (err) {
+    if (err instanceof FetchFailure && err.kind === "manual-expired") return { raw: [], expired: err };
+    throw err;
+  }
 }

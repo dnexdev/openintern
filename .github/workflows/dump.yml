@@ -1,7 +1,8 @@
 name: Dump
 
 # Runs after each successful daily ingest. Two jobs:
-#   build   reads the database and installs npm packages; it can write nothing.
+#   build   reads the state (Neon, or the state repo once vars.OPENINTERN_STATE
+#           is "files") and installs npm packages; it can write nothing.
 #   publish holds release-write permission and installs nothing: it checks the
 #           build with plain Node (scripts/dump-gate.mjs) and uploads with gh.
 on:
@@ -28,10 +29,20 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+    env:
+      FILES_MODE: ${{ vars.OPENINTERN_STATE == 'files' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+      - name: Check out published state (read-only)
+        if: env.FILES_MODE == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ vars.OPENINTERN_STATE_REPO }}
+          path: state
+          persist-credentials: false
+          ssh-key: ${{ secrets.STATE_READ_KEY }}
       - uses: pnpm/action-setup@v6
         with:
           version: 9.15.0
@@ -41,6 +52,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Require DATABASE_URL secret
+        if: env.FILES_MODE != 'true'
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
@@ -50,11 +62,15 @@ jobs:
           fi
       - name: Export dumps
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ vars.OPENINTERN_STATE != 'files' && secrets.DATABASE_URL || '' }}
           OPENINTERN_APPLY_HOSTS: ${{ vars.OPENINTERN_APPLY_HOSTS }}
         run: |
           mkdir -p "$GITHUB_WORKSPACE/dumps"
-          pnpm --filter @openintern/ingest exec tsx src/cli.ts dump "$GITHUB_WORKSPACE/dumps"
+          if [ "$FILES_MODE" = true ]; then
+            pnpm --filter @openintern/ingest exec tsx src/cli.ts dump-state "$GITHUB_WORKSPACE/state" "$GITHUB_WORKSPACE/dumps"
+          else
+            pnpm --filter @openintern/ingest exec tsx src/cli.ts dump "$GITHUB_WORKSPACE/dumps"
+          fi
           ls -la "$GITHUB_WORKSPACE/dumps"
           test -s "$GITHUB_WORKSPACE/dumps/MANIFEST.json"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
