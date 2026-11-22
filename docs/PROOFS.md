@@ -81,3 +81,21 @@ send crash reports to `bun.report`. Both are off wherever bend runs here:
 the gate makes no network connections, and it passes with networking disabled
 (`unshare -rn pnpm proofs`). `bend login`, `bend update`, `bend link`, and
 `--publish` are denied for Claude.
+
+## Are the laws strong enough?
+
+A law that only restates its definition proves nothing useful. Two checks keep
+the laws honest:
+
+- **PINNED laws** fix constants and concrete examples (the 120-day age limit,
+  14 days unseen, one day in ms, which characters are hex, what parses as a
+  page number). Changing one of those values breaks a proof.
+- **Mutants** (`packages/proven/mutants.tsv`, `node scripts/proofs.mjs
+  mutants`, run in CI): each row is a plausible bug, such as "offset ignores
+  limit", "#24: gone jobs kept", or "deny-all limiter". The mutated tree must
+  fail to check. A surviving mutant fails CI until a law catches it.
+
+Limits: a mutant also "dies" if it only breaks a proof script rather than
+falsifying a law. The pinned laws are concrete, so for them the two coincide;
+for property laws, a killed mutant is evidence, not proof, that the law would
+catch the bug.

@@ -70,3 +70,5 @@ jobs:
           DO_NOT_TRACK: "1"
           BUN_ENABLE_CRASH_REPORTING: "0"
         run: node scripts/proofs.mjs check
+      - name: Mutants the laws must catch
+        run: node scripts/proofs.mjs mutants
