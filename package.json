@@ -25,15 +25,13 @@
     "recover-tokens": "pnpm --filter @openintern/ingest recover-tokens",
     "validate-curated": "pnpm --filter @openintern/ingest validate-curated",
     "validate-companies": "pnpm --filter @openintern/ingest validate-companies",
-    "backfill-role-families": "pnpm --filter @openintern/ingest backfill-role-families"
+    "backfill-role-families": "pnpm --filter @openintern/ingest backfill-role-families",
+    "manual:capture": "pnpm --filter @openintern/ingest manual:capture"
   },
   "engines": {
     "node": ">=20"
   },
   "license": "Apache-2.0",
-  "devDependencies": {
-    "playwright": "^1.61.1"
-  },
   "pnpm": {
     "overrides": {
       "baseline-browser-mapping": "2.11.28",

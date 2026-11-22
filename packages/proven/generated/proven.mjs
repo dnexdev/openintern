@@ -368,6 +368,8 @@ function $packages_proven_bend_deactivation_retire_after_empty() {
 function $packages_proven_bend_deactivation_retire(_run_0, _prior_empty_0, _seen_0) {
   if (_run_0.$ === "Failed") {
     return false;
+  } else if (_run_0.$ === "Expired") {
+    return true;
   } else if (_run_0.$ === "Empty") {
     return $Nat_is_le(($packages_proven_bend_deactivation_retire_after_empty()), nat_chk(_prior_empty_0 + 1));
   } else {
@@ -385,6 +387,8 @@ function $packages_proven_bend_deactivation_retire(_run_0, _prior_empty_0, _seen
 
 function $packages_proven_bend_deactivation_next_empty(_run_0, _prior_empty_0) {
   if (_run_0.$ === "Failed") {
+    return _prior_empty_0;
+  } else if (_run_0.$ === "Expired") {
     return _prior_empty_0;
   } else if (_run_0.$ === "Empty") {
     return nat_chk(_prior_empty_0 + 1);
@@ -778,6 +782,14 @@ function $LAWS_ap_repeats_say_openings(_unique_0, _k_0) {
 }
 
 function $LAWS_dp_failed_fetch_keeps(_prior_0, _seen_0) {
+  return null;
+}
+
+function $LAWS_dp_expired_retires(_prior_0, _seen_0) {
+  return null;
+}
+
+function $LAWS_dp_expired_keeps_count(_prior_0) {
   return null;
 }
 
@@ -1894,6 +1906,8 @@ export default {
   "LAWS:ap_distinct_says_locations": run_lib((a0) => run_loop($LAWS_ap_distinct_says_locations(nat_in(a0))), 1),
   "LAWS:ap_repeats_say_openings": run_lib((a0,a1) => run_loop($LAWS_ap_repeats_say_openings(nat_in(a0),nat_in(a1))), 2),
   "LAWS:dp_failed_fetch_keeps": run_lib((a0,a1) => run_loop($LAWS_dp_failed_fetch_keeps(nat_in(a0),a1)), 2),
+  "LAWS:dp_expired_retires": run_lib((a0,a1) => run_loop($LAWS_dp_expired_retires(nat_in(a0),a1)), 2),
+  "LAWS:dp_expired_keeps_count": run_lib((a0) => run_loop($LAWS_dp_expired_keeps_count(nat_in(a0))), 1),
   "LAWS:dp_board_gone_retires": run_lib((a0) => run_loop($LAWS_dp_board_gone_retires(nat_in(a0))), 1),
   "LAWS:dp_on_board_keeps": run_lib((a0) => run_loop($LAWS_dp_on_board_keeps(nat_in(a0))), 1),
   "LAWS:dp_unverified_keeps": run_lib((a0) => run_loop($LAWS_dp_unverified_keeps(nat_in(a0))), 1),

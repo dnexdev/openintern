@@ -8,12 +8,17 @@
 
 import type { NormalizedJob } from "./ats.js";
 import { stripHtml } from "./strip-html.js";
+import { httpText } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 const DUMP_ENV = "OPENINTERN_ICIMS_HTML_PATH";
 
 export function icimsHost(boardToken: string): string {
-  const raw = boardToken.trim().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+  let raw = boardToken.trim();
+  const head = raw.slice(0, 8).toLowerCase();
+  if (head.startsWith("https://")) raw = raw.slice(8);
+  else if (head.startsWith("http://")) raw = raw.slice(7);
+  const slash = raw.indexOf("/");
+  if (slash !== -1) raw = raw.slice(0, slash);
   if (raw.includes(".")) return raw;
   if (raw.startsWith("careers-")) return `${raw}.icims.com`;
   return `careers-${raw}.icims.com`;
@@ -89,14 +94,7 @@ export async function fetchIcims(boardToken: string): Promise<NormalizedJob[]> {
   const dump = await loadDump();
   if (dump) return parseIcimsSearchHtml(dump, url);
 
-  const res = await fetch(url, {
-    headers: { Accept: "text/html", "User-Agent": UA },
-    redirect: "follow",
-  });
-  if (!res.ok) {
-    throw new Error(`iCIMS HTTP ${res.status} for ${url}. Optional dump: ${DUMP_ENV}`);
-  }
-  return parseIcimsSearchHtml(await res.text(), url);
+  return parseIcimsSearchHtml(await httpText(url), url);
 }
 
 export async function probeIcims(

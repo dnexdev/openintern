@@ -3,7 +3,7 @@ import path from "node:path";
 import { createDbClient } from "@openintern/db";
 import { backfillRoleFamilies } from "./backfill-role-families.js";
 import { writeDumps } from "./dump.js";
-import { ingestDigest, runIngest } from "./ingest.js";
+import { ingestDigest, ingestStepSummary, runIngest } from "./ingest.js";
 import { loadEnv } from "./load-env.js";
 import { syncCompaniesFromYaml } from "./sync-companies.js";
 
@@ -50,6 +50,8 @@ async function main() {
       const digestPath = process.env.OPENINTERN_DIGEST_PATH?.trim();
       const digest = ingestDigest(summary);
       if (digestPath && digest) await fs.writeFile(digestPath, digest);
+      const stepSummary = process.env.GITHUB_STEP_SUMMARY?.trim();
+      if (stepSummary) await fs.appendFile(stepSummary, ingestStepSummary(summary));
       if (
         summary.companies > 0 &&
         summary.jobsUpserted === 0 &&

@@ -8,8 +8,8 @@
 
 import type { NormalizedJob } from "./ats.js";
 import { stripHtml } from "./strip-html.js";
+import { httpText } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 const APPLY_BASE = "https://www.google.com/about/careers/applications/jobs/results";
 
 export function googleCareersSearchUrl(boardToken: string): string {
@@ -94,15 +94,9 @@ export async function fetchGoogle(boardToken: string): Promise<NormalizedJob[]> 
   const seen = new Set<string>();
   const all: NormalizedJob[] = [];
   for (const url of urls) {
-    const res = await fetch(url, {
-      headers: {
-        Accept: "text/html",
-        "User-Agent": UA,
-        "Accept-Language": "en-US,en;q=0.9",
-      },
-    });
-    if (!res.ok) continue;
-    for (const job of parseGoogleCareersHtml(await res.text())) {
+    // Any refusal fails the run: a skipped page must not look like an empty board.
+    const html = await httpText(url, { headers: { "Accept-Language": "en-US,en;q=0.9" } });
+    for (const job of parseGoogleCareersHtml(html)) {
       if (seen.has(job.externalId)) continue;
       seen.add(job.externalId);
       all.push(job);

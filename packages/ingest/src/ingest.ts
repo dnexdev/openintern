@@ -8,7 +8,9 @@ import {
   type BoardRun,
   type JobSighting,
 } from "@openintern/proven";
-import { fetchJobsForAts } from "./ats.js";
+import { fetchJobsForAts, type NormalizedJob } from "./ats.js";
+import { shadowResults, type ShadowResult } from "./bytedance.js";
+import { FetchFailure } from "./http.js";
 import {
   LAST_SEEN_STALE_DAYS,
   MAX_AGE_DAYS_NO_TERM,
@@ -55,6 +57,8 @@ export type IngestSummary = {
   autoDisabledSkipped: string[];
   /** Companies that had several active jobs and now list none: possibly blocking us. */
   suspectedBlocks: string[];
+  /** Honest-request shadow tests run beside legacy requests (logged only). */
+  shadow: ShadowResult[];
   failures: { slug: string; error: string }[];
   /** Per-company fetched → title → tech → upsert funnel (sorted by fetched desc). */
   funnel: CompanyFunnel[];
@@ -110,6 +114,9 @@ async function withDbRetry<T>(label: string, fn: () => Promise<T>): Promise<T> {
 export const CONSECUTIVE_FAILURE_LIMIT = 7;
 /** An auto-disabled company is retried once this many days after its last run. */
 export const DISABLED_RECHECK_DAYS = 7;
+/** Sources read from committed manual captures (data/manual/<ats>.json). */
+export const MANUAL_ATS = new Set(["tesla", "citadel", "citadel_securities"]);
+
 /** A company that had at least this many active jobs and now lists none is flagged. */
 export const SUSPECTED_BLOCK_MIN_JOBS = 5;
 const UPSERT_CHUNK = 100;
@@ -215,7 +222,8 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
   );
   const autoDisabledSkipped: string[] = [];
   const toFetch = activeCompanies.filter((c) => {
-    if (autoDisableState(history.get(c.id) ?? [], tier1.has(c.slug), now) !== "disabled") return true;
+    const exempt = tier1.has(c.slug) || MANUAL_ATS.has(c.ats);
+    if (autoDisableState(history.get(c.id) ?? [], exempt, now) !== "disabled") return true;
     autoDisabledSkipped.push(c.slug);
     return false;
   });
@@ -266,7 +274,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
           stale: 0,
         });
         const prior = history.get(company.id) ?? [];
-        const exempt = tier1.has(company.slug);
+        const exempt = tier1.has(company.slug) || MANUAL_ATS.has(company.ats);
         if (
           autoDisableState(prior, exempt, now) === "enabled" &&
           autoDisableState([{ status: "error", ranAt: now, error: message }, ...prior], exempt, now) === "disabled"
@@ -342,6 +350,7 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
     autoDisabled,
     autoDisabledSkipped,
     suspectedBlocks,
+    shadow: [...shadowResults],
     failures,
     funnel,
     funnelTotals,
@@ -352,6 +361,23 @@ export async function runIngest(db: Db, opts?: { syncRegistry?: boolean }): Prom
  * Markdown for things a person must look at, or null when there are none:
  * new auto-disables (confirm or fix the board token) and suspected blocks.
  */
+/** A short Markdown report for the Actions run page. */
+export function ingestStepSummary(s: IngestSummary): string {
+  const lines = [
+    "### Ingest",
+    `${s.companies} companies fetched, ${s.jobsUpserted} jobs upserted, ${s.jobsDeactivated} retired, ${s.failures.length} failed.`,
+  ];
+  if (s.lastSeenSweepSkipped) lines.push("", "Last-seen sweep skipped: the previous successful run was more than 2 days ago.");
+  if (s.autoDisabledSkipped.length) lines.push("", `Auto-disabled, not fetched: ${s.autoDisabledSkipped.join(", ")}`);
+  if (s.shadow.length) {
+    lines.push("", "#### Honest-request shadow test", "", "| source | honest ok | status | honest count | legacy count | error |", "|---|---|---|---|---|---|");
+    for (const r of s.shadow) {
+      lines.push(`| ${r.source} | ${r.ok} | ${r.status ?? ""} | ${r.count ?? ""} | ${r.legacyCount} | ${(r.error ?? "").replace(/\|/g, "/").slice(0, 120)} |`);
+    }
+  }
+  return `${lines.join("\n")}\n`;
+}
+
 export function ingestDigest(s: IngestSummary): string | null {
   const lines: string[] = [];
   if (s.autoDisabled.length) {
@@ -408,7 +434,18 @@ async function ingestCompany(
   suspectedBlock: boolean;
   funnel: CompanyFunnel;
 }> {
-  const raw = await fetchJobsForAts(company.ats, company.boardToken);
+  // A manual capture past its age limit is not an error to wait out: its jobs
+  // come down now (law dp_expired_retires). Every other failure propagates and
+  // is recorded as a failed run, which retires nothing.
+  let raw: NormalizedJob[];
+  let expired: FetchFailure | null = null;
+  try {
+    raw = await fetchJobsForAts(company.ats, company.boardToken);
+  } catch (err) {
+    if (!(err instanceof FetchFailure && err.kind === "manual-expired")) throw err;
+    expired = err;
+    raw = [];
+  }
   const internshipTitleJobs = raw.filter((j) => INTERNSHIP_TITLE_ONLY.test(j.title));
   const filtered = raw.filter((j) => isTechInternship(j.title, j.description));
   const descriptionMissing = raw.filter((j) => !j.description.trim()).length;
@@ -527,7 +564,7 @@ async function ingestCompany(
   // Per-job retirement, Bend-proven (laws dp_*): a job gone from a board that
   // was fetched successfully is retired; one whose details failed to load is
   // kept; an empty board retires everything only on the third empty run.
-  const run: BoardRun = raw.length === 0 ? "empty" : "listed";
+  const run: BoardRun = expired ? "expired" : raw.length === 0 ? "empty" : "listed";
   const onBoard = new Map(raw.map((j) => [j.externalId, j]));
   const activeBefore = existingRows.filter((row) => row.isActive);
   const retireIds = activeBefore
@@ -550,6 +587,23 @@ async function ingestCompany(
     jobsDeactivated += retired.length;
   }
   const suspectedBlock = run === "empty" && activeBefore.length >= SUSPECTED_BLOCK_MIN_JOBS;
+
+  if (expired) {
+    await db.insert(ingestRuns).values({
+      companyId: company.id,
+      status: "error",
+      jobCount: 0,
+      error: expired.message.slice(0, 2000),
+    });
+    return {
+      jobsUpserted: 0,
+      jobsDeactivated,
+      staleDeactivated: 0,
+      zeroMatch: false,
+      suspectedBlock: false,
+      funnel: { slug: company.slug, fetched: 0, internshipTitle: 0, techPass: 0, upserted: 0, stale: 0 },
+    };
+  }
 
   const zeroMatch = raw.length > 0 && filtered.length === 0;
   const funnelMsg = `funnel fetched=${raw.length} title=${internshipTitleJobs.length} tech=${filtered.length} upserted=${jobsUpserted} description_missing=${descriptionMissing}`;

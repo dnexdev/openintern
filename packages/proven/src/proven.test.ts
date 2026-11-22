@@ -143,10 +143,11 @@ for (let p = 0; p < 5; p++) {
 
 function refRetire(run: string, prior: number, seen: string): boolean {
   if (run === "failed") return false;
+  if (run === "expired") return true;
   if (run === "empty") return prior + 1 >= 3;
   return seen === "gone" || seen === "rejected";
 }
-const RUNS = ["failed", "empty", "listed"] as const;
+const RUNS = ["failed", "empty", "listed", "expired"] as const;
 const SEENS = ["gone", "rejected", "unverified", "matched"] as const;
 assert.equal(RETIRE_AFTER_EMPTY_RUNS, 3);
 for (const run of RUNS) {
@@ -154,7 +155,7 @@ for (const run of RUNS) {
     for (const seen of SEENS) {
       assert.equal(shouldRetireJob(run, prior, seen), refRetire(run, prior, seen), `retire ${run} ${prior} ${seen}`);
     }
-    const next = run === "failed" ? prior : run === "empty" ? prior + 1 : 0;
+    const next = run === "failed" || run === "expired" ? prior : run === "empty" ? prior + 1 : 0;
     assert.equal(nextEmptyRuns(run, prior), next, `next ${run} ${prior}`);
   }
 }

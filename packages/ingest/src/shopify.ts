@@ -5,8 +5,8 @@
  */
 
 import type { NormalizedJob } from "./ats.js";
+import { httpText } from "./http.js";
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
 export const SHOPIFY_CAREERS_URL = "https://www.shopify.com/careers";
 
 function titleFromSlug(slug: string): string {
@@ -48,11 +48,7 @@ export async function fetchShopify(_boardToken: string): Promise<NormalizedJob[]
   const seen = new Set<string>();
   const all: NormalizedJob[] = [];
   for (const url of pages) {
-    const res = await fetch(url, {
-      headers: { Accept: "text/html", "User-Agent": UA },
-    });
-    if (!res.ok) continue;
-    for (const job of parseShopifyCareersHtml(await res.text())) {
+    for (const job of parseShopifyCareersHtml(await httpText(url))) {
       if (seen.has(job.externalId)) continue;
       seen.add(job.externalId);
       all.push(job);

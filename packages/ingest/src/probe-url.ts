@@ -12,7 +12,7 @@ import { googleCareersSearchUrl, probeGoogle } from "./google.js";
 import { probeIbm } from "./ibm.js";
 import { DESHAW_INTERNSHIPS_URL, probeDeshaw } from "./deshaw.js";
 import { SHOPIFY_CAREERS_URL, probeShopify } from "./shopify.js";
-import { probeX } from "./x.js";
+import { FetchFailure, OPENINTERN_UA, httpJson } from "./http.js";
 
 export function probeUrl(ats: AtsName | string, token: string): string {
   switch (ats) {
@@ -113,7 +113,7 @@ export function countJobsFromProbeBody(ats: string, data: unknown): number {
   return o.totalFound ? Number(o.totalFound) : 1;
 }
 
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
+const UA = OPENINTERN_UA;
 
 async function probeBytedancePortal(
   ats: "bytedance" | "tiktok",
@@ -123,18 +123,10 @@ async function probeBytedancePortal(
   const websitePath = (token || portal.defaultWebsitePath).trim();
   const url = `${portal.apiBase}/search/job/posts`;
   try {
-    const res = await fetch(url, {
+    const data = await httpJson<unknown>(url, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "User-Agent": UA,
-        origin: portal.origin,
-        Referer: `${portal.origin}/search`,
-        "website-path": websitePath,
-        "accept-language": "en",
-      },
-      body: JSON.stringify({
+      headers: { "website-path": websitePath, "accept-language": "en" },
+      body: {
         job_category_id_list: [],
         keyword: "",
         limit: 1,
@@ -144,14 +136,14 @@ async function probeBytedancePortal(
         subject_id_list: [],
         portal_type: 2,
         portal_entrance: 1,
-      }),
+      },
+      attempts: 1,
     });
-    if (!res.ok) return { ok: false, status: res.status, error: `HTTP ${res.status} for ${url}` };
-    const data = (await res.json()) as unknown;
     const count = countJobsFromProbeBody(ats, data);
-    return { ok: count > 0, status: res.status, count, error: count > 0 ? undefined : "empty listing" };
+    return { ok: count > 0, status: 200, count, error: count > 0 ? undefined : "empty listing" };
   } catch (err) {
-    return { ok: false, status: 0, error: err instanceof Error ? err.message : String(err) };
+    const status = err instanceof FetchFailure ? (err.status ?? 0) : 0;
+    return { ok: false, status, error: err instanceof Error ? err.message : String(err) };
   }
 }
 
@@ -179,7 +171,6 @@ export async function probeAtsBoard(
     if (ats === "ibm") return probeIbm(token);
     if (ats === "deshaw") return probeDeshaw();
     if (ats === "shopify") return probeShopify();
-    if (ats === "x") return probeX();
 
     const url = probeUrl(ats, token);
     if (ats === "workday") {

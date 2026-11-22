@@ -404,6 +404,12 @@ def Laws.ap_repeats_say_openings(unique, k):
 def Laws.dp_failed_fetch_keeps(prior, seen):
   {==}
 
+def Laws.dp_expired_retires(prior, seen):
+  {==}
+
+def Laws.dp_expired_keeps_count(prior):
+  {==}
+
 def Laws.dp_board_gone_retires(prior):
   {==}
 

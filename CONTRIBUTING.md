@@ -83,40 +83,40 @@ Writes probe-OK boards to `data/companies/tech-accelerators.yaml`. YC uses the p
 
 ### Custom careers (proprietary adapters)
 
-Named HTTP adapters for employers without Greenhouse/Lever/Ashby/Workday boards. Prefer raw JSON/HTML; browser automation is gated and optional.
+Named adapters for employers without Greenhouse/Lever/Ashby/Workday boards.
+
+**Honest requests only.** Ingest identifies itself as `OpenIntern/0.1 (+repo)`
+on every request and never sends a browser user-agent, a forged `Referer` or
+`Origin`, or cookies (`packages/ingest/src/http.ts` refuses them, and CI greps
+for them). If a site refuses that, the answer is a manual capture or dropping
+the source, never a workaround.
 
 | `ats` | `board_token` | Source | Notes |
 |-------|---------------|--------|-------|
-| `citadel` | `open-opportunities` | `citadel.com/careers/...` HTML cards | Bot/CDN may 403; use `OPENINTERN_BROWSER=1` or HTML dump |
-| `citadel_securities` | `open-opportunities` | `citadelsecurities.com/careers/...` | Same |
-| `tesla` | `careers` | `tesla.com/cua-api/apps/careers/state` | Often **403**; use `OPENINTERN_TESLA_STATE_PATH` dump |
-| `bytedance` | `en` | `jobs.bytedance.com/.../supplier/search/job/posts` | Campus facet (`recruitment_id=2`); `website-path: en` |
+| `citadel` | `open-opportunities` | manual capture (`data/manual/citadel.json`) | CDN refuses automated clients |
+| `citadel_securities` | `open-opportunities` | manual capture | Same |
+| `tesla` | `careers` | manual capture (`data/manual/tesla.json`) | Careers API refuses automated clients |
+| `bytedance` | `en` | `jobs.bytedance.com/.../supplier/search/job/posts` | Campus facet (`recruitment_id=2`); honest-request test in shadow, see the plan |
 | `tiktok` | `tiktok` | `api.lifeattiktok.com/.../supplier/search/job/posts` | Same protocol; apply links on `lifeattiktok.com/search/{id}` |
 | `phenom` | `amd` | `careers.{token}.com/api/jobs` | Phenom JSON (AMD, etc.) |
-| `avature` | `bloomberg` | `{token}.avature.net/careers/SearchJobs/` | HTML parse; optional `OPENINTERN_AVATURE_HTML_PATH` |
-| `icims` | `careers-sig` | `{token}.icims.com/jobs/search` | HTML parse; optional `OPENINTERN_ICIMS_HTML_PATH` |
+| `avature` | `bloomberg` | `{token}.avature.net/careers/SearchJobs/` | HTML parse |
+| `icims` | `careers-sig` | `{token}.icims.com/jobs/search` | HTML parse |
 | `eightfold` | `microsoft` or `microsoft\|ai` | PCSX search on apply.careers.microsoft.com | AI filter for microsoft-ai |
 | `google` | `google` / `deepmind` | Google careers applications HTML | Company filter for DeepMind |
 | `ibm` | `ibmglobal` | IBM Avature SearchJobs | Same Avature parser |
 | `deshaw` | `internships` | `deshaw.com/careers/internships` `__NEXT_DATA__` | Internship roles |
 | `shopify` | `careers` | `shopify.com/careers` job cards | Public listings only (many internships gated) |
-| `x` | `x` | `careers.x.com` | Often 403; use `OPENINTERN_X_HTML_PATH` |
 
-**CDN / Akamai gates:** anonymous datacenter IPs often get HTTP 403. Fallbacks:
+Manual captures are described in [`data/manual/README.md`](data/manual/README.md):
+save the public page in a normal browser, run `pnpm manual:capture`, commit the
+normalized JSON. Captures older than 14 days are not published.
 
-| Env | Purpose |
-|-----|---------|
-| `OPENINTERN_CITADEL_HTML_PATH` | Saved HTML of Citadel open-opportunities (may include multiple pages concatenated) |
-| `OPENINTERN_CITADEL_SECURITIES_HTML_PATH` | Same for Citadel Securities |
-| `OPENINTERN_TESLA_STATE_PATH` | JSON dump of `https://www.tesla.com/cua-api/apps/careers/state` (or compatible `{ listings: [...] }`) |
-| `OPENINTERN_AVATURE_HTML_PATH` | Saved Avature SearchJobs HTML |
-| `OPENINTERN_ICIMS_HTML_PATH` | Saved iCIMS search HTML |
-| `OPENINTERN_X_HTML_PATH` | Saved X careers HTML |
-| `OPENINTERN_BROWSER=1` | Use Playwright Chromium when live HTTP is blocked (install: `pnpm add -Dw playwright && pnpm exec playwright install chromium`) |
+A refusal (401/403), throttling (429 after retries) or any other non-2xx fails
+that company's run, so it never looks like an empty board. Failed runs retire
+nothing.
 
-Citadel listing HTML is usually reachable via Playwright even when `curl` gets 403. Tesla `cua-api` may still be blocked from some networks — then use a browser Save-As dump into `OPENINTERN_TESLA_STATE_PATH`.
-
-Do **not** add LinkedIn scrapers. Prefer dump/browser gates over new Selenium farms.
+Do **not** add LinkedIn scrapers, browser automation, or X (its terms forbid
+scraping; removed 2026-10-24).
 
 ## Development
 

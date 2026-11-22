@@ -10,8 +10,7 @@
  */
 
 import type { NormalizedJob } from "./ats.js";
-
-const UA = "OpenIntern/0.1 (+https://github.com/dnexdev/openintern)";
+import { FetchFailure, OPENINTERN_UA, httpJson } from "./http.js";
 
 export type BytedancePortal = {
   /** ATS name for errors */
@@ -106,7 +105,13 @@ export function mapBytedancePosts(
   });
 }
 
-async function postJson<T>(
+/**
+ * PENDING OWNER DECISION (plan: "ByteDance/TikTok: test first"). This is the
+ * only request in ingest that still sends a portal's own origin/Referer. It
+ * stays until the shadow test below shows whether honest requests work; then
+ * it is removed (honest) or the source moves to a manual capture.
+ */
+async function legacyPostJson<T>(
   url: string,
   body: unknown,
   headers: Record<string, string>,
@@ -116,16 +121,72 @@ async function postJson<T>(
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "User-Agent": UA,
+      "User-Agent": OPENINTERN_UA,
       ...headers,
     },
     body: JSON.stringify(body),
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`HTTP ${res.status} for ${url}${text ? `: ${text.slice(0, 120)}` : ""}`);
+    throw new FetchFailure(
+      res.status === 401 || res.status === 403 ? "refused" : res.status === 429 ? "throttled" : "http",
+      `HTTP ${res.status} for ${url}${text ? `: ${text.slice(0, 120)}` : ""}`,
+      res.status,
+    );
   }
   return (await res.json()) as T;
+}
+
+function searchBody(limit: number, offset: number) {
+  return {
+    job_category_id_list: [],
+    keyword: "",
+    limit,
+    offset,
+    location_code_list: [],
+    // Campus facet — Experienced=1, Campus=2
+    recruitment_id_list: ["2"],
+    subject_id_list: [],
+    portal_type: 2,
+    portal_entrance: 1,
+  };
+}
+
+export type ShadowResult = {
+  source: string;
+  ok: boolean;
+  status: number | null;
+  count: number | null;
+  legacyCount: number;
+  error?: string;
+};
+
+/** Shadow test results from this process, for the ingest summary. */
+export const shadowResults: ShadowResult[] = [];
+
+/**
+ * One honest request (no origin/Referer) beside the legacy fetch, logged only.
+ * Enabled by OPENINTERN_SHADOW_HONEST=1; never changes what is ingested.
+ */
+async function shadowHonestProbe(portal: BytedancePortal, websitePath: string, legacyCount: number) {
+  const result: ShadowResult = { source: portal.name, ok: false, status: null, count: null, legacyCount };
+  try {
+    const page = await httpJson<SearchResponse>(`${portal.apiBase}/search/job/posts`, {
+      method: "POST",
+      body: searchBody(50, 0),
+      headers: { "website-path": websitePath, "accept-language": "en" },
+      attempts: 1,
+    });
+    result.status = 200;
+    result.ok = page.code == null || page.code === 0;
+    result.count = typeof page.data?.count === "number" ? page.data.count : (page.data?.job_post_list?.length ?? 0);
+    if (!result.ok) result.error = `code=${page.code} ${page.message ?? ""}`.trim();
+  } catch (err) {
+    result.status = err instanceof FetchFailure ? (err.status ?? null) : null;
+    result.error = err instanceof Error ? err.message : String(err);
+  }
+  shadowResults.push(result);
+  console.log(`[shadow] honest ${portal.name}: ${JSON.stringify(result)}`);
 }
 
 /**
@@ -149,20 +210,9 @@ export async function fetchBytedancePortal(
   let total = Infinity;
 
   for (let offset = 0; offset < total && offset < 5000; offset += limit) {
-    const page = await postJson<SearchResponse>(
+    const page = await legacyPostJson<SearchResponse>(
       `${portal.apiBase}/search/job/posts`,
-      {
-        job_category_id_list: [],
-        keyword: "",
-        limit,
-        offset,
-        location_code_list: [],
-        // Campus facet — Experienced=1, Campus=2
-        recruitment_id_list: ["2"],
-        subject_id_list: [],
-        portal_type: 2,
-        portal_entrance: 1,
-      },
+      searchBody(limit, offset),
       headers,
     );
     if (page.code != null && page.code !== 0) {
@@ -177,6 +227,9 @@ export async function fetchBytedancePortal(
     if (batch.length < limit) break;
   }
 
+  if (process.env.OPENINTERN_SHADOW_HONEST === "1") {
+    await shadowHonestProbe(portal, websitePath, all.length);
+  }
   return mapBytedancePosts(all, portal);
 }
 

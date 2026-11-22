@@ -181,9 +181,9 @@ export function saysOpenings(postingCount: number, uniqueLocationCount: number):
 /**
  * What one ingest run learned about a company's board: "failed" (fetch failed
  * or was refused), "empty" (fetched, no postings), "listed" (fetched, at least
- * one posting).
+ * one posting), "expired" (a manual capture too old to publish).
  */
-export type BoardRun = "failed" | "empty" | "listed";
+export type BoardRun = "failed" | "empty" | "listed" | "expired";
 
 /**
  * Where one existing job stands on a listed board: "gone" (not on it),
@@ -192,7 +192,7 @@ export type BoardRun = "failed" | "empty" | "listed";
  */
 export type JobSighting = "gone" | "rejected" | "unverified" | "matched";
 
-const RUN_TAG = { failed: "Failed", empty: "Empty", listed: "Listed" } as const;
+const RUN_TAG = { failed: "Failed", empty: "Empty", listed: "Listed", expired: "Expired" } as const;
 const SEEN_TAG = {
   gone: "Gone",
   rejected: "Rejected",
