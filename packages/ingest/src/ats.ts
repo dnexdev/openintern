@@ -510,6 +510,9 @@ function fetchJsonPost<T>(url: string, body: unknown): Promise<T> {
  * Fetch public Workday CXS board.
  * boardToken format: tenant|wdN|site (see workday.ts)
  */
+/** Workday's placeholder for postings at several sites, e.g. "3 Locations". */
+export const WORKDAY_LOCATION_COUNT = /^\d+\s+locations?$/i;
+
 export async function fetchWorkday(boardToken: string): Promise<NormalizedJob[]> {
   const board = parseWorkdayToken(boardToken);
   if (!board) {
@@ -580,6 +583,8 @@ export async function fetchWorkday(boardToken: string): Promise<NormalizedJob[]>
     const locations: string[] = [];
     for (const location of [p.locationsText, ...detailLocations]) {
       const value = location?.trim();
+      // Workday lists multi-site postings as "3 Locations"; the places come from the detail.
+      if (value && WORKDAY_LOCATION_COUNT.test(value)) continue;
       if (value && !locations.includes(value)) locations.push(value);
     }
     return {

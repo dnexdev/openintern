@@ -96,7 +96,8 @@ export default function DocsPage() {
             <tr>
               <td className="mono">season</td>
               <td>
-                <code className="mono">summer|fall|winter</code> (<code className="mono">spring</code> → summer).
+                <code className="mono">summer|fall|winter|spring</code> (<code className="mono">spring</code>{" "}
+                is its own season since 2026-10-24; before, it was folded into summer).
                 Repeatable or comma-separated. Board-compatible alias:{" "}
                 <code className="mono">term</code>
               </td>
@@ -170,8 +171,8 @@ curl "https://openintern.dev/api/v1/health"`}
             is_remote, source, posted_at, first_seen_at, last_seen_at
           </code>
           . Seasons are{" "}
-          <code className="mono">summer|fall|winter</code> only (
-          <code className="mono">spring</code> stored as summer). Past seasons and
+          <code className="mono">summer|fall|winter|spring</code>. A listing with a season
+          stays up until the day before that season starts. Past seasons and
           old postings without term years are hidden consistently on the board,
           API, sitemap, job detail pages, and dumps. JSON uses the envelope{" "}
           <code className="mono">{"{ generatedAt, count, jobs }"}</code>; CSV is

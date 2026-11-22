@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { canonicalCompanySlug, jobAliasByPrefix } from "@openintern/db";
 import { JobDetailView } from "@/components/JobDetailView";
 import { jobPath, parseIdPrefixFromJobSlug } from "@/lib/job-slug";
 import { StaleDataBanner } from "@/components/StaleDataBanner";
@@ -60,8 +61,16 @@ export default async function JobSlugDetailPage({
   const idPrefix = parseIdPrefixFromJobSlug(jobSlug);
   if (!idPrefix) notFound();
 
+  // Merged or renamed companies keep their old links working.
+  const canonical = canonicalCompanySlug(company);
+  if (canonical !== company) permanentRedirect(`/jobs/${canonical}/${jobSlug}`);
+
   const { job, dataSource } = await loadJobByCompanyAndIdPrefix(company, idPrefix);
-  if (!job) notFound();
+  if (!job) {
+    const replacement = jobAliasByPrefix(idPrefix);
+    if (replacement) permanentRedirect(`/jobs/${replacement}`);
+    notFound();
+  }
 
   return (
     <>

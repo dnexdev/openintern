@@ -1,4 +1,10 @@
 {
   "_doc": "Approvals for the dump circuit breaker (scripts/dump-gate.mjs). Each entry lets one expected swing through until its date. scope: \"total\" or \"ats:<name>\". Remove entries once they expire.",
-  "approvals": []
+  "approvals": [
+    {
+      "scope": "total",
+      "until": "2026-12-31",
+      "reason": "S10: listings now come down when their term starts, so Fall 2026 roles drop at once. Add ats:<name> rows here if a per-ATS hold follows."
+    }
+  ]
 }

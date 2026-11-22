@@ -1,0 +1,9 @@
+# Old company slugs and the slug that replaced them. Old URLs and API filters
+# redirect here, so links and bookmarks keep working after a merge.
+old_slug	new_slug	date	note
+cadence-design-systems-cadencewd1university-talent	cadence-design-systems	2026-10-24	merged Workday sites
+cadence-design-systems-cadencewd1university-talent-intern	cadence-design-systems	2026-10-24	merged Workday sites
+marvell-marvellwd1marvellcareers	marvell	2026-10-24	merged Workday sites
+marvell-marvellwd1marvellcareers2	marvell	2026-10-24	merged Workday sites
+ge-vernova-gevernovawd5only-confidential-executive-recruiting	ge-vernova	2026-10-24	merged Workday sites
+nvidia-nvidiawd5nvidiaexternalcareersite	nvidia	2026-10-24	orphan left in the database by an old slug

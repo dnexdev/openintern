@@ -9,7 +9,7 @@ import {
   MAX_AGE_DAYS_NO_TERM,
   isStale,
   isStaleByLastSeen as provenStaleByLastSeen,
-  termEndDate,
+  applyByDate,
 } from "@openintern/proven";
 
 /**
@@ -60,8 +60,8 @@ export function looksRemote(locations: string[], title = ""): boolean {
   return /\bremote\b|\bwfh\b|work from home|anywhere/.test(blob);
 }
 
-/** Canonical terms after spring→summer and autumn→fall. */
-export const TERM_ORDER = ["summer", "fall", "winter"] as const;
+/** Canonical terms (autumn→fall). Spring is its own term since 2026-10. */
+export const TERM_ORDER = ["summer", "fall", "winter", "spring"] as const;
 export type InternshipTerm = (typeof TERM_ORDER)[number];
 
 export type TermYear = { term: InternshipTerm; year: number };
@@ -91,13 +91,14 @@ export const DURATION_PRESETS = [3, 4, 6, 8, 12] as const;
 function normalizeTermWord(raw: string): InternshipTerm {
   const w = raw.toLowerCase();
   if (w === "autumn" || w === "fall") return "fall";
-  if (w === "spring" || w === "summer") return "summer";
+  if (w === "summer") return "summer";
+  if (w === "spring") return "spring";
   return "winter";
 }
 
 /**
- * Extract internship seasons. Spring → summer; autumn → fall.
- * Order: summer, fall, winter.
+ * Extract internship seasons; autumn → fall.
+ * Order: summer, fall, winter, spring.
  */
 export function extractTerms(text: string): InternshipTerm[] {
   const found = new Set<InternshipTerm>();
@@ -150,7 +151,7 @@ export function extractTermYears(
  * summer → Aug 31, fall → Dec 31, winter → Apr 30 of that year (Bend-proven table).
  */
 export function termYearEndDate(ty: TermYear): Date {
-  return termEndDate(ty);
+  return applyByDate(ty);
 }
 
 /** True if every known term_year is entirely in the past. Empty → not stale. */
@@ -277,6 +278,13 @@ export function extractCohortYear(text: string, now: Date = new Date()): number 
   const classOf = text.match(/\bclass of\s+(20\d{2})\b/i);
   if (classOf) {
     const y = clampCohortYear(Number(classOf[1]), now);
+    if (y != null) return y;
+  }
+
+  // "2026 Start", "starting in 2027"
+  const start = text.match(/\b(20\d{2})\s+start\b|\bstart(?:ing|s)?\s+(?:in\s+)?(20\d{2})\b/i);
+  if (start) {
+    const y = clampCohortYear(Number(start[1] ?? start[2]), now);
     if (y != null) return y;
   }
 

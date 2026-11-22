@@ -124,7 +124,7 @@ law fr_last_seen_monotone:
   for e: {FR.stale_last_seen(seen, now, max_ms) == True{} : Bool}
   {FR.stale_last_seen(seen, Nat.add(now, k), max_ms) == True{} : Bool}
 
-# A job is fresh up to the instant one of its terms ends.
+# A job is fresh up to the last instant one of its terms can be applied for.
 law fr_term_live_at_end:
   for +h: Nat
   for +t: List<&2, Nat>
@@ -156,19 +156,23 @@ law fr_public_is_fresh:
   {FR.is_public(1n+roles, ends, anchor, now, max_ms)
     == FR.is_fresh(ends, anchor, now, max_ms) : Bool}
 
-# Term windows (zero-based months): summer ends Aug 31, fall Dec 31, winter
-# Apr 30. An unknown term ends Dec 31, as in freshnessSql().
-law fr_summer_end:
-  {FR.term_end(FR.Summer{}) == FR.MonthDay{7n, 31n} : FR.MonthDay}
+# PINNED: the last day to apply is the day before the term starts (zero-based
+# months): summer Apr 30, fall Aug 31, winter and spring Dec 31 of the year
+# before. An unknown term keeps the whole year, as in freshnessSql().
+law fr_summer_apply_by:
+  {FR.apply_by(FR.Summer{}) == FR.ApplyBy{0n, 3n, 30n} : FR.ApplyBy}
 
-law fr_fall_end:
-  {FR.term_end(FR.Fall{}) == FR.MonthDay{11n, 31n} : FR.MonthDay}
+law fr_fall_apply_by:
+  {FR.apply_by(FR.Fall{}) == FR.ApplyBy{0n, 7n, 31n} : FR.ApplyBy}
 
-law fr_winter_end:
-  {FR.term_end(FR.Winter{}) == FR.MonthDay{3n, 30n} : FR.MonthDay}
+law fr_winter_apply_by:
+  {FR.apply_by(FR.Winter{}) == FR.ApplyBy{1n, 11n, 31n} : FR.ApplyBy}
 
-law fr_other_end:
-  {FR.term_end(FR.Other{}) == FR.term_end(FR.Fall{}) : FR.MonthDay}
+law fr_spring_apply_by:
+  {FR.apply_by(FR.Spring{}) == FR.apply_by(FR.Winter{}) : FR.ApplyBy}
+
+law fr_other_apply_by:
+  {FR.apply_by(FR.Other{}) == FR.ApplyBy{0n, 11n, 31n} : FR.ApplyBy}
 
 # PINNED: the freshness constants (one day in ms, 120-day age limit, 14 days
 # unseen).

@@ -5,6 +5,7 @@ import {
   OUTAGE_GAP_DAYS,
   autoDisableState,
   countPriorEmptyRuns,
+  fetchAllBoards,
   ingestDigest,
   ingestStepSummary,
   shouldSkipLastSeenSweep,
@@ -112,6 +113,19 @@ assertEqual(
     shadow: [{ source: "tiktok", ok: false, status: 403, count: null, legacyCount: 324, error: "refused: HTTP 403" }],
   });
   assertEqual(sum.includes("| tiktok | false | 403 |  | 324 |"), true, "shadow table row");
+}
+
+{
+  const job = (id: string) => ({ externalId: id, title: id, locations: [], applyUrl: "https://x/" + id, excerpt: null, postedAt: null, description: "" });
+  const boards: Record<string, ReturnType<typeof job>[]> = { a: [job("1"), job("2")], b: [job("2"), job("3")] };
+  const merged = await fetchAllBoards("workday", ["a", "b"], async (_ats, t) => boards[t]!);
+  assertEqual(merged.map((j) => j.externalId).join(","), "1,2,3", "boards merge by posting id");
+  let failed = false;
+  await fetchAllBoards("workday", ["a", "missing"], async (_ats, t) => {
+    if (!boards[t]) throw new Error("refused");
+    return boards[t]!;
+  }).catch(() => (failed = true));
+  assertEqual(failed, true, "one failed board fails the run");
 }
 
 const funnel = parseFunnelForTest(

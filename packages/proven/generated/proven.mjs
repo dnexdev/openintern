@@ -263,15 +263,17 @@ function $packages_proven_bend_rate_limit_bump(_ok_0, _count_0) {
   }
 }
 
-function $packages_proven_bend_freshness_term_end(_t_0) {
+function $packages_proven_bend_freshness_apply_by(_t_0) {
   if (_t_0.$ === "Summer") {
-    return {$: "MonthDay", "month0": 7, "day": 31};
+    return {$: "ApplyBy", "years_back": 0, "month0": 3, "day": 30};
   } else if (_t_0.$ === "Fall") {
-    return {$: "MonthDay", "month0": 11, "day": 31};
+    return {$: "ApplyBy", "years_back": 0, "month0": 7, "day": 31};
   } else if (_t_0.$ === "Winter") {
-    return {$: "MonthDay", "month0": 3, "day": 30};
+    return {$: "ApplyBy", "years_back": 1, "month0": 11, "day": 31};
+  } else if (_t_0.$ === "Spring") {
+    return {$: "ApplyBy", "years_back": 1, "month0": 11, "day": 31};
   } else {
-    return {$: "MonthDay", "month0": 11, "day": 31};
+    return {$: "ApplyBy", "years_back": 0, "month0": 11, "day": 31};
   }
 }
 
@@ -741,19 +743,23 @@ function $LAWS_fr_public_is_fresh(_roles_0, _ends_0, _anchor_0, _now_0, _max_ms_
   return null;
 }
 
-function $LAWS_fr_summer_end() {
+function $LAWS_fr_summer_apply_by() {
   return null;
 }
 
-function $LAWS_fr_fall_end() {
+function $LAWS_fr_fall_apply_by() {
   return null;
 }
 
-function $LAWS_fr_winter_end() {
+function $LAWS_fr_winter_apply_by() {
   return null;
 }
 
-function $LAWS_fr_other_end() {
+function $LAWS_fr_spring_apply_by() {
+  return null;
+}
+
+function $LAWS_fr_other_apply_by() {
   return null;
 }
 
@@ -1861,7 +1867,7 @@ export default {
   "packages/proven/bend/rate_limit:step.go": run_lib((a0,a1,a2,a3,a4,a5) => run_loop($packages_proven_bend_rate_limit_step_go(a0,nat_in(a1),nat_in(a2),nat_in(a3),nat_in(a4),nat_in(a5))), 6),
   "packages/proven/bend/rate_limit:step": run_lib((a0,a1,a2,a3) => run_loop($packages_proven_bend_rate_limit_step(a0,nat_in(a1),nat_in(a2),nat_in(a3))), 4),
   "packages/proven/bend/rate_limit:bump": run_lib((a0,a1) => run_loop($packages_proven_bend_rate_limit_bump(a0,nat_in(a1))), 2),
-  "packages/proven/bend/freshness:term_end": run_lib((a0) => run_loop($packages_proven_bend_freshness_term_end(a0)), 1),
+  "packages/proven/bend/freshness:apply_by": run_lib((a0) => run_loop($packages_proven_bend_freshness_apply_by(a0)), 1),
   "packages/proven/bend/freshness:day_ms": run_lib(() => run_loop($packages_proven_bend_freshness_day_ms()), 0),
   "packages/proven/bend/freshness:max_age_days": run_lib(() => run_loop($packages_proven_bend_freshness_max_age_days()), 0),
   "packages/proven/bend/freshness:last_seen_days": run_lib(() => run_loop($packages_proven_bend_freshness_last_seen_days()), 0),
@@ -1919,10 +1925,11 @@ export default {
   "LAWS:fr_age_live_at_limit": run_lib((a0,a1) => run_loop($LAWS_fr_age_live_at_limit(nat_in(a0),nat_in(a1))), 2),
   "LAWS:fr_public_needs_role": run_lib((a0,a1,a2,a3) => run_loop($LAWS_fr_public_needs_role(a0,nat_in(a1),nat_in(a2),nat_in(a3))), 4),
   "LAWS:fr_public_is_fresh": run_lib((a0,a1,a2,a3,a4) => run_loop($LAWS_fr_public_is_fresh(nat_in(a0),a1,nat_in(a2),nat_in(a3),nat_in(a4))), 5),
-  "LAWS:fr_summer_end": run_lib(() => run_loop($LAWS_fr_summer_end()), 0),
-  "LAWS:fr_fall_end": run_lib(() => run_loop($LAWS_fr_fall_end()), 0),
-  "LAWS:fr_winter_end": run_lib(() => run_loop($LAWS_fr_winter_end()), 0),
-  "LAWS:fr_other_end": run_lib(() => run_loop($LAWS_fr_other_end()), 0),
+  "LAWS:fr_summer_apply_by": run_lib(() => run_loop($LAWS_fr_summer_apply_by()), 0),
+  "LAWS:fr_fall_apply_by": run_lib(() => run_loop($LAWS_fr_fall_apply_by()), 0),
+  "LAWS:fr_winter_apply_by": run_lib(() => run_loop($LAWS_fr_winter_apply_by()), 0),
+  "LAWS:fr_spring_apply_by": run_lib(() => run_loop($LAWS_fr_spring_apply_by()), 0),
+  "LAWS:fr_other_apply_by": run_lib(() => run_loop($LAWS_fr_other_apply_by()), 0),
   "LAWS:fr_constants": run_lib(() => run_loop($LAWS_fr_constants()), 0),
   "LAWS:ap_empty": run_lib((a0) => run_loop($LAWS_ap_empty(nat_in(a0))), 1),
   "LAWS:ap_many_postings": run_lib((a0,a1) => run_loop($LAWS_ap_many_postings(nat_in(a0),nat_in(a1))), 2),

@@ -32,6 +32,8 @@ export const companyYamlSchema = z.object({
     "x",
   ]),
   board_token: z.string().min(1),
+  /** More boards on the same ATS for this company; postings merge by id. */
+  extra_board_tokens: z.array(z.string().min(1)).optional(),
   careers_url: z.string().url().optional(),
   website_url: z.string().url().optional(),
   active: z.boolean().optional().default(true),

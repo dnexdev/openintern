@@ -24,7 +24,7 @@ import {
   rateLimitStep,
   saysOpenings,
   sumFunnels,
-  termEndDate,
+  applyByDate,
   type RateBucket,
 } from "./index";
 
@@ -76,12 +76,15 @@ assert.equal(rateLimitStep(undefined, 2 ** 48 - 60_001, 60, 60_000).ok, true, "j
 // now + window past 2^48 overflows inside Bend; it must surface as an Error, not a string.
 assert.throws(() => rateLimitStep(undefined, 2 ** 48 - 1000, 60, 1000), Error, "overflow is an Error");
 
-// --- freshness: against the old isFreshJob and isStaleBy* ------------------
+// --- freshness: against an independent reference -------------------------
+// Changed on purpose (2026-10): a listing stays up until its term starts, not
+// until it ends, and spring is its own term.
 
 function oldEnd(term: string, year: number): Date {
-  if (term === "summer") return new Date(Date.UTC(year, 7, 31, 23, 59, 59));
-  if (term === "fall") return new Date(Date.UTC(year, 11, 31, 23, 59, 59));
-  return new Date(Date.UTC(year, 3, 30, 23, 59, 59));
+  if (term === "summer") return new Date(Date.UTC(year, 3, 30, 23, 59, 59));
+  if (term === "fall") return new Date(Date.UTC(year, 7, 31, 23, 59, 59));
+  if (term === "winter" || term === "spring") return new Date(Date.UTC(year - 1, 11, 31, 23, 59, 59));
+  return new Date(Date.UTC(year, 11, 31, 23, 59, 59));
 }
 
 function oldFresh(termYears: { term: string; year: number }[], anchor: Date, now: Date): boolean {
@@ -89,7 +92,7 @@ function oldFresh(termYears: { term: string; year: number }[], anchor: Date, now
   return now.getTime() - anchor.getTime() <= 120 * 86_400_000;
 }
 
-const TERMS = ["summer", "fall", "winter"] as const;
+const TERMS = ["summer", "fall", "winter", "spring"] as const;
 for (let i = 0; i < 2000; i++) {
   const termYears = Array.from({ length: rand(3) }, () => ({
     term: TERMS[rand(3)]!,
@@ -104,16 +107,20 @@ for (let i = 0; i < 2000; i++) {
   assert.equal(isPublic(1 + rand(3), facts), oldFresh(termYears, anchor, now), `public #${i}`);
 }
 
-// Boundaries: fresh through the last second of a term, stale one ms later.
-const summerEnd = termEndDate({ term: "summer", year: 2026 });
-assert.equal(summerEnd.toISOString(), "2026-08-31T23:59:59.000Z");
+// Boundaries: fresh through the last second before a term starts, stale one ms later.
+const summerEnd = applyByDate({ term: "summer", year: 2026 });
+assert.equal(summerEnd.toISOString(), "2026-04-30T23:59:59.000Z");
+assert.equal(applyByDate({ term: "fall", year: 2026 }).toISOString(), "2026-08-31T23:59:59.000Z");
+assert.equal(applyByDate({ term: "winter", year: 2027 }).toISOString(), "2026-12-31T23:59:59.000Z");
+assert.equal(applyByDate({ term: "spring", year: 2027 }).toISOString(), "2026-12-31T23:59:59.000Z");
 assert.equal(isFresh({ termYears: [{ term: "summer", year: 2026 }], anchor: summerEnd, now: summerEnd }), true);
 assert.equal(
   isStale({ termYears: [{ term: "summer", year: 2026 }], anchor: summerEnd, now: new Date(summerEnd.getTime() + 1) }),
   true,
 );
-// Changed on purpose: ingest used to end unknown terms on Apr 30, the board on Dec 31.
-assert.equal(termEndDate({ term: "spring", year: 2026 }).toISOString(), "2026-12-31T23:59:59.000Z");
+// Unknown terms keep the whole year; "constructor" must not reach a prototype key.
+assert.equal(applyByDate({ term: "autumnal", year: 2026 }).toISOString(), "2026-12-31T23:59:59.000Z");
+assert.equal(applyByDate({ term: "constructor", year: 2026 }).toISOString(), "2026-12-31T23:59:59.000Z");
 // Invalid or out-of-range dates throw; callers decide what that means.
 assert.throws(() => isFresh({ termYears: [], anchor: new Date("nope"), now: new Date() }), RangeError);
 assert.throws(() => isFresh({ termYears: [], anchor: new Date(-1), now: new Date() }), RangeError);

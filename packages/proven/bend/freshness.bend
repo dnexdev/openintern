@@ -2,28 +2,36 @@ import Base
 
 # Job freshness, shared by ingest (deactivate stale rows) and the web app
 # (hide stale rows). Times are epoch milliseconds; the TS wrapper turns each
-# {term, year} into the end-of-term instant using term_end below.
+# {term, year} into the last instant a student can usefully apply, using
+# apply_by below: the day before the term starts.
 
 type Term is Data:
   Summer{}
   Fall{}
   Winter{}
+  Spring{}
   Other{}
 
-# Last day of a term window: a zero-based month and a day of the month.
-type MonthDay is Data:
-  MonthDay{month0: Nat, day: Nat}
+# The last day to apply for a term in a given year: `years_back` years
+# earlier, zero-based month, day of month.
+type ApplyBy is Data:
+  ApplyBy{years_back: Nat, month0: Nat, day: Nat}
 
-def term_end(t: Term) -> MonthDay:
+# The day before each term starts. Summer starts May 1, fall Sep 1, winter
+# and spring (US semester) Jan 1 of the term's year. An unknown term keeps the
+# whole year.
+def apply_by(t: Term) -> ApplyBy:
   match t:
     case Summer{}:
-      MonthDay{7n, 31n}
+      ApplyBy{0n, 3n, 30n}
     case Fall{}:
-      MonthDay{11n, 31n}
+      ApplyBy{0n, 7n, 31n}
     case Winter{}:
-      MonthDay{3n, 30n}
+      ApplyBy{1n, 11n, 31n}
+    case Spring{}:
+      ApplyBy{1n, 11n, 31n}
     case Other{}:
-      MonthDay{11n, 31n}
+      ApplyBy{0n, 11n, 31n}
 
 def day_ms() -> Nat:
   86400000n

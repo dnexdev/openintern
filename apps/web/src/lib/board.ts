@@ -1,5 +1,5 @@
 import { and, asc, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
-import { companies, ingestRuns, jobs } from "@openintern/db";
+import { canonicalCompanySlug, companies, ingestRuns, jobs } from "@openintern/db";
 import { parsePage } from "@openintern/proven";
 import { dumpSource, withDumpFirst, type DataSource } from "@/lib/data-source";
 import { getDb } from "@/lib/db";
@@ -47,7 +47,7 @@ export const ROLE_OPTIONS = [
 ] as const;
 
 export const REGION_OPTIONS = ["remote", "us", "canada", "europe", "other"] as const;
-export const TERM_OPTIONS = ["summer", "fall", "winter"] as const;
+export const TERM_OPTIONS = ["summer", "fall", "winter", "spring"] as const;
 export const DURATION_OPTIONS = [3, 4, 6, 8, 12] as const;
 
 export type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -466,8 +466,9 @@ export function parseBoardSearchParams(
   sp: Record<string, string | string[] | undefined>,
 ) {
   const query = (Array.isArray(sp.q) ? sp.q[0] : sp.q)?.trim().slice(0, 100) ?? "";
-  const company =
-    (Array.isArray(sp.company) ? sp.company[0] : sp.company)?.trim() ?? "";
+  const company = canonicalCompanySlug(
+    (Array.isArray(sp.company) ? sp.company[0] : sp.company)?.trim() ?? "",
+  );
   const roles = paramAll(sp, "role").filter((r): r is (typeof ROLE_OPTIONS)[number] =>
     (ROLE_OPTIONS as readonly string[]).includes(r),
   );

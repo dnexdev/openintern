@@ -766,11 +766,6 @@ companies:
     ats: ashby
     board_token: broadcom
     active: false
-  - name: Marvell
-    slug: marvell
-    ats: ashby
-    board_token: marvell
-    active: false
   - name: SiFive
     slug: sifive
     ats: ashby
@@ -2003,18 +1998,9 @@ companies:
     board_token: cadence|wd1|External_Careers
     careers_url: https://cadence.wd1.myworkdayjobs.com/External_Careers
     active: true
-  - name: Cadence Design Systems
-    slug: cadence-design-systems-cadencewd1university-talent
-    ats: workday
-    board_token: cadence|wd1|University_Talent
-    careers_url: https://cadence.wd1.myworkdayjobs.com/University_Talent
-    active: true
-  - name: Cadence Design Systems
-    slug: cadence-design-systems-cadencewd1university-talent-intern
-    ats: workday
-    board_token: cadence|wd1|University_Talent_Intern
-    careers_url: https://cadence.wd1.myworkdayjobs.com/University_Talent_Intern
-    active: true
+    extra_board_tokens:
+      - "cadence|wd1|University_Talent"
+      - "cadence|wd1|University_Talent_Intern"
   - name: CAE
     slug: cae
     ats: workday
@@ -2129,12 +2115,8 @@ companies:
     board_token: gevernova|wd5|vernova_externalsite
     careers_url: https://gevernova.wd5.myworkdayjobs.com/vernova_externalsite
     active: true
-  - name: GE Vernova
-    slug: ge-vernova-gevernovawd5only-confidential-executive-recruiting
-    ats: workday
-    board_token: gevernova|wd5|only_confidential_executive_recruiting
-    careers_url: https://gevernova.wd5.myworkdayjobs.com/only_confidential_executive_recruiting
-    active: true
+    extra_board_tokens:
+      - "gevernova|wd5|only_confidential_executive_recruiting"
   - name: Generac
     slug: generac
     ats: workday
@@ -2244,17 +2226,13 @@ companies:
     careers_url: https://littelfuse.wd1.myworkdayjobs.com/Littelfuse-Careers
     active: true
   - name: Marvell
-    slug: marvell-marvellwd1marvellcareers
+    slug: marvell
     ats: workday
     board_token: marvell|wd1|MarvellCareers
     careers_url: https://marvell.wd1.myworkdayjobs.com/MarvellCareers
     active: true
-  - name: Marvell
-    slug: marvell-marvellwd1marvellcareers2
-    ats: workday
-    board_token: marvell|wd1|MarvellCareers2
-    careers_url: https://marvell.wd1.myworkdayjobs.com/MarvellCareers2
-    active: true
+    extra_board_tokens:
+      - "marvell|wd1|MarvellCareers2"
   - name: McKesson
     slug: mckesson
     ats: workday
