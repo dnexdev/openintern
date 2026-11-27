@@ -1,0 +1,9 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}
+<div class="sheet prose">
+  <h1>Listings unavailable</h1>
+  <p class="lede">The daily listing data could not be loaded just now. This is usually brief; please try again in a minute.</p>
+  <p>The API status is at <a href="/api/v1/status"><code>/api/v1/status</code></a>, and the daily dumps stay downloadable from <a href="https://github.com/dnexdev/openintern/releases/tag/dump-latest">GitHub releases</a>.</p>
+  <p class="row-actions"><a class="btn btn-primary" href="/jobs">Back to the board</a> <a class="btn" href="/health">Ingest health</a></p>
+</div>
+{{end}}

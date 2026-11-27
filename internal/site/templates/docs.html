@@ -1,0 +1,102 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}
+<div class="sheet docs">
+  <header class="page-head">
+    <h1>API &amp; dumps</h1>
+    <p class="lede">OpenIntern is a free, structured corpus of tech internships. Browse the board with no account. Mark applied status in your browser only. Query the public API or download the daily dump for bulk use.</p>
+    {{template "curl" .Data.CurlSample}}
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <a href="#endpoints">Endpoints</a>
+    <a href="#jobs-params">Query parameters</a>
+    <a href="#examples">Examples</a>
+    <a href="#rate-limits">Rate limits</a>
+    <a href="#dumps">Daily dumps</a>
+    <a href="#fields">Dump fields</a>
+    <a href="#add-company">Add a company</a>
+  </nav>
+
+  <section id="endpoints">
+    <h2 class="h2">Endpoints</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Returns</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET</code></td><td><code>/api/v1/jobs</code></td><td>Role families with nested postings, paginated and filterable</td></tr>
+          <tr><td><code>GET</code></td><td><code>/api/v1/jobs/{id}</code></td><td>One job by UUID, as <code>{ data }</code></td></tr>
+          <tr><td><code>GET</code></td><td><code>/api/v1/companies</code></td><td>The company registry, as <code>{ data, total }</code></td></tr>
+          <tr><td><code>GET</code></td><td><code>/api/v1/health</code></td><td>Ingest pipeline health</td></tr>
+          <tr><td><code>GET</code></td><td><code>/api/v1/status</code></td><td>Uptime check: 200 while the daily dump is fresh, 503 when it is missing or older than 30 hours</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="jobs-params">
+    <h2 class="h2"><code>GET /api/v1/jobs</code> query parameters</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">Parameter</th><th scope="col">Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>q</code></td><td>Title substring, case-insensitive</td></tr>
+          <tr><td><code>company</code></td><td>Company slug, exact</td></tr>
+          <tr><td><code>role</code></td><td><code>software|<wbr>backend|<wbr>frontend|<wbr>fullstack|<wbr>data|<wbr>ml|<wbr>mobile|<wbr>security|<wbr>devops|<wbr>hardware|<wbr>quant|<wbr>product|<wbr>research</code>. Repeatable or comma-separated; values are OR-ed.</td></tr>
+          <tr><td><code>region</code></td><td><code>remote|<wbr>us|<wbr>canada|<wbr>europe|<wbr>other</code>. Repeatable or comma-separated; values are OR-ed.</td></tr>
+          <tr><td><code>season</code></td><td><code>summer|<wbr>fall|<wbr>winter|<wbr>spring</code>. <code>spring</code> is its own season since 2026-10-24; before, it was folded into summer. Repeatable or comma-separated. Board-compatible alias: <code>term</code>.</td></tr>
+          <tr><td><code>duration_months</code></td><td>Repeatable or comma-separated integers (1 to 24). Matches jobs whose duration overlaps any selected value, so Cohere’s “4–6 months” matches 4 or 6. Board-compatible alias: <code>duration</code>.</td></tr>
+          <tr><td><code>posted_after</code></td><td>ISO date; jobs posted on or after it</td></tr>
+          <tr><td><code>page</code></td><td>Page number, default 1</td></tr>
+          <tr><td><code>limit</code></td><td>Page size in role families, default 27, max 100</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The live API is <strong>grouped by role family</strong>: the same title across locations is one entry. The response is <code>{ jobs, page, limit, total, total_pages, has_more }</code>. Each entry has <code>role_family_id</code>, <code>company</code>, <code>title</code> and <code>postings[]</code> with <code>id</code>, <code>title</code>, <code>location</code>, <code>posted_at</code> and <code>apply_url</code>. Daily dumps stay flat, one row per posting.</p>
+  </section>
+
+  <section id="examples">
+    <h2 class="h2">Examples</h2>
+<pre class="code"><code>curl "https://openintern.dev/api/v1/jobs?role=ml,software&amp;limit=10"
+curl "https://openintern.dev/api/v1/jobs?region=canada&amp;season=fall,winter"
+curl "https://openintern.dev/api/v1/jobs?duration_months=4,6"
+curl "https://openintern.dev/api/v1/jobs/{id}"
+curl "https://openintern.dev/api/v1/companies"
+curl "https://openintern.dev/api/v1/health"</code></pre>
+  </section>
+
+  <section id="rate-limits">
+    <h2 class="h2">Rate limits and bulk access</h2>
+    <p>The hosted API allows 60 requests per minute per IP by default and reports what is left in <code>X-RateLimit-Remaining</code>. Limits are best-effort on serverless instances and may change for stability. For bulk use, take the daily dumps below or self-host rather than paging through the hosted API all day.</p>
+  </section>
+
+  <section id="dumps">
+    <h2 class="h2">Daily dumps</h2>
+    <p>Stable download URLs, refreshed every day by GitHub Actions under the release tag <a href="https://github.com/dnexdev/openintern/releases/tag/dump-latest"><code>dump-latest</code></a>:</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">File</th><th scope="col">Contents</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json"><code>jobs.json</code></a></td><td>Every public job, in the envelope <code>{ generatedAt, count, jobs }</code></td></tr>
+          <tr><td><a href="https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.csv"><code>jobs.csv</code></a></td><td>The same rows, flat. Both also ship gzipped as <code>jobs.json.gz</code> and <code>jobs.csv.gz</code></td></tr>
+          <tr><td><a href="https://github.com/dnexdev/openintern/releases/download/dump-latest/companies.json"><code>companies.json</code></a></td><td>The company registry</td></tr>
+          <tr><td><a href="https://github.com/dnexdev/openintern/releases/download/dump-latest/health.json"><code>health.json</code></a></td><td>The pipeline snapshot behind <a href="/health">Health</a></td></tr>
+          <tr><td><a href="https://github.com/dnexdev/openintern/releases/download/dump-latest/LICENSE-DATA.txt"><code>LICENSE-DATA.txt</code></a></td><td>Terms for the data, including what mirrors must do</td></tr>
+          <tr><td><a href="https://github.com/dnexdev/openintern/releases/download/dump-latest/denylist.json"><code>denylist.json</code></a></td><td>Job ids taken down by request; mirrors must drop them</td></tr>
+          <tr><td><a href="https://github.com/dnexdev/openintern/releases/download/dump-latest/MANIFEST.json"><code>MANIFEST.json</code></a></td><td>Counts, plus the size and SHA-256 of every file</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="fields">
+    <h2 class="h2">Dump fields</h2>
+    <p>JSON and CSV rows include <code>id</code>, <code>title</code>, <code>company</code>, <code>company_slug</code>, <code>locations</code>, <code>apply_url</code>, <code>excerpt</code>, <code>terms</code>, <code>term_years</code>, <code>duration_months</code> (integers), <code>cohort_year</code>, <code>roles</code>, <code>regions</code>, <code>is_remote</code>, <code>source</code>, <code>posted_at</code>, <code>first_seen_at</code>, <code>last_seen_at</code>, and since November 2026 <code>role_family_id</code> and <code>normalized_title</code>.</p>
+    <p>Seasons are <code>summer|<wbr>fall|<wbr>winter|<wbr>spring</code>. A listing with a season stays up until the day before that season starts. Past seasons and old postings without term years are hidden the same way on the board, the API, the sitemap, job pages and the dumps.</p>
+  </section>
+
+  <section id="add-company">
+    <h2 class="h2">Add a company</h2>
+    <p>Extend the corpus with a YAML pull request; see <a href="https://github.com/dnexdev/openintern/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>. Public boards on Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Rippling, BambooHR and Workday need only a board token; Phenom, Avature, iCIMS, Eightfold and a few named careers sites have their own adapters.</p>
+  </section>
+</div>
+{{end}}

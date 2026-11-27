@@ -1,0 +1,113 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}{{with .Data}}
+<div class="sheet board" id="board">
+  <header class="board-head">
+    <h1>Internships</h1>
+    <p class="muted">Free tech roles from public ATS boards. No account required.</p>
+  </header>
+
+  <details class="filters" id="filters-panel" open>
+    <summary class="btn"><span id="filters-summary" data-sync>Filters{{if .ActiveCount}} ({{.ActiveCount}}){{end}}</span></summary>
+    <form class="filter-form" id="filters" action="/jobs" method="get" role="search" aria-label="Filter internships">
+      <div class="field">
+        <label for="job-search">Search titles</label>
+        <div class="search-row">
+          <input id="job-search" class="input" type="search" name="q" value="{{.Query}}" placeholder="Search roles" maxlength="100">
+          <button class="btn" type="submit">Search</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="company-filter">Company</label>
+        <select id="company-filter" class="input" name="company">
+          {{range .CompanyOptions}}<option value="{{.Value}}"{{if .Checked}} selected{{end}}>{{.Label}}</option>{{end}}
+        </select>
+      </div>
+      <fieldset class="choices">
+        <legend>Role <span id="count-role" data-sync>{{with .RoleCount}}({{.}}){{end}}</span></legend>
+        <div class="choice-grid">{{range .Roles}}<label class="choice"><input type="checkbox" name="role" value="{{.Value}}"{{if .Checked}} checked{{end}}> {{.Label}}</label>{{end}}</div>
+      </fieldset>
+      <fieldset class="choices">
+        <legend>Location <span id="count-region" data-sync>{{with .RegionCount}}({{.}}){{end}}</span></legend>
+        <div class="choice-grid">{{range .Regions}}<label class="choice"><input type="checkbox" name="region" value="{{.Value}}"{{if .Checked}} checked{{end}}> {{.Label}}</label>{{end}}</div>
+      </fieldset>
+      <fieldset class="choices">
+        <legend>Term <span id="count-term" data-sync>{{with .TermCount}}({{.}}){{end}}</span></legend>
+        <div class="choice-grid">{{range .Terms}}<label class="choice"><input type="checkbox" name="term" value="{{.Value}}"{{if .Checked}} checked{{end}}> {{.Label}}</label>{{end}}</div>
+      </fieldset>
+      <fieldset class="choices">
+        <legend>Duration <span id="count-duration" data-sync>{{with .DurationCount}}({{.}}){{end}}</span></legend>
+        <div class="choice-grid">{{range .Durations}}<label class="choice"><input type="checkbox" name="duration" value="{{.Value}}"{{if .Checked}} checked{{end}}> {{.Label}}</label>{{end}}</div>
+      </fieldset>
+      <div class="filter-actions">
+        <button class="btn btn-primary" type="submit" data-nojs>Show roles</button>
+        <span id="clear-filters" data-sync>{{if .HasFilters}}<a href="/jobs" data-board-link>Clear filters</a>{{end}}</span>
+      </div>
+    </form>
+  </details>
+
+  <section class="results" id="results" aria-labelledby="results-count" data-sync>
+    <div class="results-bar">
+      <p id="results-count" class="results-count" aria-live="polite">{{if not .Error}}<strong>{{num .Total}}</strong> {{plural .Total "role" "roles"}}{{if .HasFilters}} matching filters{{end}}{{end}}<span data-hidden-note></span></p>
+      <label class="choice hide-applied" hidden><input type="checkbox" data-hide-applied> Hide applied</label>
+      <label class="sort">Sort
+        <select class="input" name="sort" form="filters" aria-label="Sort jobs">
+          {{range .Sort}}<option value="{{.Value}}"{{if .Checked}} selected{{end}}>{{.Label}}</option>{{end}}
+        </select>
+      </label>
+    </div>
+
+    {{if .Error}}
+    <p class="notice">The listings could not be loaded right now. Please try again in a minute.</p>
+    {{else if not .Families}}
+    <p class="empty">No active internships matched.{{if .HasFilters}} <a href="/jobs" data-board-link>Clear filters</a>{{end}}</p>
+    {{else}}
+    <div class="rows-head" aria-hidden="true">
+      <span>Company</span><span>Role</span><span>Location</span><span>Term</span><span>Seen</span>
+    </div>
+    <ol class="rows">
+      {{range .Families}}{{template "family" .}}{{end}}
+    </ol>
+    <p class="empty" data-all-applied hidden>All matching roles on this page are marked applied. Uncheck “Hide applied” to see them.</p>
+    {{end}}
+
+    {{if .Pages}}
+    <nav class="pager" aria-label="Pagination">
+      {{with .Prev}}<a href="{{.}}" rel="prev" data-board-link>Previous</a>{{end}}
+      {{range .Pages}}{{if .Gap}}<span class="pager-gap" aria-hidden="true">…</span>{{else if .Current}}<a href="{{.Href}}" aria-current="page" aria-label="Page {{.N}}" data-board-link>{{.N}}</a>{{else}}<a href="{{.Href}}" aria-label="Page {{.N}}" data-board-link>{{.N}}</a>{{end}}{{end}}
+      {{with .Next}}<a href="{{.}}" rel="next" data-board-link>Next</a>{{end}}
+    </nav>
+    {{end}}
+  </section>
+</div>
+{{end}}{{end}}
+
+{{define "family"}}<li class="row" data-family-id="{{.ID}}" data-job-ids="{{.JobIDs}}">
+  <p class="cell-company">{{.CompanyName}}{{if .Tier1}} <span class="tier" title="On the maintainer-curated Tier 1 employer list">Tier 1</span>{{end}}</p>
+  <div class="cell-role">
+    <h2 class="row-title"><a href="{{.DetailPath}}">{{.Title}}</a></h2>
+    {{with .Roles}}<p class="row-roles">{{.}}</p>{{end}}
+    {{with .Excerpt}}<p class="row-excerpt">{{.}}</p>{{end}}
+    {{if .Picker}}
+    <details class="picker">
+      <summary class="btn btn-primary btn-small">{{.PickerLabel}}</summary>
+      <ul class="picker-list">
+        {{$title := .Title}}{{range .ApplyRows}}<li>
+          <span class="picker-label">{{.Label}}</span>
+          <a class="btn btn-primary btn-small" href="{{.ApplyURL}}" target="_blank" rel="noopener noreferrer" aria-label="Apply for {{$title}} ({{.Label}})">Apply</a>
+          {{template "applied" (pair .JobID .AppliedTitle)}}
+        </li>{{end}}
+      </ul>
+    </details>
+    <p class="row-actions"><a class="report" href="{{.ReportURL}}" target="_blank" rel="noopener noreferrer">Report issue</a></p>
+    {{else}}
+    <p class="row-actions">
+      <a class="btn btn-primary btn-small" href="{{.ApplyURL}}" target="_blank" rel="noopener noreferrer" aria-label="Apply for {{.Title}} at {{.CompanyName}}">Apply</a>
+      {{template "applied" (pair .JobID .Title)}}
+      <a class="report" href="{{.ReportURL}}" target="_blank" rel="noopener noreferrer">Report issue</a>
+    </p>
+    {{end}}
+  </div>
+  <p class="cell-where"><span class="cell-label">Location</span> {{.Location}}{{with .Region}}<span class="cell-sub">{{.}}</span>{{end}}</p>
+  <p class="cell-when{{if not (or .Term .Duration)}} is-empty{{end}}"><span class="cell-label">Term</span> {{with .Term}}{{.}}{{else}}<span class="muted" aria-hidden="true">—</span><span class="vh">Not stated</span>{{end}}{{with .Duration}}<span class="cell-sub">{{.}}</span>{{end}}</p>
+  <p class="cell-seen"><span class="cell-label">First seen</span> <time datetime="{{.SeenAt}}" title="{{.SeenAt}}">{{.SeenAgo}}</time></p>
+</li>{{end}}

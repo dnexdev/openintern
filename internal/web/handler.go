@@ -73,9 +73,11 @@ func Handler(options ...Options) http.Handler {
 	mux.HandleFunc("GET /api/v1/status", s.statusAPI)
 	mux.HandleFunc("GET /robots.txt", s.robots)
 	mux.HandleFunc("GET /sitemap.xml", s.sitemap)
-	if opts.StaticFS != nil {
-		mux.Handle("GET /assets/", immutableFiles("/assets/", opts.StaticFS))
+	static := opts.StaticFS
+	if static == nil {
+		static = defaultStatic()
 	}
+	mux.Handle("GET /assets/", immutableFiles("/assets/", static))
 	register := opts.RegisterSite
 	if register == nil {
 		register = registerSite
