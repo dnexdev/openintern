@@ -19,3 +19,9 @@ packages/proven/bend/rate_limit.bend	      step.go(Nat.is_le(t, now), c, t, now,
 packages/proven/bend/rate_limit.bend	      Verdict{True{}, l, Bucket{1n, reset_at}}	      Verdict{True{}, l, Bucket{0n, reset_at}}	admitted request not counted
 packages/proven/bend/rate_limit.bend	    case 1n+c 1n+l:\n      admit.up(admit(c, l, reset_at))	    case 1n+c 1n+l:\n      Verdict{False{}, l, Bucket{1n+c, reset_at}}	under-limit request denied (no progress)
 packages/proven/bend/freshness.bend	    case Spring{}:\n      ApplyBy{1n, 11n, 31n}	    case Spring{}:\n      ApplyBy{0n, 3n, 30n}	spring folded into summer
+packages/proven/bend/apply_strikes.bend	    case Inconclusive{}:\n      count	    case Inconclusive{}:\n      1n+count	inconclusive probe adds a strike
+packages/proven/bend/apply_strikes.bend	    case Alive{}:\n      0n	    case Alive{}:\n      count	alive probe keeps strikes
+packages/proven/bend/apply_strikes.bend	            case False{}:\n              1n+p	            case False{}:\n              2n+p	strike inside the gap counts
+packages/proven/bend/apply_strikes.bend	  Nat.is_le(strikes_to_retire(), count)	  Nat.is_le(1n, count)	one dead probe retires
+packages/proven/bend/apply_strikes.bend	def strikes_to_retire() -> Nat:\n  3n	def strikes_to_retire() -> Nat:\n  2n	strike threshold lowered
+packages/proven/bend/apply_strikes.bend	def strike_gap_hours() -> Nat:\n  20n	def strike_gap_hours() -> Nat:\n  10n	strike gap shortened

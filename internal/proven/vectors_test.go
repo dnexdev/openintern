@@ -87,6 +87,8 @@ func TestProvenModelVectors(t *testing.T) {
 			MaxAgeDaysNoTerm     int64 `json:"MAX_AGE_DAYS_NO_TERM"`
 			LastSeenStaleDays    int64 `json:"LAST_SEEN_STALE_DAYS"`
 			RetireAfterEmptyRuns int64 `json:"RETIRE_AFTER_EMPTY_RUNS"`
+			StrikesToRetire      int64 `json:"STRIKES_TO_RETIRE"`
+			StrikeGapHours       int64 `json:"STRIKE_GAP_HOURS"`
 		} `json:"constants"`
 		RateLimit []struct {
 			Prev     *RateBucket `json:"prev"`
@@ -132,6 +134,13 @@ func TestProvenModelVectors(t *testing.T) {
 			Retire expectedCapture `json:"retire"`
 			Next   expectedCapture `json:"next"`
 		} `json:"deactivation"`
+		ApplyStrikes []struct {
+			Count   int64           `json:"count"`
+			Due     bool            `json:"due"`
+			Verdict ApplyVerdict    `json:"verdict"`
+			Next    expectedCapture `json:"next"`
+			Retired expectedCapture `json:"retired"`
+		} `json:"applyStrikes"`
 		Funnels []struct {
 			Funnels []FunnelCounts `json:"funnels"`
 			expectedCapture
@@ -168,7 +177,9 @@ func TestProvenModelVectors(t *testing.T) {
 	if vectors.Constants.NatLimit != NatLimit || vectors.Constants.DayMS != DayMS ||
 		vectors.Constants.MaxAgeDaysNoTerm != MaxAgeDaysNoTerm ||
 		vectors.Constants.LastSeenStaleDays != LastSeenStaleDays ||
-		vectors.Constants.RetireAfterEmptyRuns != RetireAfterEmptyRuns {
+		vectors.Constants.RetireAfterEmptyRuns != RetireAfterEmptyRuns ||
+		vectors.Constants.StrikesToRetire != StrikesToRetire ||
+		vectors.Constants.StrikeGapHours != StrikeGapHours {
 		t.Fatalf("constant mismatch: %#v", vectors.Constants)
 	}
 
@@ -216,6 +227,15 @@ func TestProvenModelVectors(t *testing.T) {
 		t.Run(fmt.Sprintf("deactivation/%d", i), func(t *testing.T) {
 			assertCaptured(t, tc.Retire, func() any { return ShouldRetireJob(tc.Run, tc.Prior, tc.Seen) })
 			assertCaptured(t, tc.Next, func() any { return NextEmptyRuns(tc.Run, tc.Prior) })
+		})
+	}
+	if len(vectors.ApplyStrikes) == 0 {
+		t.Fatal("no applyStrikes vectors")
+	}
+	for i, tc := range vectors.ApplyStrikes {
+		t.Run(fmt.Sprintf("applyStrikes/%d", i), func(t *testing.T) {
+			assertCaptured(t, tc.Next, func() any { return NextStrikes(tc.Count, tc.Due, tc.Verdict) })
+			assertCaptured(t, tc.Retired, func() any { return StrikesRetired(tc.Count) })
 		})
 	}
 	for i, tc := range vectors.Funnels {

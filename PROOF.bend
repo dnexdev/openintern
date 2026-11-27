@@ -5,6 +5,7 @@ import ./packages/proven/bend/rate_limit.bend as RL
 import ./packages/proven/bend/freshness.bend as FR
 import ./packages/proven/bend/apply_picker.bend as AP
 import ./packages/proven/bend/deactivation.bend as DP
+import ./packages/proven/bend/apply_strikes.bend as AS
 import ./packages/proven/bend/funnel.bend as FN
 import ./packages/proven/bend/pagination.bend as PG
 import ./packages/proven/bend/job_slug.bend as JS
@@ -456,6 +457,26 @@ def Laws.dp_failed_keeps_count(prior):
   {==}
 
 def Laws.dp_empty_counts(prior):
+  {==}
+
+# ---------------------------------------------------------------------------
+# Dead apply links
+# ---------------------------------------------------------------------------
+
+def Laws.as_inconclusive_keeps(count, due):
+  {==}
+
+def Laws.as_alive_clears(count, due):
+  {==}
+
+def Laws.as_retire_iff(d1, d2):
+  match d2:
+    case True{}:
+      {==}
+    case False{}:
+      {==}
+
+def Laws.as_constants():
   {==}
 
 # ---------------------------------------------------------------------------

@@ -20,6 +20,8 @@ const (
 	MaxAgeDaysNoTerm     int64 = 120
 	LastSeenStaleDays    int64 = 14
 	RetireAfterEmptyRuns int64 = 3
+	StrikesToRetire      int64 = 3
+	StrikeGapHours       int64 = 20
 
 	DAY_MS                  = DayMS
 	MAX_AGE_DAYS_NO_TERM    = MaxAgeDaysNoTerm
@@ -325,6 +327,43 @@ func NextEmptyRuns(run BoardRun, priorEmptyRuns int64) int64 {
 	default:
 		return priorEmptyRuns
 	}
+}
+
+// ApplyVerdict is what one probe of an apply link found.
+type ApplyVerdict string
+
+const (
+	ApplyAlive        ApplyVerdict = "alive"
+	ApplyDead         ApplyVerdict = "dead"
+	ApplyInconclusive ApplyVerdict = "inconclusive"
+)
+
+// StrikesRetired reports whether a job with count dead-link strikes is off
+// the board.
+func StrikesRetired(count int64) bool {
+	nat(count, "count")
+	return count >= StrikesToRetire
+}
+
+// NextStrikes is a job's strike count after one probe. due means at least
+// StrikeGapHours have passed since the last strike (ignored at count 0).
+func NextStrikes(count int64, due bool, v ApplyVerdict) int64 {
+	nat(count, "count")
+	switch v {
+	case ApplyAlive:
+		return 0
+	case ApplyInconclusive:
+		return count
+	case ApplyDead:
+		if StrikesRetired(count) {
+			return count
+		}
+		if count == 0 || due {
+			return natAdd(count, 1, "apply_strikes:next")
+		}
+		return count
+	}
+	panic(&RangeError{Message: fmt.Sprintf("unknown apply verdict: %s", v)})
 }
 
 // FunnelCounts holds the optional counts parsed from one ingest-health record.

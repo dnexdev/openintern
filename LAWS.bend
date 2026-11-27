@@ -3,6 +3,7 @@ import ./packages/proven/bend/rate_limit.bend as RL
 import ./packages/proven/bend/freshness.bend as FR
 import ./packages/proven/bend/apply_picker.bend as AP
 import ./packages/proven/bend/deactivation.bend as DP
+import ./packages/proven/bend/apply_strikes.bend as AS
 import ./packages/proven/bend/funnel.bend as FN
 import ./packages/proven/bend/pagination.bend as PG
 import ./packages/proven/bend/job_slug.bend as JS
@@ -298,6 +299,41 @@ law dp_failed_keeps_count:
 law dp_empty_counts:
   for +prior: Nat
   {DP.next_empty(DP.Empty{}, prior) == 1n+prior : Nat}
+
+# ---------------------------------------------------------------------------
+# Dead apply links (internal/applycheck)
+# ---------------------------------------------------------------------------
+
+# A blocked, rate-limited, erroring or timed-out probe never adds a strike.
+law as_inconclusive_keeps:
+  for +count: Nat
+  for +due: Bool
+  {AS.next(count, due, AS.Inconclusive{}) == count : Nat}
+
+# A link that answers clears every strike.
+law as_alive_clears:
+  for +count: Nat
+  for +due: Bool
+  {AS.next(count, due, AS.Alive{}) == 0n : Nat}
+
+# A job retires only on three counted strikes: two dead probes never retire
+# it, a third that comes too soon after the second does not count, and a
+# third once the gap has passed does.
+law as_retire_iff:
+  for +d1: Bool
+  for +d2: Bool
+  {Bool.and(Bool.and(
+      Bool.not(AS.retired(AS.next(AS.next(0n, d1, AS.Dead{}), d2, AS.Dead{}))),
+      Bool.not(AS.retired(AS.next(AS.next(AS.next(0n, d1, AS.Dead{}), True{}, AS.Dead{}), False{}, AS.Dead{})))),
+      AS.retired(AS.next(AS.next(AS.next(0n, d1, AS.Dead{}), True{}, AS.Dead{}), True{}, AS.Dead{})))
+    == True{} : Bool}
+
+# PINNED: three strikes, at least 20 hours apart.
+law as_constants:
+  {Bool.and(
+      Bool.and(Nat.is_le(AS.strikes_to_retire(), 3n), Nat.is_le(3n, AS.strikes_to_retire())),
+      Bool.and(Nat.is_le(AS.strike_gap_hours(), 20n), Nat.is_le(20n, AS.strike_gap_hours())))
+    == True{} : Bool}
 
 # ---------------------------------------------------------------------------
 # Ingest-health funnel (internal/health)

@@ -310,7 +310,8 @@ Browser localStorage only; not server state.
 
 ## 16. Dead apply links
 
-**Where:** `internal/applycheck` (verdicts, strikes),
+**Where:** `internal/applycheck` (verdicts, strikes; the strike step is
+`proven.NextStrikes`, specified by the `as_*` laws in `LAWS.bend`),
 `internal/ingest/applyprobe.go` (probe phase), the upsert in
 `internal/ingest/ingest.go`, `openintern check-apply` (report only).
 **On:** `OPENINTERN_APPLY_PROBE=1` (set by the Ingest workflow).

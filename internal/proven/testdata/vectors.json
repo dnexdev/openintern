@@ -4,7 +4,9 @@
     "DAY_MS": 86400000,
     "MAX_AGE_DAYS_NO_TERM": 120,
     "LAST_SEEN_STALE_DAYS": 14,
-    "RETIRE_AFTER_EMPTY_RUNS": 3
+    "RETIRE_AFTER_EMPTY_RUNS": 3,
+    "STRIKES_TO_RETIRE": 3,
+    "STRIKE_GAP_HOURS": 20
   },
   "rateLimit": [
     {
@@ -9340,6 +9342,435 @@
       },
       "next": {
         "value": 0
+      }
+    }
+  ],
+  "applyStrikes": [
+    {
+      "count": 0,
+      "due": false,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 0,
+      "due": false,
+      "verdict": "dead",
+      "next": {
+        "value": 1
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 0,
+      "due": false,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 0,
+      "due": true,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 0,
+      "due": true,
+      "verdict": "dead",
+      "next": {
+        "value": 1
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 0,
+      "due": true,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 1,
+      "due": false,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 1,
+      "due": false,
+      "verdict": "dead",
+      "next": {
+        "value": 1
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 1,
+      "due": false,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 1
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 1,
+      "due": true,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 1,
+      "due": true,
+      "verdict": "dead",
+      "next": {
+        "value": 2
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 1,
+      "due": true,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 1
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 2,
+      "due": false,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 2,
+      "due": false,
+      "verdict": "dead",
+      "next": {
+        "value": 2
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 2,
+      "due": false,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 2
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 2,
+      "due": true,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 2,
+      "due": true,
+      "verdict": "dead",
+      "next": {
+        "value": 3
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 2,
+      "due": true,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 2
+      },
+      "retired": {
+        "value": false
+      }
+    },
+    {
+      "count": 3,
+      "due": false,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 3,
+      "due": false,
+      "verdict": "dead",
+      "next": {
+        "value": 3
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 3,
+      "due": false,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 3
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 3,
+      "due": true,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 3,
+      "due": true,
+      "verdict": "dead",
+      "next": {
+        "value": 3
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 3,
+      "due": true,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 3
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 4,
+      "due": false,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 4,
+      "due": false,
+      "verdict": "dead",
+      "next": {
+        "value": 4
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 4,
+      "due": false,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 4
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 4,
+      "due": true,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 4,
+      "due": true,
+      "verdict": "dead",
+      "next": {
+        "value": 4
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 4,
+      "due": true,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 4
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 281474976710655,
+      "due": false,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 281474976710655,
+      "due": false,
+      "verdict": "dead",
+      "next": {
+        "value": 281474976710655
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 281474976710655,
+      "due": false,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 281474976710655
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 281474976710655,
+      "due": true,
+      "verdict": "alive",
+      "next": {
+        "value": 0
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 281474976710655,
+      "due": true,
+      "verdict": "dead",
+      "next": {
+        "value": 281474976710655
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": 281474976710655,
+      "due": true,
+      "verdict": "inconclusive",
+      "next": {
+        "value": 281474976710655
+      },
+      "retired": {
+        "value": true
+      }
+    },
+    {
+      "count": -1,
+      "due": true,
+      "verdict": "dead",
+      "next": {
+        "error": {
+          "name": "RangeError",
+          "message": "count must be an integer in [0, 2^48), got -1"
+        }
+      },
+      "retired": {
+        "error": {
+          "name": "RangeError",
+          "message": "count must be an integer in [0, 2^48), got -1"
+        }
+      }
+    },
+    {
+      "count": 0,
+      "due": true,
+      "verdict": "unknown",
+      "next": {
+        "error": {
+          "name": "RangeError",
+          "message": "unknown apply verdict: unknown"
+        }
+      },
+      "retired": {
+        "value": false
       }
     }
   ],

@@ -17,7 +17,7 @@ stated laws, as checked by bend2. Not covered:
 
 | File | Role | Who edits it |
 |---|---|---|
-| `LAWS.bend` | The spec: 56 laws, each a claim that must hold | Humans, on purpose |
+| `LAWS.bend` | The spec: 62 laws, each a claim that must hold | Humans, on purpose |
 | `PROOF.bend` | A proof for every law | Whoever changes the code |
 | `packages/proven/bend/*.bend` | The implementations | Whoever changes the code |
 | `internal/proven/testdata/vectors.json` | Outputs of the Bend model, replayed by Go tests (committed) | `openintern proofs build` |

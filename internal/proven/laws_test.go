@@ -529,3 +529,48 @@ func TestLaw_js_roundtrip(t *testing.T) {
 		}
 	}
 }
+
+var strikeCounts = []int64{0, 1, 2, 3, 4, 17, NatLimit - 1}
+
+func TestLaw_as_inconclusive_keeps(t *testing.T) {
+	for _, c := range strikeCounts {
+		for _, due := range []bool{false, true} {
+			if got := NextStrikes(c, due, ApplyInconclusive); got != c {
+				t.Fatalf("inconclusive probe moved %d strikes to %d (due=%v)", c, got, due)
+			}
+		}
+	}
+}
+
+func TestLaw_as_alive_clears(t *testing.T) {
+	for _, c := range strikeCounts {
+		for _, due := range []bool{false, true} {
+			if got := NextStrikes(c, due, ApplyAlive); got != 0 {
+				t.Fatalf("alive probe left %d of %d strikes (due=%v)", got, c, due)
+			}
+		}
+	}
+}
+
+func TestLaw_as_retire_iff(t *testing.T) {
+	for _, d1 := range []bool{false, true} {
+		for _, d2 := range []bool{false, true} {
+			if StrikesRetired(NextStrikes(NextStrikes(0, d1, ApplyDead), d2, ApplyDead)) {
+				t.Fatal("two dead probes retired a job")
+			}
+		}
+		two := NextStrikes(NextStrikes(0, d1, ApplyDead), true, ApplyDead)
+		if StrikesRetired(NextStrikes(two, false, ApplyDead)) {
+			t.Fatal("a third strike inside the gap counted")
+		}
+		if !StrikesRetired(NextStrikes(two, true, ApplyDead)) {
+			t.Fatal("three counted strikes kept a job")
+		}
+	}
+}
+
+func TestLaw_as_constants(t *testing.T) {
+	if StrikesToRetire != 3 || StrikeGapHours != 20 {
+		t.Fatalf("strikes %d, gap %dh", StrikesToRetire, StrikeGapHours)
+	}
+}

@@ -28,14 +28,15 @@ import (
 	"time"
 
 	"github.com/dnexdev/openintern/internal/fetch"
+	"github.com/dnexdev/openintern/internal/proven"
 )
 
 // StrikesToRetire is how many dead verdicts in a row retire a job.
-const StrikesToRetire = 3
+const StrikesToRetire = int(proven.StrikesToRetire)
 
 // MinStrikeGap is the least time between two strikes that both count. A
 // dead verdict sooner than this after the last strike changes nothing.
-const MinStrikeGap = 20 * time.Hour
+const MinStrikeGap = time.Duration(proven.StrikeGapHours) * time.Hour
 
 // ProbeTimeout is the budget for one request of a probe.
 const ProbeTimeout = 15 * time.Second
@@ -73,19 +74,15 @@ func (s Strikes) Retired() bool { return s.Count >= StrikesToRetire }
 // MinStrikeGap old (or the count is already at StrikesToRetire, which is
 // kept as is so a retired job's record does not change every run).
 func Next(s Strikes, v Verdict, now time.Time) Strikes {
-	switch v {
-	case Alive:
+	due := s.Count == 0 || now.Sub(s.Last) >= MinStrikeGap
+	n := int(proven.NextStrikes(int64(s.Count), due, proven.ApplyVerdict(v)))
+	switch {
+	case n == s.Count:
+		return s
+	case n == 0:
 		return Strikes{}
-	case Dead:
-		if s.Count >= StrikesToRetire {
-			return s
-		}
-		if s.Count > 0 && now.Sub(s.Last) < MinStrikeGap {
-			return s
-		}
-		return Strikes{Count: s.Count + 1, Last: now}
 	}
-	return s
+	return Strikes{Count: n, Last: now}
 }
 
 // Due reports whether a job with these strikes may be probed again at now:

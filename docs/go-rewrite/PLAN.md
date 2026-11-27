@@ -268,7 +268,8 @@ keyboard use of filters) and keep the copy's meaning.
   5 dead (Saronic: hosted Ashby board switched off, API still lists the
   jobs); the old check-apply's 13 Pinterest "dead" links were HEAD-only
   404s (GET 200); 105 inconclusive (93 SmartRecruiters 403s).
-  Open: propose the strike rule as Bend laws (maintainer's call); SPA apply
+  The strike rule is in LAWS.bend (as_* laws, apply_strikes.bend; the
+  classifier stays in Go tests). Open: SPA apply
   pages (TikTok, ByteDance, Waymo, Workday) answer 200 for closed postings,
   so only board-run retirement catches those.
 - `packages/*` remain for Bend glue and golden regeneration; peel further

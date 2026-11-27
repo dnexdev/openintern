@@ -214,6 +214,7 @@ import ./packages/proven/bend/rate_limit.bend as RL
 import ./packages/proven/bend/freshness.bend as FR
 import ./packages/proven/bend/apply_picker.bend as AP
 import ./packages/proven/bend/deactivation.bend as DP
+import ./packages/proven/bend/apply_strikes.bend as AS
 import ./packages/proven/bend/funnel.bend as FN
 import ./packages/proven/bend/pagination.bend as PG
 import ./packages/proven/bend/job_slug.bend as JS
@@ -320,6 +321,8 @@ func (g *Gate) Vectors(ctx context.Context) ([]byte, error) {
 		consts = append(consts, v.call(nil, "freshness:"+d, "Nat.show(FR."+d+"())", decodeNat))
 	}
 	consts = append(consts, v.call(nil, "deactivation:retire_after_empty", "Nat.show(DP.retire_after_empty())", decodeNat))
+	consts = append(consts, v.call(nil, "apply_strikes:strikes_to_retire", "Nat.show(AS.strikes_to_retire())", decodeNat))
+	consts = append(consts, v.call(nil, "apply_strikes:strike_gap_hours", "Nat.show(AS.strike_gap_hours())", decodeNat))
 	ctors := []string{"Summer", "Fall", "Winter", "Spring", "Other"}
 	applyBy := map[string]capture{}
 	for _, c := range ctors {
@@ -336,7 +339,7 @@ func (g *Gate) Vectors(ctx context.Context) ([]byte, error) {
 		}
 		cv[i] = x.(int64)
 	}
-	dayMS, maxAgeDays, lastSeenDays, retireAfter := cv[0], cv[1], cv[2], cv[3]
+	dayMS, maxAgeDays, lastSeenDays, retireAfter, strikesToRetire, strikeGapHours := cv[0], cv[1], cv[2], cv[3], cv[4], cv[5]
 	ab := map[string][]int64{}
 	for c, cp := range applyBy {
 		x, err := v.value(cp)
@@ -631,6 +634,35 @@ func (g *Gate) Vectors(ctx context.Context) ([]byte, error) {
 	deactCase("listed", 0, "unknown")
 	section("deactivation", deact)
 
+	// Dead apply links.
+	verdictTag := map[string]string{"alive": "Alive", "dead": "Dead", "inconclusive": "Inconclusive"}
+	var strikes []func() (any, error)
+	strikeCase := func(count int64, due bool, verdict string) {
+		pn := &pre{}
+		t, ok := verdictTag[verdict]
+		if !ok {
+			pn.fail("unknown apply verdict: " + verdict)
+		}
+		dueTag := "False{}"
+		if due {
+			dueTag = "True{}"
+		}
+		next := v.call(pn, "apply_strikes:next", "Nat.show(AS.next("+pn.nat(count, "count")+", "+dueTag+", AS."+t+"{}))", decodeNat)
+		pr := &pre{}
+		retired := v.call(pr, "apply_strikes:retired", "show_bool(AS.retired("+pr.nat(count, "count")+"))", decodeBool)
+		strikes = append(strikes, entry(fixed("count", count), fixed("due", due), fixed("verdict", verdict), nested("next", next), nested("retired", retired)))
+	}
+	for _, count := range []int64{0, 1, 2, 3, 4, natLimit - 1} {
+		for _, due := range []bool{false, true} {
+			for _, verdict := range []string{"alive", "dead", "inconclusive"} {
+				strikeCase(count, due, verdict)
+			}
+		}
+	}
+	strikeCase(-1, true, "dead")
+	strikeCase(0, true, "unknown")
+	section("applyStrikes", strikes)
+
 	// Funnel totals.
 	type funnel [5]*int64 // fetched, title, tech, upserted, descriptionMissing
 	z, one, maxN, half := i64(0), i64(1), i64(natLimit-1), i64(1<<47)
@@ -770,6 +802,8 @@ func (g *Gate) Vectors(ctx context.Context) ([]byte, error) {
 		{Key: "MAX_AGE_DAYS_NO_TERM", Value: maxAgeDays},
 		{Key: "LAST_SEEN_STALE_DAYS", Value: lastSeenDays},
 		{Key: "RETIRE_AFTER_EMPTY_RUNS", Value: retireAfter},
+		{Key: "STRIKES_TO_RETIRE", Value: strikesToRetire},
+		{Key: "STRIKE_GAP_HOURS", Value: strikeGapHours},
 	}}}
 	for _, b := range build {
 		m, err := b()
