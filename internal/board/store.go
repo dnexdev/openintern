@@ -63,7 +63,8 @@ func (s *Store) JobByCompanyAndIDPrefix(ctx context.Context, companySlug, idPref
 	prefix := strings.ToLower(idPrefix)
 	var match *JobDetail
 	for _, job := range jobs {
-		if job.Company.Slug != companySlug {
+		// Dumps older than a company merge still carry the old slug.
+		if job.Company.Slug != companySlug && s.CanonicalCompanySlug(job.Company.Slug) != companySlug {
 			continue
 		}
 		id := strings.ReplaceAll(strings.ToLower(job.ID), "-", "")
