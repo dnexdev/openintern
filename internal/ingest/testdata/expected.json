@@ -1,7 +1,7 @@
 {
  "empty": [
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "00be8300421ebd2c0d9ae8455f701f8c8dba908ed78bcf93a6af7be8086167e6",
    "last_seen.tsv": "0c21d622e320caf06c01d4b231ebcfafe12faaa1c1453819b65a17f56dece114",
    "runs.jsonl": "34036a0c2fd19a63851d3a8e8b545c122ff28b0c985b9ae289b97ab8ebd3e4e9",
@@ -10,7 +10,7 @@
    "step.md": "1762bf534f9ef230d736f0f7ac664afd3c06a178a977517513aa76d9822a6cce"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "79bb48c64161c3edf62b57eff7af96fddb162175204a93d29efeeef123915c69",
    "last_seen.tsv": "341f4b5d3df357130de6cdcb18c68a22201a1d1cdbd1d969fd913c0d54187470",
    "runs.jsonl": "0ec0d40e376727711a85f6fda0a78402561edb85ebc5f8bfdc001f85eb54a520",
@@ -19,7 +19,7 @@
    "step.md": "74b1c712f6b106bb707e31a1c854875fcb8d28c30b493d6f619de44256f0b853"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "ac04236862e9eb77904bcaac0af2c30e9a709d8a147ca894942e5613f398e5a4",
    "last_seen.tsv": "1c2d60d26f77faf621292a33d488a7d52bc638671968bf64e42a123e76130b6e",
    "runs.jsonl": "5083e38f3ed211b93846dc587f16af7b2abb0b00a35087f1b00ddbc1473de3e8",
@@ -28,7 +28,7 @@
    "step.md": "e54ccd261dd835802eef2cb1399311d837041aabce6be251c5d4628bf3181f22"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "cb471127b3c4cb2d44d2f732d2bbaec68ea00104613a0fac6be19e8a13d2cbe1",
    "last_seen.tsv": "f4d76cf9f33c887875d7330f90d172fec7cc2faefde45047ade8878b46c2ee16",
    "runs.jsonl": "6d646dce1b17609ced3fd9d834aa14fe1fc5f16f7113461552284539c7978093",
@@ -37,7 +37,7 @@
    "step.md": "5f0d710f08c83a381ffb42c1d022561dce82f5b32a2283b059a70645825c2afe"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "224e86ef36a89491b79208828884d7cfa22b18274e06a33b50244a756f8c9994",
    "last_seen.tsv": "dc7df177fcc07bf7acd0c63f3dbd1ed8a9a48e098977171cb768e363b0e4dbec",
    "runs.jsonl": "99fab1993dd395df1771e769a95cffccb5ea60e13b1014ff048a53c26ed58205",
@@ -46,7 +46,7 @@
    "step.md": "a80714b21c221f6b0da54f28d2f836669d3ce392ce6d9964575b263b88e90c84"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "0b4dcaa53b978055bddfc3d7a11a7dc82c65eaab4187befe0f161f42fa5cb19a",
    "last_seen.tsv": "6ecb16f38786793c0d42acda4c575272e85773522178c7545e6da414b11b2f6b",
    "runs.jsonl": "e1427750a5e68211ec8a34c1e8599608120f3913f8ca14a64dc14263d730b1c0",
@@ -55,7 +55,7 @@
    "step.md": "f4bd5a5aed3b2672c63793f183a04f858baa77b535018e90945107b061256b43"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "1133bcb88026fa3033e9c585a3056a8d21137945fbb29f8e874732bf5f06b5b5",
    "last_seen.tsv": "efdab9c5efec818e5ba6a4597a3bfad92440da07132da21ce7729ed15a2b4297",
    "runs.jsonl": "134b9ab516ba6e94582395d97993ac9c51fa39099f5e729435805c84303455c8",
@@ -64,7 +64,7 @@
    "step.md": "af4ce52579c9ee5c5a7bb3b9d9be051b556ae058c53422cab18cc3a2f54751d8"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "c44cb06a8410e916b507fe96437fa9c965929b79764c3f2b4af44250877f0ff2",
    "last_seen.tsv": "45d9bfe4c7c48e4fc36d4ec59f5e07caa96811d45dea8472bb840a0398e22b84",
    "runs.jsonl": "3c159ff84bc9b49ab7a2f6ed43971d5cec3e8d73279c03466e3744ac2c9ac1e6",
@@ -73,7 +73,7 @@
    "step.md": "d5d6a5bf59a635061515cee420b418165b5d35658c9f56c264cbb20160e56a44"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "2da7b62c2ffa4cd6b74f55d7c6a8efa7cb444ecef5114c49223b2a2976ff65bb",
    "last_seen.tsv": "8525c83e6a02f862c83814f0c466901100cd67adb3d38f5b415b52ac17b4e93e",
    "runs.jsonl": "09178278e9361206ff84975c5c6eb5a432860f46f2a0da36bfd1df63434f1984",
@@ -82,7 +82,7 @@
    "step.md": "52db7abf2d38074a5db545b765d6c53225cef1280d2d9e727fe0ebc66d6b3dd0"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "92ad9331daca6c5a7edb1060d4091ddabd61c3b39572df64521ff47852d9b778",
    "last_seen.tsv": "723055b687f8c792708943e0072f939d8756fd0ccd4d553f93ee0c9ca41b313e",
    "runs.jsonl": "28de0393db8c71ff51415b4aed9e6bc2b8e817f1a534d67f53268838c09502a4",
@@ -91,7 +91,7 @@
    "step.md": "28bdf8e0c2300c4700836c547f03592d84e7ba735c1c373b70d25bcb968d76b4"
   },
   {
-   "companies.jsonl": "5c40c16bcd5f716dd6134e21a565fe9fdd331c65580dc5e327b12742605853f5",
+   "companies.jsonl": "e88c33fdca0a1a65ba3facc27577fb83cb3dc50279443a3189144cd8615b3cc3",
    "jobs.jsonl": "b27f2fc0323e7076fd8b2333d131a3ab17c280b7ab70da5e93040a27fabf8a55",
    "last_seen.tsv": "d88583cd6ed1b22aa8817d28342eda3059edae91113fba527eabe7fd156ab0a3",
    "runs.jsonl": "410067fcd32e0c448a87d7c90478ab8dbe80711be6ebda15b83bce92f8b267f7",
@@ -102,7 +102,7 @@
  ],
  "state-real": [
   {
-   "companies.jsonl": "d2296df48d4121cdf8aa6a29ce0db93fd7a52cbc2d241c2a19658bd54fbe1ec1",
+   "companies.jsonl": "d5ac26d0b62bc8752aacb46ced2b45a3262212bc4473c40a3dda11f50aa7e8d0",
    "jobs.jsonl": "d8a99b7cf3b8ba26d4e38ab21e5b29f41611fc19b8f3d68a0c9394774e17e883",
    "last_seen.tsv": "eada96085f54142c8a55efd6cb4d148482fe5a78aec2ab047d06e31f8864f9a4",
    "runs.jsonl": "021486e51b630d4602a26e8c3bf28a642f649d9af8f88e7c32579b0b6f5ef81c",
@@ -111,7 +111,7 @@
    "step.md": "18196f99eba4e32c2d18f7ba6c764a70bea1d979fb828279dfd9cef83980e6c8"
   },
   {
-   "companies.jsonl": "d2296df48d4121cdf8aa6a29ce0db93fd7a52cbc2d241c2a19658bd54fbe1ec1",
+   "companies.jsonl": "d5ac26d0b62bc8752aacb46ced2b45a3262212bc4473c40a3dda11f50aa7e8d0",
    "jobs.jsonl": "f59458f26f896552e96133e827c90667da26554bece24406b0b2d4465ac42c3e",
    "last_seen.tsv": "788aa937e19d4dbfb4f254ce81fd6e7cda48e988a4661502df2a2f1d455a6b94",
    "runs.jsonl": "cdedbf9b4e739a96625db7afad2900a88a5c0f464d849b8959b8a7261ebe4bb5",

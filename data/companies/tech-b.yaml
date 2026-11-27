@@ -63,6 +63,7 @@ companies:
     slug: jump-trading
     ats: greenhouse
     board_token: jumptrading
+    website_url: https://www.jumptrading.com
   - name: Optiver
     slug: optiver
     ats: greenhouse
@@ -83,6 +84,7 @@ companies:
     slug: akuna
     ats: greenhouse
     board_token: akunacapital
+    website_url: https://akunacapital.com
   - name: Connor, Clark & Lunn Investment Management
     slug: cclim
     ats: greenhouse
@@ -207,6 +209,7 @@ companies:
     slug: waymo
     ats: greenhouse
     board_token: waymo
+    website_url: https://waymo.com
   - name: Zoox
     slug: zoox
     ats: greenhouse
@@ -216,6 +219,7 @@ companies:
     slug: nuro
     ats: greenhouse
     board_token: nuro
+    website_url: https://www.nuro.ai
   - name: Aurora
     slug: aurora
     ats: greenhouse
@@ -231,6 +235,7 @@ companies:
     slug: samsara
     ats: greenhouse
     board_token: samsara
+    website_url: https://www.samsara.com
   - name: Flexport
     slug: flexport
     ats: greenhouse
@@ -239,6 +244,7 @@ companies:
     slug: faire
     ats: greenhouse
     board_token: faire
+    website_url: https://www.faire.com
   - name: Gusto
     slug: gusto
     ats: greenhouse
