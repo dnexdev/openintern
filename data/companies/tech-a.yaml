@@ -14,6 +14,7 @@ companies:
     ats: greenhouse
     board_token: airbnb
     careers_url: https://careers.airbnb.com
+    website_url: https://www.airbnb.com
   - name: Dropbox
     slug: dropbox
     ats: greenhouse
@@ -26,6 +27,7 @@ companies:
     slug: figma
     ats: greenhouse
     board_token: figma
+    website_url: https://www.figma.com
   - name: Notion
     slug: notion
     ats: ashby
@@ -35,14 +37,17 @@ companies:
     slug: cloudflare
     ats: greenhouse
     board_token: cloudflare
+    website_url: https://www.cloudflare.com
   - name: Datadog
     slug: datadog
     ats: greenhouse
     board_token: datadog
+    website_url: https://www.datadoghq.com
   - name: Twitch
     slug: twitch
     ats: greenhouse
     board_token: twitch
+    website_url: https://www.twitch.tv
   - name: Robinhood
     slug: robinhood
     ats: greenhouse
@@ -51,10 +56,12 @@ companies:
     slug: coinbase
     ats: greenhouse
     board_token: coinbase
+    website_url: https://www.coinbase.com
   - name: Pinterest
     slug: pinterest
     ats: greenhouse
     board_token: pinterest
+    website_url: https://www.pinterest.com
   - name: Square
     slug: square
     ats: greenhouse
@@ -69,10 +76,12 @@ companies:
     slug: affirm
     ats: greenhouse
     board_token: affirm
+    website_url: https://www.affirm.com
   - name: Brex
     slug: brex
     ats: greenhouse
     board_token: brex
+    website_url: https://www.brex.com
   - name: Ramp
     slug: ramp
     ats: ashby
@@ -118,6 +127,7 @@ companies:
     slug: mongodb
     ats: greenhouse
     board_token: mongodb
+    website_url: https://www.mongodb.com
   - name: Elastic
     slug: elastic
     ats: greenhouse
@@ -140,6 +150,7 @@ companies:
     slug: vercel
     ats: greenhouse
     board_token: vercel
+    website_url: https://vercel.com
   - name: Linear
     slug: linear
     ats: ashby
@@ -176,6 +187,7 @@ companies:
     slug: duolingo
     ats: greenhouse
     board_token: duolingo
+    website_url: https://www.duolingo.com
   - name: Coursera
     slug: coursera
     ats: greenhouse
@@ -188,6 +200,7 @@ companies:
     slug: roblox
     ats: greenhouse
     board_token: roblox
+    website_url: https://www.roblox.com
   - name: Unity
     slug: unity
     ats: greenhouse
@@ -197,10 +210,12 @@ companies:
     slug: epic-games
     ats: greenhouse
     board_token: epicgames
+    website_url: https://www.epicgames.com
   - name: Riot Games
     slug: riot-games
     ats: greenhouse
     board_token: riotgames
+    website_url: https://www.riotgames.com
   - name: Niantic
     slug: niantic
     ats: ashby
@@ -310,6 +325,7 @@ companies:
     slug: braze
     ats: greenhouse
     board_token: braze
+    website_url: https://www.braze.com
   - name: LaunchDarkly
     slug: launchdarkly
     ats: greenhouse
@@ -441,3 +457,4 @@ companies:
     slug: lyft
     ats: greenhouse
     board_token: lyft
+    website_url: https://www.lyft.com

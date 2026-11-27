@@ -12,6 +12,7 @@ colors:
   marker: "#ffe866"     # your own marks: rows you applied to
   alarm: "#a8271f"      # stale data, failed runs, errors
   mark-bar: "#4f9a5a"   # the brand mark's bars only, never text
+  logo-ground: "#ffffff" # behind company logos, both themes
 colors-dark:
   paper: "#191c1a"
   ink: "#e4e9e3"
@@ -22,6 +23,7 @@ colors-dark:
   marker: "#e3cf3f"     # text on it switches to paper (10.9:1)
   alarm: "#ff8d80"
   mark-bar: "#6fb77a"
+  logo-ground: "#ffffff" # logos are drawn for white; kept white in dark too
 typography:
   body:
     fontFamily: Atkinson Hyperlegible Next
@@ -110,6 +112,9 @@ applied to. Everything else is plain: paper, ink, one legible face.
   failed ingest runs, errors). 6.9:1 on paper.
 - Rule, edge and mark-bar are structural: dividers, control borders (3:1 or
   better), and the bars inside the logo.
+- **Logo ground (#ffffff, both themes):** only behind a company's own logo,
+  inside its company mark. Company logos are drawn for white, so the tile
+  stays white in the dark theme rather than letting a dark logo vanish.
 
 There is no link colour. Links are ink with an underline; the underline
 thickens on hover. Students do not need a brand blue to know a title is a link
@@ -163,6 +168,12 @@ checkboxes): 3px. Nothing is a pill.
   same baseline, a rule below. Identical on every page.
 - **Footer:** one sentence and one row of links (Docs, Compare, Privacy,
   Health, GitHub, Dumps), a rule above. Identical on every page.
+- **Company mark** (`.mark`): a 24 px square before the company name on
+  board rows, home preview rows and the job record, with a 1px rule border.
+  It holds the company's own logo on the logo ground, or its initials (one or
+  two letters, 11px bold, muted ink, no fill) when no logo is committed. Never
+  coloured initials, never a pill or circle. Logos are 64 px PNGs from
+  `data/logos`, served from this site; `alt=""` because the name follows.
 - **Listing rows** (`.rows`): `li` per role family; odd rows paper, even rows
   bar. Applied rows get the marker behind the title.
 - **Fact list** (`.facts`): a `dl` printed as banded label/value rows. Used on

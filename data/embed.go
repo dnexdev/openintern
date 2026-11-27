@@ -15,3 +15,9 @@ import "embed"
 //
 //go:embed companies curated manual apply-hosts.tsv company-aliases.tsv job-aliases.tsv expected-delta.json
 var FS embed.FS
+
+// Logos holds the committed company logos (logos/<slug>.png) and their
+// SOURCES.tsv; see logos/README.md.
+//
+//go:embed logos
+var Logos embed.FS
