@@ -3,6 +3,7 @@ import { pageOffset } from "@openintern/proven";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { JobResults } from "@/components/JobResults";
 import { StaleDataBanner } from "@/components/StaleDataBanner";
+import { isDumpStale } from "@/lib/dump-age";
 import { getTier1Slugs } from "@/lib/curated";
 import { loadJobFamilies } from "@/lib/job-families";
 import {
@@ -55,8 +56,12 @@ export default async function JobsPage({
     families = loaded.families;
     total = loaded.total;
     companyOptions = companies.options;
-    if (loaded.dataSource.kind === "dump") staleDumpAt = loaded.dataSource.generatedAt;
-    else if (companies.dataSource.kind === "dump") {
+    if (loaded.dataSource.kind === "dump" && isDumpStale(loaded.dataSource.generatedAt)) {
+      staleDumpAt = loaded.dataSource.generatedAt;
+    } else if (
+      companies.dataSource.kind === "dump" &&
+      isDumpStale(companies.dataSource.generatedAt)
+    ) {
       staleDumpAt = companies.dataSource.generatedAt;
     }
   } catch (err) {

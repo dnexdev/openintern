@@ -4,6 +4,7 @@ import { canonicalCompanySlug, jobAliasByPrefix } from "@openintern/db";
 import { JobDetailView } from "@/components/JobDetailView";
 import { jobPath, parseIdPrefixFromJobSlug } from "@/lib/job-slug";
 import { StaleDataBanner } from "@/components/StaleDataBanner";
+import { isDumpStale } from "@/lib/dump-age";
 import { loadJobByCompanyAndIdPrefix } from "@/lib/load-job";
 
 export const revalidate = 3600;
@@ -74,7 +75,9 @@ export default async function JobSlugDetailPage({
 
   return (
     <>
-      {dataSource.kind === "dump" ? <StaleDataBanner generatedAt={dataSource.generatedAt} /> : null}
+      {dataSource.kind === "dump" && isDumpStale(dataSource.generatedAt) ? (
+        <StaleDataBanner generatedAt={dataSource.generatedAt} />
+      ) : null}
       <JobDetailView job={job} />
     </>
   );

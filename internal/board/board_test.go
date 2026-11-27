@@ -69,6 +69,33 @@ func TestKilled(t *testing.T) {
 	}
 }
 
+// StaleData matches the Next isDumpStale /api/v1/status rule: age > 30h
+// (issue #59). Exactly MaxDumpAge is still fresh.
+func TestStaleDataAgeBoundary(t *testing.T) {
+	directory := t.TempDir()
+	path := filepath.Join(directory, "jobs.json")
+	body := `{"generatedAt":"2026-11-25T00:00:00.000Z","count":0,"jobs":[]}`
+	if err := os.WriteFile(path, []byte(body), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	generated := time.Date(2026, time.November, 25, 0, 0, 0, 0, time.UTC)
+	now := generated.Add(MaxDumpAge)
+	store := NewStore(Options{
+		DumpSource: path,
+		Now:        func() time.Time { return now },
+		IsPublic:   func(model.DumpJob, time.Time) bool { return true },
+	})
+	state := store.StaleData(context.Background())
+	if !state.Available || state.Stale {
+		t.Fatalf("at MaxDumpAge: %+v (want fresh)", state)
+	}
+	now = generated.Add(MaxDumpAge + time.Millisecond)
+	state = store.StaleData(context.Background())
+	if !state.Available || !state.Stale {
+		t.Fatalf("past MaxDumpAge: %+v (want stale)", state)
+	}
+}
+
 func TestDumpRefreshKeepsLastGoodCopy(t *testing.T) {
 	directory := t.TempDir()
 	path := filepath.Join(directory, "jobs.json")

@@ -2,6 +2,8 @@ import { isPublic } from "@openintern/proven";
 import { refreshKillSwitch } from "@/lib/kill-switch";
 import { publishable } from "@/lib/publishable";
 
+export { isDumpStale, MAX_DUMP_AGE_MS } from "@/lib/dump-age";
+
 const DEFAULT_DUMP_URL =
   "https://github.com/dnexdev/openintern/releases/download/dump-latest/jobs.json";
 

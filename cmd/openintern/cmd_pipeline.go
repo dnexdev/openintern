@@ -279,7 +279,7 @@ func runDumpGate(args []string) error {
 	}
 	res, err := dump.Gate(pos[0], prev, dump.GateOptions{
 		Table:    reg.ApplyHosts(),
-		Enforce:  os.Getenv("OPENINTERN_APPLY_HOSTS") == "enforce",
+		Enforce:  registry.ApplyHostModeFromEnv() == registry.ApplyHostsEnforce,
 		Approved: approved,
 	})
 	if err != nil {

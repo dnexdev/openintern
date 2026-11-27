@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
+import { isDumpStale, MAX_DUMP_AGE_MS } from "@/lib/dump-age";
 import { liveDumpJobs, loadJobsDump } from "@/lib/job-dump";
 
 export const dynamic = "force-dynamic";
 
-/** The dump is refreshed daily; older than this means the pipeline has stalled. */
-const MAX_DUMP_AGE_HOURS = 30;
+const MAX_DUMP_AGE_HOURS = MAX_DUMP_AGE_MS / 3_600_000;
 
 /**
  * Uptime check for monitors: 200 while the site serves a fresh dump, 503 when
@@ -15,7 +15,7 @@ export async function GET() {
   try {
     const dump = await loadJobsDump();
     const ageHours = (Date.now() - new Date(dump.generatedAt).getTime()) / 3_600_000;
-    const fresh = Number.isFinite(ageHours) && ageHours <= MAX_DUMP_AGE_HOURS;
+    const fresh = !isDumpStale(dump.generatedAt);
     return NextResponse.json(
       {
         status: fresh ? "ok" : "stale",

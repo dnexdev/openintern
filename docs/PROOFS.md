@@ -99,3 +99,37 @@ Limits: a mutant also "dies" if it only breaks a proof script rather than
 falsifying a law. The pinned laws are concrete, so for them the two coincide;
 for property laws, a killed mutant is evidence, not proof, that the law would
 catch the bug.
+
+### Audit (2026-11-27): not troll, incomplete on purpose
+
+Checked against `LAWS.bend`, `PROOF.bend`, `packages/proven/mutants.tsv`,
+the `bend` CI job in `.github/workflows/ci.yml`, and the Go port vectors.
+
+**Why these are real laws, not theater:**
+
+- Most laws are quantified properties (`for +…`), not single concrete
+  examples. PINNED laws exist on purpose so a constant drift fails CI.
+- Proofs that look like `match … {==}` are definitional equality after
+  case split — normal for this style of checker, not a vacuous “assert true”.
+- CI runs `openintern proofs check` and `proofs mutants` with a pinned Bend
+  binary, no network, and the gate rejects `@unsafe`, foreign JS imports,
+  hub packages, and fake `main`/IO that could print a pass line.
+- Mutants encode past production bugs (#24 gone-jobs-kept, `?page=abc` →
+  NaN, limit 0 admitting the first request). Killing them is evidence the
+  corresponding laws constrain the model.
+- The Go port re-checks the same properties in `internal/proven` (laws tests
+  + vectors regenerated from Bend).
+
+**Known gaps (documented, not hidden):**
+
+- No **progress** law for the rate limiter: “`limit > 0` and `count < limit`
+  ⇒ admit”. Safety laws (`rl_bounded`, `rl_remaining`, `rl_zero_limit`) and
+  the “deny first request of a fresh window” mutant hold; a limiter that
+  admits the first request of a window and then denies every later request
+  while keeping `remaining` consistent can still pass. Stronger progress
+  laws remain planned (see the paragraph above this audit).
+- Wrappers, SQL freshness, Bend Base, the compiler, and the JS runtime are
+  out of scope (as the header of this file already says).
+- App-level state machines (ingest retirement sequencing, dump gates, kill
+  switch, auto-disable) are **not** Bend laws; they are inventoried in
+  [`docs/STATE-MACHINES.md`](STATE-MACHINES.md).

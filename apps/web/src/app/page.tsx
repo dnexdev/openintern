@@ -6,6 +6,7 @@ import {
   loadCorpusStats,
   loadHeroPreviewPool,
 } from "@/lib/board";
+import { isDumpStale } from "@/lib/dump-age";
 import Link from "next/link";
 
 export const revalidate = 3600;
@@ -25,8 +26,11 @@ export default async function HomePage() {
     previewJobs = hero.preview;
     total = hero.total;
     corpusStats = stats;
-    if (hero.dataSource.kind === "dump") staleDumpAt = hero.dataSource.generatedAt;
-    else if (stats.dataSource.kind === "dump") staleDumpAt = stats.dataSource.generatedAt;
+    if (hero.dataSource.kind === "dump" && isDumpStale(hero.dataSource.generatedAt)) {
+      staleDumpAt = hero.dataSource.generatedAt;
+    } else if (stats.dataSource.kind === "dump" && isDumpStale(stats.dataSource.generatedAt)) {
+      staleDumpAt = stats.dataSource.generatedAt;
+    }
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }

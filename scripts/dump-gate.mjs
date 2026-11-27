@@ -50,7 +50,7 @@ function allowed(slug, url) {
   const p = `${u.pathname.toLowerCase().replace(/\/+$/, "")}/`;
   return (table[slug] ?? []).some(([h, prefix]) => h === host && p.startsWith(prefix.toLowerCase()));
 }
-const enforce = process.env.OPENINTERN_APPLY_HOSTS === "enforce";
+const enforce = (process.env.OPENINTERN_APPLY_HOSTS ?? "").trim() === "enforce";
 let offList = 0;
 for (const job of dump.jobs) {
   if (deny.has(job.id.toLowerCase())) problems.push(`delisted job ${job.id} is in the dump`);

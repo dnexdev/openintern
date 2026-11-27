@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/dnexdev/openintern/internal/registry"
@@ -42,7 +43,8 @@ func TestGateMatchesScript(t *testing.T) {
 				prev = filepath.Join(dir, "prev")
 			}
 			res, err := Gate(filepath.Join(dir, "new"), prev, GateOptions{
-				Enforce:  c.Env["OPENINTERN_APPLY_HOSTS"] == "enforce",
+				// Same trim semantics as ApplyHostModeFromEnv / dump-gate CLI.
+				Enforce:  strings.TrimSpace(c.Env["OPENINTERN_APPLY_HOSTS"]) == "enforce",
 				Approved: func(scope string) bool { return expected.Approved(scope, golden.Today) },
 			})
 			if err != nil {
@@ -63,6 +65,25 @@ func TestGateMissingPrevJobsIsNoBreaker(t *testing.T) {
 	}
 	if len(res.Holds) != 0 {
 		t.Errorf("holds without a previous jobs.json: %v", res.Holds)
+	}
+}
+
+// Padded "enforce" must enable allowlist Problems the same way
+// ApplyHostModeFromEnv does for ingest/dump (issue #58).
+func TestGateEnforceTrimsApplyHostsEnv(t *testing.T) {
+	dir := filepath.Join("testdata/gate", "off-list-enforce")
+	for _, env := range []string{"enforce", " enforce ", "enforce\n"} {
+		enforce := strings.TrimSpace(env) == "enforce"
+		if !enforce {
+			t.Fatalf("trim of %q should be enforce", env)
+		}
+		res, err := Gate(filepath.Join(dir, "new"), "", GateOptions{Enforce: enforce})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !res.Enforce || res.OffList == 0 || len(res.Problems) == 0 {
+			t.Errorf("env %q: enforce=%v offList=%d problems=%v", env, res.Enforce, res.OffList, res.Problems)
+		}
 	}
 }
 
