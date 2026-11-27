@@ -38,6 +38,7 @@ companies:
     slug: jane-street
     ats: greenhouse
     board_token: janestreet
+    website_url: https://www.janestreet.com
   - name: Citadel
     # Proprietary HTML adapter. Anonymous CDN often 403 — use OPENINTERN_BROWSER=1 or OPENINTERN_CITADEL_HTML_PATH.
     slug: citadel
@@ -68,6 +69,7 @@ companies:
     slug: optiver
     ats: greenhouse
     board_token: optiver
+    website_url: https://www.optiver.com
   - name: IMC Trading
     slug: imc
     ats: greenhouse
@@ -200,6 +202,7 @@ companies:
     slug: planet-labs
     ats: greenhouse
     board_token: planetlabs
+    website_url: https://www.planet.com
   - name: Cruise
     slug: cruise
     ats: greenhouse
@@ -240,6 +243,7 @@ companies:
     slug: flexport
     ats: greenhouse
     board_token: flexport
+    website_url: https://www.flexport.com
   - name: Faire
     slug: faire
     ats: greenhouse
@@ -249,6 +253,7 @@ companies:
     slug: gusto
     ats: greenhouse
     board_token: gusto
+    website_url: https://gusto.com
   - name: Rippling
     slug: rippling
     ats: rippling
@@ -264,23 +269,29 @@ companies:
     slug: remote-com
     ats: greenhouse
     board_token: remotecom
+    website_url: https://remote.com
   - name: Lattice
     slug: lattice
     ats: greenhouse
     board_token: lattice
+    website_url: https://lattice.com
   - name: Culture Amp
     slug: culture-amp
     ats: greenhouse
     board_token: cultureamp
+    website_url: https://www.cultureamp.com
   - name: Greenhouse Software
     slug: greenhouse-software
     ats: greenhouse
     board_token: greenhouse
+    website_url: https://www.greenhouse.com
   - name: Lever
     slug: lever
     ats: lever
     board_token: lever
+    website_url: https://www.lever.co
   - name: Ashby
     slug: ashby
     ats: ashby
     board_token: ashby
+    website_url: https://www.ashbyhq.com

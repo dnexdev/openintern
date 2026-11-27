@@ -19,10 +19,12 @@ companies:
     slug: dropbox
     ats: greenhouse
     board_token: dropbox
+    website_url: https://www.dropbox.com
   - name: Discord
     slug: discord
     ats: greenhouse
     board_token: discord
+    website_url: https://discord.com
   - name: Figma
     slug: figma
     ats: greenhouse
@@ -52,6 +54,7 @@ companies:
     slug: robinhood
     ats: greenhouse
     board_token: robinhood
+    website_url: https://robinhood.com
   - name: Coinbase
     slug: coinbase
     ats: greenhouse
@@ -132,6 +135,7 @@ companies:
     slug: elastic
     ats: greenhouse
     board_token: elastic
+    website_url: https://www.elastic.co
   - name: HashiCorp
     slug: hashicorp
     ats: greenhouse
@@ -141,6 +145,7 @@ companies:
     slug: gitlab
     ats: greenhouse
     board_token: gitlab
+    website_url: https://about.gitlab.com
   - name: GitHub
     slug: github
     ats: greenhouse
@@ -165,10 +170,12 @@ companies:
     slug: asana
     ats: greenhouse
     board_token: asana
+    website_url: https://asana.com
   - name: Airtable
     slug: airtable
     ats: greenhouse
     board_token: airtable
+    website_url: https://www.airtable.com
   - name: Zapier
     slug: zapier
     ats: ashby
@@ -178,6 +185,7 @@ companies:
     slug: calendly
     ats: greenhouse
     board_token: calendly
+    website_url: https://calendly.com
   - name: Grammarly
     slug: grammarly
     ats: greenhouse
@@ -192,10 +200,12 @@ companies:
     slug: coursera
     ats: greenhouse
     board_token: coursera
+    website_url: https://www.coursera.org
   - name: Khan Academy
     slug: khan-academy
     ats: greenhouse
     board_token: khanacademy
+    website_url: https://www.khanacademy.org
   - name: Roblox
     slug: roblox
     ats: greenhouse
@@ -230,6 +240,7 @@ companies:
     slug: reddit
     ats: greenhouse
     board_token: reddit
+    website_url: https://redditinc.com
   - name: Plaid
     slug: plaid
     ats: ashby
@@ -239,10 +250,12 @@ companies:
     slug: chime
     ats: greenhouse
     board_token: chime
+    website_url: https://www.chime.com
   - name: SoFi
     slug: sofi
     ats: greenhouse
     board_token: sofi
+    website_url: https://www.sofi.com
   - name: NerdWallet
     slug: nerdwallet
     ats: greenhouse
@@ -272,6 +285,7 @@ companies:
     slug: okta
     ats: greenhouse
     board_token: okta
+    website_url: https://www.okta.com
   - name: CrowdStrike
     slug: crowdstrike
     ats: greenhouse
@@ -286,10 +300,12 @@ companies:
     slug: zscaler
     ats: greenhouse
     board_token: zscaler
+    website_url: https://www.zscaler.com
   - name: Twilio
     slug: twilio
     ats: greenhouse
     board_token: twilio
+    website_url: https://www.twilio.com
   - name: SendGrid
     slug: sendgrid
     ats: greenhouse
@@ -299,6 +315,7 @@ companies:
     slug: hubspot
     ats: greenhouse
     board_token: hubspot
+    website_url: https://www.hubspot.com
   - name: Zendesk
     slug: zendesk
     ats: greenhouse
@@ -308,6 +325,7 @@ companies:
     slug: intercom
     ats: greenhouse
     board_token: intercom
+    website_url: https://www.intercom.com
   - name: Segment
     slug: segment
     ats: greenhouse
@@ -317,10 +335,12 @@ companies:
     slug: amplitude
     ats: greenhouse
     board_token: amplitude
+    website_url: https://amplitude.com
   - name: Mixpanel
     slug: mixpanel
     ats: greenhouse
     board_token: mixpanel
+    website_url: https://mixpanel.com
   - name: Braze
     slug: braze
     ats: greenhouse
@@ -330,6 +350,7 @@ companies:
     slug: launchdarkly
     ats: greenhouse
     board_token: launchdarkly
+    website_url: https://launchdarkly.com
   - name: Sentry
     slug: sentry
     ats: ashby
@@ -339,10 +360,12 @@ companies:
     slug: new-relic
     ats: greenhouse
     board_token: newrelic
+    website_url: https://newrelic.com
   - name: PagerDuty
     slug: pagerduty
     ats: greenhouse
     board_token: pagerduty
+    website_url: https://www.pagerduty.com
   - name: Confluent
     slug: confluent
     ats: ashby
@@ -352,10 +375,12 @@ companies:
     slug: cockroach-labs
     ats: greenhouse
     board_token: cockroachlabs
+    website_url: https://www.cockroachlabs.com
   - name: PlanetScale
     slug: planetscale
     ats: greenhouse
     board_token: planetscale
+    website_url: https://planetscale.com
   - name: Neon
     slug: neon
     ats: ashby
@@ -370,6 +395,7 @@ companies:
     slug: prisma
     ats: greenhouse
     board_token: prisma
+    website_url: https://www.prisma.io
   - name: PostHog
     slug: posthog
     ats: greenhouse
@@ -384,6 +410,7 @@ companies:
     slug: webflow
     ats: greenhouse
     board_token: webflow
+    website_url: https://webflow.com
   - name: Framer
     slug: framer
     ats: greenhouse
@@ -418,10 +445,12 @@ companies:
     slug: box
     ats: greenhouse
     board_token: boxinc
+    website_url: https://www.box.com
   - name: Smartsheet
     slug: smartsheet
     ats: greenhouse
     board_token: smartsheet
+    website_url: https://www.smartsheet.com
   - name: Atlassian
     slug: atlassian
     ats: greenhouse
@@ -448,6 +477,7 @@ companies:
     slug: instacart
     ats: greenhouse
     board_token: instacart
+    website_url: https://www.instacart.com
   - name: Uber
     slug: uber
     ats: greenhouse

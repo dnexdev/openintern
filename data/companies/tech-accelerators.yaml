@@ -59,7 +59,7 @@ companies:
     slug: mino-games
     ats: workable
     board_token: mino-games
-    website_url: http://minomonsters.com
+    website_url: https://www.minogames.com
   - name: GOAT Group
     slug: goat-group
     ats: greenhouse
@@ -174,7 +174,7 @@ companies:
     slug: notable-labs
     ats: ashby
     board_token: notable
-    website_url: http://notablelabs.com
+    website_url: https://www.notablehealth.com
   - name: Qventus
     slug: qventus
     ats: greenhouse
@@ -204,7 +204,6 @@ companies:
     slug: tara-ai
     ats: workable
     board_token: tara
-    website_url: http://www.tara.ai
   - name: Mashgin
     slug: mashgin
     ats: lever
