@@ -5,6 +5,36 @@
       "scope": "total",
       "until": "2026-12-31",
       "reason": "S10: listings now come down when their term starts, so Fall 2026 roles drop at once. Add ats:<name> rows here if a per-ATS hold follows."
+    },
+    {
+      "scope": "ats:tiktok",
+      "until": "2026-12-04",
+      "reason": "First dump since 2026-11-13 (Neon outage): two weeks of real departures."
+    },
+    {
+      "scope": "ats:ashby",
+      "until": "2026-12-04",
+      "reason": "First dump since 2026-11-13 (Neon outage): two weeks of real departures."
+    },
+    {
+      "scope": "ats:workday",
+      "until": "2026-12-04",
+      "reason": "First dump since 2026-11-13 (Neon outage): two weeks of real departures."
+    },
+    {
+      "scope": "ats:bytedance",
+      "until": "2026-12-04",
+      "reason": "First dump since 2026-11-13 (Neon outage): two weeks of real departures."
+    },
+    {
+      "scope": "ats:citadel",
+      "until": "2026-12-31",
+      "reason": "No committed manual capture in data/manual; jobs return once citadel.json is captured (data/manual/README.md)."
+    },
+    {
+      "scope": "ats:eightfold",
+      "until": "2026-12-04",
+      "reason": "Microsoft's careers API throttled back-to-back pages (HTTP 429); pages are now spaced and jobs return on the next ingest."
     }
   ]
 }

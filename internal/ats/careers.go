@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 	"unicode/utf8"
 
 	"github.com/dnexdev/openintern/internal/fetch"
@@ -377,6 +378,11 @@ func MapEightfoldPositions(positions []any, b EightfoldBoard) []model.Normalized
 	return jobs
 }
 
+// eightfoldPagePause spaces page requests: since 2026-11 Microsoft's
+// careers API answers 429 to back-to-back pages, which failed the whole
+// board. Tests set it to zero.
+var eightfoldPagePause = 2 * time.Second
+
 func fetchEightfold(ctx context.Context, token string) ([]model.NormalizedJob, error) {
 	b := ParseEightfoldToken(token)
 	var all []model.NormalizedJob
@@ -386,6 +392,13 @@ func fetchEightfold(ctx context.Context, token string) ([]model.NormalizedJob, e
 		start := page * eightfoldPageSize
 		if total >= 0 && float64(start) >= total {
 			break
+		}
+		if page > 0 && eightfoldPagePause > 0 {
+			select {
+			case <-ctx.Done():
+				return nil, ctx.Err()
+			case <-time.After(eightfoldPagePause):
+			}
 		}
 		body, err := getJSON(ctx, EightfoldSearchURL(b, start), fetch.Options{})
 		if err != nil {
