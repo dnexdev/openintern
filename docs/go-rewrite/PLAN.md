@@ -248,3 +248,5 @@ keyboard use of filters) and keep the copy's meaning.
 - Company logos fail to load on some listings.
 - Very old jobs whose apply links are dead still show on the board. Check
   freshness rules, retirement, and add a dead-link check on apply URLs.
+- Some excerpts contain literal `&#xa;` entities; decode them at ingest.
+- `data/manual/README.md` still says `pnpm manual:capture`; now `openintern manual-capture` (captures are embedded, so rebuild after adding one).
