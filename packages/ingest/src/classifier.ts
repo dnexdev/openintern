@@ -388,6 +388,17 @@ export function extractRegions(
   return REGION_OPTIONS.filter((r) => found.has(r));
 }
 
+function decodeNumericEntity(match: string, body: string): string {
+  const hex = body[0] === "x" || body[0] === "X";
+  const n = Number.parseInt(hex ? body.slice(1) : body, hex ? 16 : 10);
+  if (!Number.isFinite(n) || n <= 0 || n > 0x10ffff) return match;
+  try {
+    return String.fromCodePoint(n);
+  } catch {
+    return match;
+  }
+}
+
 function decodeEntities(text: string): string {
   return text
     .replace(/&nbsp;/gi, " ")
@@ -396,6 +407,7 @@ function decodeEntities(text: string): string {
     .replace(/&apos;/gi, "'")
     .replace(/&lt;/gi, "<")
     .replace(/&gt;/gi, ">")
+    .replace(/&#(x[0-9a-f]+|\d+);/gi, decodeNumericEntity)
     .replace(/&amp;/gi, "&");
 }
 

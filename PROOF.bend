@@ -290,6 +290,31 @@ def Laws.rl_fresh_window(now, limit, window):
     case 1n+m:
       {==}
 
+law rl.admit_progress:
+  for +c: Nat
+  for +e: Nat
+  for +r: Nat
+  {RL.ok(RL.admit(c, 1n+Nat.add(c, e), r)) == True{} : Bool}
+
+def rl.admit_progress(c, e, r):
+  match c:
+    case 0n:
+      {==}
+    case 1n+n:
+      %rl.up_ok(RL.admit(n, 1n+Nat.add(n, e), r)) :
+        {_ == True{} : Bool}
+      rl.admit_progress(n, e, r)
+
+def Laws.rl_admit_progress(count, extra, reset_at):
+  rl.admit_progress(count, extra, reset_at)
+
+def Laws.rl_fresh_progress(now, extra, window):
+  match extra:
+    case 0n:
+      {==}
+    case 1n+k:
+      {==}
+
 # ---------------------------------------------------------------------------
 # Freshness
 # ---------------------------------------------------------------------------

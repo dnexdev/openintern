@@ -17,4 +17,5 @@ packages/proven/bend/deactivation.bend	    case Listed{}:\n      0n	    case Lis
 packages/proven/bend/rate_limit.bend	      Verdict{True{}, l, Bucket{1n, Nat.add(now, window)}}	      Verdict{False{}, l, Bucket{1n, Nat.add(now, window)}}	deny-all: first request of a window refused
 packages/proven/bend/rate_limit.bend	      step.go(Nat.is_le(t, now), c, t, now, limit, window)	      step.go(Nat.is_lt(t, now), c, t, now, limit, window)	window resets one ms late
 packages/proven/bend/rate_limit.bend	      Verdict{True{}, l, Bucket{1n, reset_at}}	      Verdict{True{}, l, Bucket{0n, reset_at}}	admitted request not counted
+packages/proven/bend/rate_limit.bend	    case 1n+c 1n+l:\n      admit.up(admit(c, l, reset_at))	    case 1n+c 1n+l:\n      Verdict{False{}, l, Bucket{1n+c, reset_at}}	under-limit request denied (no progress)
 packages/proven/bend/freshness.bend	    case Spring{}:\n      ApplyBy{1n, 11n, 31n}	    case Spring{}:\n      ApplyBy{0n, 3n, 30n}	spring folded into summer

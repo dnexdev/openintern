@@ -703,6 +703,18 @@ function $LAWS_rl_fresh_window(_now_0, _limit_0, _window_0) {
   }
 }
 
+function $LAWS_rl_admit_progress(_count_0, _extra_0, _reset_at_0) {
+  return $rl_admit_progress(_count_0, _extra_0, _reset_at_0);
+}
+
+function $LAWS_rl_fresh_progress(_now_0, _extra_0, _window_0) {
+  if (_extra_0 === 0) {
+    return null;
+  } else {
+    return null;
+  }
+}
+
 function $LAWS_fr_stale_iff_not_fresh(_ends_0, _anchor_0, _now_0, _max_ms_0) {
   if (_ends_0.$ === "Nil") {
     return $packages_proven_bend_lemmas_lt_not_le(nat_chk(_anchor_0 + _max_ms_0), _now_0);
@@ -1382,6 +1394,25 @@ function $rl_go_zero(_e_0, _c_0, _r_0, _now_0, _w_0) {
   }
 }
 
+function $rl_admit_progress($0, $1, $2) {
+  for (;;) {
+    {
+      const _c_0 = $0;
+      const _e_0 = $1;
+      const _r_0 = $2;
+      if (_c_0 === 0) {
+        return null;
+      } else {
+        const _n_0 = (_c_0 - 1);
+        $0 = _n_0;
+        $1 = _e_0;
+        $2 = _r_0;
+        continue;
+      }
+    }
+  }
+}
+
 function $fr_past_live(_xs_0, _n_0) {
   if (_xs_0.$ === "Nil") {
     return null;
@@ -1918,6 +1949,8 @@ export default {
   "LAWS:rl_admit_count": run_lib((a0,a1,a2) => run_loop($LAWS_rl_admit_count(nat_in(a0),nat_in(a1),nat_in(a2))), 3),
   "LAWS:rl_admit_keeps_window": run_lib((a0,a1,a2) => run_loop($LAWS_rl_admit_keeps_window(nat_in(a0),nat_in(a1),nat_in(a2))), 3),
   "LAWS:rl_fresh_window": run_lib((a0,a1,a2) => run_loop($LAWS_rl_fresh_window(nat_in(a0),nat_in(a1),nat_in(a2))), 3),
+  "LAWS:rl_admit_progress": run_lib((a0,a1,a2) => run_loop($LAWS_rl_admit_progress(nat_in(a0),nat_in(a1),nat_in(a2))), 3),
+  "LAWS:rl_fresh_progress": run_lib((a0,a1,a2) => run_loop($LAWS_rl_fresh_progress(nat_in(a0),nat_in(a1),nat_in(a2))), 3),
   "LAWS:fr_stale_iff_not_fresh": run_lib((a0,a1,a2,a3) => run_loop($LAWS_fr_stale_iff_not_fresh(a0,nat_in(a1),nat_in(a2),nat_in(a3))), 4),
   "LAWS:fr_stale_monotone": run_lib((a0,a1,a2,a3,a4,a5) => run_loop($LAWS_fr_stale_monotone(a0,nat_in(a1),nat_in(a2),nat_in(a3),nat_in(a4),a5)), 6),
   "LAWS:fr_last_seen_monotone": run_lib((a0,a1,a2,a3,a4) => run_loop($LAWS_fr_last_seen_monotone(nat_in(a0),nat_in(a1),nat_in(a2),nat_in(a3),a4)), 5),
@@ -2004,6 +2037,7 @@ export default {
   "rl.go_rem": run_lib((a0,a1,a2,a3,a4,a5) => run_loop($rl_go_rem(a0,nat_in(a1),nat_in(a2),nat_in(a3),nat_in(a4),nat_in(a5))), 6),
   "rl.go_bounded": run_lib((a0,a1,a2,a3,a4,a5) => run_loop($rl_go_bounded(a0,nat_in(a1),nat_in(a2),nat_in(a3),nat_in(a4),nat_in(a5))), 6),
   "rl.go_zero": run_lib((a0,a1,a2,a3,a4) => run_loop($rl_go_zero(a0,nat_in(a1),nat_in(a2),nat_in(a3),nat_in(a4))), 5),
+  "rl.admit_progress": run_lib((a0,a1,a2) => run_loop($rl_admit_progress(nat_in(a0),nat_in(a1),nat_in(a2))), 3),
   "fr.past_live": run_lib((a0,a1) => run_loop($fr_past_live(a0,nat_in(a1))), 2),
   "fr.all_past_mono": run_lib((a0,a1,a2,a3) => run_loop($fr_all_past_mono(a0,nat_in(a1),nat_in(a2),a3)), 4),
   "fn.zero_plus": run_lib((a0) => run_loop($fn_zero_plus(a0)), 1),

@@ -32,19 +32,12 @@ DATABASE_URL='postgres://…' pnpm job-aliases && pnpm gen-aliases
 and commit `data/job-aliases.tsv` plus the regenerated module, so old links and
 applied marks follow.
 
-## Laptop fallback
+## Laptop fallback (historical)
 
-```sh
-DATABASE_URL='postgres://…' scripts/export-state.sh ./state-$(date -u +%F)
-```
-
-It needs `psql`. `pg_dump` is optional and must be at least the server's major
-version. Without a local install, run it in the official image:
-
-```sh
-docker run --rm -e DATABASE_URL -v "$PWD/scripts:/s:ro" -v "$PWD/state:/out" \
-  postgres:17-alpine sh -c 'apk add -q bash coreutils && bash /s/export-state.sh /out'
-```
+`scripts/export-state.sh` and `.github/workflows/export-state.yml` were removed
+after the state repo cutover (2026-11-27). If you still have a Neon snapshot,
+use an old checkout of that script, or re-run the SQL export by hand against a
+backup.
 
 ## What the export holds
 

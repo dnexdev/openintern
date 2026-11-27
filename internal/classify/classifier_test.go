@@ -235,6 +235,8 @@ func TestExcerptFromHtmlCases(t *testing.T) {
 		want  *string
 	}{
 		{"<p>Hello &amp; welcome</p>", stringPtr("Hello & welcome")},
+		{"Hello&#xa;world", stringPtr("Hello world")},
+		{"Line&#10;break and &#x2013; dash", stringPtr("Line break and – dash")},
 		{"![banner](data:image/png;base64,iVBORw0KGgoAAAANSUhEUg) About the role: build robots.", stringPtr("About the role: build robots.")},
 		{"[data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABaAAAAEsCAYAAAA1nRR4AAAQAElEQVR4AezdW3bTSvb48V2mT+JzzkP7vJFw1mozgoYRdDKChhGQjIBkBIQREEZAGAH0CJIeAfQIUK/1J8lb5/dwwA4H1b+2hMmF2FHJupRKXy07F1uXqk/JsrS1VRoIAwIIIIAAAggggAACCCCAAAIIxC5A/RBAAAEEEGhFgAB0K+wsFAEEEEAAAQT6K0DNEUAAAQQQQAABBBBAAIH+CBCA7k9bU9PrAvyPAAIIIIAAAggggAACCCCAAALxC1BDBBoVYAAdKv8LBwBBBBAAAEEEEAAgf4IUFMEEEAAAQQQQACB/gkQgO5fm1NjBBBAAAEEEEAAA", nil},
 	}

@@ -450,6 +450,7 @@ var (
 	ltRE            = regexp.MustCompile(`(?i)&lt;`)
 	gtRE            = regexp.MustCompile(`(?i)&gt;`)
 	ampRE           = regexp.MustCompile(`(?i)&amp;`)
+	numericEntityRE = regexp.MustCompile(`(?i)&#(x[0-9a-f]+|\d+);`)
 	scriptRE        = regexp.MustCompile(`(?is)<script\b.*?</script[^>]*>`)
 	styleRE         = regexp.MustCompile(`(?is)<style\b.*?</style[^>]*>`)
 	tagRE           = regexp.MustCompile(`<[^>]+>`)
@@ -458,6 +459,20 @@ var (
 	orphanDataRE    = regexp.MustCompile(`(?i)\[?data:[a-z0-9.+/-]+;base64,[a-z0-9+/=]*`)
 )
 
+func decodeNumericEntity(m string) string {
+	inner := m[2 : len(m)-1] // strip &# and ;
+	base := 10
+	if len(inner) > 0 && (inner[0] == 'x' || inner[0] == 'X') {
+		base = 16
+		inner = inner[1:]
+	}
+	n, err := strconv.ParseUint(inner, base, 32)
+	if err != nil || n == 0 || n > unicode.MaxRune {
+		return m
+	}
+	return string(rune(n))
+}
+
 func decodeEntities(text string) string {
 	text = nbspRE.ReplaceAllString(text, " ")
 	text = quotRE.ReplaceAllString(text, `"`)
@@ -465,6 +480,7 @@ func decodeEntities(text string) string {
 	text = aposRE.ReplaceAllString(text, "'")
 	text = ltRE.ReplaceAllString(text, "<")
 	text = gtRE.ReplaceAllString(text, ">")
+	text = numericEntityRE.ReplaceAllStringFunc(text, decodeNumericEntity)
 	return ampRE.ReplaceAllString(text, "&")
 }
 

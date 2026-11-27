@@ -252,7 +252,11 @@ keyboard use of filters) and keep the copy's meaning.
   site rendered no logos at all; logos are now fetched once by
   `openintern logos` into `data/logos` (embedded, served from `/logos/`),
   with an initials mark for the rest. See `data/logos/README.md`.
-- Very old jobs whose apply links are dead still show on the board. Check
-  freshness rules, retirement, and add a dead-link check on apply URLs.
-- Some excerpts contain literal `&#xa;` entities; decode them at ingest.
-- `data/manual/README.md` still says `pnpm manual:capture`; now `openintern manual-capture` (captures are embedded, so rebuild after adding one).
+- ~~Dead apply links / excerpt entities / manual README.~~ Done 2026-11-27:
+  `openintern check-apply <jobs.json>` probes dump apply URLs; numeric HTML
+  entities (including `&#xa;`) decode in `ExcerptFromHtml`; manual README
+  documents `openintern manual-capture`.
+- `packages/*` remain for Bend glue and golden regeneration; peel further
+  when those goldens no longer need the TypeScript tree.
+- Neon `export-state` workflow removed 2026-11-27 (state repo is the source
+  of truth). Delete any leftover `DATABASE_URL` Actions secret by hand.

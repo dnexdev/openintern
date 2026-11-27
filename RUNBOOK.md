@@ -53,8 +53,7 @@ outlive it go in `packages/db/src/delisted.ts` (needs a PR and deploy).
 2. Maintenance mode if anything was published.
 3. Audit: GitHub security log, recent pushes to `main`, releases, rulesets,
    Actions secrets; Vercel deployments and environment variables.
-4. Rotate deploy keys and any remaining secrets (including `DATABASE_URL` if
-   the one-shot export-state workflow still exists).
+4. Rotate deploy keys and any remaining Actions/Vercel secrets.
 
 ## API or site down
 

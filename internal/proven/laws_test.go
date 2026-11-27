@@ -115,6 +115,27 @@ func TestLaw_rl_fresh_window(t *testing.T) {
 	}
 }
 
+func TestLaw_rl_admit_progress(t *testing.T) {
+	r := propertyRand()
+	for i := 0; i < 2_000; i++ {
+		count, extra := r.Int63n(200), r.Int63n(50)
+		limit := count + 1 + extra
+		if !rateAdmit(count, limit, 7).OK {
+			t.Fatalf("denied under limit: count=%d limit=%d", count, limit)
+		}
+	}
+}
+
+func TestLaw_rl_fresh_progress(t *testing.T) {
+	r := propertyRand()
+	for i := 0; i < 1_000; i++ {
+		now, extra, window := r.Int63n(1_000_000), r.Int63n(50), r.Int63n(1_000)+1
+		if !rateFresh(now, 1+extra, window).OK {
+			t.Fatalf("fresh denied for limit=%d", 1+extra)
+		}
+	}
+}
+
 func randomEnds(r *rand.Rand) []int64 {
 	ends := make([]int64, r.Intn(5))
 	for i := range ends {

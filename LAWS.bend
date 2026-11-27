@@ -90,6 +90,20 @@ law rl_fresh_window:
   for +window: Nat
   {RL.reset_at(RL.fresh(now, limit, window)) == Nat.add(now, window) : Nat}
 
+# Progress: while count < limit, admit succeeds (limit = count + 1 + extra).
+law rl_admit_progress:
+  for +count: Nat
+  for +extra: Nat
+  for +reset_at: Nat
+  {RL.ok(RL.admit(count, 1n+Nat.add(count, extra), reset_at)) == True{} : Bool}
+
+# Progress: a fresh window with a positive limit admits its first request.
+law rl_fresh_progress:
+  for +now: Nat
+  for +extra: Nat
+  for +window: Nat
+  {RL.ok(RL.fresh(now, 1n+extra, window)) == True{} : Bool}
+
 # ---------------------------------------------------------------------------
 # Freshness (internal/proven, internal/health/freshness.go, internal/board)
 # ---------------------------------------------------------------------------

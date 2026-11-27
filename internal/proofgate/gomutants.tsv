@@ -19,4 +19,5 @@ internal/proven/proven.go	case BoardRunListed:\n\t\treturn 0	case BoardRunListed
 internal/proven/proven.go	OK:        true,\n\t\tRemaining: limit - 1,	OK:        false,\n\t\tRemaining: limit - 1,	deny-all: first request of a window refused
 internal/proven/proven.go	prev.ResetAt <= now	prev.ResetAt < now	window resets one ms late
 internal/proven/proven.go	Bucket:    RateBucket{Count: count + 1, ResetAt: resetAt},	Bucket:    RateBucket{Count: count, ResetAt: resetAt},	admitted request not counted
+internal/proven/proven.go	if count >= limit {\n\t\treturn RateVerdict{Bucket: RateBucket{Count: count, ResetAt: resetAt}}\n\t}	if count >= limit || count >= 1 {\n\t\treturn RateVerdict{Bucket: RateBucket{Count: count, ResetAt: resetAt}}\n\t}	under-limit request denied (no progress)
 internal/proven/proven.go	case "summer":\n\t\tmonth, day = time.April, 30\n\tcase "fall":\n\t\tmonth, day = time.August, 31\n\tcase "winter", "spring":	case "summer", "spring":\n\t\tmonth, day = time.April, 30\n\tcase "fall":\n\t\tmonth, day = time.August, 31\n\tcase "winter":	spring folded into summer

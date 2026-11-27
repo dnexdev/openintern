@@ -26,11 +26,12 @@ Homepage: `https://openintern.dev`
 | `STATE_READ_KEY` | secret (optional) | read-only deploy key if the state repo is private |
 | `STATE_WRITE_KEY` / publish secrets | secrets | as required by the Ingest `publish-state` and Dump publish jobs (see the workflow files) |
 
-Neon/`DATABASE_URL` is only used by the one-shot `export-state` migration workflow. Delete that workflow and the secret once the state repo holds migrated state.
-
 ```bash
 gh variable set OPENINTERN_STATE_REPO --body "dnexdev/openintern-state"
 ```
+
+If an old `DATABASE_URL` Actions secret remains from the Neon era, delete it;
+nothing in the daily pipeline reads it anymore.
 
 ## 3. Vercel (Hobby / free)
 

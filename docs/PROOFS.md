@@ -123,14 +123,11 @@ the `bend` CI job in `.github/workflows/ci.yml`, and the Go port vectors.
 
 **Known gaps (documented, not hidden):**
 
-- No **progress** law for the rate limiter: “`limit > 0` and `count < limit`
-  ⇒ admit”. Safety laws (`rl_bounded`, `rl_remaining`, `rl_zero_limit`) and
-  the “deny first request of a fresh window” mutant hold; a limiter that
-  admits the first request of a window and then denies every later request
-  while keeping `remaining` consistent can still pass. Stronger progress
-  laws remain planned (see the paragraph above this audit).
-- Wrappers, SQL freshness, Bend Base, the compiler, and the JS runtime are
-  out of scope (as the header of this file already says).
+- Progress laws `rl_admit_progress` / `rl_fresh_progress` (added 2026-11-27)
+  require admit under capacity and a positive-limit fresh window. The mutant
+  “under-limit request denied” must fail the gate.
+- Wrappers, Bend Base, the compiler, and the JS runtime are out of scope (as
+  the header of this file already says).
 - App-level state machines (ingest retirement sequencing, dump gates, kill
   switch, auto-disable) are **not** Bend laws; they are inventoried in
   [`docs/STATE-MACHINES.md`](STATE-MACHINES.md).

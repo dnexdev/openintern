@@ -231,10 +231,8 @@ Invariants (laws): `remaining = limit - count`; admitted count ≤ limit;
 **Env:** unset → 60/min. Present but empty string → **0 → deny all**
 (Go and TS). Treat as an emergency kill, not a typo-friendly default.
 
-**Law gap (not a runtime bug):** there is no progress law “under the limit
-⇒ admit”. A mutant that denies every request after the first of a window
-while keeping `remaining` consistent can still pass today’s laws; see
-`docs/PROOFS.md`.
+Progress laws `rl_admit_progress` / `rl_fresh_progress` require admit while
+`count < limit` and a positive-limit fresh window (see `docs/PROOFS.md`).
 
 ---
 
@@ -331,7 +329,7 @@ YAML registry
 | High (user-facing false alarm on every page) | [#59](https://github.com/dnexdev/openintern/issues/59) Next stale banner vs dump-age | fixed |
 | Medium (gate/ingest mode skew under padded env) | [#58](https://github.com/dnexdev/openintern/issues/58) dump-gate apply-hosts env trim | fixed |
 | Low (ops semantics) | dual company active vs auto-disable; manual-expired as `error` | documented, not bugs |
-| Enhancement | Bend rate-limit progress law | documented in PROOFS.md |
+| Enhancement | Bend rate-limit progress law | fixed — `rl_admit_progress` / `rl_fresh_progress` |
 
 ### Changelog
 
