@@ -102,6 +102,9 @@ type Response struct {
 	Status int
 	Header http.Header
 	Body   []byte
+	// URL is where the response came from after redirects, for resolving
+	// relative links in an HTML body.
+	URL string
 }
 
 type transportKey struct{}
@@ -352,7 +355,7 @@ func roundTrip(ctx context.Context, method, rawURL string, headers map[string]st
 	if err != nil {
 		return nil, err
 	}
-	return &Response{Status: resp.StatusCode, Header: resp.Header.Clone(), Body: b}, nil
+	return &Response{Status: resp.StatusCode, Header: resp.Header.Clone(), Body: b, URL: resp.Request.URL.String()}, nil
 }
 
 // InvalidJSON is the failure for a 2xx body that is not JSON.

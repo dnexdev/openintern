@@ -100,6 +100,7 @@ func register(mux *http.ServeMux, store reader, opts options) *handler {
 	mux.HandleFunc("GET /vs/intern-insider", h.vsInternInsider)
 	mux.HandleFunc("GET /icon.svg", h.iconSVG)
 	mux.HandleFunc("GET /favicon.ico", h.favicon)
+	mux.HandleFunc("GET "+LogoPrefix+"{file}", h.logo)
 	mux.HandleFunc("GET /opengraph-image", h.ogImage)
 	mux.HandleFunc("GET /twitter-image", h.ogImage)
 	mux.HandleFunc("/", h.notFound)

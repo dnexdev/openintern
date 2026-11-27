@@ -28,6 +28,7 @@
   --alarm: #a8271f;
   --mark-bar: #4f9a5a;
   --press: #39433c;
+  --logo-ground: #ffffff; /* same in both themes: logos are drawn for white */
 
   --face: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", Verdana, sans-serif;
   --code: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -589,6 +590,40 @@ input[type="checkbox"] {
 .cell-company {
   font-weight: 600;
   font-size: 14px;
+}
+
+/* Company mark: the company's own logo, copied into this site, or its
+   initials when there is none. Square, like every surface. */
+
+.row-company,
+.cell-company,
+.record-company {
+  display: flex;
+  align-items: center;
+  align-self: start;
+  gap: var(--s2);
+}
+
+.mark {
+  flex: none;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--rule);
+}
+
+img.mark {
+  padding: 1px;
+  background: var(--logo-ground);
+}
+
+.mark-initials {
+  display: inline-grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .row-compact .row-title {

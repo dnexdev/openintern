@@ -4,7 +4,7 @@
   <p class="crumb"><a href="/jobs">All internships</a></p>
   <article class="record-body" data-job-ids="{{.ID}}">
     <header class="record-head">
-      <p class="record-company"><a href="{{.CompanyURL}}">{{.Company}}</a></p>
+      <p class="record-company">{{template "mark" .Mark}}<a href="{{.CompanyURL}}">{{.Company}}</a></p>
       <h1 class="record-title"><span class="row-title">{{.Title}}</span></h1>
     </header>
     <p class="row-actions record-actions">

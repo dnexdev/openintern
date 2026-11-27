@@ -74,6 +74,8 @@
 
 {{define "stale"}}<div class="sheet"><p class="notice" role="status">The daily refresh is late. These listings come from the last daily dump{{with .Age}} (<strong>{{.}}</strong>){{end}}, so some may have closed since. They update as soon as the next run publishes.</p></div>{{end}}
 
+{{define "mark"}}{{if .Src}}<img class="mark" src="{{.Src}}" alt="" width="24" height="24" loading="lazy" decoding="async">{{else}}<span class="mark mark-initials" aria-hidden="true">{{.Initials}}</span>{{end}}{{end}}
+
 {{define "applied"}}<button class="btn btn-small applied-toggle" type="button" data-applied="{{.ID}}" data-title="{{.Title}}" aria-pressed="false" hidden>Mark applied</button>{{end}}
 
 {{define "curl"}}<div class="curl">

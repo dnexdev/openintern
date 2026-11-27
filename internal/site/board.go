@@ -42,6 +42,7 @@ type familyView struct {
 	DetailPath  string
 	CompanyName string
 	CompanySlug string
+	Mark        companyMark
 	Tier1       bool
 	Roles       string
 	Term        string
@@ -112,7 +113,9 @@ func (h *handler) jobs(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		v.Total = result.Total
 		for _, f := range result.Families {
-			v.Families = append(v.Families, familyRow(f, now, h.jobPath))
+			row := familyRow(f, now, h.jobPath)
+			row.Mark = h.companyMark(f.Company.Slug, f.Company.Name)
+			v.Families = append(v.Families, row)
 		}
 	}
 

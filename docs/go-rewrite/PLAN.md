@@ -245,7 +245,10 @@ keyboard use of filters) and keep the copy's meaning.
 
 ## Follow-ups after the rewrite (reported 2026-11-26)
 
-- Company logos fail to load on some listings.
+- ~~Company logos fail to load on some listings.~~ Done 2026-11-27: the Go
+  site rendered no logos at all; logos are now fetched once by
+  `openintern logos` into `data/logos` (embedded, served from `/logos/`),
+  with an initials mark for the rest. See `data/logos/README.md`.
 - Very old jobs whose apply links are dead still show on the board. Check
   freshness rules, retirement, and add a dead-link check on apply URLs.
 - Some excerpts contain literal `&#xa;` entities; decode them at ingest.

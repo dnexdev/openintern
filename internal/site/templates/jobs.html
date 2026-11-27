@@ -82,7 +82,7 @@
 {{end}}{{end}}
 
 {{define "family"}}<li class="row" data-family-id="{{.ID}}" data-job-ids="{{.JobIDs}}">
-  <p class="cell-company">{{.CompanyName}}{{if .Tier1}} <span class="tier" title="On the maintainer-curated Tier 1 employer list">Tier 1</span>{{end}}</p>
+  <p class="cell-company">{{template "mark" .Mark}}<span>{{.CompanyName}}{{if .Tier1}} <span class="tier" title="On the maintainer-curated Tier 1 employer list">Tier 1</span>{{end}}</span></p>
   <div class="cell-role">
     <h2 class="row-title"><a href="{{.DetailPath}}">{{.Title}}</a></h2>
     {{with .Roles}}<p class="row-roles">{{.}}</p>{{end}}

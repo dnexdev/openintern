@@ -48,6 +48,7 @@ func (h *handler) stale(r *http.Request) *stale {
 
 type previewRow struct {
 	Company    string
+	Mark       companyMark
 	Title      string
 	Location   string
 	Roles      string
@@ -81,6 +82,7 @@ func (h *handler) home(w http.ResponseWriter, r *http.Request) {
 		for _, job := range hero.Preview {
 			v.Preview = append(v.Preview, previewRow{
 				Company:    job.CompanyName,
+				Mark:       h.companyMark(job.CompanySlug, job.CompanyName),
 				Title:      job.Title,
 				Location:   board.PreviewLocationLabel(job),
 				Roles:      strings.Join(job.Roles[:min(2, len(job.Roles))], ", "),
@@ -130,6 +132,7 @@ type jobView struct {
 	Title      string
 	Company    string
 	CompanyURL string
+	Mark       companyMark
 	Facts      []fact
 	Excerpt    string
 	ApplyURL   string
@@ -170,6 +173,7 @@ func (h *handler) jobDetail(w http.ResponseWriter, r *http.Request) {
 		Title:      job.Title,
 		Company:    job.CompanyName,
 		CompanyURL: "/jobs?company=" + job.CompanySlug,
+		Mark:       h.companyMark(job.CompanySlug, job.CompanyName),
 		ApplyURL:   job.ApplyURL,
 		ReportURL:  board.ReportIssueURL(job.ID, job.Title, job.CompanyName, job.ApplyURL, SiteURL+pagePath),
 	}

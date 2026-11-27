@@ -20,7 +20,7 @@
     <ul class="rows rows-compact">
       {{range .Preview}}
       <li class="row-compact">
-        <span class="row-company">{{.Company}}</span>
+        <span class="row-company">{{template "mark" .Mark}}<span>{{.Company}}</span></span>
         <a class="row-title" href="{{.DetailPath}}">{{.Title}}</a>
         <span class="row-sub">{{.Location}}{{with .Roles}}<span class="sep" aria-hidden="true"></span>{{.}}{{end}}</span>
       </li>

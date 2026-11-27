@@ -162,3 +162,23 @@ func TestFailureAs(t *testing.T) {
 		t.Fatal(err.Error())
 	}
 }
+
+// Response.URL is where the body came from after redirects, so relative links
+// in it resolve against the right page.
+func TestResponseURLAfterRedirect(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/old" {
+			http.Redirect(w, r, "/new/page", http.StatusMovedPermanently)
+			return
+		}
+		_, _ = w.Write([]byte("ok"))
+	}))
+	defer srv.Close()
+	res, err := Request(context.Background(), srv.URL+"/old", Options{Attempts: 1})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res.URL != srv.URL+"/new/page" {
+		t.Errorf("URL = %q, want %q", res.URL, srv.URL+"/new/page")
+	}
+}
