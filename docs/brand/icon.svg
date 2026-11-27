@@ -1,10 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="OpenIntern">
-  <defs>
-    <linearGradient id="oi-mark" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#f5c518"/>
-      <stop offset="45%" stop-color="#7dd3fc"/>
-      <stop offset="100%" stop-color="#22d3ee"/>
-    </linearGradient>
-  </defs>
-  <rect x="3.5" y="3.5" width="25" height="25" rx="5" stroke="url(#oi-mark)" stroke-width="3.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="OpenIntern">
+  <style>
+    .sheet { fill: #fbfcfa; stroke: #1e2420; }
+    .bar { fill: #4f9a5a; }
+    @media (prefers-color-scheme: dark) {
+      .sheet { fill: #191c1a; stroke: #e4e9e3; }
+      .bar { fill: #6fb77a; }
+    }
+  </style>
+  <rect class="sheet" x="4.5" y="4.5" width="23" height="23" stroke-width="3"/>
+  <rect class="bar" x="6" y="10" width="20" height="4"/>
+  <rect class="bar" x="6" y="18" width="20" height="4"/>
 </svg>

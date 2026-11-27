@@ -1,0 +1,2 @@
+id,title,company,company_slug,locations,apply_url,excerpt,terms,term_years,duration_months,cohort_year,roles,regions,is_remote,source,posted_at,first_seen_at,last_seen_at,role_family_id,normalized_title
+20000000-0000-4000-8000-000000000002,中文 실습생 インターン,Name alpha,alpha,"New York, NY; Zürich",https://job-boards.greenhouse.io/x/jobs/fp2,,summer,summer-2027,,2027,software,remote,true,greenhouse,,2026-10-23T12:00:00.500Z,2026-11-01T00:00:00.000Z,rf-fp2,software engineer intern

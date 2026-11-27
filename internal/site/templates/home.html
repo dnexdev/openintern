@@ -1,0 +1,33 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}{{with .Data}}
+<div class="sheet home">
+  <section class="home-intro" aria-labelledby="home-title">
+    <h1 id="home-title" class="display">Tech internships, open by default</h1>
+    <p class="lede">Free tech internship listings. No account. No paywall. Open source, with a public API and daily dumps.</p>
+    {{if not .Error}}
+    <p class="corpus-line">
+      <strong>{{num .Total}}</strong> active {{plural .Total "role" "roles"}} from <strong>{{num .Companies}}</strong> {{plural .Companies "company" "companies"}} we poll every day{{with .IngestAge}}; the last update was <strong>{{.}}</strong>{{end}}.
+    </p>
+    {{end}}
+    <p class="season">Live focus: Fall/Winter 2026–27 and Summer 2027. See how it <a href="/vs/intern-insider">compares to Intern Insider</a>.</p>
+    <p class="home-actions"><a class="btn btn-primary" href="/jobs">Browse internships</a></p>
+    {{template "curl" .CurlSample}}
+    <p class="small">Or read the <a href="/docs">API docs</a>.</p>
+  </section>
+  {{if .Preview}}
+  <section class="home-latest" aria-labelledby="latest-title">
+    <h2 id="latest-title" class="h2">A few roles on the board now</h2>
+    <ul class="rows rows-compact">
+      {{range .Preview}}
+      <li class="row-compact">
+        <span class="row-company">{{template "mark" .Mark}}<span>{{.Company}}</span></span>
+        <a class="row-title" href="{{.DetailPath}}">{{.Title}}</a>
+        <span class="row-sub">{{.Location}}{{with .Roles}}<span class="sep" aria-hidden="true"></span>{{.}}{{end}}</span>
+      </li>
+      {{end}}
+    </ul>
+    <p class="small"><a href="/jobs">All {{num .Total}} roles</a></p>
+  </section>
+  {{end}}
+</div>
+{{end}}{{end}}

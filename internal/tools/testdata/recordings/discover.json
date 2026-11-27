@@ -1,0 +1,180 @@
+{
+ "responses": [
+  {
+   "method": "GET",
+   "url": "https://yc-oss.github.io/api/companies/hiring.json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "bodyFile": "bodies/yc-hiring.json.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://a16z.com/portfolio-companies/",
+   "status": 404,
+   "headers": {
+    "content-type": "text/html"
+   },
+   "body": "<html>gone</html>"
+  },
+  {
+   "method": "GET",
+   "url": "https://a16z.com/portfolio/",
+   "status": 200,
+   "headers": {
+    "content-type": "text/html; charset=UTF-8"
+   },
+   "bodyFile": "bodies/a16z-portfolio.html.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/rescale/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/amplitude/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}, {}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/ycombinator?mode=json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[{}]"
+  },
+  {
+   "method": "GET",
+   "url": "https://www.workable.com/api/accounts/hackerrank",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": []}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.smartrecruiters.com/v1/companies/instacart/postings?limit=1",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"totalFound\": 5, \"content\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/onesignal",
+   "status": 429,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": ""
+  },
+  {
+   "method": "GET",
+   "url": "https://api.rippling.com/platform/api/ats/v1/board/zapier/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[]"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/openai",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/notion",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/ramp",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/character/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/dbt-labs?mode=json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[{}]"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/lantern/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.smartrecruiters.com/v1/companies/Anduril/postings?limit=1",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"totalFound\": 0, \"content\": []}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/andurilindustries/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/figma",
+   "error": "network"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/figma/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  }
+ ]
+}

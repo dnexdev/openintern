@@ -1,0 +1,7 @@
+{
+ "stdout": "",
+ "stderr": "Usage: discover-accelerators.ts --yc | --a16z [--write] [--limit=N]\n",
+ "code": 1,
+ "requests": [],
+ "files": {}
+}

@@ -1,0 +1,5857 @@
+{
+ "generatedAt": "2026-11-13T14:38:58.955Z",
+ "count": 165,
+ "jobs": [
+  {
+   "id": "1ea8c25a-1a75-4a29-a414-91ccc8ca6038",
+   "title": "Research Intern - MSR AI Interaction and Learning",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Redmond, WA, US",
+    "New York, NY, US",
+    "United States, Washington, Redmond",
+    "United States, New York, New York"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557042156",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-16T17:34:19.000Z",
+   "first_seen_at": "2026-10-17T15:26:04.391Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "cc053bf7-234d-4d6f-ac1e-28f58729c196",
+   "title": "Sector Data Analyst – Intern (Europe)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "London"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/sector-data-analyst-intern-europe/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "data"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-08-13T05:34:26.141Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "e0364023-7097-4c0c-b5e1-a3dee7c9dd6f",
+   "title": "Sector Data Scientist – 2027 Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/sector-data-scientist-2027-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "data"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-08-13T05:34:26.141Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "16bb1fe8-7c73-4c41-91e1-b3bde0a89579",
+   "title": "Research Intern - AI & Human Systems",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "New York, NY, US",
+    "Cambridge, MA, US",
+    "United States, New York, New York",
+    "United States, Massachusetts, Cambridge"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557056017",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-11-06T22:58:21.000Z",
+   "first_seen_at": "2026-11-09T22:50:38.876Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "7ac20eaf-3c83-4780-bdfd-fa9f1dff48d1",
+   "title": "Software Engineer – Intern (Europe)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "London"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/software-engineer-intern-europe/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "28dbb28f-12f1-4a3e-b58d-35fa816175f6",
+   "title": "Research Intern - Machine Learning and Optimization - Redmond",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Redmond, WA, US",
+    "United States, Washington, Redmond"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557049981",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-28T15:23:31.000Z",
+   "first_seen_at": "2026-11-01T18:19:06.603Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "d6f88b2f-9cb5-4385-9d06-f819fce2f7d6",
+   "title": "AI/ML Layout Engineering Intern (Winter 2027)",
+   "company": {
+    "name": "Ciena",
+    "slug": "ciena",
+    "ats": "workday"
+   },
+   "locations": [
+    "Ottawa"
+   ],
+   "apply_url": "https://ciena.wd5.myworkdayjobs.com/Careers/job/Ottawa/AI-ML-Layout-Engineering-Intern--Winter-2027-_R032102",
+   "excerpt": "As the global leader in high-speed connectivity, Ciena builds the critical infrastructure powering the AI era. We’re a technology company shaping the future of networking, guided by innovation, integrity, and collaboration. Through development opportunities, meaningful work, and flexibility, Ciena supports growth and well-being—on and off the job. Connect with a career that matters. The Opportunit",
+   "terms": [
+    "winter"
+   ],
+   "term_years": [
+    {
+     "term": "winter",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "ml"
+   ],
+   "regions": [
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T19:51:20.012Z",
+   "last_seen_at": "2026-11-12T19:51:20.012Z"
+  },
+  {
+   "id": "50ec542f-e2ca-4403-911a-49c3a901b50c",
+   "title": "Developer Technology Engineer Intern",
+   "company": {
+    "name": "NVIDIA",
+    "slug": "nvidia",
+    "ats": "workday"
+   },
+   "locations": [
+    "Japan, Tokyo"
+   ],
+   "apply_url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Japan-Tokyo/Developer-Technology-Engineer-Intern_JR2029575",
+   "excerpt": "We are looking for a Developer Technology Engineering Intern to focus on performance analysis for real-time games and graphics related AI inferencing workloads in Asia Pacific Region with a focus on Japan. For two decades, NVIDIA has pioneered visual computing, the art and science of computer graphics. With our invention of the GPU, the field has expanded to encompass PC games, movie production, p",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:09:03.667Z",
+   "last_seen_at": "2026-11-12T19:26:30.069Z"
+  },
+  {
+   "id": "9a380663-426e-40a9-95f9-99517c95f5a2",
+   "title": "Quantitative Researcher – PhD Intern (Europe)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "London",
+    "Zurich"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-researcher-phd-intern-europe/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "5271ca89-32a3-4bdf-b5c5-7c10c5227acc",
+   "title": "Sector Data Analyst – Intern (Asia)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Hong Kong",
+    "Singapore"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/sector-data-analyst-intern-asia/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "data"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "8f3d936e-2e8f-4401-9bdd-885c4795e669",
+   "title": "Stagiaire en Développement Cloud, Intern Cloud Developer",
+   "company": {
+    "name": "Autodesk",
+    "slug": "autodesk",
+    "ats": "workday"
+   },
+   "locations": [
+    "Montreal, QC, CAN"
+   ],
+   "apply_url": "https://autodesk.wd1.myworkdayjobs.com/Ext/job/Montreal-QC-CAN/Stagiaire-en-Dveloppement-Cloud--Intern-Cloud-Developer_26WD102147-2",
+   "excerpt": "Job Requisition ID # 26WD102147 English version will follow Nous recherchons un·e stagiaire en développement infonuagique, très motivé·e, pour se joindre à une équipe de développement agile. Celle-ci travaille à la création de technologies de calcul et de gestion des données dans le cloud. La personne recherchée possède idéalement de l’expérience en développement et en soutien d’applications à gra",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:02:37.653Z",
+   "last_seen_at": "2026-11-12T20:02:37.653Z"
+  },
+  {
+   "id": "02d7a01e-c8be-42ad-b34b-5655fe6af231",
+   "title": "Intern, Software Developer, Stagiaire en Développement Logiciel",
+   "company": {
+    "name": "Autodesk",
+    "slug": "autodesk",
+    "ats": "workday"
+   },
+   "locations": [
+    "Montreal, QC, CAN"
+   ],
+   "apply_url": "https://autodesk.wd1.myworkdayjobs.com/Ext/job/Montreal-QC-CAN/Intern--Software-Developer--Stagiaire-en-Dveloppement-Logiciel_26WD102151-3",
+   "excerpt": "Job Requisition ID # 26WD102151 English version will follow Autodesk est à la recherche d'un(e) stagiaire pour rejoindre l'équipe des modèles de données d'Autodesk Platform Services. L'équipe fournit des composants de plateforme de données de grande valeur, à l'échelle exabyte et dans le nuage, qui alimentent les produits de bureau, mobiles et Web. Cela permet à nos équipes de",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:02:37.653Z",
+   "last_seen_at": "2026-11-12T20:02:37.653Z"
+  },
+  {
+   "id": "964ec65c-3339-4beb-8c7e-d4ee98d60c43",
+   "title": "Quantitative Research Analyst Intern – BS/MS (Asia)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Hong Kong",
+    "Singapore"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-research-analyst-intern-bs-ms-asia/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant",
+    "research"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "780e7389-cb95-4561-b958-9fe79f3f1231",
+   "title": "Systems Engineering Intern",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MN-BURNSVILLE-NORTH ~ 2900 County Rd 42 W ~ NORTH BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MN-BURNSVILLE-NORTH--2900-County-Rd-42-W--NORTH-BLDG/Systems-Engineering-Intern_01881462",
+   "excerpt": "Date Posted: 2026-11-12&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MN-BURNSVILLE-NORTH ~ 2900 County Rd 42 W ~ NORTH BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearan",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "0bba6dba-6433-4ac7-87ac-88f8dda986a9",
+   "title": "Operations Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-ANDOVER-AN1 ~ 350 Lowell St ~ AN1 ESSEX BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-ANDOVER-AN1--350-Lowell-St--AN1-ESSEX-BLDG/Operations-Engineering-Intern--Summer-2027-_01888583",
+   "excerpt": "Date Posted: 2026-11-12&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-ANDOVER-AN1 ~ 350 Lowell St ~ AN1 ESSEX BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citizens",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "fc6dc4f5-0a1f-4439-beb2-5e4da4fdcd6b",
+   "title": "Intern, Systems Engineer- Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-VA-STERLING-291 ~ 22640 Davis Dr ~ DAVIS"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-VA-STERLING-291--22640-Davis-Dr--DAVIS/Intern--Systems-Engineer--Onsite_01887548",
+   "excerpt": "Date Posted: 2026-11-12&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-VA-STERLING-291 ~ 22640 Davis Dr ~ DAVIS&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are eligible",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-10T20:08:22.955Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "8f561916-c298-4573-a404-75d586e82422",
+   "title": "Cryogenic Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-AZ-TUCSON-811A ~ 1151 E Hermans Rd ~ BLDG 811A (External Site)"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-AZ-TUCSON-811A--1151-E-Hermans-Rd--BLDG-811A-External-Site/Cryogenic-Engineering-Intern--Summer-2027-_01888586",
+   "excerpt": "Date Posted: 2026-11-12&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-AZ-TUCSON-811A ~ 1151 E Hermans Rd ~ BLDG 811A (External Site)&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as onl",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "fab0aae7-26f1-46d5-9bc3-6466303cedde",
+   "title": "Systems Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-MARLBOROUGH-MA2 ~ 1001 Boston Post Rd ~ BLDG 2"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-MARLBOROUGH-MA2--1001-Boston-Post-Rd--BLDG-2/Systems-Engineering-Intern--Summer-2027-_01888963",
+   "excerpt": "Date Posted: 2026-11-12&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-MARLBOROUGH-MA2 ~ 1001 Boston Post Rd ~ BLDG 2&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "6a3e176d-6baf-4bd8-b6d6-f79a9141d4f3",
+   "title": "Systems Engineering Intern (2027)- Tac Comm (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-137 ~ 855 35Th St NE ~ BLDG 137"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-137--855-35Th-St-NE--BLDG-137/Systems-Engineering-Intern--2027---Tac-Comm--Onsite-_01888309",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-137 ~ 855 35Th St NE ~ BLDG 137&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are el",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "54c2f60a-4b0c-479b-a65c-280c26e69cc3",
+   "title": "Electrical (Firmware) Engineering Intern (Summer 2027)(Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IN-FT WAYNE-150A ~ 1010 Production Rd ~ BLDG 150A"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IN-FT-WAYNE-150A--1010-Production-Rd--BLDG-150A/Electrical--Firmware--Engineering-Intern--Summer-2027--Onsite-_01888316",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IN-FT WAYNE-150A ~ 1010 Production Rd ~ BLDG 150A&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Ty",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "7519786f-04e6-43db-93db-0c3d31c2aab5",
+   "title": "Receiver, Exciter & Processing Architecture Electrical Engineer Intern (Summer 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-TEWKSBURY-TB1 ~ 50 Apple Hill Dr ~ ASSABET BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-TEWKSBURY-TB1--50-Apple-Hill-Dr--ASSABET-BLDG/Receiver--Exciter---Processing-Architecture-Electrical-Engineer-Intern--Summer-2027----Onsite_01889033",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-TEWKSBURY-TB1 ~ 50 Apple Hill Dr ~ ASSABET BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citiz",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "c2cb8d14-2f12-4786-81bb-a42c2d6f429a",
+   "title": "Software Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-143 ~ 855 35Th St NE ~ BLDG 143"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-143--855-35Th-St-NE--BLDG-143/Software-Engineering-Intern--Summer-2027-_01888055",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-143 ~ 855 35Th St NE ~ BLDG 143&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are el",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:22:15.644Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "51ec6e79-7293-4ce6-8c5b-879cadd2b88e",
+   "title": "Software Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-TX-MCKINNEY-513WB ~ 2501 W University Dr ~ WING B BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-TX-MCKINNEY-513WB--2501-W-University-Dr--WING-B-BLDG/Software-Engineering-Intern--Summer-2027-_01886440",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-TX-MCKINNEY-513WB ~ 2501 W University Dr ~ WING B BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "6329723a-0321-4964-aaaa-1c78cb2e417f",
+   "title": "Electrical (FCS Hardware) Engineering Intern (Summer 2027)(Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-193 ~ 1120 Collins Rd NE ~ BLDG193"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-193--1120-Collins-Rd-NE--BLDG193/Electrical--FCS-Hardware--Engineering-Intern--Summer-2027--Onsite-_01888815",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-193 ~ 1120 Collins Rd NE ~ BLDG193&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "5d6dce4e-180c-4c67-b9bb-778c650edd83",
+   "title": "Electrical Engineering Intern - Test Solutions",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-TEWKSBURY-TB2 ~ 50 Apple Hill Dr ~ SUDBURY BLDG, Tewksbury Tb2 200 Sudbury"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-TEWKSBURY-TB2--50-Apple-Hill-Dr--SUDBURY-BLDG-Tewksbury-Tb2-200-Sudbury/Electrical-Engineering-Intern---Test-Solutions_01887669",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-TEWKSBURY-TB2 ~ 50 Apple Hill Dr ~ SUDBURY BLDG, Tewksbury Tb2 200 Sudbury&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is r",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "1c34c71c-f4cd-43ef-a850-662b53ab4d19",
+   "title": "Operations Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-NM-FARMINGTON-426S ~ 10059 Hwy 371 S ~ SOUTH BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-NM-FARMINGTON-426S--10059-Hwy-371-S--SOUTH-BLDG/Operations-Engineering-Intern--Summer-2027-_01878570",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-NM-FARMINGTON-426S ~ 10059 Hwy 371 S ~ SOUTH BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Ty",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "42fc0c3c-dd4d-4a21-9642-cbc4434f8aed",
+   "title": "Aftermarket & Sustainment Engineering Methods Engineering Intern (Summer 2027)(Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CT-EAST HARTFORD-ETC ~ 400 Main St ~ BLDG ETC"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CT-EAST-HARTFORD-ETC--400-Main-St--BLDG-ETC/Aftermarket---Sustainment-Engineering-Methods-Engineering-Intern--Summer-2027--Onsite-_01887864",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CT-EAST HARTFORD-ETC ~ 400 Main St ~ BLDG ETC&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type:",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "frontend",
+    "ml",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "368ca4fb-1409-4a9a-a2cb-df67ddb0ac41",
+   "title": "Receiver, Exciter & Processing Architecture Electrical Engineer Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-TEWKSBURY-TB1 ~ 50 Apple Hill Dr ~ ASSABET BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-TEWKSBURY-TB1--50-Apple-Hill-Dr--ASSABET-BLDG/Receiver--Exciter---Processing-Architecture-Electrical-Engineer-Intern--Summer-2027-_01873437",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-TEWKSBURY-TB1 ~ 50 Apple Hill Dr ~ ASSABET BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citiz",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-09T17:00:36.078Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "b8d9f5b1-a61f-437a-8ac8-4eb40e8ab2b2",
+   "title": "Structural Engineering Intern (Summer 2027)(Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CT-EAST HARTFORD-ENG ~ 400 Main St ~ BLDG ENG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CT-EAST-HARTFORD-ENG--400-Main-St--BLDG-ENG/Structural-Engineering-Intern--Summer-2027--Onsite-_01887158",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CT-EAST HARTFORD-ENG ~ 400 Main St ~ BLDG ENG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type:",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "ae4d0e49-ffb2-4465-b94c-39bcff3974bf",
+   "title": "Software Engineering Intern (ISET-IN-2)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-VA-STERLING-291 ~ 22640 Davis Dr ~ DAVIS"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-VA-STERLING-291--22640-Davis-Dr--DAVIS/Software-Engineering-Intern--ISET-IN-2-_01888017",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-VA-STERLING-291 ~ 22640 Davis Dr ~ DAVIS&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are eligible",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "92820c9f-a2ab-43c1-a7d4-14ce4eaf323e",
+   "title": "Electrical Components Engineer Intern (Summer 2027) (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-AZ-TUCSON-M10 ~ 3360 E Hemisphere Loop ~ BLDG M10"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-AZ-TUCSON-M10--3360-E-Hemisphere-Loop--BLDG-M10/Electrical-Components-Engineer-Intern--Summer-2027---Onsite-_01888885",
+   "excerpt": "Date Posted: 2026-11-11&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-AZ-TUCSON-M10 ~ 3360 E Hemisphere Loop ~ BLDG M10&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citize",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "4bf88baf-79a2-4034-bf05-5e2b83e35475",
+   "title": "Software Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-TX-RICHARDSON-C17 ~ 1717 Cityline Dr ~ CITYLINE C17"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-TX-RICHARDSON-C17--1717-Cityline-Dr--CITYLINE-C17/Software-Engineering-Intern--Summer-2027-_01888049",
+   "excerpt": "Date Posted: 2026-11-10&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-TX-RICHARDSON-C17 ~ 1717 Cityline Dr ~ CITYLINE C17&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens ar",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "2b53dbb8-4831-4bd0-aa4f-d4f4dd79c9ca",
+   "title": "Software Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-LARGO-382SR ~ 7887 Bryan Dairy Rd ~ BLDG 600"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-LARGO-382SR--7887-Bryan-Dairy-Rd--BLDG-600/Software-Engineering-Intern--Summer-2027-_01888045",
+   "excerpt": "Date Posted: 2026-11-10&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-LARGO-382SR ~ 7887 Bryan Dairy Rd ~ BLDG 600&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citizens",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "6d4c5f5f-ee9f-4c2f-b984-09f95ea5b50a",
+   "title": "Software Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-ST-PETERSBURG-381BD--7401-22nd-Ave-N--BLDG-D/Software-Engineering-Intern--Summer-2027-_01887806",
+   "excerpt": "Date Posted: 2026-11-10&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citize",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:59:41.986Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "6a1ae735-e06e-46de-a452-9b99c30a64e6",
+   "title": "Manufacturing Electrical Engineer Co-op (Spring/Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-MELBOURNE-308 ~ 1100 W Hibiscus Blvd ~ BLDG 308"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-MELBOURNE-308--1100-W-Hibiscus-Blvd--BLDG-308/Manufacturing-Electrical-Engineer-Co-op--Spring-Summer-2027-_01883878",
+   "excerpt": "Date Posted: 2026-11-10&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-MELBOURNE-308 ~ 1100 W Hibiscus Blvd ~ BLDG 308&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-22T17:12:32.096Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "063bcca6-b816-426d-a166-f4f44cc51195",
+   "title": "Manufacturing Electrical Engineering Co-Op (Spring/Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-MANCHESTER-185 ~ 901 S 10th St ~ S 10TH"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-MANCHESTER-185--901-S-10th-St--S-10TH/Manufacturing-Electrical-Engineering-Co-Op--Spring-Summer-2027-_01888519",
+   "excerpt": "Date Posted: 2026-11-09&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-MANCHESTER-185 ~ 901 S 10th St ~ S 10TH&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access certain necessary systems.&#xa;&#xa; Security Clearance Type: None/Not Required",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-10T20:08:22.955Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "d27cb7a6-6935-4499-a096-214b9bbe5da5",
+   "title": "Part Time Systems Engineer Co-Op (Remote)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CO-AURORA-S75 ~ 16800 E Centretech Pkwy ~ BLDG S75"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CO-AURORA-S75--16800-E-Centretech-Pkwy--BLDG-S75/Part-Time-Systems-Engineer-Co-Op--Remote-_01886102",
+   "excerpt": "Date Posted: 2026-11-02&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CO-AURORA-S75 ~ 16800 E Centretech Pkwy ~ BLDG S75&#xa;&#xa; Position Role Type: Remote&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "ml",
+    "security",
+    "devops",
+    "hardware"
+   ],
+   "regions": [
+    "remote",
+    "us"
+   ],
+   "is_remote": true,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-02T22:04:28.374Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "cf203797-83c6-4bd7-9a53-30f27a5c5e51",
+   "title": "RF/Microwave Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-ANDOVER-AR1 ~ 358 Lowell St ~ AR1 DUKES BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-ANDOVER-AR1--358-Lowell-St--AR1-DUKES-BLDG/RF-Microwave-Engineering-Intern--Summer-2027-_01875478",
+   "excerpt": "Date Posted: 2026-11-02&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-ANDOVER-AR1 ~ 358 Lowell St ~ AR1 DUKES BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are el",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-17T16:53:05.817Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "7c22831c-0902-44e7-abf3-bf3fd656ae1c",
+   "title": "Hardware Electrical Engineering Co-Op (Spring 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-CAMBRIDGE-BBN01 ~ 10 & 50 Moulton St ~ MOULTON B2"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-CAMBRIDGE-BBN01--10--50-Moulton-St--MOULTON-B2/Hardware-Electrical-Engineering-Co-Op--Spring-2027-_01883598",
+   "excerpt": "Date Posted: 2026-10-28&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-CAMBRIDGE-BBN01 ~ 10 & 50 Moulton St ~ MOULTON B2&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens a",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:12:20.633Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "4969a771-7e16-4bde-a39b-9b563e469058",
+   "title": "Technical Intern Summer 2027 - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-RI-MIDDLETOWN-201 ~ 127 John Clarke Rd ~ BBN MIDDLETOWN, Ste 3"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-RI-MIDDLETOWN-201--127-John-Clarke-Rd--BBN-MIDDLETOWN-Ste-3/Technical-Intern-Summer-2027---Onsite_01882365",
+   "excerpt": "Date Posted: 2026-10-26&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-RI-MIDDLETOWN-201 ~ 127 John Clarke Rd ~ BBN MIDDLETOWN, Ste 3&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:12:20.633Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "108ed98e-4290-4b3d-ae9f-4f234a387a6a",
+   "title": "Analog and Power Design Electrical Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-MA-MARLBOROUGH-MA3 ~ 1001 Boston Post Rd ~ BLDG 3"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-MARLBOROUGH-MA3--1001-Boston-Post-Rd--BLDG-3/Analog-and-Power-Design-Electrical-Engineering-Intern--Summer-2027-_01871778",
+   "excerpt": "Date Posted: 2026-10-22&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-MA-MARLBOROUGH-MA3 ~ 1001 Boston Post Rd ~ BLDG 3&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-03T16:27:52.726Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "93f3bb0c-fd1e-42a4-aeb7-defa20a57d8f",
+   "title": "Systems Engineer Co-Op (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/Systems-Engineer-Co-Op--Summer-Fall-2027----Onsite_01879966",
+   "excerpt": "Date Posted: 2026-10-07&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-08T18:59:57.634Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "db6c4633-da10-420b-8988-728181e42330",
+   "title": "Power Electrical Engineer Intern (Summer 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-AL-HUNTSVILLE-315 ~ 315 Bob Heath Dr ~ BOB HEATH"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-AL-HUNTSVILLE-315--315-Bob-Heath-Dr--BOB-HEATH/Power-Electrical-Engineer-Intern--Summer-2027----Onsite_01880823",
+   "excerpt": "Date Posted: 2026-10-07&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-AL-HUNTSVILLE-315 ~ 315 Bob Heath Dr ~ BOB HEATH&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are e",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-07T19:15:06.654Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "efb4272a-1024-411e-b8c9-d788ec72c93c",
+   "title": "Aftermarket and Sustainment Engineering - Structures Engineer Co-Op (January 2027) (Hybrid)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-PR-AGUADILLA-110 ~ Rd 110 N Km 28.8 ~ RD110"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-PR-AGUADILLA-110--Rd-110-N-Km-288--RD110/Aftermarket-and-Sustainment-Engineering---Structures-Engineer-Co-Op--January-2027---Hybrid-_01874274",
+   "excerpt": "Date Posted: 2026-10-01&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-PR-AGUADILLA-110 ~ Rd 110 N Km 28.8 ~ RD110&#xa;&#xa; Position Role Type: Hybrid U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract. Security Clearance: None/Not Required Are you r",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-02T17:56:04.032Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "02b12916-634f-48d3-91de-b6e00b643858",
+   "title": "Systems Engineering Co-op (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-105 ~ 400 Collins Rd NE ~ BLDG 105"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-105--400-Collins-Rd-NE--BLDG-105/Systems-Engineering-Co-op--Summer-Fall-2027----Onsite_01874003",
+   "excerpt": "Date Posted: 2026-09-30&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-105 ~ 400 Collins Rd NE ~ BLDG 105&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The company will offer immigration sponsorship for this position, if needed.​ The company will not seek an export authorization for this role.&#xa;&",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-17T16:53:05.817Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "e4ac07d8-1e3b-4c80-b682-73e1440866c6",
+   "title": "Software Engineer, Intern - Connectivity Platform and Product",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "New York, NY"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/130ee501-bd22-4d44-b651-39581ef97743",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role The Connectivity team builds products that connect our most critical institutions to",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-11-04T20:41:30.986Z",
+   "first_seen_at": "2026-11-10T19:25:01.102Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "362546fc-1146-4c3c-9354-9909f55734ff",
+   "title": "2027 Summer-Fall Co-op - Systems Engineering (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/XMLNAME-2027-Summer-Fall-Co-op---Systems-Engineering--Onsite-_01868438",
+   "excerpt": "Date Posted: 2026-09-27&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as def",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-28T19:52:24.754Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "6a5f3620-1eef-4b82-88f1-e294ad2eb08e",
+   "title": "Software Engineer, Intern - Connectivity Platform and Product",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "Denver, CO"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/eb496d6a-a960-43d3-a09b-e3843052f54e",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role The Connectivity team builds products that connect our most critical institutions to",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-11-10T16:40:40.747Z",
+   "first_seen_at": "2026-11-10T19:25:01.102Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "91e4d3c9-16be-4e31-b8b3-3668273c7606",
+   "title": "Software Engineer, Internship - Data Connectors",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "New York, NY"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/45e4617d-d658-4b30-8dc9-378ca84a027a",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role The Connectivity team builds products that connect our most critical institutions to",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-11-04T20:38:35.114Z",
+   "first_seen_at": "2026-11-10T19:25:01.102Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "4a5cd1a9-2a92-4135-8ada-d4f374cb50c2",
+   "title": "Systems Engineering Co-Op (Summer/Fall 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-105 ~ 400 Collins Rd NE ~ BLDG 105"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-105--400-Collins-Rd-NE--BLDG-105/Systems-Engineering-Co-Op--Summer-Fall-2027-_01873117",
+   "excerpt": "Date Posted: 2026-09-24&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-105 ~ 400 Collins Rd NE ~ BLDG 105&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-25T17:04:22.917Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "0aa24f3a-d5be-4d90-b5c4-8feef323d636",
+   "title": "Avionics Computer Systems Engineering Co-op (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-193 ~ 1120 Collins Rd NE ~ BLDG193"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-193--1120-Collins-Rd-NE--BLDG193/Avionics-Computer-Systems-Engineering-Co-op--Summer-Fall-2027----Onsite_01872715",
+   "excerpt": "Date Posted: 2026-09-22&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-193 ~ 1120 Collins Rd NE ~ BLDG193&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-23T16:40:57.413Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "70de5e96-6961-424c-acf5-3149cdb16fa9",
+   "title": "Summer 2027 Silicon Engineering Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8621763002?gh_jid=8621763002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SUMMER 2027 SILICON ENGINEERING INTERNSHIP/CO-OP SpaceX seeks extraordinary students to join us for silicon hardware e…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "6cfb359d-b09e-458d-b9c9-a0c02af2471b",
+   "title": "Software Engineer – Intern (Asia)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Hong Kong",
+    "Singapore"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/software-engineer-intern-asia/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "b723219e-4145-4363-bae5-65008b3693df",
+   "title": "Quantitative Researcher – PhD Intern (Asia)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Hong Kong",
+    "Singapore"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-researcher-phd-intern-asia/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "b9e0e95b-28b0-4ac3-9d82-d8701a628593",
+   "title": "Quantitative Trader: Equity Quantitative Research – Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Greenwich",
+    "Miami",
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-trader-equity-quantitative-research-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "b7c4848d-9334-47f5-bc1b-567c58e5e679",
+   "title": "Quantitative Research Engineer – PHD Intern (Europe)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "London",
+    "Zurich"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-research-engineer-phd-intern-europe/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant",
+    "research"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "b1c98c82-308e-4cc0-95bc-d223fad06ac0",
+   "title": "Machine Learning Researcher – PhD Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Greenwich",
+    "Houston",
+    "Miami",
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/machine-learning-researcher-phd-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:29:51.012Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "f211e006-dcb7-4288-ad73-59a4fe0a62fd",
+   "title": "Quantitative Research Engineer – PhD Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Greenwich",
+    "Houston",
+    "Miami",
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-research-engineer-phd-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "53705d60-319c-48bd-901e-654002be3d99",
+   "title": "Quantitative Research Analyst – Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Greenwich",
+    "Miami",
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-research-analyst-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "6ef3c52e-a5d2-4917-91fc-fe71e1d8e6df",
+   "title": "Quantitative Research Analyst Intern – BS/MS (Europe)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "London",
+    "Paris",
+    "Zurich"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-research-analyst-intern-bs-ms-europe/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant",
+    "research"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "6cfcd0a9-ce0b-4dcc-b7b7-5700bf26143a",
+   "title": "Quantitative Researcher – PhD Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Greenwich",
+    "Houston",
+    "Miami",
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-researcher-phd-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "bfee3da0-a42e-4b82-a2fe-2d80382d9ef9",
+   "title": "AI Engineering Intern",
+   "company": {
+    "name": "TMX Group",
+    "slug": "tmx-group",
+    "ats": "workday"
+   },
+   "locations": [
+    "Toronto - 100 Adelaide St W"
+   ],
+   "apply_url": "https://tmx.wd3.myworkdayjobs.com/TMX_Careers/job/Toronto---100-Adelaide-St-W/AI-Engineering-Intern_R-6680",
+   "excerpt": "Venture outside the ordinary - TMX Careers The TMX group of companies includes leading global exchanges such as the Toronto Stock Exchange, Montreal Exchange, and numerous innovative organizations enhancing capital markets. United as a global team, we’re connecting cross-functionally, traversing industries and geographies, moving opportunity into action, advancing global economic growth, and prope",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "ml"
+   ],
+   "regions": [
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-12T20:39:02.876Z",
+   "last_seen_at": "2026-11-12T20:39:02.876Z"
+  },
+  {
+   "id": "cf81b4fb-f8ca-4e24-bb51-6f088488a166",
+   "title": "Research Intern - Machine Learning and Statistics",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Cambridge, MA, US",
+    "Redmond, WA, US",
+    "United States, Massachusetts, Cambridge",
+    "United States, Washington, Redmond"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557040502",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-13T23:45:04.000Z",
+   "first_seen_at": "2026-10-16T17:09:28.792Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "f5a08dc2-0ae4-4301-968a-15bc4dce7e2b",
+   "title": "Software Engineering Intern (E2D-IN-1)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-VA-STERLING-291 ~ 22640 Davis Dr ~ DAVIS"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-VA-STERLING-291--22640-Davis-Dr--DAVIS/Software-Engineering-Intern--E2D-IN-1-_01888020",
+   "excerpt": "Date Posted: 2026-11-09&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-VA-STERLING-291 ~ 22640 Davis Dr ~ DAVIS&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are eligible",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-09T22:44:55.243Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "b52b776e-1443-45fd-9167-180455502e01",
+   "title": "Enterprise Services Engineering Co-Op (Spring/Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CT-EAST HARTFORD-PH ~ 400 Main St ~ BLDG PH"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CT-EAST-HARTFORD-PH--400-Main-St--BLDG-PH/Enterprise-Services-Engineering-Co-Op--Spring-Summer-2027-_01884910",
+   "excerpt": "Date Posted: 2026-11-05&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CT-EAST HARTFORD-PH ~ 400 Main St ~ BLDG PH&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type: No",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-06T19:25:37.941Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "cca7853e-4651-4582-a85e-e382896979d5",
+   "title": "Software Engineer Co-op (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/Software-Engineer-Co-op--Summer-Fall-2027----Onsite_01871347",
+   "excerpt": "Date Posted: 2026-11-02&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual a",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-09T17:00:36.078Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "c7f1b5a3-b472-43ca-814b-833bf53cf6ee",
+   "title": "Electrical Engineering Intern (Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CA-EL SEGUNDO-E01 ~ 2000 E El Segundo Blvd ~ BLDG E01"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CA-EL-SEGUNDO-E01--2000-E-El-Segundo-Blvd--BLDG-E01/Electrical-Engineering-Intern--Summer-2027-_01883292",
+   "excerpt": "Date Posted: 2026-10-28&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CA-EL SEGUNDO-E01 ~ 2000 E El Segundo Blvd ~ BLDG E01&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearanc",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:12:20.633Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "0b00caef-ff2f-4c78-b2fd-39587fb2461b",
+   "title": "Systems Engineering Co-op",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-ST-PETERSBURG-381BD--7401-22nd-Ave-N--BLDG-D/Systems-Engineering-Co-op_01884435",
+   "excerpt": "Date Posted: 2026-10-27&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citize",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:12:20.633Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "fb3e87d7-1aba-43c3-9fe5-c5d4f13a998e",
+   "title": "Software Engineer, Internship - Sovereign AI Systems",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "London, United Kingdom"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/40840cef-bbd7-4557-bb21-cbdcf4be616e",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role As a Software Engineer Intern on Sovereign AI Infrastructure, you will help build the",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software",
+    "ml"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-11-05T18:34:04.843Z",
+   "first_seen_at": "2026-11-05T19:31:56.692Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "9670fe35-ee6d-4085-b373-88bd795a8b1b",
+   "title": "Manufacturing Electrical Engineering Co-Op (Summer/Fall 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-MANCHESTER-185 ~ 901 S 10th St ~ S 10TH"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-MANCHESTER-185--901-S-10th-St--S-10TH/Manufacturing-Electrical-Engineering-Co-Op--Summer-Fall-2027-_01883114",
+   "excerpt": "Date Posted: 2026-10-21&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-MANCHESTER-185 ~ 901 S 10th St ~ S 10TH&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access certain necessary systems.&#xa;&#xa; Security Clearance Type: None/Not Required",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-22T17:12:32.096Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "e10b13a0-052c-4b85-9575-d47c4ad4ddba",
+   "title": "Software Engineer – Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Greenwich",
+    "Houston",
+    "Miami",
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/software-engineer-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-07-22T17:07:19.644Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "8e70888e-9034-46f3-becb-520d33f05bab",
+   "title": "Systems Engineering Intern 2027 - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IN-INDIANAPOLIS-206 ~ 3939 Priority Way S Dr ~ PRIORITY BLDG 6"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IN-INDIANAPOLIS-206--3939-Priority-Way-S-Dr--PRIORITY-BLDG-6/Systems-Engineering-Intern-2027---Onsite_01878041",
+   "excerpt": "Date Posted: 2026-10-13&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IN-INDIANAPOLIS-206 ~ 3939 Priority Way S Dr ~ PRIORITY BLDG 6&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S.",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-13T19:41:21.566Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "457186db-0a69-40fc-8cb2-52827bc6e070",
+   "title": "2027 Systems Engineering Co-op – Special Operations Aviation Mainline (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/XMLNAME-2027-Systems-Engineering-Co-op---Special-Operations-Aviation-Mainline--Onsite-_01870331",
+   "excerpt": "Date Posted: 2026-09-29&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-29T18:10:42.779Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "789d8038-0057-442f-a14b-e5966710fd6c",
+   "title": "Display Systems Engineering Co-Op (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-106 ~ 400 Collins Rd NE ~ BLDG 106"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-106--400-Collins-Rd-NE--BLDG-106/Display-Systems-Engineering-Co-Op--Summer-Fall-2027----Onsite_01868917",
+   "excerpt": "Date Posted: 2026-09-29&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-106 ~ 400 Collins Rd NE ~ BLDG 106&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-29T18:10:42.779Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "55e32ecc-1696-46fa-9eae-d4a13fda3bed",
+   "title": "A2G 2027 Spring/Summer Co-op- Systems Engineering (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/A2G-2027-Spring-Summer-Co-op--Systems-Engineering--Onsite-_01869257",
+   "excerpt": "Date Posted: 2026-09-27&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Must be authorized to work in the U.S. without the company’s immigration sponsorship now or in the future. The company will not offer immigration sponso",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-28T19:52:24.754Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "bb312f46-c76c-4ef1-8d0c-fe85b09fe77c",
+   "title": "Head-up Guidance Systems Engineering Co-op (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-OR-WILSONVILLE-596 ~ 27500 SW Parkway Ave ~ BLDG 596"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-OR-WILSONVILLE-596--27500-SW-Parkway-Ave--BLDG-596/Head-up-Guidance-Systems-Engineering-Co-op--Summer-Fall-2027----Onsite_01872243",
+   "excerpt": "Date Posted: 2026-09-21&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-OR-WILSONVILLE-596 ~ 27500 SW Parkway Ave ~ BLDG 596&#xa;&#xa; Position Role Type: Hybrid&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Must be authorized to work in the U.S. without the company’s immigration sponsorship now or in the future. The company will not offer immigration",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-22T16:52:12.192Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "22b93910-690d-49b5-ba52-f4969860bb80",
+   "title": "Jr. Security Analyst Student Intern",
+   "company": {
+    "name": "TMX Group",
+    "slug": "tmx-group",
+    "ats": "workday"
+   },
+   "locations": [
+    "Toronto - 100 Adelaide St W"
+   ],
+   "apply_url": "https://tmx.wd3.myworkdayjobs.com/TMX_Careers/job/Toronto---100-Adelaide-St-W/Jr-Security-Analyst-Student-Intern_R-6644",
+   "excerpt": "Venture outside the ordinary - TMX Careers The TMX group of companies includes leading global exchanges such as the Toronto Stock Exchange, Montreal Exchange, and numerous innovative organizations enhancing capital markets. United as a global team, we’re connecting cross-functionally, traversing industries and geographies, moving opportunity into action, advancing global economic growth, and prope",
+   "terms": [
+    "winter"
+   ],
+   "term_years": [
+    {
+     "term": "winter",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-04T20:14:19.388Z",
+   "last_seen_at": "2026-11-12T20:39:02.876Z"
+  },
+  {
+   "id": "db412a28-1956-4d59-a33b-d47c8b18ed4b",
+   "title": "Security Research Internship Opportunities",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Herzliya, Tel Aviv District, IL",
+    "Israel, Tel Aviv, Herzliya"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557042488",
+   "excerpt": "Security Research",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-29T11:12:36.000Z",
+   "first_seen_at": "2026-10-18T15:55:53.535Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "e2094542-b670-44fd-9662-8732a5885f70",
+   "title": "Student Intern, DevOps (WinterTerm)",
+   "company": {
+    "name": "TMX Group",
+    "slug": "tmx-group",
+    "ats": "workday"
+   },
+   "locations": [
+    "Montreal - 1190 av. des Canadiens-de-Montreal"
+   ],
+   "apply_url": "https://tmx.wd3.myworkdayjobs.com/TMX_Careers/job/Montreal---1190-av-des-Canadiens-de-Montreal/Student-Intern--DevOps--WinterTerm-_R-6568",
+   "excerpt": "Venture outside the ordinary - TMX Careers The TMX group of companies includes leading global exchanges such as the Toronto Stock Exchange, Montreal Exchange, and numerous innovative organizations enhancing capital markets. United as a global team, we’re connecting cross-functionally, traversing industries and geographies, moving opportunity into action, advancing global economic growth, and prope",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": null,
+   "roles": [
+    "devops"
+   ],
+   "regions": [
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:19:37.237Z",
+   "last_seen_at": "2026-11-12T20:39:02.876Z"
+  },
+  {
+   "id": "a1fdfd17-8497-4201-9120-aeb38185a070",
+   "title": "Manufacturing Electrical Engineer Co-op (Summer/Fall 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-MELBOURNE-308 ~ 1100 W Hibiscus Blvd ~ BLDG 308"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-MELBOURNE-308--1100-W-Hibiscus-Blvd--BLDG-308/Manufacturing-Electrical-Engineer-Co-op--Summer-Fall-2027-_01883880",
+   "excerpt": "Date Posted: 2026-11-10&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-MELBOURNE-308 ~ 1100 W Hibiscus Blvd ~ BLDG 308&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-22T17:12:32.096Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "870ef647-88dc-4ce6-a4d4-fbb012fd629a",
+   "title": "Co-op: Systems Engineering Co-op (Summer-Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-105 ~ 400 Collins Rd NE ~ BLDG 105"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-105--400-Collins-Rd-NE--BLDG-105/Co-op--Systems-Engineering-Co-op--Summer-Fall-2027----Onsite_01873973",
+   "excerpt": "Date Posted: 2026-10-20&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-105 ~ 400 Collins Rd NE ~ BLDG 105&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Must be authorized to work in the U.S. without the company’s immigration sponsorship now or in the future. The company will not offer immigration sp",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-22T17:12:32.096Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "77dc9ffc-7b71-443a-ab80-090a30c2d49f",
+   "title": "Research Intern - Next-Generation AI Agents",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Redmond, WA, US",
+    "United States, Washington, Redmond"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557070079",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-11-09T21:15:49.000Z",
+   "first_seen_at": "2026-11-09T22:50:38.876Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "2389932b-0a1b-47f8-8374-ca2bb35962e9",
+   "title": "2027 Summer System Engineering Intern (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-JUPITER-ADR ~ 17900 Beeline Hwy ~ ADR BLDG"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-JUPITER-ADR--17900-Beeline-Hwy--ADR-BLDG/XMLNAME-2027-Summer-System-Engineering-Intern--Onsite-_01878549",
+   "excerpt": "Date Posted: 2026-09-30&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-JUPITER-ADR ~ 17900 Beeline Hwy ~ ADR BLDG&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type:",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "data",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-01T18:39:48.772Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "eff8508c-e2e1-4c3b-9657-c3f03f696224",
+   "title": "Cambridge Internship Program Azure Research, Security and Privacy",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Cambridge, England, GB",
+    "United Kingdom, Cambridgeshire, Cambridge"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557050102",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-30T09:09:06.000Z",
+   "first_seen_at": "2026-11-01T18:19:06.603Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "e3cccddf-ffba-4a7b-a227-0bffc87aeab0",
+   "title": "2027 Summer/ Fall Display Systems CO-OP (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/XMLNAME-2027-Summer--Fall-Display-Systems-CO-OP--Onsite-_01869076",
+   "excerpt": "Date Posted: 2026-09-29&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as def",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-01T18:39:48.772Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "0b7a9d0d-8ca1-413d-b775-3f5d4b5a352f",
+   "title": "Cyber Research Internship (Summer 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-166 ~ 855 35Th St NE ~ BLDG 166"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-166--855-35Th-St-NE--BLDG-166/Cyber-Research-Internship--Summer-2027----Onsite_01872177",
+   "excerpt": "Date Posted: 2026-09-28&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-166 ~ 855 35Th St NE ~ BLDG 166&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-28T19:52:24.754Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "5584806d-73dc-422c-af48-38b9524a5eac",
+   "title": "2027 Summer/Fall Co-op, AGS Software Engineering (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/XMLNAME-2027-Summer-Fall-Co-op--AGS-Software-Engineering--Onsite-_01871646",
+   "excerpt": "Date Posted: 2026-09-28&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type:",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-28T19:52:24.754Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "4e8e9ab0-9e9d-40bc-98d7-695e9527f35c",
+   "title": "2027 Network Engineering Intern",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CO-COLORADO SPRINGS-9970-CUST ~ 9970 Federal Dr ~ FEDERAL (External Site)"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CO-COLORADO-SPRINGS-9970-CUST--9970-Federal-Dr--FEDERAL-External-Site/XMLNAME-2027-Network-Engineering-Intern_01877666",
+   "excerpt": "Date Posted: 2026-09-25&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CO-COLORADO SPRINGS-9970-CUST ~ 9970 Federal Dr ~ FEDERAL (External Site)&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is requi",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-26T16:21:31.373Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "35861581-9da4-48f2-bb77-c937cf63dbd0",
+   "title": "Software Engineering Intern (2027 Start) - London",
+   "company": {
+    "name": "Databricks",
+    "slug": "databricks",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "London, United Kingdom"
+   ],
+   "apply_url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8847738002",
+   "excerpt": "P-1601 At Databricks, we are passionate about helping data teams solve the world's toughest problems — from making the next mode of transportation a reality to accelerating the development of medical breakthroughs. We do this by building and running the world's best data and AI infrastructure platform so our customers can use deep data insights to improve their business. As a Software Engineering…",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2028
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-05T13:44:59.000Z",
+   "first_seen_at": "2026-10-02T17:11:22.612Z",
+   "last_seen_at": "2026-11-12T19:25:51.096Z"
+  },
+  {
+   "id": "e09b1b48-d236-49d5-94f9-9899ee9740f0",
+   "title": "CH-53K Systems Engineering Co-Op - Summer/Fall 2027 - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/CH-53K-Systems-Engineering-Co-Op---Summer-Fall-2027---Onsite_01872917",
+   "excerpt": "Date Posted: 2026-09-21&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-22T16:52:12.192Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "f7c70c89-0798-4234-ac70-856f7ba4008b",
+   "title": "2027 Spring/Summer Co-Op - Systems - AVI MIL FMS/DAS",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/XMLNAME-2027-Spring-Summer-Co-Op---Systems---AVI-MIL-FMS-DAS_01872835",
+   "excerpt": "Date Posted: 2026-09-08&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual a",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-09T17:00:36.078Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "499de30e-825d-4ba2-9920-9586790561e1",
+   "title": "Software Engineer Intern, Mobile (Winter 2027)",
+   "company": {
+    "name": "Notion",
+    "slug": "notion",
+    "ats": "ashby"
+   },
+   "locations": [
+    "San Francisco, California",
+    "Remote"
+   ],
+   "apply_url": "https://jobs.ashbyhq.com/notion/2b587e66-deac-421a-a824-9415ba78b5a7",
+   "excerpt": "WHO WE ARE Notion is the collaborative AI workspace where teams and agents think together https://www.youtube.com/watch?v=vkpYpWfEK5s. We're building one place where your knowledge, projects, meetings, and AI tools live side by side, so work is faster, clearer, and less fragmented. Millions of individuals, small teams, and large companies run their work on Notion. Notinos (our employees) are c",
+   "terms": [
+    "winter"
+   ],
+   "term_years": [
+    {
+     "term": "winter",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "mobile"
+   ],
+   "regions": [
+    "remote",
+    "us"
+   ],
+   "is_remote": true,
+   "source": "ashby",
+   "posted_at": "2026-09-24T19:58:11.492Z",
+   "first_seen_at": "2026-09-25T16:17:44.895Z",
+   "last_seen_at": "2026-11-12T19:25:50.203Z"
+  },
+  {
+   "id": "35ebc848-dafd-4315-a045-a2ba2fdcddbc",
+   "title": "Software Engineering Intern, iOS (Summer 2027)",
+   "company": {
+    "name": "Notion",
+    "slug": "notion",
+    "ats": "ashby"
+   },
+   "locations": [
+    "New York, New York"
+   ],
+   "apply_url": "https://jobs.ashbyhq.com/notion/27090d0f-07d3-419b-adaa-837b5e22f947",
+   "excerpt": "WHO WE ARE Notion is the collaborative AI workspace where teams and agents think together https://www.youtube.com/watch?v=vkpYpWfEK5s. We're building one place where your knowledge, projects, meetings, and AI tools live side by side, so work is faster, clearer, and less fragmented. Millions of individuals, small teams, and large companies run their work on Notion. Notinos (our employees) are c",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "summer",
+     "year": 2028
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "mobile"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "ashby",
+   "posted_at": "2026-11-06T18:41:27.009Z",
+   "first_seen_at": "2026-11-06T18:44:34.116Z",
+   "last_seen_at": "2026-11-12T19:25:50.203Z"
+  },
+  {
+   "id": "d4accded-01b3-45f8-99f0-91227f4cf745",
+   "title": "PhD Intern, Software Engineer - Graphics (2027)",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "San Francisco, CA • New York, NY"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6219995004?gh_jid=6219995004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-27T17:40:12.000Z",
+   "first_seen_at": "2026-10-13T18:45:55.673Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "38755271-157c-4576-8b2b-e5859598b9e3",
+   "title": "Software Engineering Intern (2027 Start) - Aarhus",
+   "company": {
+    "name": "Databricks",
+    "slug": "databricks",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Aarhus, Denmark"
+   ],
+   "apply_url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8133710002",
+   "excerpt": "P-1451 At Databricks, we are passionate about helping data teams solve the world's toughest problems — from making the next mode of transportation a reality to accelerating the development of medical breakthroughs. We do this by building and running the world's best data and AI infrastructure platform so our customers can use deep data insights to improve their business. As a Software Engineering…",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2028
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-02T14:39:06.000Z",
+   "first_seen_at": "2026-10-02T17:11:22.612Z",
+   "last_seen_at": "2026-11-12T19:25:51.096Z"
+  },
+  {
+   "id": "abaebe23-2bb9-4669-a9cc-cd158a7b7a8d",
+   "title": "Software Engineering Intern (2027 Start) - Berlin",
+   "company": {
+    "name": "Databricks",
+    "slug": "databricks",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Berlin, Germany"
+   ],
+   "apply_url": "https://databricks.com/company/careers/open-positions/job?gh_jid=6866531002",
+   "excerpt": "P-968 At Databricks, we are passionate about helping data teams solve the world's toughest problems — from making the next mode of transportation a reality to accelerating the development of medical breakthroughs. We do this by building and running the world's best data and AI infrastructure platform so our customers can use deep data insights to improve their business. As a Software Engineering …",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2028
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-02T14:39:18.000Z",
+   "first_seen_at": "2026-10-02T17:11:22.612Z",
+   "last_seen_at": "2026-11-12T19:25:51.096Z"
+  },
+  {
+   "id": "9866fcbf-d5c0-42e3-a766-23bed9d52aae",
+   "title": "Product Manager Intern (2027) - London, UK",
+   "company": {
+    "name": "Cloudflare",
+    "slug": "cloudflare",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "In-Office"
+   ],
+   "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/8328914?gh_jid=8328914",
+   "excerpt": "About Us At Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of websites and other Internet properties for customers ranging from individual bloggers to SMBs to Fortune 500 companies. Cloudflare protects and accelerates any Internet application online without adding hardware, installing software, or ch…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "product"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-10T00:03:42.000Z",
+   "first_seen_at": "2026-11-01T17:31:12.066Z",
+   "last_seen_at": "2026-11-12T19:25:48.280Z"
+  },
+  {
+   "id": "0334a4ff-575b-4a6f-8ea6-5f7700717f54",
+   "title": "Co-Op - AI DSP Applied Research",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-108 ~ 400 Collins Rd NE ~ BLDG 108"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-108--400-Collins-Rd-NE--BLDG-108/Co-Op---AI-DSP-Applied-Research_01873016",
+   "excerpt": "Date Posted: 2026-10-03&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-108 ~ 400 Collins Rd NE ~ BLDG 108&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance T",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-04T16:54:37.521Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "ff17d955-be40-4e11-a59c-24594b0880b8",
+   "title": "Forward Deployed Software Engineer, Internship - Warp Speed",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "New York, NY"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/b3d81928-6c26-432f-8a0a-36602c2eefcb",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role Warp Speed Warp Speed builds on years of excellence in manufacturing to resurrect & r",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-10-22T21:37:49.924Z",
+   "first_seen_at": "2026-10-23T16:26:35.202Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "53a5641c-2d91-4acc-91a9-fff49d0bdbe4",
+   "title": "Software Engineer, Internship - Query Engines",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "London, United Kingdom"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/3e59369e-1392-42f2-8d03-86648e87e963",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role We are a software engineering team applying open-source data technologies to some of th",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-10-19T23:50:13.100Z",
+   "first_seen_at": "2026-10-20T16:25:09.008Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "da1a09f3-4378-4e3f-9e99-66770d804685",
+   "title": "Technical Program Manager, Deep Learning Enterprise Server Software (RDSS Intern)",
+   "company": {
+    "name": "NVIDIA",
+    "slug": "nvidia",
+    "ats": "workday"
+   },
+   "locations": [
+    "Taiwan, Taipei"
+   ],
+   "apply_url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/Technical-Program-Manager--Deep-Learning-Enterprise-Server-Software--RDSS-Intern-_JR2029595",
+   "excerpt": "By submitting your resume, you’re expressing interest in our 2027 RDSS (Research and Development Substitute Services) program. Please confirm your eligibility with the local district office before applying for the role. We are seeking a motivated professional to join our team as a Technical Program Manager for Deep Learning Enterprise Server Software. You will partner with engineering and product",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software",
+    "ml"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:09:03.667Z",
+   "last_seen_at": "2026-11-12T19:26:30.069Z"
+  },
+  {
+   "id": "54cf661a-4300-446c-89dd-e55c985fa4f6",
+   "title": "System Software Engineering Intern - 2027",
+   "company": {
+    "name": "NVIDIA",
+    "slug": "nvidia",
+    "ats": "workday"
+   },
+   "locations": [
+    "Finland, Helsinki"
+   ],
+   "apply_url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Finland-Helsinki/System-Software-Engineering-Intern---2027_JR2029780",
+   "excerpt": "NVIDIA develops system software that brings complex silicon to life. Our system control and power management firmware team builds the low-level capabilities that manage power, clocks, performance, system initialization, and thermal behavior across NVIDIA System-on-Chips (SoCs). As a System Software Engineering Intern, you’ll collaborate with experienced software, hardware, and architecture enginee",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-11T19:09:03.667Z",
+   "last_seen_at": "2026-11-12T19:26:30.069Z"
+  },
+  {
+   "id": "8287e81f-1e0f-4511-a499-0ead6d73705e",
+   "title": "Product Manager Intern (2027) - Lisbon, PT",
+   "company": {
+    "name": "Cloudflare",
+    "slug": "cloudflare",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "In-Office"
+   ],
+   "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/8332008?gh_jid=8332008",
+   "excerpt": "About Us At Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of websites and other Internet properties for customers ranging from individual bloggers to SMBs to Fortune 500 companies. Cloudflare protects and accelerates any Internet application online without adding hardware, installing software, or ch…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "product"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-10T00:03:42.000Z",
+   "first_seen_at": "2026-11-01T17:31:12.066Z",
+   "last_seen_at": "2026-11-12T19:25:48.280Z"
+  },
+  {
+   "id": "e0d7b655-b2bc-4519-a170-a2e268aa43c8",
+   "title": "Software Engineer Intern (2027)",
+   "company": {
+    "name": "Cloudflare",
+    "slug": "cloudflare",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "In-Office"
+   ],
+   "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/8245197?gh_jid=8245197",
+   "excerpt": "About Us At Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of websites and other Internet properties for customers ranging from individual bloggers to SMBs to Fortune 500 companies. Cloudflare protects and accelerates any Internet application online without adding hardware, installing software, or ch…",
+   "terms": [
+    "summer",
+    "winter"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "winter",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-10T00:03:42.000Z",
+   "first_seen_at": "2026-10-06T17:41:59.434Z",
+   "last_seen_at": "2026-11-12T19:25:48.280Z"
+  },
+  {
+   "id": "411c61b1-268b-4284-a6f6-f4a9ef43131a",
+   "title": "Software Engineer Intern (2027) - London, UK",
+   "company": {
+    "name": "Cloudflare",
+    "slug": "cloudflare",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "In-Office"
+   ],
+   "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/8245211?gh_jid=8245211",
+   "excerpt": "About Us At Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of websites and other Internet properties for customers ranging from individual bloggers to SMBs to Fortune 500 companies. Cloudflare protects and accelerates any Internet application online without adding hardware, installing software, or ch…",
+   "terms": [
+    "summer",
+    "winter"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "winter",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-10T00:03:42.000Z",
+   "first_seen_at": "2026-10-06T17:41:59.434Z",
+   "last_seen_at": "2026-11-12T19:25:48.280Z"
+  },
+  {
+   "id": "3423331d-46b5-404c-adaa-b11ec1cc7fc6",
+   "title": "PhD Intern, Software Engineer - Interaction Design (2027)",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "San Francisco, CA • New York, NY"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6241542004?gh_jid=6241542004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-04T16:53:19.000Z",
+   "first_seen_at": "2026-11-04T19:11:37.257Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "da76ac9d-61f5-4f63-9516-821b6532e384",
+   "title": "Software Engineer Intern (London, United Kingdom) (Summer 2027) ",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "London, England"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6152695004?gh_jid=6152695004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-27T17:40:12.000Z",
+   "first_seen_at": "2026-09-15T16:01:14.322Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "29edaf5d-3ac6-4365-9754-db0cb456d9c9",
+   "title": "Software Engineer Intern (Summer 2027)",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "San Francisco, CA • New York, NY"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6143238004?gh_jid=6143238004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-27T17:40:12.000Z",
+   "first_seen_at": "2026-09-15T16:01:14.322Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "1399ce4f-ee2c-4559-83b7-1eefcc3a2451",
+   "title": "Software Engineer, Internship - Query Engines",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "New York, NY"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/da774f81-c98c-4dcf-9b9c-949fd7d90a13",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role We are a software engineering team applying open-source data technologies to some of th",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-10-19T23:47:38.809Z",
+   "first_seen_at": "2026-10-20T16:25:09.008Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "53c78d44-be63-44f8-896e-5c287f2459d3",
+   "title": "Part Time Systems Engineer Co-Op (Remote)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CO-AURORA-S75 ~ 16800 E Centretech Pkwy ~ BLDG S75"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CO-AURORA-S75--16800-E-Centretech-Pkwy--BLDG-S75/Part-Time-Systems-Engineer-Co-Op--Remote-_01883862",
+   "excerpt": "Date Posted: 2026-10-27&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CO-AURORA-S75 ~ 16800 E Centretech Pkwy ~ BLDG S75&#xa;&#xa; Position Role Type: Remote&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "ml",
+    "security",
+    "devops"
+   ],
+   "regions": [
+    "remote",
+    "us"
+   ],
+   "is_remote": true,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-22T17:12:32.096Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "e2cb0aab-86cd-4e84-8a84-eeb1fe29100f",
+   "title": "Software Engineering Intern (2027 Start) - Belgrade",
+   "company": {
+    "name": "Databricks",
+    "slug": "databricks",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Belgrade, Serbia"
+   ],
+   "apply_url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7640764002",
+   "excerpt": "P-1340 At Databricks, we are passionate about helping data teams solve the world's toughest problems — from making the next mode of transportation a reality to accelerating the development of medical breakthroughs. We do this by building and running the world's best data and AI infrastructure platform so our customers can use deep data insights to improve their business. As a Software Engineering…",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2028
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-02T14:39:13.000Z",
+   "first_seen_at": "2026-10-02T17:11:22.612Z",
+   "last_seen_at": "2026-11-12T19:25:51.096Z"
+  },
+  {
+   "id": "2894ad04-deae-443f-9fdb-33cfc5c8e4c8",
+   "title": "Systems Engineering Co-op - Boeing Platforms Displays (Summer/Fall)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/Systems-Engineering-Co-op---Boeing-Platforms-Displays--Summer-Fall-_01871761",
+   "excerpt": "Date Posted: 2026-10-07&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Must be authorized to work in the U.S. without the company’s immigration sponsorship now or in the future. The company will not offer immigration sponso",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software",
+    "security",
+    "hardware",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-01T18:39:48.772Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "9866cd33-7f0a-4e0a-9dfb-73a474225a1e",
+   "title": "Systems Engineering Co-Op (2027 Summer/Fall) – SOA CAAS Mainline Platform (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/Systems-Engineering-Co-Op--2027-Summer-Fall----SOA-CAAS-Mainline-Platform--Onsite-_01879934",
+   "excerpt": "Date Posted: 2026-10-02&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-03T16:07:01.269Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "d668c868-abf9-4df3-97c6-15475202b4ee",
+   "title": "Manufacturing Electrical Engineering Co-Op (Summer/Fall 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-108 ~ 400 Collins Rd NE ~ BLDG 108"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-108--400-Collins-Rd-NE--BLDG-108/Manufacturing-Electrical-Engineering-Co-Op--Summer-Fall-2027-_01870641",
+   "excerpt": "Date Posted: 2026-10-01&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-108 ~ 400 Collins Rd NE ~ BLDG 108&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance T",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-28T19:52:24.754Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "c95a4a43-1bda-47a0-a856-d34ad502d448",
+   "title": "Systems Engineering Co-op (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-130 ~ 5350 C Ave NE ~ BLDG 130"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-130--5350-C-Ave-NE--BLDG-130/Systems-Engineering-Co-op--Summer-Fall-2027----Onsite_01872651",
+   "excerpt": "Date Posted: 2026-09-22&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-130 ~ 5350 C Ave NE ~ BLDG 130&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type:",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security",
+    "hardware",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-09T17:00:36.078Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "697ef53d-a9c7-41ef-91cb-bde25dd39370",
+   "title": "Copilot & AI Solution Engineer Intern",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Brussels, Brussels, BE",
+    "Belgium, Brussels Region, Brussels"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393556998782",
+   "excerpt": "Solution Engineering",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-09-15T10:22:36.000Z",
+   "first_seen_at": "2026-09-23T16:43:15.599Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "e21518f3-019f-4d31-bf26-ea10f8d9da3e",
+   "title": "Systems Engineer Co-Op (Spring/Summer 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/Systems-Engineer-Co-Op--Spring-Summer-2027----Onsite_01873686",
+   "excerpt": "Date Posted: 2026-09-21&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-21T18:29:07.056Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "67c382b4-8fca-4a0d-b0e7-79ba4d5295a2",
+   "title": "Software Project Engineer Intern (Summer 2027) Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CT-WINDSOR LOCKS-B1 ~ 1 Hamilton Rd ~ BLDG 1"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CT-WINDSOR-LOCKS-B1--1-Hamilton-Rd--BLDG-1/Software-Project-Engineer-Intern--Summer-2027--Onsite_01872660",
+   "excerpt": "Date Posted: 2026-09-19&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CT-WINDSOR LOCKS-B1 ~ 1 Hamilton Rd ~ BLDG 1&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Type: N",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-19T15:51:29.547Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "273bbdfe-d5de-4715-be7e-0ec67b2bf476",
+   "title": "Flight Controls Systems Intern (Summer 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-193 ~ 1120 Collins Rd NE ~ BLDG193"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-193--1120-Collins-Rd-NE--BLDG193/Flight-Controls-Systems-Intern--Summer-2027----Onsite_01871125",
+   "excerpt": "Date Posted: 2026-09-17&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-193 ~ 1120 Collins Rd NE ~ BLDG193&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual as",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-18T16:21:17.816Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "616fe286-3c25-487e-88fd-66ebda0f63e0",
+   "title": "Quantitative Researcher – Post-Doctoral Intern (US)",
+   "company": {
+    "name": "Citadel",
+    "slug": "citadel",
+    "ats": "citadel"
+   },
+   "locations": [
+    "Greenwich",
+    "Houston",
+    "Miami",
+    "New York"
+   ],
+   "apply_url": "https://www.citadel.com/careers/details/quantitative-researcher-post-doctoral-intern-us/",
+   "excerpt": null,
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "quant"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "citadel",
+   "posted_at": null,
+   "first_seen_at": "2026-09-23T16:51:35.969Z",
+   "last_seen_at": "2026-11-12T20:29:51.012Z"
+  },
+  {
+   "id": "fa1cb00c-2c36-4bb8-86e0-882aeb35d53d",
+   "title": "CH-53K Systems Engineering Coop (Spring/Summer 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/CH-53K-Systems-Engineering-Coop--Spring-Summer-2027----Onsite_01872668",
+   "excerpt": "Date Posted: 2026-09-08&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-09T17:00:36.078Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "e7b79127-6b53-4e7c-92e9-83b292470e6c",
+   "title": "Spring 2027 Engineering Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8616338002?gh_jid=8616338002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SPRING 2027 ENGINEERING INTERNSHIP/CO-OP SpaceX seeks extraordinary students to join us for engineering roles in Sprin…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "ml",
+    "mobile",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "17f3ced3-e6f5-4ae6-b8f9-1b7dce09c811",
+   "title": "Spring 2027 Software Engineering Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8621756002?gh_jid=8621756002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SPRING 2027 SOFTWARE ENGINEERING INTERNSHIP/CO-OP SpaceX seeks extraordinary students to join us for software engineer…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "7abb1501-63e5-48f4-9ede-bfacfcaac271",
+   "title": "Research Intern - Security Research Group, Microsoft Research Redmond",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Redmond, WA, US",
+    "United States, Washington, Redmond"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557022480",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-01T20:55:14.000Z",
+   "first_seen_at": "2026-10-02T18:02:04.119Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "9dda51b3-dd1a-4032-a66a-6f8b93865dd1",
+   "title": "Software Engineer Intern (2027) - Austin, TX",
+   "company": {
+    "name": "Cloudflare",
+    "slug": "cloudflare",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "In-Office"
+   ],
+   "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/8199958?gh_jid=8199958",
+   "excerpt": "About Us At Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of websites and other Internet properties for customers ranging from individual bloggers to SMBs to Fortune 500 companies. Cloudflare protects and accelerates any Internet application online without adding hardware, installing software, or ch…",
+   "terms": [
+    "summer",
+    "winter"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "winter",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-10T00:03:42.000Z",
+   "first_seen_at": "2026-09-29T17:28:13.805Z",
+   "last_seen_at": "2026-11-12T19:25:48.280Z"
+  },
+  {
+   "id": "ea4a988f-d5e1-433a-9527-dfb5bcabebaf",
+   "title": "Data Engineer Intern (2027)",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "San Francisco, CA • New York, NY"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6178851004?gh_jid=6178851004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "data"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-27T17:40:12.000Z",
+   "first_seen_at": "2026-09-24T16:15:31.721Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "9af1a97f-08f9-4881-a58a-5c9cc7082987",
+   "title": "Summer 2027 Graduate Engineer Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8621753002?gh_jid=8621753002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SUMMER 2027 GRADUATE ENGINEER As a Graduate Engineer, you will be responsible for working on creative solutions to rea…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "ml",
+    "mobile",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "4e4c0f19-fff2-4e67-9442-72f556e822b7",
+   "title": "Summer 2027 RF Systems Engineer Intern - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IN-FT WAYNE-150A ~ 1010 Production Rd ~ BLDG 150A"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IN-FT-WAYNE-150A--1010-Production-Rd--BLDG-150A/Summer-2027-RF-Systems-Engineer-Intern---Onsite_01880963",
+   "excerpt": "Date Posted: 2026-10-15&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IN-FT WAYNE-150A ~ 1010 Production Rd ~ BLDG 150A&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance Ty",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-15T17:01:10.457Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "f04fa369-c326-4afe-a0ae-cd8cd1b6f39d",
+   "title": "Spring 2027 Graduate Engineer Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8621749002?gh_jid=8621749002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SPRING 2027 GRADUATE ENGINEER As a Graduate Engineer, you will be responsible for working on creative solutions to rea…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "ml",
+    "mobile",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "394a5d64-9ba7-4be3-bba1-ae82cdb73cf5",
+   "title": "A2G 2027 Summer/Fall Co-op - Systems Engineering - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/A2G-2027-Summer-Fall-Co-op---Systems-Engineering---Onsite_01869258",
+   "excerpt": "Date Posted: 2026-09-27&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-131 ~ 5450 C Ave NE ~ BLDG 131&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Must be authorized to work in the U.S. without the company’s immigration sponsorship now or in the future. The company will not offer immigration sponso",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-28T19:52:24.754Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "d1805544-715f-4e83-b21c-89d0ef996e14",
+   "title": "TMS/lube systems Intern (Summer 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CT-EAST HARTFORD-ETC ~ 400 Main St ~ BLDG ETC"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CT-EAST-HARTFORD-ETC--400-Main-St--BLDG-ETC/TMS-lube-systems-Intern--Summer-2027----Onsite_01879869",
+   "excerpt": "Date Posted: 2026-10-26&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CT-EAST HARTFORD-ETC ~ 400 Main St ~ BLDG ETC&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Must be authorized to work in the U.S. without the company’s immigration sponsorship now or in the future. The company will not offer immigration sponsor",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:12:20.633Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "b3379e29-549d-487d-bea0-5507b418da7e",
+   "title": "Data Science Intern (2027 Start)",
+   "company": {
+    "name": "Databricks",
+    "slug": "databricks",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Mountain View, California; San Francisco, California"
+   ],
+   "apply_url": "https://databricks.com/company/careers/open-positions/job?gh_jid=6866538002",
+   "excerpt": "(P-972) At Databricks, we are passionate about helping data teams solve the world's toughest problems — from making the next mode of transportation a reality to accelerating the development of medical breakthroughs. We do this by building and running the world's best data and AI infrastructure platform so our customers can use deep data insights to improve their business. As a Data Science Intern…",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2028
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "data"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-22T19:57:19.000Z",
+   "first_seen_at": "2026-10-23T16:14:59.504Z",
+   "last_seen_at": "2026-11-12T19:25:51.096Z"
+  },
+  {
+   "id": "b98c2b90-41f3-4da2-8406-6529029fbba3",
+   "title": "Forward Deployed Software Engineer, Internship - Commercial",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "Seoul, South Korea"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/2ad0ab10-34c3-410d-883b-8052864a95cd",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role The Forward Deployed Software Engineer Internship Forward Deployed Engineering is",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-08-10T13:49:27.811Z",
+   "first_seen_at": "2026-08-10T15:57:20.795Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "c1689868-6288-40c2-abd9-a60868017345",
+   "title": "Software Engineer, Internship - Sovereign AI Systems",
+   "company": {
+    "name": "Palantir",
+    "slug": "palantir",
+    "ats": "lever"
+   },
+   "locations": [
+    "New York, NY"
+   ],
+   "apply_url": "https://jobs.lever.co/palantir/cd64bcd4-50bb-4aeb-a135-4e0487ffd312",
+   "excerpt": "A World-Changing Company Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more. The Role As a Software Engineer Intern on Sovereign AI Infrastructure, you will help build the",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software",
+    "ml"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "lever",
+   "posted_at": "2026-11-05T18:29:35.363Z",
+   "first_seen_at": "2026-11-05T19:31:56.692Z",
+   "last_seen_at": "2026-11-12T19:40:23.000Z"
+  },
+  {
+   "id": "78fe4f54-bf38-4d64-913d-58dcce241999",
+   "title": "Spring 2027 Silicon Engineering Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8636134002?gh_jid=8636134002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SPRING 2027 SILICON ENGINEERING INTERNSHIP/CO-OP SpaceX seeks extraordinary students to join us for silicon hardware e…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "0d0e2b51-dd7d-44a1-bec0-7382419ca9fe",
+   "title": "Summer 2027 Engineering Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8621740002?gh_jid=8621740002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SUMMER 2027 ENGINEERING INTERNSHIP/CO-OP SpaceX seeks extraordinary students to join us for engineering roles in Summe…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "ml",
+    "mobile",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "64ca3d27-8377-4985-b8cd-e212e7f04983",
+   "title": "Research Intern - Efficient AI Software Systems",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Redmond, WA, US",
+    "United States, Washington, Redmond"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557041731",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software",
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-15T23:47:03.000Z",
+   "first_seen_at": "2026-10-16T17:09:28.792Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "67e5c473-c6c6-4f79-8e81-4db4747d828a",
+   "title": "Stagiaire en recherche - apprentissage automatique; Research Intern - Machine Learning",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Montreal, QC, CA",
+    "Canada, Québec, Montreal"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557040927",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us",
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-14T18:22:03.000Z",
+   "first_seen_at": "2026-10-16T17:09:28.792Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "d7706a40-3a96-4237-af82-7cd3833dbef8",
+   "title": "Research Intern - Machine Learning at MSR NYC",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "New York, NY, US",
+    "Cambridge, MA, US",
+    "United States, New York, New York",
+    "United States, Massachusetts, Cambridge"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557042145",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-16T17:35:35.000Z",
+   "first_seen_at": "2026-10-17T15:26:04.391Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "f6e07eb1-45e1-4c93-a161-331d60fbe25e",
+   "title": "Summer 2027 Software Engineering Internship/Co-op",
+   "company": {
+    "name": "SpaceX",
+    "slug": "spacex",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Flexible - Any SpaceX Site"
+   ],
+   "apply_url": "https://boards.greenhouse.io/spacex/jobs/8621757002?gh_jid=8621757002",
+   "excerpt": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologies to make this possible, with the ultimate goal of enabling human life on Mars. SUMMER 2027 SOFTWARE ENGINEERING INTERNSHIP/CO-OP SpaceX seeks extraordinary students to join us for software engineer…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-12T18:53:38.000Z",
+   "first_seen_at": "2026-08-03T19:05:44.935Z",
+   "last_seen_at": "2026-11-12T19:48:11.934Z"
+  },
+  {
+   "id": "a79cd024-4aa0-4fc9-8984-bafe41c8ba04",
+   "title": "Systems Engineering Intern, BMC2 (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-ST-PETERSBURG-381BD--7401-22nd-Ave-N--BLDG-D/Systems-Engineering-Intern--BMC2--Onsite-_01885577",
+   "excerpt": "Date Posted: 2026-11-02&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citize",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-03T19:51:27.456Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "ac29a044-5389-4518-9e38-5e14dd069686",
+   "title": "Avionics Test Engineering -Systems Engineer Intern (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-112 ~ 400 Collins Rd NE ~ BLDG 112"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-112--400-Collins-Rd-NE--BLDG-112/Avionics-Test-Engineering--Systems-Engineer-Intern--Onsite-_01876518",
+   "excerpt": "Date Posted: 2026-10-03&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-112 ~ 400 Collins Rd NE ~ BLDG 112&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance T",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-04T16:54:37.521Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "d10e5197-f586-433c-bbb9-031ff813ad77",
+   "title": "Systems Engineer Intern (Summer 2027)  - Tac Comm - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-137 ~ 855 35Th St NE ~ BLDG 137"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-137--855-35Th-St-NE--BLDG-137/Systems-Engineer-Intern--Summer-2027-----Tac-Comm---Onsite_01886283",
+   "excerpt": "Date Posted: 2026-10-30&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-137 ~ 855 35Th St NE ~ BLDG 137&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are el",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:12:20.633Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "d9ee1dcd-b436-4975-a9a4-b4553b60bd66",
+   "title": "Component Electrical Test Engineer Intern (Summer 2027)(Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CA-EL SEGUNDO-E01 ~ 2000 E El Segundo Blvd ~ BLDG E01"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CA-EL-SEGUNDO-E01--2000-E-El-Segundo-Blvd--BLDG-E01/Component-Electrical-Test-Engineer-Intern--Summer-2027--Onsite-_01885779",
+   "excerpt": "Date Posted: 2026-11-10&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CA-EL SEGUNDO-E01 ~ 2000 E El Segundo Blvd ~ BLDG E01&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearanc",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-10T20:08:22.955Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "bf9d61d4-4cd4-4137-93c7-ce9d4a6ca2d2",
+   "title": "Systems Engineering Intern (Summer 2027), SAOC, Cedar Rapids, IA (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-143 ~ 855 35Th St NE ~ BLDG 143"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-143--855-35Th-St-NE--BLDG-143/Systems-Engineering-Intern--Summer-2027---SAOC--Cedar-Rapids--IA--Onsite-_01886221",
+   "excerpt": "Date Posted: 2026-11-09&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-143 ~ 855 35Th St NE ~ BLDG 143&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citizens",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-10T20:08:22.955Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "4671a7ab-c9c1-443a-89eb-1e51c2eb38bd",
+   "title": "Manufacturing Electrical Engineering Co-Op (Spring/Summer 2027)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-108 ~ 400 Collins Rd NE ~ BLDG 108"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-108--400-Collins-Rd-NE--BLDG-108/Manufacturing-Electrical-Engineering-Co-Op--Spring-Summer-2027-_01870653",
+   "excerpt": "Date Posted: 2026-10-29&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-108 ~ 400 Collins Rd NE ~ BLDG 108&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance T",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-28T19:52:24.754Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "15cc18e3-cabd-403d-b323-64232c2cc66b",
+   "title": "Systems Engineer Intern",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-FL-ST-PETERSBURG-381BD--7401-22nd-Ave-N--BLDG-D/Systems-Engineer-Intern_01884409",
+   "excerpt": "Date Posted: 2026-10-27&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-FL-ST PETERSBURG-381BD ~ 7401 22nd Ave N ~ BLDG D&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citize",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-01T18:12:20.633Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "bff74e2f-0dbb-4730-84c4-cb793a503dd3",
+   "title": "Part Time Systems Engineer Co-Op (Remote)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CO-AURORA-S75 ~ 16800 E Centretech Pkwy ~ BLDG S75"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CO-AURORA-S75--16800-E-Centretech-Pkwy--BLDG-S75/Part-Time-Systems-Engineer-Co-Op--Remote-_01883866",
+   "excerpt": "Date Posted: 2026-10-27&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CO-AURORA-S75 ~ 16800 E Centretech Pkwy ~ BLDG S75&#xa;&#xa; Position Role Type: Remote&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: The ability to obtain and maintain a U.S. government issued security clearance is required.​ U.S. citizenship is required, as only U.S. citizens are",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2026,
+   "roles": [
+    "software",
+    "ml",
+    "security",
+    "devops"
+   ],
+   "regions": [
+    "remote",
+    "us"
+   ],
+   "is_remote": true,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-10-22T17:12:32.096Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "7d62cc9f-1f88-4d04-ace0-c5e1cb9d9030",
+   "title": "CH-53K Systems Engineering Co-Op - Summer/Fall 2027 - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/CH-53K-Systems-Engineering-Co-Op---Summer-Fall-2027---Onsite_01872672",
+   "excerpt": "Date Posted: 2026-09-21&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-22T16:52:12.192Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "00836ad0-a1cc-4980-bbde-ca43a5b1ce68",
+   "title": "Systems Engineering Co-op - Systems Integration (Summer/Fall 2027) - Onsite",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/Systems-Engineering-Co-op---Systems-Integration--Summer-Fall-2027----Onsite_01871552",
+   "excerpt": "Date Posted: 2026-09-09&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: U.S. citizenship is required, as only U.S. citizens are authorized to access information under this program/contract.&#xa;&#xa; Security Clearance",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security",
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-09T17:00:36.078Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "e5018fff-7ef4-462d-9f57-a71747286276",
+   "title": "PhD Intern, AI Applied Scientist (2027)",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "San Francisco, CA • New York, NY"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6207801004?gh_jid=6207801004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [
+    "summer",
+    "winter"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "winter",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "ml"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-27T17:40:12.000Z",
+   "first_seen_at": "2026-10-06T17:41:59.230Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "5fc67703-07ae-40cc-9fb7-abbd93b5cb2f",
+   "title": "Software Engineering Intern (2027 Start) - Amsterdam",
+   "company": {
+    "name": "Databricks",
+    "slug": "databricks",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Amsterdam, Netherlands"
+   ],
+   "apply_url": "https://databricks.com/company/careers/open-positions/job?gh_jid=6866534002",
+   "excerpt": "P-969 At Databricks, we are passionate about helping data teams solve the world's toughest problems — from making the next mode of transportation a reality to accelerating the development of medical breakthroughs. We do this by building and running the world's best data and AI infrastructure platform so our customers can use deep data insights to improve their business. As a Software Engineering …",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2028
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-02T14:39:01.000Z",
+   "first_seen_at": "2026-10-02T17:11:22.612Z",
+   "last_seen_at": "2026-11-12T19:25:51.096Z"
+  },
+  {
+   "id": "a2f013e5-6ea0-4cad-8d1c-d7630acd5b96",
+   "title": "2027 Summer/Fall Co-Op - Systems Engineer - AVI MIL FMS/DAS (Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-182--1100-Cimmie-Ave-Ne--BLDG-182/XMLNAME-2027-Summer-Fall-Co-Op---Systems-Engineer---AVI-MIL-FMS-DAS--Onsite-_01872240",
+   "excerpt": "Date Posted: 2026-09-08&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: This job requires a U.S. Person. A U.S. Person is a lawful permanent resident as defined in 8 U.S.C. 1101(a)(20) or who is a protected individual a",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-09-09T17:00:36.078Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "e7f36bac-cd81-44fa-beef-07e9b5f65b70",
+   "title": "Research Intern - Research in Software Engineering, ML Systems, Agents",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Redmond, WA, US",
+    "United States, Washington, Redmond"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557054069",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "software",
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-11-05T00:20:59.000Z",
+   "first_seen_at": "2026-11-09T22:50:38.876Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "6246c72f-4101-486c-8f61-dd2782b86f69",
+   "title": "Research Intern - Machine Learning for Biology and Healthcare",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Cambridge, MA, US",
+    "United States, Massachusetts, Cambridge"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557040333",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "research"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-10-13T18:58:36.000Z",
+   "first_seen_at": "2026-10-16T17:09:28.792Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "528ec215-f764-4f4c-863a-aef976c56492",
+   "title": "Cambridge Internship Program: MSRC AI Security Research",
+   "company": {
+    "name": "Microsoft AI",
+    "slug": "microsoft-ai",
+    "ats": "eightfold"
+   },
+   "locations": [
+    "Cambridge, England, GB",
+    "United Kingdom, Cambridgeshire, Cambridge"
+   ],
+   "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557070382",
+   "excerpt": "Research Sciences",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": null,
+   "roles": [
+    "ml",
+    "security",
+    "research"
+   ],
+   "regions": [
+    "europe"
+   ],
+   "is_remote": false,
+   "source": "eightfold",
+   "posted_at": "2026-11-11T16:09:48.000Z",
+   "first_seen_at": "2026-11-11T20:07:03.814Z",
+   "last_seen_at": "2026-11-11T20:07:03.814Z"
+  },
+  {
+   "id": "f7b024c9-41f7-4f63-8be7-8d880a6fb070",
+   "title": "Software Engineering Intern (2027)",
+   "company": {
+    "name": "Databricks",
+    "slug": "databricks",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "Bellevue, Washington; Mountain View, California; San Francisco, California; Vancouver, Canada"
+   ],
+   "apply_url": "https://databricks.com/company/careers/open-positions/job?gh_jid=6865687002",
+   "excerpt": "P-963 At Databricks, we are passionate about helping data teams solve the world's toughest problems — from making the next mode of transportation a reality to accelerating the development of medical breakthroughs. We do this by building and running the world's best data and AI infrastructure platform so our customers can use deep data insights to improve their business. As a Software Engineering …",
+   "terms": [
+    "summer",
+    "fall"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "summer",
+     "year": 2028
+    },
+    {
+     "term": "fall",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3,
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "us",
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-23T16:48:00.000Z",
+   "first_seen_at": "2026-10-12T20:43:00.839Z",
+   "last_seen_at": "2026-11-12T19:25:51.096Z"
+  },
+  {
+   "id": "b4a54776-9e51-4e8e-99dc-37d8c2731bae",
+   "title": "Product Manager Intern (2027) - Austin, TX",
+   "company": {
+    "name": "Cloudflare",
+    "slug": "cloudflare",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "In-Office"
+   ],
+   "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/8274790?gh_jid=8274790",
+   "excerpt": "About Us At Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of websites and other Internet properties for customers ranging from individual bloggers to SMBs to Fortune 500 companies. Cloudflare protects and accelerates any Internet application online without adding hardware, installing software, or ch…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [
+    3
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "product"
+   ],
+   "regions": [
+    "other"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-10T00:03:42.000Z",
+   "first_seen_at": "2026-11-01T17:31:12.066Z",
+   "last_seen_at": "2026-11-12T19:25:48.280Z"
+  },
+  {
+   "id": "31b8d55d-38a0-4725-b9f6-26a5594cfa5a",
+   "title": "Advanced Analytics Intern",
+   "company": {
+    "name": "Airbnb",
+    "slug": "airbnb",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "United States"
+   ],
+   "apply_url": "https://careers.airbnb.com/positions/8380007?gh_jid=8380007",
+   "excerpt": "Airbnb was born in 2007 when two hosts welcomed three guests to their San Francisco home, and has since grown to over 5 million hosts who have welcomed over 2 billion guest arrivals in almost every country across the globe. Every day, hosts offer unique stays and experiences that make it possible for guests to connect with communities in a more authentic way. The Community You Will Join: Airbnb i…",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "data"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-11-11T21:35:28.000Z",
+   "first_seen_at": "2026-11-12T19:25:48.872Z",
+   "last_seen_at": "2026-11-12T19:25:48.872Z"
+  },
+  {
+   "id": "ab5126c0-6e51-4c45-87ca-a8f0d3aca746",
+   "title": "PhD Intern, Data Science (2027)",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "San Francisco, CA • New York, NY"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6200626004?gh_jid=6200626004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "data"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-27T17:40:12.000Z",
+   "first_seen_at": "2026-09-22T16:07:10.855Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "147c2416-f53f-458b-bb9a-698a87d6cd56",
+   "title": "PhD Intern, Security Engineer (2027)",
+   "company": {
+    "name": "Figma",
+    "slug": "figma",
+    "ats": "greenhouse"
+   },
+   "locations": [
+    "San Francisco, CA • New York, NY"
+   ],
+   "apply_url": "https://boards.greenhouse.io/figma/jobs/6238015004?gh_jid=6238015004",
+   "excerpt": "Figma is growing our team of passionate creatives and builders on a mission to make design accessible to all. Figma’s platform helps teams bring ideas to life—whether you're brainstorming, creating a prototype, translating designs into code, or iterating with AI. From idea to product, Figma empowers teams to streamline workflows, move faster, and work together in real time from anywhere in the wo…",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "greenhouse",
+   "posted_at": "2026-10-29T00:08:03.000Z",
+   "first_seen_at": "2026-11-01T17:31:11.955Z",
+   "last_seen_at": "2026-11-12T19:25:49.705Z"
+  },
+  {
+   "id": "2a82bcc2-30b6-48f7-aba9-0b69d123d1c1",
+   "title": "Software Engineer Intern (Summer 2027)",
+   "company": {
+    "name": "Notion",
+    "slug": "notion",
+    "ats": "ashby"
+   },
+   "locations": [
+    "San Francisco, California",
+    "Remote"
+   ],
+   "apply_url": "https://jobs.ashbyhq.com/notion/3fba1c39-c5cb-47d7-9ad2-1cec4d7e9d0c",
+   "excerpt": "WHO WE ARE Notion is the collaborative AI workspace where teams and agents think together https://www.youtube.com/watch?v=vkpYpWfEK5s. We're building one place where your knowledge, projects, meetings, and AI tools live side by side, so work is faster, clearer, and less fragmented. Millions of individuals, small teams, and large companies run their work on Notion. Notinos (our employees) are c",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "summer",
+     "year": 2028
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software"
+   ],
+   "regions": [
+    "remote",
+    "us"
+   ],
+   "is_remote": true,
+   "source": "ashby",
+   "posted_at": "2026-08-14T19:07:13.459Z",
+   "first_seen_at": "2026-08-14T21:17:27.183Z",
+   "last_seen_at": "2026-11-12T19:25:50.203Z"
+  },
+  {
+   "id": "78661d49-d52f-4737-a947-f0be7d4f4192",
+   "title": "Software Engineering Intern, Frontend (Summer 2027)",
+   "company": {
+    "name": "Notion",
+    "slug": "notion",
+    "ats": "ashby"
+   },
+   "locations": [
+    "New York, New York",
+    "Remote"
+   ],
+   "apply_url": "https://jobs.ashbyhq.com/notion/43ffba97-b64a-4c6a-ac13-c803253c9413",
+   "excerpt": "WHO WE ARE Notion is the collaborative AI workspace where teams and agents think together https://www.youtube.com/watch?v=vkpYpWfEK5s. We're building one place where your knowledge, projects, meetings, and AI tools live side by side, so work is faster, clearer, and less fragmented. Millions of individuals, small teams, and large companies run their work on Notion. Notinos (our employees) are c",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    },
+    {
+     "term": "summer",
+     "year": 2028
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "software",
+    "frontend"
+   ],
+   "regions": [
+    "remote",
+    "us"
+   ],
+   "is_remote": true,
+   "source": "ashby",
+   "posted_at": "2026-11-06T18:42:11.019Z",
+   "first_seen_at": "2026-11-06T18:44:34.116Z",
+   "last_seen_at": "2026-11-12T19:25:50.203Z"
+  },
+  {
+   "id": "264a0057-40ee-42e4-95b1-f7ea277cd36a",
+   "title": "Electronic Warfare Electrical Engineer Intern (Summer 2027)(Onsite)",
+   "company": {
+    "name": "RTX",
+    "slug": "rtx",
+    "ats": "workday"
+   },
+   "locations": [
+    "US-CA-GOLETA-H01 ~ 6380 Hollister Ave ~ BLDG H01"
+   ],
+   "apply_url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-CA-GOLETA-H01--6380-Hollister-Ave--BLDG-H01/Electronic-Warfare-Electrical-Engineer-Intern--Summer-2027--Onsite-_01886573",
+   "excerpt": "Date Posted: 2026-11-09&#xa;&#xa; Country: United States of America&#xa;&#xa; Location: US-CA-GOLETA-H01 ~ 6380 Hollister Ave ~ BLDG H01&#xa;&#xa; Position Role Type: Onsite&#xa;&#xa; U.S. Citizen, U.S. Person, or Immigration Status Requirements: Active and transferable U.S. government issued security clearance is required prior to start date.​ U.S. citizenship is required, as only U.S. citizens a",
+   "terms": [
+    "summer"
+   ],
+   "term_years": [
+    {
+     "term": "summer",
+     "year": 2027
+    }
+   ],
+   "duration_months": [],
+   "cohort_year": 2027,
+   "roles": [
+    "hardware"
+   ],
+   "regions": [
+    "us"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-09T22:44:55.243Z",
+   "last_seen_at": "2026-11-12T20:22:15.644Z"
+  },
+  {
+   "id": "12a483f4-ee9e-4ca5-897a-b31ab971c04d",
+   "title": "Security Engineering Intern",
+   "company": {
+    "name": "TMX Group",
+    "slug": "tmx-group",
+    "ats": "workday"
+   },
+   "locations": [
+    "Toronto - 100 Adelaide St W"
+   ],
+   "apply_url": "https://tmx.wd3.myworkdayjobs.com/TMX_Careers/job/Toronto---100-Adelaide-St-W/Security-Engineering-Intern_R-6656",
+   "excerpt": "Venture outside the ordinary - TMX Careers The TMX group of companies includes leading global exchanges such as the Toronto Stock Exchange, Montreal Exchange, and numerous innovative organizations enhancing capital markets. United as a global team, we’re connecting cross-functionally, traversing industries and geographies, moving opportunity into action, advancing global economic growth, and prope",
+   "terms": [],
+   "term_years": [],
+   "duration_months": [
+    4
+   ],
+   "cohort_year": 2027,
+   "roles": [
+    "security"
+   ],
+   "regions": [
+    "canada"
+   ],
+   "is_remote": false,
+   "source": "workday",
+   "posted_at": null,
+   "first_seen_at": "2026-11-04T20:14:19.388Z",
+   "last_seen_at": "2026-11-12T20:39:02.876Z"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "jobs": [
+  {
+   "externalId": "4012345678",
+   "title": "SWE Intern",
+   "locations": [
+    "NYC"
+   ],
+   "applyUrl": "https://x/1",
+   "excerpt": null,
+   "postedAt": "2026-11-10T17:34:56.000Z",
+   "description": "&lt;p&gt;Hi&lt;/p&gt;"
+  },
+  {
+   "externalId": "2",
+   "title": "No loc",
+   "locations": [],
+   "applyUrl": "https://x/2",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "3",
+   "title": "Dup key",
+   "locations": [],
+   "applyUrl": "https://x/3",
+   "excerpt": null,
+   "postedAt": "2026-11-10T12:00:00.000Z",
+   "description": ""
+  }
+ ]
+}

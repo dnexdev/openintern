@@ -1,0 +1,36 @@
+{
+ "jobs": [
+  {
+   "externalId": "9",
+   "title": "Software Intern",
+   "locations": [
+    "Provo, Utah"
+   ],
+   "applyUrl": "https://acme.bamboohr.com/careers/9",
+   "excerpt": "Do things more xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "postedAt": "2026-10-01T00:00:00.000Z",
+   "description": "Do things more xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀 tail"
+  },
+  {
+   "externalId": "10",
+   "title": "Remote",
+   "locations": [
+    "Canada",
+    "Remote"
+   ],
+   "applyUrl": "https://acme.bamboohr.com/careers/10",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "11",
+   "title": "Broken detail",
+   "locations": [],
+   "applyUrl": "https://acme.bamboohr.com/careers/11",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ]
+}

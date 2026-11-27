@@ -1,0 +1,742 @@
+[
+ {
+  "input": "https://job-boards.greenhouse.io/acme/jobs/1",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/jobs/1"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/ACME/jobs/1",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/ACME/jobs/1"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/acme",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme"
+ },
+ {
+  "input": "http://job-boards.greenhouse.io/acme/jobs/1",
+  "ok": true,
+  "protocol": "http:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/jobs/1"
+ },
+ {
+  "input": "javascript:alert(1)",
+  "ok": true,
+  "protocol": "javascript:",
+  "username": "",
+  "password": "",
+  "hostname": "",
+  "port": "",
+  "pathname": "alert(1)"
+ },
+ {
+  "input": "https://user:pw@job-boards.greenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "user",
+  "password": "pw",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://user@job-boards.greenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "user",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://:pw@job-boards.greenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "pw",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://@job-boards.greenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://a@b@c.com/x",
+  "ok": true,
+  "protocol": "https:",
+  "username": "a%40b",
+  "password": "",
+  "hostname": "c.com",
+  "port": "",
+  "pathname": "/x"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io:8443/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "8443",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io:443/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io:0443/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io:/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io:65536/acme/",
+  "ok": false
+ },
+ {
+  "input": "https://job-boards.greenhouse.io:99999999999/acme/",
+  "ok": false
+ },
+ {
+  "input": "https://job-boards.greenhouse.io:12a/acme/",
+  "ok": false
+ },
+ {
+  "input": "http://x.com:80/",
+  "ok": true,
+  "protocol": "http:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://acme.wd5.myworkdayjobs.com.evil.com/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "acme.wd5.myworkdayjobs.com.evil.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "not a url",
+  "ok": false
+ },
+ {
+  "input": "",
+  "ok": false
+ },
+ {
+  "input": "   https://x.com/a   ",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/a"
+ },
+ {
+  "input": "https://exa\nmple.com/a\tb",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "example.com",
+  "port": "",
+  "pathname": "/ab"
+ },
+ {
+  "input": "\u0001https://x.com/\u0002",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/acme/../evil/jobs/1",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/evil/jobs/1"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/acme/%2e%2e/evil/jobs/1",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/evil/jobs/1"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/acme/%2E./evil/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/evil/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/acme/.%2e",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/acme/./x/.",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/x/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io/acme\\..\\evil\\jobs",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/evil/jobs"
+ },
+ {
+  "input": "https:\\\\job-boards.greenhouse.io\\acme\\jobs",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/jobs"
+ },
+ {
+  "input": "https:job-boards.greenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https:///job-boards.greenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://JOB-BOARDS.Greenhouse.IO/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://job-boards%2Egreenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://job-boards.greenhouse.io./acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io.",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://ｊｏｂ-boards.greenhouse.io/acme/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "job-boards.greenhouse.io",
+  "port": "",
+  "pathname": "/acme/"
+ },
+ {
+  "input": "https://bücher.de/x",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "xn--bcher-kva.de",
+  "port": "",
+  "pathname": "/x"
+ },
+ {
+  "input": "https://München.DE/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "xn--mnchen-3ya.de",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://exa mple.com/",
+  "ok": false
+ },
+ {
+  "input": "https://exa%20mple.com/",
+  "ok": false
+ },
+ {
+  "input": "https://exa<mple.com/",
+  "ok": false
+ },
+ {
+  "input": "https://exa%3Cmple.com/",
+  "ok": false
+ },
+ {
+  "input": "https://ex^ample.com/",
+  "ok": false
+ },
+ {
+  "input": "https://127.0.0.1/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "127.0.0.1",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://0x7f.1/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "127.0.0.1",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://2130706433/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "127.0.0.1",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://0177.0.0.1/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "127.0.0.1",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://256.0.0.1/",
+  "ok": false
+ },
+ {
+  "input": "https://1.2.3.4.5/",
+  "ok": false
+ },
+ {
+  "input": "https://09.1/",
+  "ok": false
+ },
+ {
+  "input": "https://foo.0x/",
+  "ok": false
+ },
+ {
+  "input": "https://foo.09/",
+  "ok": false
+ },
+ {
+  "input": "https://[::1]/x",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "[::1]",
+  "port": "",
+  "pathname": "/x"
+ },
+ {
+  "input": "https://[2001:DB8::1]:8080/x",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "[2001:db8::1]",
+  "port": "8080",
+  "pathname": "/x"
+ },
+ {
+  "input": "https://[::1/",
+  "ok": false
+ },
+ {
+  "input": "https://[zz]/",
+  "ok": false
+ },
+ {
+  "input": "https://x.com/a b/<c>/\"d\"/`e`/{f}/é/%41",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/a%20b/%3Cc%3E/%22d%22/%60e%60/%7Bf%7D/%C3%A9/%41"
+ },
+ {
+  "input": "https://x.com/a?b=c/../d#e/../f",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/a"
+ },
+ {
+  "input": "https://x.com?x",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://x.com#x",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://x.com",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://",
+  "ok": false
+ },
+ {
+  "input": "https:",
+  "ok": false
+ },
+ {
+  "input": "https://:443/",
+  "ok": false
+ },
+ {
+  "input": "mailto:someone@example.com",
+  "ok": true,
+  "protocol": "mailto:",
+  "username": "",
+  "password": "",
+  "hostname": "",
+  "port": "",
+  "pathname": "someone@example.com"
+ },
+ {
+  "input": "foo:bar",
+  "ok": true,
+  "protocol": "foo:",
+  "username": "",
+  "password": "",
+  "hostname": "",
+  "port": "",
+  "pathname": "bar"
+ },
+ {
+  "input": "foo://host/a/../b",
+  "ok": true,
+  "protocol": "foo:",
+  "username": "",
+  "password": "",
+  "hostname": "host",
+  "port": "",
+  "pathname": "/b"
+ },
+ {
+  "input": "foo://",
+  "ok": true,
+  "protocol": "foo:",
+  "username": "",
+  "password": "",
+  "hostname": "",
+  "port": "",
+  "pathname": ""
+ },
+ {
+  "input": "foo://a b/",
+  "ok": false
+ },
+ {
+  "input": "1http://x.com",
+  "ok": false
+ },
+ {
+  "input": "h_ttp://x.com",
+  "ok": false
+ },
+ {
+  "input": "HTTPS://X.COM/A",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/A"
+ },
+ {
+  "input": "file:///etc/passwd",
+  "ok": true,
+  "protocol": "file:",
+  "username": "",
+  "password": "",
+  "hostname": "",
+  "port": "",
+  "pathname": "/etc/passwd"
+ },
+ {
+  "input": "file://localhost/x",
+  "ok": true,
+  "protocol": "file:",
+  "username": "",
+  "password": "",
+  "hostname": "",
+  "port": "",
+  "pathname": "/x"
+ },
+ {
+  "input": "file://host/x",
+  "ok": true,
+  "protocol": "file:",
+  "username": "",
+  "password": "",
+  "hostname": "host",
+  "port": "",
+  "pathname": "/x"
+ },
+ {
+  "input": "wss://x.com:443/a",
+  "ok": true,
+  "protocol": "wss:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/a"
+ },
+ {
+  "input": "ws://x.com:443/a",
+  "ok": true,
+  "protocol": "ws:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "443",
+  "pathname": "/a"
+ },
+ {
+  "input": "ftp://x.com:21/a",
+  "ok": true,
+  "protocol": "ftp:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/a"
+ },
+ {
+  "input": "https://x.com/",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/%7F"
+ },
+ {
+  "input": "https://x.com/a/b/../../../..",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://x.com/..",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://x.com/./",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/"
+ },
+ {
+  "input": "https://x.com/a/%2e",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "x.com",
+  "port": "",
+  "pathname": "/a/"
+ },
+ {
+  "input": "https://app.careerpuck.com/job-board/lyft/job/8797819002",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "app.careerpuck.com",
+  "port": "",
+  "pathname": "/job-board/lyft/job/8797819002"
+ },
+ {
+  "input": "https://www.tesla.com/careers/search/job/123",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "www.tesla.com",
+  "port": "",
+  "pathname": "/careers/search/job/123"
+ },
+ {
+  "input": "https://stripe.com/jobs",
+  "ok": true,
+  "protocol": "https:",
+  "username": "",
+  "password": "",
+  "hostname": "stripe.com",
+  "port": "",
+  "pathname": "/jobs"
+ },
+ {
+  "input": "stripe.com/jobs",
+  "ok": false
+ },
+ {
+  "input": "//stripe.com/jobs",
+  "ok": false
+ }
+]

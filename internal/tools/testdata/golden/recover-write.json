@@ -1,0 +1,40 @@
+{
+ "stdout": "RECOVER palantir: lever/palantir → lever/palantir (3 jobs)\nRECOVER salesforce: workday/salesforce|wd12|External_Career_Site → smartrecruiters/Salesforce (7 jobs)\nRECOVER netflix: lever/netflix → ashby/netflix (2 jobs)\nRECOVER imc: greenhouse/imc → greenhouse/imctrading (1 jobs)\n\n# 4 recovery suggestion(s) with jobs (of 4 probes)\n\n# Palantir (palantir) — was lever/palantir\n  - name: Palantir\n    slug: palantir\n    ats: lever\n    board_token: palantir\n    active: true\n    website_url: https://www.palantir.com\n\n# Salesforce (salesforce) — was workday/salesforce|wd12|External_Career_Site\n  - name: Salesforce\n    slug: salesforce\n    ats: smartrecruiters\n    board_token: Salesforce\n    active: true\n    website_url: https://www.salesforce.com\n\n# Netflix (netflix) — was lever/netflix\n  - name: Netflix\n    slug: netflix\n    ats: ashby\n    board_token: netflix\n    active: true\n    website_url: https://www.netflix.com\n\n# IMC Trading (imc) — was greenhouse/imc\n  - name: IMC Trading\n    slug: imc\n    ats: greenhouse\n    board_token: imctrading\n    active: true\n    website_url: https://www.imc.com\n\nwrote palantir → ats-new.yaml\nwrote salesforce → tech-a.yaml\nwrote netflix → tech-a.yaml\nwrote imc → tech-a.yaml\n",
+ "stderr": "probing palantir...\nprobing salesforce...\nprobing netflix...\nprobing imc...\n",
+ "code": 0,
+ "requests": [
+  "GET https://api.ashbyhq.com/posting-api/job-board/Salesforce",
+  "GET https://api.ashbyhq.com/posting-api/job-board/netflix",
+  "GET https://api.ashbyhq.com/posting-api/job-board/salesforce",
+  "GET https://api.ashbyhq.com/posting-api/job-board/salesforce%7Cwd12%7CExternal_Career_Site",
+  "GET https://api.ashbyhq.com/posting-api/job-board/salesforcecareers",
+  "GET https://api.lever.co/v0/postings/Netflix?mode=json",
+  "GET https://api.lever.co/v0/postings/Salesforce?mode=json",
+  "GET https://api.lever.co/v0/postings/netflix?mode=json",
+  "GET https://api.lever.co/v0/postings/netflixcareers?mode=json",
+  "GET https://api.lever.co/v0/postings/palantir?mode=json",
+  "GET https://api.lever.co/v0/postings/salesforce%7Cwd12%7CExternal_Career_Site?mode=json",
+  "GET https://api.lever.co/v0/postings/salesforce?mode=json",
+  "GET https://api.lever.co/v0/postings/salesforcecareers?mode=json",
+  "GET https://api.smartrecruiters.com/v1/companies/Salesforce/postings?limit=1",
+  "GET https://api.smartrecruiters.com/v1/companies/salesforce%7Cwd12%7CExternal_Career_Site/postings?limit=1",
+  "GET https://api.smartrecruiters.com/v1/companies/salesforce/postings?limit=1",
+  "GET https://boards-api.greenhouse.io/v1/boards/Netflix/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/Salesforce/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/imc/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/imctrading/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/netflix/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/netflixcareers/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/salesforce%7Cwd12%7CExternal_Career_Site/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/salesforce/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/salesforcecareers/jobs",
+  "GET https://www.workable.com/api/accounts/Salesforce",
+  "GET https://www.workable.com/api/accounts/salesforce",
+  "GET https://www.workable.com/api/accounts/salesforce%7Cwd12%7CExternal_Career_Site",
+  "GET https://www.workable.com/api/accounts/salesforcecareers"
+ ],
+ "files": {
+  "ats-new.yaml": "companies:\n  - name: NVIDIA\n    slug: nvidia\n    ats: workday\n    board_token: nvidia|wd5|NVIDIAExternalCareerSite\n    active: true\n  - name: Stripe\n    slug: stripe\n    ats: greenhouse\n    board_token: stripe\n    active: true\n  - name: Palantir\n    slug: palantir\n    ats: lever\n    board_token: palantir\n    active: true\n  - name: Figma\n    slug: figma\n    ats: greenhouse\n    board_token: figma\n    active: false\n",
+  "tech-a.yaml": "companies:\n  - name: Stripe Inc\n    slug: stripe\n    ats: greenhouse\n    board_token: stripe\n    website_url: https://stripe.com\n    active: true\n  - name: Intuitive Surgical\n    slug: intuitive\n    ats: smartrecruiters\n    board_token: Intuitive\n    active: true\n  - name: Bandwidth\n    slug: bandwidth\n    ats: greenhouse\n    board_token: bandwidth\n    active: false\n  - name: Salesforce\n    slug: salesforce\n    ats: smartrecruiters\n    board_token: Salesforce\n    active: true\n  - name: Netflix\n    slug: netflix\n    ats: ashby\n    board_token: netflix\n    active: true\n  - name: IMC Trading\n    slug: imc\n    ats: greenhouse\n    board_token: imctrading\n    active: true\n  - name: Jane Street\n    slug: jane-street\n    ats: greenhouse\n    board_token: janestreet\n    active: true\n  - name: Twitch\n    slug: twitch\n    ats: greenhouse\n    board_token: twitch\n    active: true\n  - name: Old Brand\n    slug: old-brand\n    ats: ashby\n    board_token: oldbrand\n    website_url: https://oldbrand.example\n    active: false\n  - name: Gusto\n    slug: gusto\n    ats: lever\n    board_token: gusto\n    active: true\n  - name: Lightmatter\n    slug: lightmatter\n    ats: greenhouse\n    board_token: lightmatter\n    active: true\n"
+ }
+}

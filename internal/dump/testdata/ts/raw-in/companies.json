@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "count": 2,
+  "companies": [
+    {
+      "id": "0a000000-0000-4000-8000-000000000001",
+      "name": "Alpha",
+      "slug": "alpha",
+      "ats": "greenhouse",
+      "careers_url": null,
+      "website_url": null,
+      "active": true,
+      "active_jobs": 1
+    },
+    {
+      "id": "0b000000-0000-4000-8000-000000000002",
+      "name": "Beta",
+      "slug": "beta",
+      "ats": "lever",
+      "active": false,
+      "active_jobs": 0
+    }
+  ]
+}

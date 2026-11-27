@@ -1,0 +1,57 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}{{with .Data}}
+<div class="sheet health">
+  <header class="page-head">
+    <h1>Ingest health</h1>
+    <p class="lede">Pipeline status, in the open. The funnel shows where volume drops: board fetch, then internship title, then tech role, then upsert. Failed company polls stay visible so the corpus stays trustworthy.</p>
+    <p class="muted">Season note: the live board focuses on Fall/Winter 2026–27 and Summer 2027; many Summer 2026 boards are already closed.</p>
+  </header>
+
+  {{if .Error}}
+  <p class="notice">Health data unavailable.</p>
+  {{else}}
+  <section aria-labelledby="corpus-title">
+    <h2 id="corpus-title" class="h2">Corpus</h2>
+    <dl class="facts facts-numbers">
+      <div><dt>Active jobs</dt><dd>{{num .ActiveJobs}}</dd></div>
+      {{if .HasSnapshot}}<div><dt>Jobs seen in total</dt><dd>{{num .TotalJobs}}</dd></div>{{end}}
+      <div><dt>Companies active</dt><dd>{{num .ActiveCompanies}}{{if .HasSnapshot}} of {{num .TotalCompanies}}{{end}}</dd></div>
+      {{if .HasSnapshot}}<div><dt>Last successful ingest</dt><dd>{{.LastOK}}</dd></div>{{end}}
+    </dl>
+    <p class="small">Machine-readable: <a href="/api/v1/health"><code>GET /api/v1/health</code></a>. Companies with 7 failed daily runs in a row are disabled automatically and retried weekly{{if .HasSnapshot}} ({{num .Inactive}} inactive){{end}}. {{if .HasSnapshot}}Snapshot from {{.SnapshotAt}} UTC.{{else}}No pipeline snapshot published yet; counts come from the public dump.{{end}}</p>
+  </section>
+
+  {{if .HasSnapshot}}
+  <section aria-labelledby="funnel-title">
+    <h2 id="funnel-title" class="h2">Latest funnel</h2>
+    <ol class="funnel">
+      {{range .Funnel}}<li><span class="funnel-label">{{.Label}}</span><span class="funnel-count">{{num .Count}}</span><span class="funnel-track" aria-hidden="true"><span class="funnel-bar" style="width: {{.Percent}}%"></span></span></li>{{end}}
+    </ol>
+    <p class="small">Summed from each company’s latest ingest run: a current per-company snapshot, not one atomic batch. Companies with no matching roles often show a high fetched count with title at zero.</p>
+  </section>
+
+  <section aria-labelledby="runs-title">
+    <h2 id="runs-title" class="h2">Recent ingest runs</h2>
+    <div class="table-wrap">
+      <table class="table table-numbers">
+        <thead><tr><th scope="col">When (UTC)</th><th scope="col">Company</th><th scope="col">Status</th><th scope="col" class="num">Fetched</th><th scope="col" class="num">Title</th><th scope="col" class="num">Tech</th><th scope="col" class="num">Upserted</th><th scope="col">Note</th></tr></thead>
+        <tbody>
+          {{range .Runs}}
+          <tr>
+            <td class="nowrap">{{.When}}</td>
+            <td>{{.Company}}{{with .CompanySlug}}<span class="cell-sub"><code>{{.}}</code></span>{{end}}</td>
+            <td>{{if .OK}}{{.Status}}{{else}}<span class="alarm">{{.Status}}</span>{{end}}</td>
+            <td class="num">{{.Fetched}}</td><td class="num">{{.Title}}</td><td class="num">{{.Tech}}</td><td class="num">{{.Upserted}}</td>
+            <td class="note">{{.Note}}</td>
+          </tr>
+          {{else}}
+          <tr><td colspan="8" class="empty">No ingest runs recorded yet.</td></tr>
+          {{end}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {{end}}
+  {{end}}
+</div>
+{{end}}{{end}}

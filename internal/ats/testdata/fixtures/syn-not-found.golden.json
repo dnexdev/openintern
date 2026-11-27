@@ -1,0 +1,6 @@
+{
+ "error": {
+  "kind": "not-found",
+  "message": "not-found: HTTP 404 for https://www.workable.com/api/accounts/gone?details=true"
+ }
+}

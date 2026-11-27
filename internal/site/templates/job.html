@@ -1,0 +1,29 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}{{with .Data}}
+<div class="sheet record">
+  <p class="crumb"><a href="/jobs">All internships</a></p>
+  <article class="record-body" data-job-ids="{{.ID}}">
+    <header class="record-head">
+      <p class="record-company">{{template "mark" .Mark}}<a href="{{.CompanyURL}}">{{.Company}}</a></p>
+      <h1 class="record-title"><span class="row-title">{{.Title}}</span></h1>
+    </header>
+    <p class="row-actions record-actions">
+      <a class="btn btn-primary" href="{{.ApplyURL}}" target="_blank" rel="noopener noreferrer" aria-label="Apply for {{.Title}} at {{.Company}} on the employer site (opens in a new tab)">Apply on employer site</a>
+      {{template "applied" (pair .ID .Title)}}
+      <a class="report" href="{{.ReportURL}}" target="_blank" rel="noopener noreferrer">Report issue</a>
+    </p>
+    <dl class="facts">
+      {{range .Facts}}<div><dt>{{.Label}}</dt><dd>{{range $i, $v := .Values}}{{if $i}}<br>{{end}}{{$v}}{{end}}</dd></div>{{end}}
+    </dl>
+    {{if .Excerpt}}
+    <section class="record-excerpt" aria-labelledby="excerpt-title">
+      <h2 id="excerpt-title" class="h2">From the posting</h2>
+      <p>{{.Excerpt}}</p>
+      <p class="small muted">A short excerpt. The employer’s posting has the full description.</p>
+    </section>
+    {{else}}
+    <p class="empty">No description excerpt available. Open the employer posting for full details.</p>
+    {{end}}
+  </article>
+</div>
+{{end}}{{end}}

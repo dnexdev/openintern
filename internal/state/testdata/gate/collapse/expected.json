@@ -1,0 +1,5 @@
+{
+  "stdout": "",
+  "stderr": "state-gate: job 00000429-0000-4000-8000-000000000429 has unknown company 0c000000-0000-4000-8000-000000000003\nstate-gate: job 00000430-0000-4000-8000-000000000430 has unknown company 0c000000-0000-4000-8000-000000000003\nstate-gate: job 00000431-0000-4000-8000-000000000431 has unknown company 0c000000-0000-4000-8000-000000000003\nstate-gate: job 00000432-0000-4000-8000-000000000432 has unknown company 0c000000-0000-4000-8000-000000000003\nstate-gate: job 00000433-0000-4000-8000-000000000433 has unknown company 0c000000-0000-4000-8000-000000000003\nstate-gate: alpha dropped from 5 active jobs to 0\nstate-gate: 0c000000-0000-4000-8000-000000000003 dropped from 5 active jobs to 0\nstate-gate: 0e000000-0000-4000-8000-000000000005 dropped from 5 active jobs to 0\nstate-gate: refusing to publish (8 problem(s))\n",
+  "code": 1
+}

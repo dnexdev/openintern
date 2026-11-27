@@ -1,0 +1,84 @@
+{
+ "citadel": [
+  {
+   "externalId": "software-engineer-intern-us",
+   "title": "Software Engineer – Intern (US) &lt;3 ",
+   "locations": [
+    "Greenwich",
+    "Houston",
+    "Miami",
+    "New York"
+   ],
+   "applyUrl": "https://www.citadel.com/careers/details/software-engineer-intern-us/",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "quant-research-intern",
+   "title": "Quantitative Research Intern",
+   "locations": [],
+   "applyUrl": "https://www.citadel.com/careers/details/quant-research-intern/",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "data-engineer",
+   "title": "Data Engineer",
+   "locations": [
+    "London"
+   ],
+   "applyUrl": "https://www.citadel.com/careers/details/data-engineer/",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ],
+ "tesla": [
+  {
+   "externalId": "233415",
+   "title": "Internship, Software Engineer",
+   "locations": [
+    "Fremont, California"
+   ],
+   "applyUrl": "https://www.tesla.com/careers/search/job/233415",
+   "excerpt": "Build cars 😀 and more",
+   "postedAt": null,
+   "description": "Build cars 😀 and more"
+  },
+  {
+   "externalId": "99",
+   "title": "Staff Engineer",
+   "locations": [
+    "Remote"
+   ],
+   "applyUrl": "https://www.tesla.com/careers/search/job/99",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "7",
+   "title": "Spaced",
+   "locations": [
+    "Austin, Texas",
+    "Berlin",
+    "Shanghai"
+   ],
+   "applyUrl": "https://www.tesla.com/careers/search/job/7?x=1",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "8",
+   "title": "No location",
+   "locations": [],
+   "applyUrl": "https://www.tesla.com/careers/search/job/8",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ]
+}

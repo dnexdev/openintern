@@ -1,0 +1,34 @@
+{
+ "jobs": [
+  {
+   "externalId": "u1",
+   "title": "R1",
+   "locations": [
+    "SF",
+    "NYC"
+   ],
+   "applyUrl": "https://ats.rippling.com/acme/jobs/u1",
+   "excerpt": null,
+   "postedAt": "2026-11-01T10:00:00.000Z",
+   "description": "We are\n\nYou do"
+  },
+  {
+   "externalId": "u2",
+   "title": "R2 detail",
+   "locations": [],
+   "applyUrl": "https://ats.rippling.com/acme/jobs/u2",
+   "excerpt": null,
+   "postedAt": null,
+   "description": "plain text"
+  },
+  {
+   "externalId": "u3",
+   "title": "R3",
+   "locations": [],
+   "applyUrl": "https://ats.rippling.com/acme/jobs/u3",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ]
+}

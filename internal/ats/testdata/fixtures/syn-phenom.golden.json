@@ -1,0 +1,26 @@
+{
+ "jobs": [
+  {
+   "externalId": "R1",
+   "title": "P1",
+   "locations": [
+    "Austin, TX, US",
+    "Remote",
+    "Boston, US"
+   ],
+   "applyUrl": "https://careers.acme.com/jobs/R1",
+   "excerpt": "x",
+   "postedAt": "2026-11-01T00:00:00.000Z",
+   "description": "x"
+  },
+  {
+   "externalId": "s2",
+   "title": "P2",
+   "locations": [],
+   "applyUrl": "https://apply/2",
+   "excerpt": null,
+   "postedAt": "2026-08-03T07:00:00.000Z",
+   "description": ""
+  }
+ ]
+}

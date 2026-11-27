@@ -1,0 +1,11 @@
+{
+ "stdout": "ok jane-street\nok lightmatter\n",
+ "stderr": "\nToken validation failures:\n  - intuitive: empty SmartRecruiters board\n",
+ "code": 1,
+ "requests": [
+  "GET https://api.smartrecruiters.com/v1/companies/Intuitive/postings?limit=1",
+  "GET https://boards-api.greenhouse.io/v1/boards/janestreet/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/lightmatter/jobs"
+ ],
+ "files": {}
+}

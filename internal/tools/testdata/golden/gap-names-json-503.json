@@ -1,0 +1,12 @@
+{
+ "stdout": "{\n  \"generatedAt\": \"2026-11-26T12:00:00.000Z\",\n  \"registrySize\": 19,\n  \"externalCompanyMentions\": 292,\n  \"missingCount\": 256,\n  \"inactiveButListedCount\": 4,\n  \"top\": 5,\n  \"missing\": [\n    {\n      \"name\": \"1Password\",\n      \"slug_guess\": \"1password\",\n      \"sources\": [\n        \"simplify-offseason\"\n      ]\n    },\n    {\n      \"name\": \"Acuity Insurance\",\n      \"slug_guess\": \"acuity-insurance\",\n      \"sources\": [\n        \"simplify-summer\"\n      ]\n    },\n    {\n      \"name\": \"Adobe\",\n      \"slug_guess\": \"adobe\",\n      \"sources\": [\n        \"simplify-offseason\"\n      ]\n    },\n    {\n      \"name\": \"Advanced Energy\",\n      \"slug_guess\": \"advanced-energy\",\n      \"sources\": [\n        \"simplify-offseason\"\n      ]\n    },\n    {\n      \"name\": \"AFL\",\n      \"slug_guess\": \"afl\",\n      \"sources\": [\n        \"simplify-offseason\"\n      ]\n    }\n  ],\n  \"inactiveButListed\": [\n    {\n      \"name\": \"Bandwidth\",\n      \"slug\": \"bandwidth\",\n      \"sources\": [\n        \"simplify-summer\",\n        \"speedyapply-usa\"\n      ]\n    },\n    {\n      \"name\": \"Figma\",\n      \"slug\": \"figma\",\n      \"sources\": [\n        \"speedyapply-usa\"\n      ]\n    },\n    {\n      \"name\": \"IMC Trading\",\n      \"slug\": \"imc\",\n      \"sources\": [\n        \"simplify-summer\"\n      ]\n    },\n    {\n      \"name\": \"Netflix\",\n      \"slug\": \"netflix\",\n      \"sources\": [\n        \"speedyapply-usa\"\n      ]\n    }\n  ]\n}\n",
+ "stderr": "warn: failed speedyapply-intl: HTTP 503 for https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/INTERN_INTL.md\n",
+ "code": 0,
+ "requests": [
+  "GET https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README-Off-Season.md",
+  "GET https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README.md",
+  "GET https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/INTERN_INTL.md",
+  "GET https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/README.md"
+ ],
+ "files": {}
+}

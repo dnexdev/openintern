@@ -1,0 +1,5 @@
+{
+  "stdout": "state-gate: new apply hosts: boards.greenhouse.io\n",
+  "stderr": "state-gate: alpha added 201 jobs in one run (limit 200)\nstate-gate: refusing to publish (1 problem(s))\n",
+  "code": 1
+}

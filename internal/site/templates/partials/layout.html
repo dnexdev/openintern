@@ -1,0 +1,84 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "layout"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Meta.Title}}</title>
+<meta name="description" content="{{.Meta.Description}}">
+{{if .Meta.NoIndex}}<meta name="robots" content="noindex">{{else}}<meta name="robots" content="index, follow">{{end}}
+{{with .Meta.Canonical}}<link rel="canonical" href="{{.}}">{{end}}
+<meta name="color-scheme" content="light dark">
+<script>try{var t=localStorage.getItem("openintern:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta name="theme-color" content="#fbfcfa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191c1a" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="OpenIntern">
+<meta property="og:title" content="{{or .Meta.OGTitle "OpenIntern — free open-source tech internships"}}">
+<meta property="og:description" content="{{or .Meta.OGDescription "Free tech internship board with no account, a public API, and daily dumps. Open source. Never paywalled."}}">
+<meta property="og:url" content="{{or .Meta.OGURL "https://openintern.dev"}}">
+<meta property="og:type" content="{{or .Meta.OGType "website"}}">
+<meta property="og:image" content="https://openintern.dev/opengraph-image">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="OpenIntern">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OpenIntern — free open-source tech internships">
+<meta name="twitter:description" content="Free tech internship board. No account. Public API and daily dumps. Open source.">
+<meta name="twitter:image" content="https://openintern.dev/twitter-image">
+<meta name="twitter:image:alt" content="OpenIntern">
+<link rel="icon" href="/icon.svg" sizes="any" type="image/svg+xml">
+<link rel="preload" href="{{asset "fonts/AtkinsonHyperlegibleNext-wght.woff2"}}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{asset "site.css"}}">
+<script defer src="{{asset "site.js"}}"></script>
+{{if .Analytics}}<script defer src="/_vercel/insights/script.js"></script>{{end}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="sheet masthead-inner">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect class="brand-sheet" x="4.5" y="4.5" width="23" height="23" stroke-width="3"/><rect class="brand-bar" x="6" y="10" width="20" height="4"/><rect class="brand-bar" x="6" y="18" width="20" height="4"/></svg>
+      <span>OpenIntern</span>
+    </a>
+    <nav class="nav" aria-label="Site">
+      <a href="/jobs"{{if eq .Nav "jobs"}} aria-current="page"{{end}}>Jobs</a>
+      <a href="/docs"{{if eq .Nav "docs"}} aria-current="page"{{end}}>Docs</a>
+      <a href="https://github.com/dnexdev/openintern">GitHub</a>
+      <button type="button" class="theme-toggle" data-theme-toggle hidden>Dark</button>
+    </nav>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+{{with .Stale}}{{template "stale" .}}{{end}}
+{{template "content" .}}
+</main>
+<footer class="colophon">
+  <div class="sheet">
+    <p>Free and open source (Apache-2.0). Never paywalled. Apply on the employer site. No account required.</p>
+    <p class="colophon-links">
+      <a href="/docs">Docs</a>
+      <a href="/vs/intern-insider">Compare</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/health">Health</a>
+      <a href="https://github.com/dnexdev/openintern">GitHub</a>
+      <button type="button" class="theme-toggle" data-theme-toggle hidden>Dark</button>
+      <a href="https://github.com/dnexdev/openintern/releases/tag/dump-latest">Dumps</a>
+    </p>
+  </div>
+</footer>
+{{with .Aliases}}<script type="application/json" id="job-aliases">{{.}}</script>{{end}}
+</body>
+</html>
+{{end}}
+
+{{define "stale"}}<div class="sheet"><p class="notice" role="status">The daily refresh is late. These listings come from the last daily dump{{with .Age}} (<strong>{{.}}</strong>){{end}}, so some may have closed since. They update as soon as the next run publishes.</p></div>{{end}}
+
+{{define "mark"}}{{if .Src}}<img class="mark" src="{{.Src}}" alt="" width="24" height="24" loading="lazy" decoding="async">{{else}}<span class="mark mark-initials" aria-hidden="true">{{.Initials}}</span>{{end}}{{end}}
+
+{{define "applied"}}<button class="btn btn-small applied-toggle" type="button" data-applied="{{.ID}}" data-title="{{.Title}}" aria-pressed="false" hidden>Mark applied</button>{{end}}
+
+{{define "curl"}}<div class="curl">
+  <code class="curl-cmd" id="curl-cmd">{{.}}</code>
+  <button class="btn btn-small" type="button" data-copy="curl-cmd" hidden>Copy</button>
+</div>{{end}}

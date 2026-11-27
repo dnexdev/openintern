@@ -1,0 +1,8 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}
+<div class="sheet prose">
+  <h1>Page not found</h1>
+  <p class="lede">That URL isn’t in the corpus. Head back to the board, or check the API docs if you were looking for an endpoint.</p>
+  <p class="row-actions"><a class="btn btn-primary" href="/jobs">Browse jobs</a> <a class="btn" href="/docs">API docs</a></p>
+</div>
+{{end}}
