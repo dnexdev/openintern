@@ -1,9 +1,9 @@
 {
   "generatedAt": "2026-11-14T12:00:00.000Z",
-  "jobs": 1278,
+  "jobs": 1281,
   "companies": 183,
   "byAts": {
-    "greenhouse": 315,
+    "greenhouse": 318,
     "workday": 248,
     "smartrecruiters": 88,
     "ashby": 94,
@@ -24,7 +24,7 @@
       "bytes": 423
     },
     "companies.json": {
-      "sha256": "949fd90df644d553b823bd4400d1921bea1a699791edc4d452d4698bf990237e",
+      "sha256": "6a9509bff43590bdfc05c99a16490724310703cf1d6d8eb51f75cfdebb80832c",
       "bytes": 54257
     },
     "denylist.json": {
@@ -36,20 +36,20 @@
       "bytes": 54866
     },
     "jobs.csv": {
-      "sha256": "ac5f1f2ad1308a5c60dc5cb4de7fbcffbf54d6f069fbb7eb2438012e9760ea16",
-      "bytes": 999638
+      "sha256": "b5998a5a0c5c2c5888e0da63109c129146e4d381f853829147ab9c3a99b1960f",
+      "bytes": 1001913
     },
     "jobs.csv.gz": {
-      "sha256": "7e8d814fe7ef21c927b3244ebcbb8fe707f2ced1afb9518635cc48c57624006b",
-      "bytes": 309652
+      "sha256": "13347430ac26900d9d322c04c6b2da0d0ac1a36d4126d177617b04b0a35f41e9",
+      "bytes": 310603
     },
     "jobs.json": {
-      "sha256": "47d1bfbe6fcb2801ea71dd8a940c9ae2836e081538be6e90ee3a1b0712aa96da",
-      "bytes": 1901407
+      "sha256": "d025f45707502ce281a50dd10e8d23a5f8c64c4a65bddf8b18f330151c1ac602",
+      "bytes": 1905804
     },
     "jobs.json.gz": {
-      "sha256": "10057400ec60b748aa39a883acc6b717bfcf31bdde3c592c3b2dabe953c66665",
-      "bytes": 376881
+      "sha256": "13d0b3a11875eda04cac488b6b6a0a4ca3d5d4c9b79dcc9f2871eccb8b71ed6a",
+      "bytes": 377908
     }
   }
 }

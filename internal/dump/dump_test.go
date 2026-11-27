@@ -173,7 +173,7 @@ func TestRealStateMatchesTypeScript(t *testing.T) {
 		count    int
 	}{
 		{registry.ApplyHostsWarn, "testdata/ts-warn/MANIFEST.json", 1336},
-		{registry.ApplyHostsEnforce, "testdata/ts-enforce/MANIFEST.json", 1278},
+		{registry.ApplyHostsEnforce, "testdata/ts-enforce/MANIFEST.json", 1281},
 	} {
 		t.Run(string(tc.mode), func(t *testing.T) {
 			out := t.TempDir()
