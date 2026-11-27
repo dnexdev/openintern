@@ -1,0 +1,23 @@
+# Third batch.
+companies:
+  - name: Schonfeld
+    slug: schonfeld
+    ats: greenhouse
+    board_token: schonfeldstrategic
+  - name: Method Financial
+    slug: method
+    ats: lever
+    board_token: methodfi
+  - name: Apex Fintech
+    slug: apex
+    ats: greenhouse
+    board_token: apexfintech
+  - name: Amplitude Analytics
+    slug: amplitude-analytics
+    ats: ashby
+    board_token: amplitude
+  - name: Hacker Rank Old
+    slug: hackerrank
+    ats: lever
+    board_token: hackerrank-old
+    active: false

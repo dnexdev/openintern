@@ -1,0 +1,104 @@
+{
+ "responses": [
+  {
+   "method": "POST",
+   "url": "https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/NVIDIAExternalCareerSite/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "reqBody": "{\"appliedFacets\":{},\"limit\":1,\"offset\":0,\"searchText\":\"\"}",
+   "body": "{\"total\": 50, \"jobPostings\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/stripe/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.smartrecruiters.com/v1/companies/Intuitive/postings?limit=1",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"totalFound\": 0, \"content\": []}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/janestreet/jobs",
+   "status": 429,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": ""
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/twitch/jobs",
+   "status": 500,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": ""
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/gusto?mode=json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[{}]"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/lightmatter/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/schonfeldstrategic/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": []}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/methodfi?mode=json",
+   "status": 403,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": ""
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/apexfintech/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/amplitude",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  }
+ ]
+}

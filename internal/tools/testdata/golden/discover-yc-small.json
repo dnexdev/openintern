@@ -1,0 +1,19 @@
+{
+ "stdout": "Fetching YC hiring.json (tech filter, limit 3)…\nYC candidates: 3\n  + Rescale → greenhouse/rescale\n\n## Summary\nYC probed: 3\na16z probed: 0\nNew boards found: 1\n- Rescale (rescale) greenhouse/rescale [yc:Winter 2012]\n\nDry run — pass --write to append probe-OK companies.\n",
+ "stderr": "",
+ "code": 0,
+ "requests": [
+  "GET https://api.ashbyhq.com/posting-api/job-board/circuithub",
+  "GET https://api.ashbyhq.com/posting-api/job-board/rescale",
+  "GET https://api.lever.co/v0/postings/circuithub?mode=json",
+  "GET https://api.rippling.com/platform/api/ats/v1/board/circuithub/jobs",
+  "GET https://api.smartrecruiters.com/v1/companies/circuithub/postings?limit=1",
+  "GET https://boards-api.greenhouse.io/v1/boards/circuithub/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/rescale/jobs",
+  "GET https://circuithub.bamboohr.com/careers/list",
+  "GET https://circuithub.recruitee.com/api/offers/",
+  "GET https://www.workable.com/api/accounts/circuithub",
+  "GET https://yc-oss.github.io/api/companies/hiring.json"
+ ],
+ "files": {}
+}

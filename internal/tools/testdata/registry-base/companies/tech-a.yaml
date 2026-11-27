@@ -1,0 +1,49 @@
+companies:
+  # Same slug as in ats-new.yaml: this later file wins.
+  - name: Stripe Inc
+    slug: stripe
+    ats: greenhouse
+    board_token: stripe
+    website_url: https://stripe.com
+  - name: Intuitive Surgical
+    slug: intuitive
+    ats: smartrecruiters
+    board_token: IntuitiveOld
+  - name: Bandwidth
+    slug: bandwidth
+    ats: greenhouse
+    board_token: bandwidth
+    active: false
+  - name: Salesforce
+    slug: salesforce
+    ats: workday
+    board_token: "salesforce|wd12|External_Career_Site"
+  - name: Netflix
+    slug: netflix
+    ats: lever
+    board_token: netflix # moved boards in 2025
+    active: false
+  - name: IMC Trading
+    slug: imc
+    ats: greenhouse
+    board_token: imc
+    active: false
+  - name: Jane Street
+    slug: jane-street
+    ats: greenhouse
+    board_token: janestreet
+    active: false
+  - name: Twitch
+    slug: twitch
+    ats: greenhouse
+    board_token: twitch
+  - name: Old Brand
+    slug: old-brand
+    ats: ashby
+    board_token: oldbrand
+    active: false
+    website_url: https://oldbrand.example
+  - name: Gusto
+    slug: gusto
+    ats: lever
+    board_token: gusto

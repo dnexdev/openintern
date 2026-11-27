@@ -1,0 +1,215 @@
+{
+ "responses": [
+  {
+   "method": "GET",
+   "url": "https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/README.md",
+   "status": 200,
+   "headers": {
+    "content-type": "text/plain; charset=utf-8"
+   },
+   "bodyFile": "bodies/speedyapply-usa.md.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/INTERN_INTL.md",
+   "status": 200,
+   "headers": {
+    "content-type": "text/plain; charset=utf-8"
+   },
+   "bodyFile": "bodies/speedyapply-intl.md.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README.md",
+   "status": 200,
+   "headers": {
+    "content-type": "text/plain; charset=utf-8"
+   },
+   "bodyFile": "bodies/simplify-summer.md.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README-Off-Season.md",
+   "status": 200,
+   "headers": {
+    "content-type": "text/plain; charset=utf-8"
+   },
+   "bodyFile": "bodies/simplify-offseason.md.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/neuralink/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "bodyFile": "bodies/greenhouse-neuralink.json.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/etched",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "bodyFile": "bodies/ashby-etched.json.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/exowatt?mode=json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "bodyFile": "bodies/lever-exowatt.json.gz"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/cssmerge/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}, {}]}"
+  },
+  {
+   "method": "POST",
+   "url": "https://walmart.wd504.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "reqBody": "{\"appliedFacets\":{},\"limit\":1,\"offset\":0,\"searchText\":\"\"}",
+   "body": "{\"total\": 1234, \"jobPostings\": []}"
+  },
+  {
+   "method": "POST",
+   "url": "https://pg.wd5.myworkdayjobs.com/wday/cxs/pg/1000/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "reqBody": "{\"appliedFacets\":{},\"limit\":1,\"offset\":0,\"searchText\":\"\"}",
+   "body": "{\"total\": 0, \"jobPostings\": []}"
+  },
+  {
+   "method": "POST",
+   "url": "https://cvshealth.wd1.myworkdayjobs.com/wday/cxs/cvshealth/CVS_Health_Careers/jobs",
+   "status": 500,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "reqBody": "{\"appliedFacets\":{},\"limit\":1,\"offset\":0,\"searchText\":\"\"}",
+   "body": ""
+  },
+  {
+   "method": "POST",
+   "url": "https://allstate.wd5.myworkdayjobs.com/wday/cxs/allstate/sourcing_event/jobs",
+   "status": 429,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "reqBody": "{\"appliedFacets\":{},\"limit\":1,\"offset\":0,\"searchText\":\"\"}",
+   "body": ""
+  },
+  {
+   "method": "GET",
+   "url": "https://api.smartrecruiters.com/v1/companies/Pyrotek3/postings?limit=1",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"totalFound\": 0, \"content\": []}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.smartrecruiters.com/v1/companies/LLNL/postings?limit=1",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"totalFound\": 12, \"content\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://alloptions.bamboohr.com/careers/list",
+   "status": 429,
+   "headers": {
+    "content-type": "text/plain"
+   },
+   "body": "slow down"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.rippling.com/platform/api/ats/v1/board/apexanalytix-careers/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[]"
+  },
+  {
+   "method": "GET",
+   "url": "https://www.workable.com/api/accounts/synthesisim",
+   "status": 500,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": ""
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/method/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/apex-technology-inc",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": []}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/momsmeals?mode=json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[{}]"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/brave/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "text/html"
+   },
+   "body": "<html>not json</html>"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/kabam?mode=json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[{}, {}, {}]"
+  },
+  {
+   "method": "GET",
+   "url": "https://flare.bamboohr.com/careers/list",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"result\": [{}]}"
+  }
+ ]
+}

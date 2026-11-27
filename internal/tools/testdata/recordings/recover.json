@@ -1,0 +1,90 @@
+{
+ "responses": [
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/palantir?mode=json",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "[{}, {}, {}]"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/OldBrand/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": []}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/stripe/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.lever.co/v0/postings/netflix?mode=json",
+   "status": 429,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": ""
+  },
+  {
+   "method": "GET",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/netflix",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}, {}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/imc/jobs",
+   "error": "network"
+  },
+  {
+   "method": "GET",
+   "url": "https://boards-api.greenhouse.io/v1/boards/imctrading/jobs",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"jobs\": [{}]}"
+  },
+  {
+   "method": "GET",
+   "url": "https://api.smartrecruiters.com/v1/companies/Salesforce/postings?limit=1",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"totalFound\": \"7\", \"content\": \"x\"}"
+  },
+  {
+   "method": "GET",
+   "url": "https://www.workable.com/api/accounts/nvidia",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json"
+   },
+   "body": "{\"name\": \"NVIDIA\"}"
+  },
+  {
+   "method": "GET",
+   "url": "https://nvidiacareers.recruitee.com/api/offers/",
+   "status": 200,
+   "headers": {
+    "content-type": "text/plain"
+   },
+   "body": "not json"
+  }
+ ]
+}

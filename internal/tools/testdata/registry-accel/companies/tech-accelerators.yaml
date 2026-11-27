@@ -1,0 +1,6 @@
+# YC / a16z accelerator ATS discoveries (probe-OK only)
+companies:
+  - name: Earlier Find
+    slug: openai
+    ats: lever
+    board_token: earlierfind

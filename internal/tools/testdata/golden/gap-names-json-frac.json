@@ -1,0 +1,12 @@
+{
+ "stdout": "{\n  \"generatedAt\": \"2026-11-26T12:00:00.000Z\",\n  \"registrySize\": 19,\n  \"externalCompanyMentions\": 326,\n  \"missingCount\": 277,\n  \"inactiveButListedCount\": 4,\n  \"top\": 2.5,\n  \"missing\": [\n    {\n      \"name\": \"1Password\",\n      \"slug_guess\": \"1password\",\n      \"sources\": [\n        \"simplify-offseason\"\n      ]\n    },\n    {\n      \"name\": \"ABB\",\n      \"slug_guess\": \"abb\",\n      \"sources\": [\n        \"speedyapply-intl\"\n      ]\n    }\n  ],\n  \"inactiveButListed\": [\n    {\n      \"name\": \"Bandwidth\",\n      \"slug\": \"bandwidth\",\n      \"sources\": [\n        \"simplify-summer\",\n        \"speedyapply-usa\"\n      ]\n    },\n    {\n      \"name\": \"Figma\",\n      \"slug\": \"figma\",\n      \"sources\": [\n        \"speedyapply-usa\"\n      ]\n    }\n  ]\n}\n",
+ "stderr": "",
+ "code": 0,
+ "requests": [
+  "GET https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README-Off-Season.md",
+  "GET https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README.md",
+  "GET https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/INTERN_INTL.md",
+  "GET https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/README.md"
+ ],
+ "files": {}
+}
