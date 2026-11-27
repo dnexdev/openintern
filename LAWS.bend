@@ -12,8 +12,7 @@ import ./packages/proven/bend/job_slug.bend as JS
 # Every law below is a claim PROOF.bend must prove. A law marked PINNED fixes a
 # constant or a concrete example (it exists so a changed value fails CI); the
 # rest are properties. packages/proven/mutants.tsv lists code changes these
-# laws must catch (`node scripts/proofs.mjs mutants`).
-# `bend PROOF.bend` prints
+# laws must catch (`openintern proofs mutants`). `bend PROOF.bend` prints
 # ALL PROOFS CHECK only when every one holds. This file is the human-owned
 # spec: change a law only on purpose, never to make a proof go through.
 
@@ -229,7 +228,7 @@ law ap_repeats_say_openings:
   {AP.says_openings(1n+Nat.add(unique, k), unique) == True{} : Bool}
 
 # ---------------------------------------------------------------------------
-# Deactivation policy (packages/ingest/src/ingest.ts)
+# Deactivation policy (internal/ingest)
 # ---------------------------------------------------------------------------
 
 # A failed or refused fetch never retires anything.
