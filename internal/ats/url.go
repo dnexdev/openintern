@@ -135,13 +135,8 @@ func (u *jsURL) String() string {
 	b.WriteString(u.Protocol)
 	if u.Hostname != "" || u.Protocol == "file:" || isSpecialProtocol(u.Protocol) {
 		b.WriteString("//")
-		if u.Username != "" || u.Password != "" {
-			b.WriteString(u.Username)
-			if u.Password != "" {
-				b.WriteString(":" + u.Password)
-			}
-			b.WriteString("@")
-		}
+		// Credentials (user:pass@) are dropped on purpose: no board or apply
+		// URL needs them, and they must never reach logs or stored links.
 		b.WriteString(u.host())
 	}
 	b.WriteString(u.Pathname)

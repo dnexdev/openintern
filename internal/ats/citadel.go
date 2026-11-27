@@ -30,7 +30,6 @@ var (
 	citadelNumericEntity = regexp.MustCompile(`&#(\d+);`)
 	citadelTag           = regexp.MustCompile(`<[^>]+>`)
 	citadelCard          = jsRegexp(`(?i)<a\b[^>]*class="[^"]*careers-listing-card[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)</a>`)
-	citadelArchive       = regexp.MustCompile(`https?://web\.archive\.org/web/\d+/`)
 	citadelH2            = jsRegexp(`(?i)<h2[^>]*>([\s\S]*?)</h2>`)
 	citadelPosition      = regexp.MustCompile(`(?i)data-position="([^"]+)"`)
 	citadelLocation      = jsRegexp(`(?i)careers-listing-card__location[^>]*>([\s\S]*?)</`)
@@ -77,9 +76,7 @@ func ParseCitadelListingHTML(html, origin string) []model.NormalizedJob {
 	for _, m := range citadelCard.FindAllStringSubmatch(html, -1) {
 		hrefRaw, body := m[1], m[2]
 		href := hrefRaw
-		if loc := citadelArchive.FindStringIndex(href); loc != nil {
-			href = href[:loc[0]] + href[loc[1]:]
-		}
+		href = stripArchivePrefix(href)
 		u, err := resolveURL(href, base)
 		if err != nil {
 			continue
@@ -152,4 +149,32 @@ func locs(in []string) []string {
 func isCitadelDetails(applyURL string) bool {
 	u, err := url.Parse(applyURL)
 	return err == nil && strings.Contains(strings.ToLower(u.Path), "/careers/details/")
+}
+
+// stripArchivePrefix removes the first "http(s)://web.archive.org/web/<digits>/"
+// from s, so archived captures resolve to the live Citadel URL.
+func stripArchivePrefix(s string) string {
+	const mid = "://web.archive.org/web/"
+	for from := 0; ; {
+		i := strings.Index(s[from:], mid)
+		if i < 0 {
+			return s
+		}
+		i += from
+		start := -1
+		if i >= 5 && s[i-5:i] == "https" {
+			start = i - 5
+		} else if i >= 4 && s[i-4:i] == "http" {
+			start = i - 4
+		}
+		j := i + len(mid)
+		k := j
+		for k < len(s) && s[k] >= '0' && s[k] <= '9' {
+			k++
+		}
+		if start >= 0 && k > j && k < len(s) && s[k] == '/' {
+			return s[:start] + s[k+1:]
+		}
+		from = i + 1
+	}
 }
