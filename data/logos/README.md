@@ -1,10 +1,13 @@
 # Company logos
 
 One `<slug>.png` per company, 64×64, re-encoded by `openintern logos` from the
-company's own icon (apple-touch-icon, `<link rel="icon">` or `/favicon.ico` on
-its `website_url`). The site embeds these files and serves them from its own
-origin, so a visitor's browser never asks a company site or a favicon service
-for anything. A company without a file gets a plain initials mark.
+company's own icon (apple-touch-icon, `<link rel="icon">`, the icons in its web
+app manifest, or `/apple-touch-icon.png` and `/favicon.ico` on its
+`website_url`). Icons that are white on transparency (made for dark tabs) are
+skipped: they would vanish on the white logo ground. The site embeds these
+files and serves them from its own origin, so a visitor's browser never asks a
+company site or a favicon service for anything. A company without a file gets
+a plain initials mark.
 
 `SOURCES.tsv` records where each file came from and when.
 

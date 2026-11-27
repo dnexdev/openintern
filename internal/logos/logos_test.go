@@ -28,6 +28,11 @@ func TestHomepage(t *testing.T) {
 		{nil, ptr("https://careers.example.com/x"), "https://careers.example.com/"},
 		{nil, ptr("https://job-boards.greenhouse.io/acme"), ""},
 		{nil, ptr("https://acme.wd5.myworkdayjobs.com/External"), ""},
+		{nil, ptr("https://ats.rippling.com/acme/jobs"), ""},
+		// An ATS vendor's own homepage is a company homepage, not a job board.
+		{ptr("https://www.rippling.com"), ptr("https://ats.rippling.com/rippling"), "https://www.rippling.com/"},
+		{ptr("https://lever.co/"), nil, "https://lever.co/"},
+		{ptr("https://www.ashbyhq.com"), nil, "https://www.ashbyhq.com/"},
 		{ptr("https://jobs.lever.co/acme"), ptr("https://acme.com/careers"), "https://acme.com/"},
 		{ptr("  https://acme.io  "), nil, "https://acme.io/"},
 		{ptr("ftp://acme.io"), nil, ""},
@@ -64,7 +69,7 @@ func TestIconLinks(t *testing.T) {
 		{URL: "https://cdn.example.net/icon-192.png?a=1&b=2", Rel: "icon", Size: 192},
 		{URL: "https://www.example.com/en/touch.png", Rel: "apple-touch-icon", Size: 180},
 		{URL: "https://www.example.com/favicon-32.png", Rel: "icon", Size: 32},
-		{URL: "https://www.example.com/favicon.ico", Rel: "favicon"},
+		{URL: "https://www.example.com/favicon.ico", Rel: "guess"},
 	}
 	if len(got) != len(want) {
 		t.Fatalf("IconLinks = %+v", got)
@@ -77,11 +82,50 @@ func TestIconLinks(t *testing.T) {
 	// <base href> moves relative links; a page with no icons still gets the
 	// /favicon.ico guess.
 	got = IconLinks([]byte(`<head><base href="https://static.example.org/s/"><link rel="icon" href="i.png"></head>`), "https://example.org/")
-	if len(got) != 2 || got[0].URL != "https://static.example.org/s/i.png" || got[1].URL != "https://static.example.org/favicon.ico" {
+	if len(got) != 3 || got[0].URL != "https://static.example.org/s/i.png" || got[1].URL != "https://static.example.org/apple-touch-icon.png" || got[2].URL != "https://static.example.org/favicon.ico" {
 		t.Errorf("base href: %+v", got)
 	}
-	if got := IconLinks([]byte("<p>hi</p>"), "https://example.org/x"); len(got) != 1 || got[0].URL != "https://example.org/favicon.ico" {
+	if got := IconLinks([]byte("<p>hi</p>"), "https://example.org/x"); len(got) != 2 || got[0].URL != "https://example.org/apple-touch-icon.png" || got[1].URL != "https://example.org/favicon.ico" {
 		t.Errorf("no icons: %+v", got)
+	}
+	// The manifest link is reported separately; a declared
+	// /apple-touch-icon.png is not guessed again.
+	got, manifest := pageIcons([]byte(`<head><link rel="icon" href="/i.svg"><link rel="manifest" href="/site.webmanifest"><link rel="manifest" href="/second.json"><link rel="apple-touch-icon" href="/apple-touch-icon.png"></head>`), "https://example.org/")
+	if manifest != "https://example.org/site.webmanifest" {
+		t.Errorf("manifest %q", manifest)
+	}
+	if len(got) != 2 || got[0].URL != "https://example.org/apple-touch-icon.png" || got[0].Rel != "apple-touch-icon" || got[1].URL != "https://example.org/favicon.ico" {
+		t.Errorf("declared touch icon: %+v", got)
+	}
+	if _, manifest := pageIcons([]byte(`<head><link rel="manifest" href=""></head>`), "https://example.org/"); manifest != "" {
+		t.Errorf("empty manifest href: %q", manifest)
+	}
+}
+
+func TestManifestIcons(t *testing.T) {
+	m := `{"name":"Acme","icons":[
+		{"src":"icons/192.png","sizes":"192x192","type":"image/png"},
+		{"src":"/icons/logo.svg","sizes":"any","type":"image/svg+xml"},
+		{"src":"icons/512-mask.png","sizes":"512x512","purpose":"maskable"},
+		{"src":"icons/mono.png","sizes":"512x512","purpose":"monochrome"},
+		{"src":"https://cdn.acme.test/512.png","sizes":"512x512","purpose":"any maskable"},
+		{"src":"icons/192.png","sizes":"192x192"}
+	]}`
+	got := ManifestIcons([]byte(m), "https://acme.test/static/site.webmanifest")
+	want := []Candidate{
+		{URL: "https://cdn.acme.test/512.png", Rel: "manifest", Size: 512},
+		{URL: "https://acme.test/static/icons/192.png", Rel: "manifest", Size: 192},
+	}
+	if len(got) != len(want) || got[0] != want[0] || got[1] != want[1] {
+		t.Errorf("ManifestIcons = %+v", got)
+	}
+	// Only maskable icons: better than nothing.
+	got = ManifestIcons([]byte(`{"icons":[{"src":"/m.png","sizes":"256x256","purpose":"maskable"}]}`), "https://acme.test/m.json")
+	if len(got) != 1 || got[0].URL != "https://acme.test/m.png" {
+		t.Errorf("maskable only: %+v", got)
+	}
+	if got := ManifestIcons([]byte("<html>not json"), "https://acme.test/m.json"); got != nil {
+		t.Errorf("not JSON: %+v", got)
 	}
 }
 
@@ -252,6 +296,28 @@ func TestCheck(t *testing.T) {
 	if err := Check(&boundedUniform{flat, image.Rect(0, 0, 32, 32)}); !errors.Is(err, ErrBlank) {
 		t.Errorf("flat icon: %v", err)
 	}
+	// A white mark on transparency (made for dark tabs) vanishes on the
+	// white logo ground; so does a faint one.
+	for name, c := range map[string]color.NRGBA{"white": {255, 255, 255, 255}, "near-white": {240, 238, 236, 255}, "faint grey": {0, 0, 0, 40}} {
+		img := image.NewNRGBA(image.Rect(0, 0, 32, 32))
+		for y := 8; y < 24; y++ {
+			for x := 8; x < 24; x++ {
+				img.SetNRGBA(x, y, c)
+			}
+		}
+		if err := Check(img); !errors.Is(err, ErrInvisible) {
+			t.Errorf("%s mark: %v", name, err)
+		}
+	}
+	// A white tile with a dark mark shows.
+	tile := image.NewNRGBA(image.Rect(0, 0, 32, 32))
+	for i := range tile.Pix {
+		tile.Pix[i] = 255
+	}
+	tile.SetNRGBA(16, 16, color.NRGBA{30, 30, 30, 255})
+	if err := Check(tile); err != nil {
+		t.Errorf("white tile with a mark: %v", err)
+	}
 }
 
 type boundedUniform struct {
@@ -365,11 +431,61 @@ func TestFetch(t *testing.T) {
 	}
 }
 
+// A site whose <link rel="icon"> is SVG-only gets its logo from the PNG in
+// its web app manifest.
+func TestFetchManifest(t *testing.T) {
+	icon512 := pngBytes(t, testIcon(512, 512))
+	site := &fakeSite{routes: map[string]func() (int, string, []byte){
+		"https://svgco.test/": func() (int, string, []byte) {
+			return 200, "text/html", []byte(`<head><link rel="icon" type="image/svg+xml" href="/icon.svg"><link rel="manifest" href="/manifest.json"></head>`)
+		},
+		"https://svgco.test/manifest.json": func() (int, string, []byte) {
+			return 200, "application/manifest+json", []byte(`{"icons":[{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}]}`)
+		},
+		"https://svgco.test/android-chrome-512x512.png": func() (int, string, []byte) { return 200, "image/png", icon512 },
+	}}
+	ctx := fetch.WithRoundTripper(context.Background(), site)
+	res, err := Fetch(ctx, "https://svgco.test/", Options{Fallback: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res.Source != "https://svgco.test/android-chrome-512x512.png" || res.Edge != 512 {
+		t.Errorf("picked %s (%dpx)", res.Source, res.Edge)
+	}
+	for _, u := range site.asked {
+		if strings.Contains(u, ".svg") || strings.Contains(u, "google.com") {
+			t.Errorf("asked for %s", u)
+		}
+	}
+}
+
+// An undeclared /apple-touch-icon.png beats a 16 px /favicon.ico.
+func TestFetchTouchIconGuess(t *testing.T) {
+	touch := pngBytes(t, testIcon(180, 180))
+	tiny := pngBytes(t, testIcon(16, 16))
+	site := &fakeSite{routes: map[string]func() (int, string, []byte){
+		"https://plain.test/":                     func() (int, string, []byte) { return 200, "text/html", []byte(`<head><title>Plain</title></head>`) },
+		"https://plain.test/apple-touch-icon.png": func() (int, string, []byte) { return 200, "image/png", touch },
+		"https://plain.test/favicon.ico":          func() (int, string, []byte) { return 200, "image/png", tiny },
+	}}
+	ctx := fetch.WithRoundTripper(context.Background(), site)
+	res, err := Fetch(ctx, "https://plain.test/", Options{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res.Source != "https://plain.test/apple-touch-icon.png" || res.Edge != 180 {
+		t.Errorf("picked %s (%dpx)", res.Source, res.Edge)
+	}
+}
+
 func TestFetchFallback(t *testing.T) {
 	service := pngBytes(t, testIcon(128, 128))
 	site := &fakeSite{routes: map[string]func() (int, string, []byte){
 		"https://blocked.test/":            func() (int, string, []byte) { return 403, "text/html", []byte("no bots") },
 		"https://blocked.test/favicon.ico": func() (int, string, []byte) { return 403, "text/html", []byte("no bots") },
+		"https://blocked.test/apple-touch-icon.png": func() (int, string, []byte) {
+			return 403, "text/html", []byte("no bots")
+		},
 		"https://www.google.com/s2/favicons?domain=blocked.test&sz=128": func() (int, string, []byte) {
 			return 200, "image/png", service
 		},
@@ -404,5 +520,23 @@ func TestFetchRejectsPlatformIcons(t *testing.T) {
 	}
 	if !genericHost("https://minogamesonline.wordpress.com/") || genericHost("https://wordpress.org/") {
 		t.Error("genericHost")
+	}
+}
+
+// A parked domain's /lander stub is not the company's site, and its icons are
+// the parking service's.
+func TestFetchRejectsParkedDomain(t *testing.T) {
+	site := &fakeSite{routes: map[string]func() (int, string, []byte){
+		"https://gone.test/": func() (int, string, []byte) {
+			return 200, "text/html", []byte(`<!DOCTYPE html><html><head><script>window.onload=function(){window.location.href="/lander"}</script></head></html>`)
+		},
+		"https://gone.test/favicon.ico": func() (int, string, []byte) { return 200, "image/png", pngBytes(t, testIcon(32, 32)) },
+	}}
+	ctx := fetch.WithRoundTripper(context.Background(), site)
+	if res, err := Fetch(ctx, "https://gone.test/", Options{Fallback: true}); err == nil || !strings.Contains(err.Error(), "parked") {
+		t.Errorf("parked domain: %+v, %v", res, err)
+	}
+	if len(site.asked) != 1 {
+		t.Errorf("asked %v after a parked page", site.asked)
 	}
 }

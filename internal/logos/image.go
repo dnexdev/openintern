@@ -17,14 +17,23 @@ const MinEdge = 16
 // colour. Some sites serve that as a placeholder.
 var ErrBlank = errors.New("logos: icon is blank")
 
-// Check rejects icons that are too small or blank.
+// ErrInvisible is an icon that would vanish on the white logo ground: white
+// or near-white marks on transparency, the variant some sites make for dark
+// browser tabs.
+var ErrInvisible = errors.New("logos: icon is white on transparency and would vanish on the white logo ground")
+
+// minContrast is how far (0-255) from white the darkest channel of at least
+// one pixel, composited over white, must be for an icon to show.
+const minContrast = 48
+
+// Check rejects icons that are too small, blank, or invisible on white.
 func Check(img image.Image) error {
 	b := img.Bounds()
 	if b.Dx() < MinEdge || b.Dy() < MinEdge {
 		return fmt.Errorf("logos: icon is %dx%d, under %d px", b.Dx(), b.Dy(), MinEdge)
 	}
 	first := color.NRGBAModel.Convert(img.At(b.Min.X, b.Min.Y)).(color.NRGBA)
-	visible, varied := false, false
+	visible, varied, shows := false, false, false
 	for y := b.Min.Y; y < b.Max.Y; y++ {
 		for x := b.Min.X; x < b.Max.X; x++ {
 			c := color.NRGBAModel.Convert(img.At(x, y)).(color.NRGBA)
@@ -34,12 +43,19 @@ func Check(img image.Image) error {
 			if c != first {
 				varied = true
 			}
-			if visible && varied {
+			// Over white, a channel v at alpha a shows as 255-a*(255-v).
+			if int(255-min(c.R, c.G, c.B))*int(c.A)/255 >= minContrast {
+				shows = true
+			}
+			if visible && varied && shows {
 				return nil
 			}
 		}
 	}
-	return ErrBlank
+	if !visible || !varied {
+		return ErrBlank
+	}
+	return ErrInvisible
 }
 
 // Normalize fits img inside a Size×Size transparent square, centred, with

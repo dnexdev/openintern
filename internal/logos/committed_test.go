@@ -12,8 +12,8 @@ import (
 )
 
 // The committed logos are what the site serves: each must be a Size×Size PNG
-// named for a registry slug and listed in SOURCES.tsv, and SOURCES.tsv must
-// not list files that are gone.
+// that shows on the white logo ground, named for a registry slug and listed
+// in SOURCES.tsv, and SOURCES.tsv must not list files that are gone.
 func TestCommittedLogos(t *testing.T) {
 	reg := registry.Default()
 	entries, err := fs.ReadDir(data.Logos, "logos")
@@ -67,6 +67,11 @@ func TestCommittedLogos(t *testing.T) {
 		cfg, err := png.DecodeConfig(bytes.NewReader(b))
 		if err != nil || cfg.Width != Size || cfg.Height != Size {
 			t.Errorf("logos/%s: %v, %dx%d (want a %dx%d PNG)", name, err, cfg.Width, cfg.Height, Size, Size)
+		}
+		if img, err := png.Decode(bytes.NewReader(b)); err == nil {
+			if err := Check(img); err != nil {
+				t.Errorf("logos/%s: %v", name, err)
+			}
 		}
 		if len(b) > 32<<10 {
 			t.Errorf("logos/%s: %d bytes; rerun openintern logos to re-encode it", name, len(b))

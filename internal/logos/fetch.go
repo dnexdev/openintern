@@ -12,7 +12,8 @@ import (
 	"github.com/dnexdev/openintern/internal/fetch"
 )
 
-// maxCandidates bounds how many icon URLs one site costs.
+// maxCandidates bounds how many declared icon URLs one site costs (the two
+// conventional-path guesses come on top).
 const maxCandidates = 6
 
 // Options tunes Fetch.
@@ -45,18 +46,17 @@ func Fetch(ctx context.Context, homepage string, opts Options) (*Result, error) 
 	if err == nil && genericHost(page.URL) {
 		return nil, fmt.Errorf("logos: %s lands on %s, a blog or parking host, not the company's own site", homepage, page.URL)
 	}
+	if err == nil && parkedPage.Match(page.Body) {
+		return nil, fmt.Errorf("logos: %s is a parked domain (redirects to /lander)", homepage)
+	}
 	if err == nil {
-		candidates = IconLinks(page.Body, page.URL)
+		candidates = siteCandidates(ctx, page.Body, page.URL)
 	} else {
 		u, perr := url.Parse(homepage)
 		if perr != nil {
 			return nil, perr
 		}
-		candidates = []Candidate{{URL: u.ResolveReference(&url.URL{Path: "/favicon.ico"}).String(), Rel: "favicon"}}
-	}
-	if len(candidates) > maxCandidates {
-		// Keep the best declared ones and the /favicon.ico guess at the end.
-		candidates = append(candidates[:maxCandidates-1:maxCandidates-1], candidates[len(candidates)-1])
+		candidates = guesses(u, nil, false)
 	}
 	var errs []string
 	if err != nil {
@@ -85,9 +85,60 @@ func Fetch(ctx context.Context, homepage string, opts Options) (*Result, error) 
 	return best, nil
 }
 
+// siteCandidates are the icons a fetched homepage declares, merged with its
+// web app manifest's icons, best first and capped at maxCandidates, then the
+// conventional-path guesses.
+func siteCandidates(ctx context.Context, page []byte, pageURL string) []Candidate {
+	all, manifest := pageIcons(page, pageURL)
+	var declared, guessed []Candidate
+	for _, c := range all {
+		if c.Rel == "guess" {
+			guessed = append(guessed, c)
+		} else {
+			declared = append(declared, c)
+		}
+	}
+	if manifest != "" && !genericHost(manifest) {
+		res, err := fetch.Request(ctx, manifest, fetch.Options{
+			Attempts: 1,
+			Timeout:  20 * time.Second,
+			Headers:  map[string]string{"Accept": "application/manifest+json,application/json"},
+		})
+		if err == nil {
+			seen := map[string]bool{}
+			for _, c := range declared {
+				seen[c.URL] = true
+			}
+			for _, c := range ManifestIcons(res.Body, res.URL) {
+				if !seen[c.URL] {
+					declared = append(declared, c)
+				}
+			}
+			sortCandidates(declared)
+		}
+	}
+	if len(declared) > maxCandidates {
+		declared = declared[:maxCandidates]
+	}
+	kept := map[string]bool{}
+	for _, c := range declared {
+		kept[c.URL] = true
+	}
+	for _, c := range guessed {
+		if !kept[c.URL] {
+			declared = append(declared, c)
+		}
+	}
+	return declared
+}
+
 // generic matches hosts whose icon is the platform's, not the company's: a
 // website_url that redirects to a free blog or a parked domain.
 var generic = regexp.MustCompile(`(?i)(?:^|\.)(?:wordpress\.com|wp\.com|blogspot\.com|medium\.com|hugedomains\.com|godaddy\.com|sedo\.com|dan\.com|afternic\.com|parkingcrew\.net|bodis\.com)$`)
+
+// parkedPage matches the stub a parked domain serves before its for-sale
+// lander: the whole page is a script that jumps to /lander.
+var parkedPage = regexp.MustCompile(`^\s*(?:<!DOCTYPE html>)?\s*<html>\s*<head>\s*<script>\s*window\.onload\s*=\s*function\s*\(\)\s*\{\s*window\.location\.href\s*=\s*"/lander"`)
 
 func genericHost(raw string) bool {
 	u, err := url.Parse(raw)
