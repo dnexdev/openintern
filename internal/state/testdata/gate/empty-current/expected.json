@@ -1,0 +1,5 @@
+{
+  "stdout": "state-gate: new apply hosts: a.example, b.example, boards.greenhouse.io\nstate-gate: ok (3 jobs, 1 companies)\n",
+  "stderr": "",
+  "code": 0
+}

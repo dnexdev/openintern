@@ -1,0 +1,47 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "count": 1,
+  "jobs": [
+    {
+      "id": "20000000-0000-4000-8000-000000000002",
+      "title": "中文 실습생 インターン",
+      "company": {
+        "name": "Name alpha",
+        "slug": "alpha",
+        "ats": "greenhouse",
+        "website_url": "https://alpha.example",
+        "careers_url": null
+      },
+      "locations": [
+        "New York, NY",
+        "Zürich"
+      ],
+      "apply_url": "https://job-boards.greenhouse.io/x/jobs/fp2",
+      "excerpt": "",
+      "terms": [
+        "summer"
+      ],
+      "term_years": [
+        {
+          "term": "summer",
+          "year": 2027
+        }
+      ],
+      "duration_months": [],
+      "cohort_year": 2027,
+      "roles": [
+        "software"
+      ],
+      "regions": [
+        "remote"
+      ],
+      "is_remote": true,
+      "source": "greenhouse",
+      "posted_at": null,
+      "first_seen_at": "2026-10-23T12:00:00.500Z",
+      "last_seen_at": "2026-11-01T00:00:00.000Z",
+      "role_family_id": "rf-fp2",
+      "normalized_title": "software engineer intern"
+    }
+  ]
+}

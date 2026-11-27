@@ -1,0 +1,4 @@
+{"2":"two","10":"ten","id":"0a000000-0000-4000-8000-000000000001","name":"Alpha","slug":"alpha","ats":"greenhouse","board_token":"alpha","careers_url":null,"website_url":null,"active":true,"created_at":"2026-10-23T12:00:00+00:00","updated_at":"2026-10-23T12:00:00+00:00","zeta":1,"alpha_extra":{"b":1,"a":[1,2.5,"x"]}}
+
+   
+{"slug":"beta","id":"0b000000-0000-4000-8000-000000000002","name":"Beta","ats":"lever","board_token":"beta","active":false,"created_at":"2026-10-23T12:00:00+00:00","updated_at":"2026-10-23T12:00:00+00:00"}

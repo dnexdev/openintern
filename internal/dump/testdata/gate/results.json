@@ -1,0 +1,79 @@
+{
+  "today": "2026-11-25",
+  "results": [
+    {
+      "name": "ok",
+      "prev": true,
+      "env": {},
+      "code": 0,
+      "stdout": "dump-gate: ok (30 jobs)\n",
+      "stderr": ""
+    },
+    {
+      "name": "no-prev",
+      "prev": false,
+      "env": {},
+      "code": 0,
+      "stdout": "dump-gate: ok (3 jobs)\n",
+      "stderr": ""
+    },
+    {
+      "name": "tampered",
+      "prev": false,
+      "env": {},
+      "code": 1,
+      "stdout": "",
+      "stderr": "dump-gate: jobs.json: does not match MANIFEST.json\ndump-gate: not publishing. Approve an expected change in data/expected-delta.json if it is real.\n"
+    },
+    {
+      "name": "delisted",
+      "prev": false,
+      "env": {},
+      "code": 1,
+      "stdout": "",
+      "stderr": "dump-gate: delisted job CBB76A8D-0726-4A2A-B84D-8F359BE23A90 is in the dump\ndump-gate: not publishing. Approve an expected change in data/expected-delta.json if it is real.\n"
+    },
+    {
+      "name": "off-list-warn",
+      "prev": false,
+      "env": {},
+      "code": 0,
+      "stdout": "dump-gate: ok (8 jobs)\n",
+      "stderr": "dump-gate: 5 apply URLs off the allowlist (warn mode)\n"
+    },
+    {
+      "name": "off-list-enforce",
+      "prev": false,
+      "env": {
+        "OPENINTERN_APPLY_HOSTS": "enforce"
+      },
+      "code": 1,
+      "stdout": "",
+      "stderr": "dump-gate: off-allowlist apply URL for 1password: http://jobs.ashbyhq.com/1password/10\ndump-gate: off-allowlist apply URL for no-such-company: https://jobs.lever.co/x/11\ndump-gate: off-allowlist apply URL for 1password: https://evil.example/1password/12\ndump-gate: off-allowlist apply URL for 1password: https://user@jobs.ashbyhq.com/1password/13\ndump-gate: off-allowlist apply URL for 1password: not a url\ndump-gate: not publishing. Approve an expected change in data/expected-delta.json if it is real.\n"
+    },
+    {
+      "name": "breaker",
+      "prev": true,
+      "env": {},
+      "code": 1,
+      "stdout": "",
+      "stderr": "dump-gate: hold: greenhouse 40 → 25\ndump-gate: hold: lever 6 → 0\ndump-gate: not publishing. Approve an expected change in data/expected-delta.json if it is real.\n"
+    },
+    {
+      "name": "breaker-small",
+      "prev": true,
+      "env": {},
+      "code": 1,
+      "stdout": "",
+      "stderr": "dump-gate: hold: greenhouse 41 → 30\ndump-gate: not publishing. Approve an expected change in data/expected-delta.json if it is real.\n"
+    },
+    {
+      "name": "growth",
+      "prev": true,
+      "env": {},
+      "code": 0,
+      "stdout": "dump-gate: ok (30 jobs)\n",
+      "stderr": ""
+    }
+  ]
+}

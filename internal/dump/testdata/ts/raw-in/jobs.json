@@ -1,0 +1,45 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "count": 1,
+  "jobs": [
+    {
+      "id": "30000000-0000-4000-8000-000000000003",
+      "title": "T   \ud83d end",
+      "company": {
+        "name": "Alpha",
+        "slug": "alpha",
+        "ats": "greenhouse",
+        "website_url": null,
+        "careers_url": null
+      },
+      "locations": [
+        "a"
+      ],
+      "apply_url": "https://x/3",
+      "excerpt": null,
+      "terms": [],
+      "term_years": [
+        {
+          "year": 2027,
+          "term": "summer"
+        }
+      ],
+      "duration_months": [
+        3,
+        10
+      ],
+      "cohort_year": 2027,
+      "roles": [
+        "software"
+      ],
+      "regions": [],
+      "is_remote": false,
+      "source": "greenhouse",
+      "posted_at": null,
+      "first_seen_at": "2026-10-23T12:00:00.000Z",
+      "last_seen_at": "2026-11-01T00:00:00.000Z",
+      "role_family_id": "r3",
+      "normalized_title": "t"
+    }
+  ]
+}

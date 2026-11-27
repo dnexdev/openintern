@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "count": 1,
+  "companies": [
+    {
+      "id": "0a000000-0000-4000-8000-000000000001",
+      "name": "Name alpha",
+      "slug": "alpha",
+      "ats": "greenhouse",
+      "careers_url": null,
+      "website_url": "https://alpha.example",
+      "active": true,
+      "active_jobs": 1
+    }
+  ]
+}

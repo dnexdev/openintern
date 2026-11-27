@@ -1,0 +1,4 @@
+{"id":"r0","company_id":"0b000000-0000-4000-8000-000000000002","status":"ok","job_count":3,"error":null,"ran_at":"2026-10-31T23:59:59+00:00"}
+{"id":"r1","company_id":"0b000000-0000-4000-8000-000000000002","status":"error","job_count":0,"error":"network: \u0000\u0001\b\t\n\f\r\u001f fail","ran_at":"2026-11-01T00:00:00.1234+00:00"}
+{"id":"r2","company_id":"0a000000-0000-4000-8000-000000000001","status":"ok","job_count":0,"error":"funnel fetched=0 title=0 tech=0 upserted=0","ran_at":"2026-11-01T00:00:00.123+00:00"}
+{"id":"r3","company_id":"0a000000-0000-4000-8000-000000000001","status":"ok","job_count":1,"error":"x","ran_at":"2026-11-01T00:00:00.123999+00:00"}

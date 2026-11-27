@@ -1,0 +1,151 @@
+{
+ "vectors": [
+  {
+   "in": "eyJhIjoiPHNjcmlwdD4mYW1wOzwvc2NyaXB0PiIsImIiOiLigKjigKkiLCJjIjoi8J+YgCIsImQiOiJcdWQ4M2QiLCJlIjoiXHVkYzAweCIsImYiOiJcdWQ4M2RcdWRlMDAiLCJnIjoiXHVkODNkXHVkODNkXHVkZTAwIn0=",
+   "compact": "eyJhIjoiPHNjcmlwdD4mYW1wOzwvc2NyaXB0PiIsImIiOiLigKjigKkiLCJjIjoi8J+YgCIsImQiOiJcdWQ4M2QiLCJlIjoiXHVkYzAweCIsImYiOiLwn5iAIiwiZyI6Ilx1ZDgzZPCfmIAifQ==",
+   "pretty": "ewogICJhIjogIjxzY3JpcHQ+JmFtcDs8L3NjcmlwdD4iLAogICJiIjogIuKAqOKAqSIsCiAgImMiOiAi8J+YgCIsCiAgImQiOiAiXHVkODNkIiwKICAiZSI6ICJcdWRjMDB4IiwKICAiZiI6ICLwn5iAIiwKICAiZyI6ICJcdWQ4M2Twn5iAIgp9"
+  },
+  {
+   "in": "eyJjdHJsIjoiXHUwMDAwXHUwMDAxXGJcdFxuXHUwMDBiXGZcclx1MDAxZlx1MDA3Zlx1MDA4MCBcIlxcXC8ifQ==",
+   "compact": "eyJjdHJsIjoiXHUwMDAwXHUwMDAxXGJcdFxuXHUwMDBiXGZcclx1MDAxZn/CgCBcIlxcLyJ9",
+   "pretty": "ewogICJjdHJsIjogIlx1MDAwMFx1MDAwMVxiXHRcblx1MDAwYlxmXHJcdTAwMWZ/woAgXCJcXC8iCn0="
+  },
+  {
+   "in": "eyJuIjpbMCwtMCwxLC0xLDEuNSwxZTIxLDFlLTcsMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0LDAuMSwxRTIsMi41MCwxZTQwMCwtMWU0MDAsNWUtMzI0LDkwMDcxOTkyNTQ3NDA5OTNdfQ==",
+   "compact": "eyJuIjpbMCwwLDEsLTEsMS41LDFlKzIxLDFlLTcsMS4yMzQ1Njc4OTAxMjM0NTY5ZSsyMywwLjEsMTAwLDIuNSxudWxsLG51bGwsNWUtMzI0LDkwMDcxOTkyNTQ3NDA5OTJdfQ==",
+   "pretty": "ewogICJuIjogWwogICAgMCwKICAgIDAsCiAgICAxLAogICAgLTEsCiAgICAxLjUsCiAgICAxZSsyMSwKICAgIDFlLTcsCiAgICAxLjIzNDU2Nzg5MDEyMzQ1NjllKzIzLAogICAgMC4xLAogICAgMTAwLAogICAgMi41LAogICAgbnVsbCwKICAgIG51bGwsCiAgICA1ZS0zMjQsCiAgICA5MDA3MTk5MjU0NzQwOTkyCiAgXQp9"
+  },
+  {
+   "in": "eyJiIjoxLCIyIjoyLCIxIjozLCJhIjp7IjEwIjoxLCI5IjoyLCJ4IjozLCIwMSI6NCwiNDI5NDk2NzI5NSI6NSwiNDI5NDk2NzI5NCI6Nn19",
+   "compact": "eyIxIjozLCIyIjoyLCJiIjoxLCJhIjp7IjkiOjIsIjEwIjoxLCI0Mjk0OTY3Mjk0Ijo2LCJ4IjozLCIwMSI6NCwiNDI5NDk2NzI5NSI6NX19",
+   "pretty": "ewogICIxIjogMywKICAiMiI6IDIsCiAgImIiOiAxLAogICJhIjogewogICAgIjkiOiAyLAogICAgIjEwIjogMSwKICAgICI0Mjk0OTY3Mjk0IjogNiwKICAgICJ4IjogMywKICAgICIwMSI6IDQsCiAgICAiNDI5NDk2NzI5NSI6IDUKICB9Cn0="
+  },
+  {
+   "in": "eyJkdXAiOjEsIngiOjIsImR1cCI6M30=",
+   "compact": "eyJkdXAiOjMsIngiOjJ9",
+   "pretty": "ewogICJkdXAiOiAzLAogICJ4IjogMgp9"
+  },
+  {
+   "in": "W1tdLHt9LFtbXV0seyJhIjpbXX0sbnVsbCx0cnVlLGZhbHNlLCIiXQ==",
+   "compact": "W1tdLHt9LFtbXV0seyJhIjpbXX0sbnVsbCx0cnVlLGZhbHNlLCIiXQ==",
+   "pretty": "WwogIFtdLAogIHt9LAogIFsKICAgIFtdCiAgXSwKICB7CiAgICAiYSI6IFtdCiAgfSwKICBudWxsLAogIHRydWUsCiAgZmFsc2UsCiAgIiIKXQ=="
+  },
+  {
+   "in": "eyJlbXB0eWFyciI6W10sImVtcHR5b2JqIjp7fSwibmVzdGVkIjp7ImRlZXAiOlt7ImEiOm51bGx9XX19",
+   "compact": "eyJlbXB0eWFyciI6W10sImVtcHR5b2JqIjp7fSwibmVzdGVkIjp7ImRlZXAiOlt7ImEiOm51bGx9XX19",
+   "pretty": "ewogICJlbXB0eWFyciI6IFtdLAogICJlbXB0eW9iaiI6IHt9LAogICJuZXN0ZWQiOiB7CiAgICAiZGVlcCI6IFsKICAgICAgewogICAgICAgICJhIjogbnVsbAogICAgICB9CiAgICBdCiAgfQp9"
+  },
+  {
+   "in": "ICB7IndzIiA6IFsgMSAsIDIgXSB9ICA=",
+   "compact": "eyJ3cyI6WzEsMl19",
+   "pretty": "ewogICJ3cyI6IFsKICAgIDEsCiAgICAyCiAgXQp9"
+  },
+  {
+   "in": "Imp1c3QgYSBzdHJpbmcgXHUwMGU5IMOpIg==",
+   "compact": "Imp1c3QgYSBzdHJpbmcgw6kgw6ki",
+   "pretty": "Imp1c3QgYSBzdHJpbmcgw6kgw6ki"
+  },
+  {
+   "in": "eyJsb25lX2hpX2VuZCI6ImFiY1x1ZDgwMCIsImxvbmVfbG9fc3RhcnQiOiJcdWRmZmZhYmMiLCJoaV9oaSI6Ilx1ZDgwMFx1ZDgwMCJ9",
+   "compact": "eyJsb25lX2hpX2VuZCI6ImFiY1x1ZDgwMCIsImxvbmVfbG9fc3RhcnQiOiJcdWRmZmZhYmMiLCJoaV9oaSI6Ilx1ZDgwMFx1ZDgwMCJ9",
+   "pretty": "ewogICJsb25lX2hpX2VuZCI6ICJhYmNcdWQ4MDAiLAogICJsb25lX2xvX3N0YXJ0IjogIlx1ZGZmZmFiYyIsCiAgImhpX2hpIjogIlx1ZDgwMFx1ZDgwMCIKfQ=="
+  },
+  {
+   "in": "eyJjamsiOiLkuK3mlociLCJibXBfcHJpdmF0ZSI6Ilx1ZTAwMCIsImFzdHJhbCI6Ilx1ZDgwMFx1ZGMwMCJ9",
+   "compact": "eyJjamsiOiLkuK3mlociLCJibXBfcHJpdmF0ZSI6Iu6AgCIsImFzdHJhbCI6IvCQgIAifQ==",
+   "pretty": "ewogICJjamsiOiAi5Lit5paHIiwKICAiYm1wX3ByaXZhdGUiOiAi7oCAIiwKICAiYXN0cmFsIjogIvCQgIAiCn0="
+  }
+ ],
+ "bad": [
+  "{\"a\":1,}",
+  "[1,]",
+  "{a:1}",
+  "'x'",
+  "01",
+  "1.",
+  ".5",
+  "+1",
+  "\"\\x41\"",
+  "\"a\nb\"",
+  "{\"a\" 1}",
+  "nul",
+  "[1 2]",
+  "",
+  "\"\\u12\"",
+  "{\"a\":1}x"
+ ],
+ "order": [
+  "\"\"",
+  "\"a\"",
+  "\"ab\"",
+  "\"b\"",
+  "\"z\"",
+  "\"é\"",
+  "\"\\ud800\"",
+  "\"𐀀\"",
+  "\"\\ud83d\"",
+  "\"😀\"",
+  "\"😀\"",
+  "\"\\udc00\"",
+  "\"\"",
+  "\"￿\""
+ ],
+ "lengths": [
+  [
+   "\"\"",
+   0
+  ],
+  [
+   "\"a\"",
+   1
+  ],
+  [
+   "\"b\"",
+   1
+  ],
+  [
+   "\"ab\"",
+   2
+  ],
+  [
+   "\"\"",
+   1
+  ],
+  [
+   "\"𐀀\"",
+   2
+  ],
+  [
+   "\"😀\"",
+   2
+  ],
+  [
+   "\"￿\"",
+   1
+  ],
+  [
+   "\"z\"",
+   1
+  ],
+  [
+   "\"é\"",
+   1
+  ],
+  [
+   "\"\\ud800\"",
+   1
+  ],
+  [
+   "\"\\udc00\"",
+   1
+  ],
+  [
+   "\"😀\"",
+   2
+  ],
+  [
+   "\"\\ud83d\"",
+   1
+  ]
+ ]
+}

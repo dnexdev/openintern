@@ -1,0 +1,43 @@
+---
+# Leading comment, then a document start marker.
+companies:
+  - name: Stripe   # trailing comment
+    slug: stripe
+    ats: greenhouse
+    board_token: "microsoft|ai"
+    careers_url: https://stripe.com/jobs#top
+    active: true
+  - name: 'The Campbell''s Company'
+    slug: campbells
+    # comment inside an entry
+    board_token: "tab\there é \x41 \"q\" \\ \/"
+    active: False
+    extra_board_tokens:
+      - "cadence|wd1|University_Talent"
+      - plain-token
+    empty:
+    tilde: ~
+    number: 123
+    negative: -1
+    octal: 0o17
+    hex: 0x1F
+    upperhex: 0X1F
+    float: 1.5
+    exp: 1e3
+    dotfloat: .5
+    trailingdot: 5.
+    inf: -.inf
+    yes: yes
+    date: 2026-10-23
+    time: 1:20
+    hash: a#b
+    url: "https://example.com/?a=b: c"
+  - name: Schrödinger
+    slug: schrodinger
+same_indent_list:
+- a
+- b
+- name: x
+  slug: y
+"quoted key": 1
+'single key': 2
