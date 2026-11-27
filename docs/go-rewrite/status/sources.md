@@ -14,9 +14,22 @@ Owns `internal/fetch`, `internal/htmlx`, `internal/safedate`, `internal/ats/**`,
   plus the legacy fallback); `Parse`, `ParseString`, `ParseMillis`,
   `FormatISO`, `ISOPtr`. Matches Node 26 `Date.parse` on 110 inputs in three
   time zones (`testdata/date_parse_node.json`).
-- `internal/ats`: compiles and vets. Every adapter, manual captures,
-  parse-ats-url, probe-url, `MapConcurrent`. Unit tests and fixture parity
-  are next (see In progress).
+- `internal/ats`: every adapter, manual captures, parse-ats-url, probe-url,
+  `MapConcurrent`. Every case of `ats.test.ts`, `proprietary.test.ts`,
+  `manual.test.ts` and the parse-ats-url cases of `gap-report.test.ts` is
+  ported (`proprietary_test.go`, `manual_test.go`, `url_test.go`). Fixture
+  parity for every adapter (see Parity evidence).
+- `cmd/openintern/cmd_sources.go`: `probe [-fetch] <url>` / `probe <ats>
+  <token>` (one probe request, or `-fetch` for the whole board as JSON) and
+  `manual-capture [-dir data/manual] <tesla|citadel|citadel_securities>
+  <saved file>...` (manual-capture.ts; wrong arguments exit 2 as the script
+  did). Checked by hand: capture files equal the TS goldens apart from
+  `captured_at`; a live `probe` of the Stripe Greenhouse board returned
+  ok=true status=200.
+- `go vet`, `gofmt -l`, `go test -race` clean for all four packages and
+  `cmd/openintern` builds.
+
+The workstream is complete.
 
 ## Ready APIs
 
@@ -72,22 +85,69 @@ func (ManualCapture) MarshalFile() []byte   // JSON.stringify(capture, null, 2) 
 
 ## In progress
 
-1. Port `ats.test.ts`, `proprietary.test.ts`, `manual.test.ts` and the
-   parse-ats-url cases of `gap-report.test.ts` as Go tests.
-2. Record one fixture set per ATS, TS goldens, Go parity test.
-3. `cmd/openintern/cmd_sources.go` (`probe`, `manual-capture`).
+Nothing.
 
 ## Blocked on
 
-Nothing.
+Nothing. No adapter needed synthetic-only coverage: every ATS that Fetch
+reads over HTTP has a real recording. citadel, citadel_securities and tesla
+are manual captures (tested from saved pages, below); x is "not ingested".
+
+## Regenerating goldens
+
+`internal/ats/testdata/ts/` holds the TypeScript drivers (Go ignores
+`testdata`; delete with the TS in phase 3):
+
+    cd packages/ingest
+    TZ=UTC ./node_modules/.bin/tsx ../../internal/ats/testdata/ts/replay.mts \
+      $PWD/src ../../internal/ats/testdata/fixtures/<name>.json.gz > <name>.golden.json
+    TZ=UTC ./node_modules/.bin/tsx ../../internal/ats/testdata/ts/manual-goldens.mts \
+      $PWD/src $PWD/../../internal/ats/testdata/manual <out dir>
+
+replay.mts mocks `globalThis.fetch` with the recording (method + URL + body,
+repeats take the next answer) and zeroes timers. The script that recorded
+the real responses was throwaway and is gone; to add a board, record
+`{name, ats, token, requests: [{method, url, reqBody, status, headers,
+body}]}` gzipped and run replay.mts.
 
 ## Requests
 
 - docs (phase 3): `data/manual/README.md` still says `pnpm manual:capture`;
-  the Go command is `openintern manual-capture`.
+  the Go command is `openintern manual-capture`. Also say that captures are
+  compiled into the binary, so ingest sees a new capture after a rebuild
+  (CI builds from the checkout, so nothing changes there).
+- pipeline: your status says manual captures are read from `data/manual`
+  relative to the working directory. They are read from `data.FS` already;
+  nothing to do.
 
 ## Parity evidence
 
+- ATS adapters: `internal/ats/testdata/fixtures/`, 42 recordings, each with
+  the TypeScript output as `<name>.golden.json` (`TestFixturesMatchTypeScript`
+  compares every job field; failures compare kind and message). All 42
+  goldens were regenerated from today's TypeScript on 2026-11-26 and are
+  byte-identical to the committed ones; the TS replay made no unrecorded
+  request, and the Go replay fails on any request TS did not make.
+  Real responses (recorded 2026-11-25, list trimmed to three jobs):
+  greenhouse (stripe), lever (quartzy), ashby (notion), workable
+  (huggingface), smartrecruiters (Intuitive), recruitee (bunq), rippling
+  (opendoor), bamboohr (demo), workday (nvidia|wd5|NVIDIAExternalCareerSite),
+  bytedance (en), tiktok (tiktok), phenom (amd), avature (bloomberg), icims
+  (careers-sig), eightfold (microsoft and microsoft|ai), google (google and
+  deepmind), ibm (ibmglobal), deshaw (internships), shopify (careers).
+  Synthetic (paths real boards rarely take): every public ATS plus avature,
+  eightfold, phenom, tiktok (pagination, missing fields, odd tokens), the
+  Google fallback parser, Workday paging with 23 requests, SmartRecruiters
+  with 104 detail requests, a ByteDance error code, an empty D.E. Shaw page,
+  an empty board, HTTP 403/404/429-with-Retry-After, and non-JSON bodies.
+- Manual captures: `internal/ats/testdata/manual/` (two overlapping Citadel
+  listing pages, a Tesla state document with every listing shape).
+  `TestManualCaptureMatchesTypeScript` checks the parsed jobs, the capture
+  file bytes manual-capture.ts writes, and the jobs loadManualJobs reads back,
+  against TS output (`manual-goldens.mts`, regenerated byte-identical on
+  2026-11-26).
+- URL parsing: `testdata/url_node.json` (parseAtsFromApplyUrl, the URL
+  builders and extractAtsBoardsFromMarkdown in Node).
 - htmlx: `testdata/strip_node.json`, TS `stripHtml`/`stripHtmlTags` on crafted
   inputs plus 300 dump titles and excerpts. All equal.
 - safedate: `testdata/date_parse_node.json`, Node 26 `Date.parse` under
@@ -112,3 +172,6 @@ Nothing.
   `ManualOptions.Dir` reads another directory.
 - `parse-ats-url`: a path segment with a broken %-escape is "not a board"
   instead of a thrown URIError.
+- `openintern probe` is new: probe-url.ts had no command line (tools called
+  it). It prints the probe URL and `ok= status= count=`, or the whole board
+  as JSON with `-fetch`.

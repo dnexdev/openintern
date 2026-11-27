@@ -1,0 +1,36 @@
+[
+ {
+  "externalId": "data-engineer",
+  "title": "Data Engineer",
+  "locations": [
+   "London"
+  ],
+  "applyUrl": "https://www.citadel.com/careers/details/data-engineer/",
+  "excerpt": null,
+  "postedAt": null,
+  "description": ""
+ },
+ {
+  "externalId": "quant-research-intern",
+  "title": "Quantitative Research Intern",
+  "locations": [],
+  "applyUrl": "https://www.citadel.com/careers/details/quant-research-intern/",
+  "excerpt": null,
+  "postedAt": null,
+  "description": ""
+ },
+ {
+  "externalId": "software-engineer-intern-us",
+  "title": "Software Engineer – Intern (US) &lt;3 ",
+  "locations": [
+   "Greenwich",
+   "Houston",
+   "Miami",
+   "New York"
+  ],
+  "applyUrl": "https://www.citadel.com/careers/details/software-engineer-intern-us/",
+  "excerpt": null,
+  "postedAt": null,
+  "description": ""
+ }
+]

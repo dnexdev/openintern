@@ -1,0 +1,40 @@
+{
+ "jobs": [
+  {
+   "externalId": "42",
+   "title": "SWE Intern",
+   "locations": [
+    "Amsterdam, Netherlands",
+    "Remote"
+   ],
+   "applyUrl": "https://acme.recruitee.com/o/swe-intern",
+   "excerpt": null,
+   "postedAt": "2026-06-01T09:30:00.000Z",
+   "description": "Build APIs\n\nGo"
+  },
+  {
+   "externalId": "43",
+   "title": "Untitled",
+   "locations": [
+    "Amsterdam, Netherlands",
+    "Utrecht",
+    "Rotterdam"
+   ],
+   "applyUrl": "https://acme.recruitee.com/o/x",
+   "excerpt": null,
+   "postedAt": "2026-05-01T10:00:00.000Z",
+   "description": ""
+  },
+  {
+   "externalId": "s",
+   "title": "Remote one",
+   "locations": [
+    "Fully remote"
+   ],
+   "applyUrl": "https://acme.recruitee.com/o/s",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ]
+}
