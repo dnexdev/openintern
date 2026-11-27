@@ -27,8 +27,7 @@ modes:
            from the Bend model are up to date (CI runs this)
   prove    only the proofs
   build    check the proofs, then regenerate the derived files
-           (internal/proven/testdata/vectors.json, and
-           packages/proven/generated/proven.mjs while it exists)
+           (internal/proven/testdata/vectors.json)
   mutants  every row of packages/proven/mutants.tsv must make the proofs
            fail, and its Go equivalent must make go test ./internal/proven fail
   hook laws|post|stop
@@ -105,7 +104,7 @@ flags:
 	}
 	var refusal *proofgate.Failure
 	if errors.As(err, &refusal) {
-		// The gate's own wording, as scripts/proofs.mjs printed it.
+		// The gate's own wording, kept from the original Node gate.
 		fmt.Fprintf(os.Stderr, "proofs: %s\n", refusal.Msg)
 		os.Exit(1)
 	}

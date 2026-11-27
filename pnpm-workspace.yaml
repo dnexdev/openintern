@@ -1,7 +1,0 @@
-packages:
-  - "packages/*"
-
-# Also declared under package.json "pnpm.overrides" for pnpm 9 / packageManager pin.
-overrides:
-  esbuild: ^0.25.12
-  postcss: ^8.5.10

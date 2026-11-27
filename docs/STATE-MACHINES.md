@@ -29,7 +29,7 @@ active in state and still invisible on the site.
 
 **Where:** `internal/model/model.go`, `internal/ingest/plan.go`,
 `internal/ingest/ingest.go`, `internal/dump/dump.go`, `internal/board/*`,
-`packages/ingest/src/plan.ts`, `packages/db/src/freshness.ts`
+`internal/ingest/plan.go`, `internal/health/freshness.go`
 
 **Kind:** Explicit `is_active` boolean + implicit public predicates.
 
@@ -163,7 +163,7 @@ company unless approved.
 
 ## 5. Dump gate (hold / publish)
 
-**Where:** `internal/dump/gate.go`, `scripts/dump-gate.mjs`,
+**Where:** `internal/dump/gate.go`,
 `cmd/openintern` `dump-gate`
 
 | Outcome | Meaning |
@@ -199,7 +199,7 @@ approved; else inert. Scopes: `total`, `ats:<name>`, `company:<slug>`.
 
 ## 7. Apply-hosts mode
 
-**Where:** `internal/registry/applyhosts.go`, `packages/db/src/apply-hosts.ts`
+**Where:** `internal/registry/applyhosts.go`
 
 | Mode | Effect |
 |---|---|

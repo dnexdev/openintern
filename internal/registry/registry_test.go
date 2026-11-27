@@ -2,7 +2,6 @@ package registry
 
 import (
 	"errors"
-	"os"
 	"regexp"
 	"strings"
 	"testing"
@@ -277,44 +276,6 @@ func TestApplyHostModeFromEnv(t *testing.T) {
 // The embedded registry is what CI validated: it loads, and its derived
 // tables equal the TypeScript generated modules (apply-hosts.generated.json
 // and aliases.generated.ts), which `gen-* --check` kept in sync with data/.
-func TestEmbeddedMatchesGeneratedModules(t *testing.T) {
-	r, err := Load(data.FS)
-	if err != nil {
-		t.Fatal(err)
-	}
-	want, err := os.ReadFile("../../packages/db/src/apply-hosts.generated.json")
-	if err != nil {
-		t.Skip("TypeScript reference not present")
-	}
-	if got := TableJSON(r.ApplyHosts()); string(got) != string(want) {
-		t.Errorf("apply-hosts table differs from apply-hosts.generated.json (%d vs %d bytes)", len(got), len(want))
-	}
-	gen, err := os.ReadFile("../../packages/db/src/aliases.generated.ts")
-	if err != nil {
-		t.Fatal(err)
-	}
-	pair := regexp.MustCompile(`\["([^"]+)", "([^"]+)"\]`)
-	companyPart, jobPart, _ := strings.Cut(string(gen), "JOB_ALIASES")
-	n := 0
-	for _, m := range pair.FindAllStringSubmatch(companyPart, -1) {
-		n++
-		if r.CanonicalCompanySlug(m[1]) != m[2] {
-			t.Errorf("company alias %s → %s missing", m[1], m[2])
-		}
-	}
-	if n != len(r.CompanyAliases()) {
-		t.Errorf("%d company aliases, generated module has %d", len(r.CompanyAliases()), n)
-	}
-	for _, m := range pair.FindAllStringSubmatch(jobPart, -1) {
-		if r.JobAlias(m[1]) != m[2] {
-			t.Errorf("job alias %s → %s missing", m[1], m[2])
-		}
-	}
-	if r.CanonicalCompanySlug("nvidia-nvidiawd5nvidiaexternalcareersite") != "nvidia" || CanonicalCompanySlug("stripe") != "stripe" {
-		t.Error("CanonicalCompanySlug")
-	}
-}
-
 func TestAliases(t *testing.T) {
 	slugs := map[string]bool{"new": true, "kept": true}
 	if _, err := ParseCompanyAliases("old_slug\tnew_slug\nkept\tnew\nold\tgone\n", slugs); err == nil ||

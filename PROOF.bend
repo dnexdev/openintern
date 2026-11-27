@@ -10,9 +10,10 @@ import ./packages/proven/bend/pagination.bend as PG
 import ./packages/proven/bend/job_slug.bend as JS
 
 # PROOF.bend: a proof for every law in LAWS.bend, checked by bend2 via
-# `pnpm proofs`. packages/proven/generated/proven.mjs is compiled from this
+# `openintern proofs check`. internal/proven/testdata/vectors.json is generated from this
 # file. What that guarantees: the Bend defs satisfy the stated laws. What it
-# does not: the TS wrappers, the SQL, Bend's Base library, or the compiler
+# does not: the Go port in internal/proven (checked by vectors, law tests
+# and mutants), Bend's Base library, or the compiler
 # and JS runtime (see docs/PROOFS.md).
 
 # ---------------------------------------------------------------------------

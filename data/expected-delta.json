@@ -1,5 +1,5 @@
 {
-  "_doc": "Approvals for the dump circuit breaker (scripts/dump-gate.mjs). Each entry lets one expected swing through until its date. scope: \"total\" or \"ats:<name>\". Remove entries once they expire.",
+  "_doc": "Approvals for the dump circuit breaker (openintern dump-gate). Each entry lets one expected swing through until its date. scope: \"total\" or \"ats:<name>\". Remove entries once they expire.",
   "approvals": [
     {
       "scope": "total",

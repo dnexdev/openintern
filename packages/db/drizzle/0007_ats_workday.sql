@@ -1,1 +1,0 @@
-ALTER TYPE "ats" ADD VALUE IF NOT EXISTS 'workday';

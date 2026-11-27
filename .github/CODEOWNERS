@@ -1,6 +1,5 @@
 # Registry, allowlists and delistings decide what students see: owner review.
 /data/                                @dnexdev
-/packages/db/src/delisted.ts          @dnexdev
 /internal/registry/delisted.go        @dnexdev
 /LAWS.bend                            @dnexdev
 /internal/proofgate/gomutants.tsv     @dnexdev

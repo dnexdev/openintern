@@ -1,6 +1,6 @@
 # Apply-link allowlist: an apply URL is accepted only when its company, host and
 # path prefix match a row here or one derived from the company's board token
-# (see packages/ingest/src/gen-apply-hosts.ts). Seeded from the 2026-10-23 dump.
+# (see internal/registry/applyhosts.go). Seeded from the 2026-10-23 dump.
 # A new row needs review: who added it and how the employer was verified.
 company	host	path_prefix	added	note
 1password	jobs.ashbyhq.com	/1password/	2026-10-23	seed

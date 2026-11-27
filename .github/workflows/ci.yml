@@ -37,7 +37,7 @@ jobs:
           fi
       - run: go vet ./...
       - run: go test ./...
-      # Ingest makes honest requests only (formerly scripts/check-honest-requests.mjs).
+      # Ingest makes honest requests only.
       # Also part of go test ./...; run by name so a failure is easy to spot.
       - name: Honest requests
         run: go test -count=1 -run 'TestHonestRequests$' ./internal/fetch

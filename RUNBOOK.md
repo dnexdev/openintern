@@ -73,7 +73,7 @@ outlive it go in `packages/db/src/delisted.ts` (needs a PR and deploy).
 ## Compromised action, package or toolchain
 
 1. Disable the affected workflows.
-2. Pin to the last good SHA or version; check `pnpm-lock.yaml` diffs and the
+2. Pin to the last good SHA or version; check `go.mod` and workflow diffs and the
    Bend sha256 in `ci.yml`.
 3. Treat secrets the job could read as leaked: rotate them.
 4. Check releases and `main` for unexpected changes since the compromise.

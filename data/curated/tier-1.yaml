@@ -1,5 +1,5 @@
 # Maintainer-curated Tier 1 employers (FAANG-level or adjacent).
-# Slugs must exist in data/companies/*.yaml — run `pnpm validate-curated`.
+# Slugs must exist in data/companies/*.yaml — run `openintern validate-curated`.
 # Embedded into the Go binary via data/embed.go; no filesystem at runtime.
 slugs:
   # Frontier AI / labs

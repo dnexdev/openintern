@@ -6,22 +6,22 @@ a law in `LAWS.bend` fails the gate.
 
 **What that guarantees, and what it doesn't.** The Bend functions satisfy the
 stated laws, as checked by bend2. Not covered:
-- the TS wrappers in `packages/proven/src/index.ts` (parity reference; the
-  board uses `internal/proven` / Go);
-- Bend's Base library, its compiler and its JS runtime. Numbers past 2^48 throw
-  at runtime, and nothing proves the compiled `proven.mjs` matches the checked
-  source;
+- the Go port in `internal/proven`, which the site and ingest run. It is
+  tied to the model by `internal/proven/testdata/vectors.json` (generated from
+  the Bend source by `openintern proofs build`), one Go test per law, and the
+  Go mutants in `internal/proofgate/gomutants.tsv`: strong evidence, not proof;
+- Bend's Base library and its runtime. Numbers past 2^48 abort;
 - whether the laws are the right ones. Several pin a definition rather than
-  state a property, and some useless implementations still pass (for example,
-  a rate limiter that denies everyone). Stronger "progress" laws are planned.
+  state a property. The progress laws (`rl_admit_progress`,
+  `rl_fresh_progress`) rule out a rate limiter that denies everyone.
 
 | File | Role | Who edits it |
 |---|---|---|
-| `LAWS.bend` | The spec: 40 laws, each a claim that must hold | Humans, on purpose |
+| `LAWS.bend` | The spec: 56 laws, each a claim that must hold | Humans, on purpose |
 | `PROOF.bend` | A proof for every law | Whoever changes the code |
 | `packages/proven/bend/*.bend` | The implementations | Whoever changes the code |
-| `packages/proven/generated/proven.mjs` | Compiled from `PROOF.bend` (committed) | `openintern proofs build` |
-| `packages/proven/src/index.ts` | Typed TS wrappers (marshalling only, no decisions) | Whoever changes the code |
+| `internal/proven/testdata/vectors.json` | Outputs of the Bend model, replayed by Go tests (committed) | `openintern proofs build` |
+| `internal/proven` | The Go port the site and ingest run | Whoever changes the code |
 
 ## What the laws cover
 
@@ -53,8 +53,8 @@ What stays in TypeScript: anything that uses regexes or Unicode classes
 ## Commands
 
 ```bash
-go run ./cmd/openintern proofs check    # CI runs this (also: pnpm proofs)
-go run ./cmd/openintern proofs build    # check, then regenerate proven.mjs
+go run ./cmd/openintern proofs check    # CI runs this
+go run ./cmd/openintern proofs build    # check, then regenerate vectors.json
 go run ./cmd/openintern proofs mutants  # every row in mutants.tsv must fail
 ```
 
@@ -91,8 +91,8 @@ the laws honest:
 - **PINNED laws** fix constants and concrete examples (the 120-day age limit,
   14 days unseen, one day in ms, which characters are hex, what parses as a
   page number). Changing one of those values breaks a proof.
-- **Mutants** (`packages/proven/mutants.tsv`, `node scripts/proofs.mjs
-  mutants`, run in CI): each row is a plausible bug, such as "offset ignores
+- **Mutants** (`packages/proven/mutants.tsv` with Go twins in
+  `internal/proofgate/gomutants.tsv`, `openintern proofs mutants`, run in CI): each row is a plausible bug, such as "offset ignores
   limit", "#24: gone jobs kept", or "deny-all limiter". The mutated tree must
   fail to check. A surviving mutant fails CI until a law catches it.
 
