@@ -11,6 +11,8 @@ Common to every brief (also PLAN.md "Rules for every agent"):
   never `commit -a`). Plain messages, no AI credit or trailers. Never push,
   and never run stash, checkout, switch, restore, reset, clean, rebase or
   merge: other agents share this checkout. If the index lock is busy, retry.
+  Signing needs a passphrase agents do not have: commit with
+  `git -c commit.gpgsign=false commit`.
 - Do NOT credit yourself or any AI, model, agent or tool anywhere: no
   Co-Authored-By, no "Generated with", no model or agent names in code,
   comments, docs or status files. Write as the project.

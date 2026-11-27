@@ -12,24 +12,41 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v6
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          version: 9.15.0
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm test
-      - run: pnpm validate-curated
-      - run: pnpm validate-companies
-      - run: node scripts/check-honest-requests.mjs
-      - run: pnpm gen-apply-hosts --check
-      - run: pnpm gen-aliases --check
+          go-version-file: go.mod
+          cache-dependency-path: go.mod
+      # Standard library only: go.mod must never gain a dependency.
+      - name: go.mod has no require
+        run: |
+          if grep -nE '^[[:space:]]*require([[:space:]]|\(|$)' go.mod; then
+            echo "::error file=go.mod::go.mod must not require any module (standard library only)."
+            exit 1
+          fi
+      - name: gofmt
+        run: |
+          unformatted=$(git ls-files -z '*.go' | xargs -0 gofmt -l)
+          if [ -n "$unformatted" ]; then
+            echo "::error::not gofmt-formatted:"
+            echo "$unformatted"
+            exit 1
+          fi
+      - run: go vet ./...
+      - run: go test ./...
+      # Ingest makes honest requests only (formerly scripts/check-honest-requests.mjs).
+      # Also part of go test ./...; run by name so a failure is easy to spot.
+      - name: Honest requests
+        run: go test -count=1 -run 'TestHonestRequests$' ./internal/fetch
+      - name: Build
+        run: go build -o "$RUNNER_TEMP/openintern" ./cmd/openintern
+      - run: '"$RUNNER_TEMP/openintern" validate-curated'
+      - run: '"$RUNNER_TEMP/openintern" validate-companies'
+      # Probes only boards a PR adds or edits (GITHUB_BASE_REF is set on
+      # pull_request), through the honest client.
       - name: Validate company tokens
         if: github.event_name == 'pull_request'
         run: |
@@ -39,19 +56,25 @@ jobs:
             exit 0
           fi
           echo "Validating: ${CHANGED[*]}"
-          pnpm validate-tokens "${CHANGED[@]}"
+          "$RUNNER_TEMP/openintern" validate-tokens "${CHANGED[@]}"
         shell: bash
 
   # Bend proof gate, isolated: no token permissions, no secrets, no caches,
-  # no credentials left on disk. LAWS.bend must be proven by PROOF.bend, and
-  # the committed packages/proven/generated/proven.mjs must match a rebuild.
+  # no credentials left on disk. LAWS.bend must be proven by PROOF.bend, the
+  # vectors the Go port is tested against must match the Bend model, and every
+  # mutant in packages/proven/mutants.tsv (Bend and its Go equivalent) must be
+  # caught.
   bend:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: false
       # Pinned release; sha256 from bend-lang.com/install.sh (v2.0.39).
       - name: Install Bend
         env:
@@ -65,11 +88,18 @@ jobs:
           tar -xzf "$RUNNER_TEMP/$name" -C "$RUNNER_TEMP"
           echo "BEND_BIN=$RUNNER_TEMP/bend/bin/bend" >> "$GITHUB_ENV"
         shell: bash
+      - name: Build
+        run: go build -o "$RUNNER_TEMP/openintern" ./cmd/openintern
+      # The gate also forces these off for every bend it runs.
       - name: Bend proofs
         env:
           BEND_NO_TELEMETRY: "1"
           DO_NOT_TRACK: "1"
           BUN_ENABLE_CRASH_REPORTING: "0"
-        run: node scripts/proofs.mjs check
-      - name: Mutants the laws must catch
-        run: node scripts/proofs.mjs mutants
+        run: '"$RUNNER_TEMP/openintern" proofs check'
+      - name: Mutants the laws and tests must catch
+        env:
+          BEND_NO_TELEMETRY: "1"
+          DO_NOT_TRACK: "1"
+          BUN_ENABLE_CRASH_REPORTING: "0"
+        run: '"$RUNNER_TEMP/openintern" proofs mutants'

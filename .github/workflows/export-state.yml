@@ -1,8 +1,13 @@
 name: Export state
 
-# Run by hand the day Neon is readable again (and before every risky migration).
-# Read-only: copies every table to CSV in one consistent snapshot, so job ids
-# and first_seen_at survive if the database is lost. Takes seconds of compute.
+# One-time Neon migration, kept until the move to flat-file state is done:
+# run by hand while Neon is readable. Read-only: copies every table to CSV in
+# one consistent snapshot (scripts/export-state.sh, psql only), so job ids and
+# first_seen_at survive. Turn the artifact into state files with
+# `openintern import-state <export-dir> <state-dir>`, check them with
+# `openintern state-gate`, and commit them to the state repo. Nothing else
+# reads Neon or DATABASE_URL any more; delete this workflow (and the secret)
+# once the state repo holds the migrated state.
 on:
   workflow_dispatch:
 

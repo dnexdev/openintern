@@ -22,8 +22,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/bend-gate.mjs\" laws",
-            "timeout": 10
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && in=$(cat); printf '%s' \"$in\" | go run ./cmd/openintern proofs hook laws 2>/dev/null || { printf '%s' \"$in\" | grep -q 'LAWS\\.bend' && printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"ask\",\"permissionDecisionReason\":\"The LAWS.bend hook could not run (does cmd/openintern build?). LAWS.bend is the human-owned spec: approve only if you meant to change a law.\"}}'; }; exit 0",
+            "timeout": 30
           }
         ]
       }
@@ -34,8 +34,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/bend-gate.mjs\" post",
-            "timeout": 60,
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && go run ./cmd/openintern proofs hook post",
+            "timeout": 120,
             "statusMessage": "Checking Bend proofs..."
           }
         ]
@@ -46,8 +46,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/bend-gate.mjs\" stop",
-            "timeout": 120,
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && go run ./cmd/openintern proofs hook stop",
+            "timeout": 180,
             "statusMessage": "Running Bend proof gate..."
           }
         ]

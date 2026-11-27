@@ -1,5 +1,11 @@
 {
-  "buildCommand": "pnpm --filter @openintern/web build",
-  "installCommand": "pnpm install",
-  "framework": "nextjs"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "mkdir -p .vercel-static",
+  "outputDirectory": ".vercel-static",
+  "functions": {
+    "api/index.go": { "maxDuration": 30 }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
 }

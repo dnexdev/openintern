@@ -1,10 +1,11 @@
 name: Dump
 
 # Runs after each successful daily ingest. Two jobs:
-#   build   reads the state (Neon, or the state repo once vars.OPENINTERN_STATE
-#           is "files") and installs npm packages; it can write nothing.
-#   publish holds release-write permission and installs nothing: it checks the
-#           build with plain Node (scripts/dump-gate.mjs) and uploads with gh.
+#   build   reads the published state (vars.OPENINTERN_STATE_REPO) and writes
+#           the dump files; it can write nothing.
+#   publish holds release-write permission and runs no third-party code: it
+#           builds the gate from this repository's own checkout, checks the
+#           build's files with it (openintern dump-gate) and uploads with gh.
 on:
   workflow_run:
     workflows: [Ingest]
@@ -29,48 +30,29 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
-    env:
-      FILES_MODE: ${{ vars.OPENINTERN_STATE == 'files' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
       - name: Check out published state (read-only)
-        if: env.FILES_MODE == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: ${{ vars.OPENINTERN_STATE_REPO }}
           path: state
           persist-credentials: false
           ssh-key: ${{ secrets.STATE_READ_KEY }}
-      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          version: 9.15.0
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Require DATABASE_URL secret
-        if: env.FILES_MODE != 'true'
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: |
-          if [ -z "$DATABASE_URL" ]; then
-            echo "::error::DATABASE_URL secret is not set. Add it under Settings → Secrets and variables → Actions (Neon connection string)."
-            exit 1
-          fi
+          go-version-file: go.mod
+          cache: false
+      - name: Build
+        run: go build -o "$RUNNER_TEMP/openintern" ./cmd/openintern
       - name: Export dumps
         env:
-          DATABASE_URL: ${{ vars.OPENINTERN_STATE != 'files' && secrets.DATABASE_URL || '' }}
           OPENINTERN_APPLY_HOSTS: ${{ vars.OPENINTERN_APPLY_HOSTS }}
         run: |
           mkdir -p "$GITHUB_WORKSPACE/dumps"
-          if [ "$FILES_MODE" = true ]; then
-            pnpm --filter @openintern/ingest exec tsx src/cli.ts dump-state "$GITHUB_WORKSPACE/state" "$GITHUB_WORKSPACE/dumps"
-          else
-            pnpm --filter @openintern/ingest exec tsx src/cli.ts dump "$GITHUB_WORKSPACE/dumps"
-          fi
+          "$RUNNER_TEMP/openintern" dump "$GITHUB_WORKSPACE/state" "$GITHUB_WORKSPACE/dumps"
           ls -la "$GITHUB_WORKSPACE/dumps"
           test -s "$GITHUB_WORKSPACE/dumps/MANIFEST.json"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -97,6 +79,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+      # The gate is built here from the checkout (standard library only, no
+      # module downloads), never taken from the build job.
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: false
+      - name: Build the gate
+        run: go build -o "$RUNNER_TEMP/openintern" ./cmd/openintern
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: openintern-dump-${{ github.run_id }}
@@ -106,7 +96,7 @@ jobs:
       - name: Gate (integrity, allowlist, delistings, circuit breaker)
         env:
           OPENINTERN_APPLY_HOSTS: ${{ vars.OPENINTERN_APPLY_HOSTS }}
-        run: node scripts/dump-gate.mjs new prev
+        run: '"$RUNNER_TEMP/openintern" dump-gate new prev'
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: new/*
