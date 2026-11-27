@@ -256,6 +256,21 @@ keyboard use of filters) and keep the copy's meaning.
   `openintern check-apply <jobs.json>` probes dump apply URLs; numeric HTML
   entities (including `&#xa;`) decode in `ExcerptFromHtml`; manual README
   documents `openintern manual-capture`.
+- ~~Dead apply links stay on the board.~~ Done 2026-11-27: ingest probes
+  apply links (`OPENINTERN_APPLY_PROBE=1`, set in the Ingest workflow) and
+  retires a job after 3 dead answers (404/410 confirmed by GET, or a
+  redirect that drops the posting id) at least 20h apart; 401/403/429/5xx
+  and timeouts never count. Strikes live in `jobs.jsonl`
+  (`apply_strikes`, `apply_struck_at`, written only when non-zero). Caps:
+  300 probes/run, 40/host, weekly rotation, host backoff on 401/403/429,
+  companies losing every link at once held for a person. See
+  `docs/STATE-MACHINES.md` §16. Check of the 2026-11-27 dump (1173 links):
+  5 dead (Saronic: hosted Ashby board switched off, API still lists the
+  jobs); the old check-apply's 13 Pinterest "dead" links were HEAD-only
+  404s (GET 200); 105 inconclusive (93 SmartRecruiters 403s).
+  Open: propose the strike rule as Bend laws (maintainer's call); SPA apply
+  pages (TikTok, ByteDance, Waymo, Workday) answer 200 for closed postings,
+  so only board-run retirement catches those.
 - `packages/*` remain for Bend glue and golden regeneration; peel further
   when those goldens no longer need the TypeScript tree.
 - Neon `export-state` workflow removed 2026-11-27 (state repo is the source

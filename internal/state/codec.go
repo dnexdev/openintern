@@ -14,10 +14,19 @@ type field[T any] struct {
 	key string
 	get func(*T) any
 	set func(*T, any) bool
+	// omit, when set, leaves the key out of a record whose value is its
+	// zero (optional keys added after the database export format).
+	omit func(*T) bool
+}
+
+// optional marks f as written only when omit reports false.
+func optional[T any](f field[T], omit func(*T) bool) field[T] {
+	f.omit = omit
+	return f
 }
 
 func strField[T any](key string, p func(*T) *string) field[T] {
-	return field[T]{key, func(r *T) any { return *p(r) }, func(r *T, v any) bool {
+	return field[T]{key: key, get: func(r *T) any { return *p(r) }, set: func(r *T, v any) bool {
 		s, ok := v.(string)
 		if ok {
 			*p(r) = s
@@ -27,12 +36,12 @@ func strField[T any](key string, p func(*T) *string) field[T] {
 }
 
 func nstrField[T any](key string, p func(*T) **string) field[T] {
-	return field[T]{key, func(r *T) any {
+	return field[T]{key: key, get: func(r *T) any {
 		if s := *p(r); s != nil {
 			return *s
 		}
 		return nil
-	}, func(r *T, v any) bool {
+	}, set: func(r *T, v any) bool {
 		switch x := v.(type) {
 		case nil:
 			*p(r) = nil
@@ -46,7 +55,7 @@ func nstrField[T any](key string, p func(*T) **string) field[T] {
 }
 
 func boolField[T any](key string, p func(*T) *bool) field[T] {
-	return field[T]{key, func(r *T) any { return *p(r) }, func(r *T, v any) bool {
+	return field[T]{key: key, get: func(r *T) any { return *p(r) }, set: func(r *T, v any) bool {
 		b, ok := v.(bool)
 		if ok {
 			*p(r) = b
@@ -65,7 +74,7 @@ func integral(v any) (int, bool) {
 }
 
 func intField[T any](key string, p func(*T) *int) field[T] {
-	return field[T]{key, func(r *T) any { return *p(r) }, func(r *T, v any) bool {
+	return field[T]{key: key, get: func(r *T) any { return *p(r) }, set: func(r *T, v any) bool {
 		n, ok := integral(v)
 		if ok {
 			*p(r) = n
@@ -75,12 +84,12 @@ func intField[T any](key string, p func(*T) *int) field[T] {
 }
 
 func nintField[T any](key string, p func(*T) **int) field[T] {
-	return field[T]{key, func(r *T) any {
+	return field[T]{key: key, get: func(r *T) any {
 		if n := *p(r); n != nil {
 			return *n
 		}
 		return nil
-	}, func(r *T, v any) bool {
+	}, set: func(r *T, v any) bool {
 		if v == nil {
 			*p(r) = nil
 			return true
@@ -94,12 +103,12 @@ func nintField[T any](key string, p func(*T) **int) field[T] {
 }
 
 func strsField[T any](key string, p func(*T) *[]string) field[T] {
-	return field[T]{key, func(r *T) any {
+	return field[T]{key: key, get: func(r *T) any {
 		if *p(r) == nil {
 			return []string{}
 		}
 		return *p(r)
-	}, func(r *T, v any) bool {
+	}, set: func(r *T, v any) bool {
 		list, ok := v.([]any)
 		if !ok {
 			return false
@@ -118,12 +127,12 @@ func strsField[T any](key string, p func(*T) *[]string) field[T] {
 }
 
 func intsField[T any](key string, p func(*T) *[]int) field[T] {
-	return field[T]{key, func(r *T) any {
+	return field[T]{key: key, get: func(r *T) any {
 		if *p(r) == nil {
 			return []int{}
 		}
 		return *p(r)
-	}, func(r *T, v any) bool {
+	}, set: func(r *T, v any) bool {
 		list, ok := v.([]any)
 		if !ok {
 			return false
@@ -151,7 +160,7 @@ func TermYearsValue(tys []model.TermYear) []any {
 }
 
 func termYearsField[T any](key string, p func(*T) *[]model.TermYear) field[T] {
-	return field[T]{key, func(r *T) any { return TermYearsValue(*p(r)) }, func(r *T, v any) bool {
+	return field[T]{key: key, get: func(r *T) any { return TermYearsValue(*p(r)) }, set: func(r *T, v any) bool {
 		list, ok := v.([]any)
 		if !ok {
 			return false
@@ -215,6 +224,9 @@ func encode[T any](rec *T, shape *Shape, fields []field[T], skip map[string]bool
 			out = append(out, jsjson.Member{Key: f.key, Value: v})
 			continue
 		}
+		if f.omit != nil && f.omit(rec) {
+			continue
+		}
 		out = append(out, jsjson.Member{Key: f.key, Value: f.get(rec)})
 	}
 	if len(shape.extra) > 0 {
@@ -265,6 +277,10 @@ var jobFields = []field[model.Job]{
 	strField("fingerprint", func(j *model.Job) *string { return &j.Fingerprint }),
 	strField("normalized_title", func(j *model.Job) *string { return &j.NormalizedTitle }),
 	strField("role_family_id", func(j *model.Job) *string { return &j.RoleFamilyID }),
+	optional(intField("apply_strikes", func(j *model.Job) *int { return &j.ApplyStrikes }),
+		func(j *model.Job) bool { return j.ApplyStrikes == 0 }),
+	optional(strField("apply_struck_at", func(j *model.Job) *string { return &j.ApplyStruckAt }),
+		func(j *model.Job) bool { return j.ApplyStruckAt == "" }),
 }
 
 var runFields = []field[model.Run]{

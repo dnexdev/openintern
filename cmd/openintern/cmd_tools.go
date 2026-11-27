@@ -14,7 +14,7 @@ func init() {
 	register("discover-accelerators", "find public ATS boards for YC / a16z portfolio companies (--yc, --a16z)", runDiscoverAccelerators)
 	register("recover-tokens", "guess working board tokens for inactive or broken companies", runRecoverTokens)
 	register("validate-tokens", "probe the boards of company YAML files (CI: only boards a PR adds or edits)", runValidateTokens)
-	register("check-apply", "probe apply_url values in a dump for dead links (404/410)", runCheckApply)
+	register("check-apply", "probe apply_url values in a dump for dead links (404/410, redirect to an index)", runCheckApply)
 }
 
 const toolsDataUsage = "  -data dir   registry directory (default data, in the working directory)\n"

@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/dnexdev/openintern/internal/applycheck"
 	"github.com/dnexdev/openintern/internal/proven"
 	"github.com/dnexdev/openintern/internal/state/jsjson"
 )
@@ -69,7 +70,7 @@ func (s Summary) Value() jsjson.Object {
 			"techPass", f.TechPass, "upserted", f.Upserted, "stale", f.Stale)
 	}
 	t := s.FunnelTotals
-	return obj(
+	out := obj(
 		"companies", s.Companies,
 		"jobsUpserted", s.JobsUpserted,
 		"jobsDeactivated", s.JobsDeactivated,
@@ -86,6 +87,20 @@ func (s Summary) Value() jsjson.Object {
 		"funnel", funnel,
 		"funnelTotals", obj("fetched", t.Fetched, "internshipTitle", t.InternshipTitle, "techPass", t.TechPass, "upserted", t.Upserted),
 	)
+	// Only runs with the apply-link probe on carry it, so the summary of a
+	// run without it reads exactly as before.
+	if p := s.ApplyProbe; p != nil {
+		retired := make([]any, len(p.RetiredJobs))
+		for i, r := range p.RetiredJobs {
+			retired[i] = obj("company", r.Company, "id", r.ID, "url", r.URL, "reason", r.Reason)
+		}
+		out = append(out, jsjson.Member{Key: "applyProbe", Value: obj(
+			"probed", p.Probed, "alive", p.Alive, "dead", p.Dead, "inconclusive", p.Inconclusive,
+			"strikes", p.Strikes, "retired", p.Retired, "cleared", p.Cleared, "deferred", p.Deferred,
+			"hostsBacked", strs(p.HostsBacked), "heldCompanies", strs(p.HeldCompanies), "retiredJobs", retired,
+		)})
+	}
+	return out
 }
 
 // JSON is JSON.stringify(summary, null, 2), as the CLI prints it.
@@ -110,6 +125,24 @@ func StepSummary(s Summary) string {
 	}
 	if len(s.AutoDisabledSkipped) > 0 {
 		lines = append(lines, "", "Auto-disabled, not fetched: "+strings.Join(s.AutoDisabledSkipped, ", "))
+	}
+	if p := s.ApplyProbe; p != nil {
+		lines = append(lines, "", "Apply links: "+strconv.Itoa(p.Probed)+" checked, "+strconv.Itoa(p.Dead)+" dead, "+
+			strconv.Itoa(p.Inconclusive)+" inconclusive, "+strconv.Itoa(p.Strikes)+" new strikes, "+
+			strconv.Itoa(p.Retired)+" retired, "+strconv.Itoa(p.Cleared)+" working again, "+strconv.Itoa(p.Deferred)+" deferred.")
+		if len(p.HostsBacked) > 0 {
+			lines = append(lines, "", "Stopped probing (refused or throttled): "+strings.Join(p.HostsBacked, ", "))
+		}
+		if len(p.HeldCompanies) > 0 {
+			lines = append(lines, "", "Held (every apply link dead): "+strings.Join(p.HeldCompanies, ", "))
+		}
+		for i, r := range p.RetiredJobs {
+			if i == probeRetiredListedLimit {
+				lines = append(lines, "- and "+strconv.Itoa(len(p.RetiredJobs)-i)+" more")
+				break
+			}
+			lines = append(lines, "- retired `"+r.Company+"` "+r.URL+" ("+strings.ReplaceAll(r.Reason, "|", "/")+")")
+		}
 	}
 	if len(s.Shadow) > 0 {
 		lines = append(lines, "", "#### Honest-request shadow test", "",
@@ -154,6 +187,16 @@ func Digest(s Summary) string {
 				host = *v.Host
 			}
 			lines = append(lines, "- `"+v.Company+"`: "+v.Reason+" `"+host+"` e.g. "+v.Example)
+		}
+		lines = append(lines, "")
+	}
+	if p := s.ApplyProbe; p != nil && len(p.HeldCompanies) > 0 {
+		lines = append(lines, "**Every apply link dead** for these companies (at least "+strconv.Itoa(SuspectedBlockMinJobs)+
+			" listed jobs, every link failing, at least one "+strconv.Itoa(applycheck.StrikesToRetire)+" days in a row) while their board still lists them."+
+			" Jobs stay up until a person looks: fix the apply links (a moved careers site?), set `active: false` in YAML,"+
+			" or approve `company:<slug>` in `data/expected-delta.json` to let them retire:")
+		for _, slug := range p.HeldCompanies {
+			lines = append(lines, "- `"+slug+"`")
 		}
 		lines = append(lines, "")
 	}

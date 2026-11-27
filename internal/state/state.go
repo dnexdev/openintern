@@ -48,12 +48,17 @@ const (
 // order row_to_json uses in scripts/export-state.sh. Records written by file
 // ingest then match exported ones byte for byte. A migration that adds a
 // column appends it here, in internal/model and in the codecs below.
+//
+// apply_strikes and apply_struck_at (dead apply links, internal/applycheck)
+// came after the database and are optional: written only when a job has
+// strikes, absent otherwise. A record without them reads as no strikes.
 var (
 	CompanyKeys = []string{"id", "name", "slug", "ats", "board_token", "careers_url", "website_url", "active", "created_at", "updated_at"}
 	JobKeys     = []string{
 		"id", "company_id", "external_job_id", "title", "locations", "apply_url", "excerpt", "is_remote", "is_active",
 		"source", "posted_at", "first_seen_at", "last_seen_at", "created_at", "updated_at", "terms", "cohort_year",
 		"duration_months", "roles", "regions", "term_years", "fingerprint", "normalized_title", "role_family_id",
+		"apply_strikes", "apply_struck_at",
 	}
 	RunKeys = []string{"id", "company_id", "status", "job_count", "error", "ran_at"}
 )
@@ -115,6 +120,18 @@ func (j *Job) Deactivate(updatedAt string) {
 	j.UpdatedAt = updatedAt
 	j.Shape.Set("is_active")
 	j.Shape.Set("updated_at")
+}
+
+// SetApplyStrikes records a job's dead-link strikes in place. A zero count
+// clears both keys from the record.
+func (j *Job) SetApplyStrikes(count int, struckAt string) {
+	if count <= 0 {
+		count, struckAt = 0, ""
+	}
+	j.ApplyStrikes = count
+	j.ApplyStruckAt = struckAt
+	j.Shape.Set("apply_strikes")
+	j.Shape.Set("apply_struck_at")
 }
 
 // State is the whole state in memory.

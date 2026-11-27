@@ -18,6 +18,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/dnexdev/openintern/internal/applycheck"
 	"github.com/dnexdev/openintern/internal/fetch"
 	"github.com/dnexdev/openintern/internal/health"
 	"github.com/dnexdev/openintern/internal/model"
@@ -197,6 +198,8 @@ type Summary struct {
 	// Funnel is sorted by fetched, descending, then slug.
 	Funnel       []CompanyFunnel
 	FunnelTotals FunnelTotals
+	// ApplyProbe is the apply-link probe phase, nil when it was off.
+	ApplyProbe *ApplyProbeSummary
 }
 
 // Options configures Run.
@@ -219,6 +222,11 @@ type Options struct {
 	EnforceApplyHosts bool
 	// Shadow returns the shadow tests run during the fetches, if any.
 	Shadow func() []ShadowResult
+	// ApplyProbe, when set, checks the apply links of the jobs boards listed
+	// this run and retires jobs whose link stays dead (applyprobe.go). nil
+	// sends no probes; jobs already retired for a dead link stay retired
+	// either way while their board lists the same link.
+	ApplyProbe *ApplyProbeOptions
 }
 
 // SyncRegistry is syncRegistryIntoState: registry companies become company
@@ -426,6 +434,7 @@ func Run(ctx context.Context, st *state.State, opts Options) (Summary, error) {
 		byFingerprint[j.Fingerprint] = j
 	}
 	check := reg.CheckApplyURL
+	seen := map[string]bool{} // jobs a board listed this run
 
 	for i := 0; i < len(toFetch); i += Concurrency {
 		chunk := toFetch[i:min(i+Concurrency, len(toFetch))]
@@ -514,12 +523,23 @@ func Run(ctx context.Context, st *state.State, opts Options) (Summary, error) {
 					s := state.PgTimestamp(u.PostedAt.UnixMilli())
 					rec.PostedAt = &s
 				}
+				// Dead-link strikes belong to the link: they carry over while the
+				// board lists the same URL, and a job retired for a dead link
+				// stays retired until the link changes or a probe finds it
+				// working again (internal/applycheck).
+				if prev != nil && prev.ApplyURL == u.ApplyURL && prev.ApplyStrikes > 0 {
+					rec.ApplyStrikes, rec.ApplyStruckAt = prev.ApplyStrikes, prev.ApplyStruckAt
+					if prev.ApplyStrikes >= applycheck.StrikesToRetire {
+						rec.IsActive = false
+					}
+				}
 				if prev != nil {
 					rec.FirstSeenAt, rec.CreatedAt = prev.FirstSeenAt, prev.CreatedAt
 				} else {
 					rec.FirstSeenAt, rec.CreatedAt = state.PgTimestamp(u.FirstSeenAt.UnixMilli()), ts
 				}
 				st.Jobs[rec.ID] = rec
+				seen[rec.ID] = true
 				byFingerprint[rec.Fingerprint] = rec
 				if prev == nil {
 					own = append(own, rec)
@@ -546,6 +566,10 @@ func Run(ctx context.Context, st *state.State, opts Options) (Summary, error) {
 			sum.ApplyHostViolations = append(sum.ApplyHostViolations, plan.ApplyHostViolations...)
 			sum.Funnel = append(sum.Funnel, plan.Funnel)
 		}
+	}
+
+	if opts.ApplyProbe != nil {
+		sum.ApplyProbe = probeApplyLinks(ctx, st, reg, *opts.ApplyProbe, seen, now, ts)
 	}
 
 	if !skipSweep {

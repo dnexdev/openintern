@@ -58,8 +58,8 @@ active in state and still invisible on the site.
 | From → To | Trigger |
 |---|---|
 | ∅ → active | Upsert matched tech internship, not stale |
-| active → inactive | `ShouldRetireJob` (board run × sighting); last-seen sweep (>14d); orphan company; stale rematch upsert |
-| inactive → active | Rematch upsert overwrites with `IsActive:!isStale` (no dedicated Reactivate) |
+| active → inactive | `ShouldRetireJob` (board run × sighting); last-seen sweep (>14d); orphan company; stale rematch upsert; dead apply link (§16) |
+| inactive → active | Rematch upsert overwrites with `IsActive:!isStale` (no dedicated Reactivate), except a job retired for a dead apply link while its board lists the same link (§16) |
 | any → hidden | delist / kill-switch / enforce allowlist (no storage change for delist/kill) |
 
 **Board-run retirement** (`proven.BoardRun` × `JobSighting`):
@@ -305,6 +305,73 @@ Cache hit within 1h; fetch fail keeps last. The board reads the dump only
 ## 15. Client “applied” marks
 
 Browser localStorage only; not server state.
+
+---
+
+## 16. Dead apply links
+
+**Where:** `internal/applycheck` (verdicts, strikes),
+`internal/ingest/applyprobe.go` (probe phase), the upsert in
+`internal/ingest/ingest.go`, `openintern check-apply` (report only).
+**On:** `OPENINTERN_APPLY_PROBE=1` (set by the Ingest workflow).
+
+A board can keep listing a posting whose apply link is dead. Ingest then
+re-sights it every run and no board-run retirement fires, so the link probe
+is a separate machine with its own per-job record in `jobs.jsonl`:
+`apply_strikes` (int) and `apply_struck_at` (timestamp), both written only
+when non-zero; a job without them has no strikes.
+
+### Probe verdicts
+
+| Verdict | When |
+|---|---|
+| dead | 404/410 (a HEAD 404/410 is confirmed by a GET); a 2xx after a redirect that drops every id the link carried (careers index, home page), or Greenhouse `?error=true` |
+| alive | 2xx, no redirect or one that keeps the posting's id |
+| inconclusive | 401/403/429, any other status, 5xx, timeout, DNS/TLS error, redirect to a login or bot check, redirect from a link with no id |
+
+### Strike record
+
+| Record \ verdict | dead | inconclusive | alive |
+|---|---|---|---|
+| 0 strikes | 1 | 0 | 0 |
+| k < 3, last strike ≥ 20h ago | k+1 (retire at 3) | k | 0 |
+| k < 3, last strike < 20h ago | k (not probed) | k | 0 |
+| 3 (retired) | 3 | 3 | 0 (next upsert reactivates) |
+
+### Which jobs are probed, and how many
+
+- Only jobs a board listed in this run (a failed fetch probes nothing, a
+  dropped posting is retired the usual way), never manual captures (Tesla,
+  Citadel refuse robots), only https links without credentials or port.
+- Priority: active with strikes (due after 20h) → every active sibling of
+  a struck job (same company, out of turn: is it the whole site?) →
+  active, in its weekly turn (FNV hash of the id mod 7 = day mod 7) →
+  retired-for-dead-link, in its weekly turn (has the link come back?).
+- Caps per run: 300 requests, 40 per host, 10 minutes; one request at a time
+  every 500 ms, rotating between hosts. A host that answers 401/403/429 is
+  not asked again that run. Over-cap jobs wait (reported as `deferred`).
+
+### Invariants
+
+- Retirement needs three dead answers at least 20h apart with no alive
+  answer between them; one flaky answer, or any number in one day, never
+  retires a job.
+- 401/403/429/5xx/timeouts never add a strike and never clear one.
+- Retired jobs stay in state (`is_active=false`), strikes kept.
+- While the board lists the same `apply_url`, a retired-for-dead-link job
+  stays inactive even with the probe off. A new URL starts at 0 strikes.
+- **Company hold:** when a company lists ≥5 jobs (`SuspectedBlockMinJobs`)
+  and every one of their links has strikes, none of them is retired for
+  its link; the company is listed in `applyProbe.heldCompanies` and the
+  digest issue. Because a struck job makes its siblings due every run,
+  the weekly rotation cannot stagger such a company into one-by-one
+  retirements.
+  All links of a company dying together means a moved or switched-off
+  careers site (seen: Saronic's hosted Ashby board 404s while its posting
+  API still lists every job), and retiring them would trip the state
+  gate's ≥5 → 0 check and hold the whole state publish. An approval of
+  `company:<slug>` in `data/expected-delta.json` (which the state gate
+  honours too) lets them retire on the next run.
 
 ---
 

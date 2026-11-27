@@ -3,21 +3,27 @@ package tools
 import (
 	"context"
 	"encoding/json"
-	"errors"
+	"flag"
 	"fmt"
+	"io"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
-	"github.com/dnexdev/openintern/internal/fetch"
+	"github.com/dnexdev/openintern/internal/applycheck"
 )
 
-const CheckApplyUsage = `usage: openintern check-apply <jobs.json>
+const CheckApplyUsage = `usage: openintern check-apply [-all] <jobs.json>
 
-Probe each unique apply_url in a dump with the honest client (HEAD, then GET
-if HEAD is not allowed). Prints dead (404/410), refused (401/403), and other
-failures. Exit 1 when any URL is dead. About two requests per second.
+Probe each unique apply_url in a dump with the honest client, the same way
+the ingest apply-link probe does (internal/applycheck): HEAD, then GET when
+HEAD is not allowed or says 404/410. Prints dead links (404/410, or a
+redirect that drops the posting's id, e.g. to a careers index) and
+inconclusive ones (401/403, 429, 5xx, timeouts, redirects to a login page).
+-all also prints the links that work, with where their redirects ended.
+One request at a time, about two a second. Exit 1 when any link is dead.
 `
 
 type dumpJobApply struct {
@@ -29,13 +35,27 @@ type dumpJobApply struct {
 	Title string `json:"title"`
 }
 
+// checkApplyProbe is the probe check-apply uses; tests replace it.
+var checkApplyProbe = applycheck.Probe
+
 // CheckApply probes apply URLs from a dump file. Returns process exit code.
 func CheckApply(ctx context.Context, args []string) (int, error) {
-	if len(args) != 1 {
-		fmt.Fprint(os.Stderr, CheckApplyUsage)
+	return checkApply(ctx, args, os.Stdout, os.Stderr, 500*time.Millisecond)
+}
+
+func checkApply(ctx context.Context, args []string, stdout, stderr io.Writer, pace time.Duration) (int, error) {
+	flags := flag.NewFlagSet("check-apply", flag.ContinueOnError)
+	flags.SetOutput(stderr)
+	all := flags.Bool("all", false, "also print working links")
+	flags.Usage = func() { fmt.Fprint(stderr, CheckApplyUsage) }
+	if err := flags.Parse(args); err != nil {
 		return 2, nil
 	}
-	raw, err := os.ReadFile(args[0])
+	if flags.NArg() != 1 {
+		fmt.Fprint(stderr, CheckApplyUsage)
+		return 2, nil
+	}
+	raw, err := os.ReadFile(flags.Arg(0))
 	if err != nil {
 		return 1, err
 	}
@@ -63,67 +83,28 @@ func CheckApply(ctx context.Context, args []string) (int, error) {
 	}
 	sort.Strings(urls)
 
-	var dead, refused, other int
+	counts := map[applycheck.Verdict]int{}
 	for i, url := range urls {
 		if i > 0 {
-			if err := sleep(ctx, 500*time.Millisecond); err != nil {
+			if err := sleep(ctx, pace); err != nil {
 				return 1, err
 			}
 		}
-		label, status := probeApply(ctx, url)
-		s := byURL[url]
-		line := fmt.Sprintf("%s\t%s\t%s\t%s\tHTTP %d", s.slug, s.id, s.title, url, status)
-		switch label {
-		case "dead":
-			dead++
-			fmt.Fprintln(os.Stdout, "dead\t"+line)
-		case "refused":
-			refused++
-			fmt.Fprintln(os.Stdout, "refused\t"+line)
-		case "ok":
-			// quiet
-		default:
-			other++
-			fmt.Fprintln(os.Stdout, "fail\t"+line+"\t"+label)
+		res := checkApplyProbe(ctx, url)
+		counts[res.Verdict]++
+		if res.Verdict == applycheck.Alive && !*all {
+			continue
 		}
+		s := byURL[url]
+		fmt.Fprintln(stdout, strings.Join([]string{string(res.Verdict), s.slug, s.id, s.title, url,
+			"HTTP " + strconv.Itoa(res.Status), res.Reason, res.FinalURL}, "\t"))
 	}
-	fmt.Fprintf(os.Stderr, "check-apply: %d URLs, %d dead, %d refused, %d other failures\n",
-		len(urls), dead, refused, other)
-	if dead > 0 {
+	fmt.Fprintf(stderr, "check-apply: %d URLs, %d dead, %d inconclusive, %d alive\n",
+		len(urls), counts[applycheck.Dead], counts[applycheck.Inconclusive], counts[applycheck.Alive])
+	if counts[applycheck.Dead] > 0 {
 		return 1, nil
 	}
 	return 0, nil
-}
-
-func probeApply(ctx context.Context, rawURL string) (label string, status int) {
-	res, err := fetch.Request(ctx, rawURL, fetch.Options{Method: "HEAD", Attempts: 1, Timeout: 15 * time.Second})
-	if err == nil {
-		return "ok", res.Status
-	}
-	var f *fetch.Failure
-	if !errors.As(err, &f) {
-		return "network", 0
-	}
-	if f.Kind == fetch.KindHTTP && (f.Status == 405 || f.Status == 501) {
-		res, err = fetch.Request(ctx, rawURL, fetch.Options{
-			Method: "GET", Attempts: 1, Timeout: 15 * time.Second,
-			Headers: map[string]string{"Range": "bytes=0-0"},
-		})
-		if err == nil {
-			return "ok", res.Status
-		}
-		if !errors.As(err, &f) {
-			return "network", 0
-		}
-	}
-	switch f.Kind {
-	case fetch.KindNotFound:
-		return "dead", f.Status
-	case fetch.KindRefused:
-		return "refused", f.Status
-	default:
-		return string(f.Kind), f.Status
-	}
 }
 
 func sleep(ctx context.Context, d time.Duration) error {

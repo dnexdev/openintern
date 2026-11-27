@@ -98,6 +98,14 @@ type Job struct {
 	Fingerprint     string     `json:"fingerprint"`
 	NormalizedTitle string     `json:"normalized_title"`
 	RoleFamilyID    string     `json:"role_family_id"`
+	// ApplyStrikes counts dead-link probes of ApplyURL in a row
+	// (internal/applycheck); at applycheck.StrikesToRetire the job is
+	// retired and stays retired while the board lists the same URL. Written
+	// only when non-zero, so older state files read and write unchanged.
+	ApplyStrikes int `json:"apply_strikes"`
+	// ApplyStruckAt is when the last strike counted (a Postgres-style
+	// timestamp), "" without strikes and then not written.
+	ApplyStruckAt string `json:"apply_struck_at"`
 }
 
 // Run is one line of runs.jsonl (an ingest run for one company).

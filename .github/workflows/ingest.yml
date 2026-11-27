@@ -55,6 +55,9 @@ jobs:
         id: ingest
         env:
           OPENINTERN_SHADOW_HONEST: "1"
+          # Check apply links of listed jobs (honest HEAD/GET, capped, paced)
+          # and retire jobs whose link stays dead; see docs/STATE-MACHINES.md §16.
+          OPENINTERN_APPLY_PROBE: "1"
           OPENINTERN_DIGEST_PATH: ${{ runner.temp }}/ingest-digest.md
         run: |
           state="$RUNNER_TEMP/state"

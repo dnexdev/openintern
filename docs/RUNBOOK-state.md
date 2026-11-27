@@ -37,6 +37,16 @@ Read the run log: the gate names each problem. A real, expected swing (a
 season ending, an employer moving ATS) is approved with a dated entry in
 `data/expected-delta.json`; anything else is a bug to fix before publishing.
 
+## When the digest says "every apply link dead"
+
+The apply-link probe (`docs/STATE-MACHINES.md` §16) found every apply link of a
+company listing 5+ jobs failing (strikes on all of them) and kept the jobs up
+rather than trip the state gate. Open one link: if the employer moved its
+careers site, fix the source (board token, ATS); if the jobs are really gone,
+set `active: false` or add a dated `company:<slug>` entry to
+`data/expected-delta.json`, which lets the next run retire them and the
+state gate accept it.
+
 ## Rebuilding state from scratch
 
 `openintern sync-companies <dir>` then

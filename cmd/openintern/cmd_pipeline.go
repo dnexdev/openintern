@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/dnexdev/openintern/data"
+	"github.com/dnexdev/openintern/internal/applycheck"
 	"github.com/dnexdev/openintern/internal/ats"
 	"github.com/dnexdev/openintern/internal/dump"
 	"github.com/dnexdev/openintern/internal/ingest"
@@ -119,13 +120,23 @@ func runIngest(args []string) error {
 	if err != nil {
 		return err
 	}
-	summary, err := ingest.Run(context.Background(), st, ingest.Options{
+	opts := ingest.Options{
 		Fetch:             boardFetcher,
 		Registry:          reg,
 		Only:              ingest.OnlySlugs(os.Getenv("OPENINTERN_ONLY_SLUGS")),
 		EnforceApplyHosts: registry.ApplyHostModeFromEnv() == registry.ApplyHostsEnforce,
 		Shadow:            shadowResults,
-	})
+	}
+	// OPENINTERN_APPLY_PROBE=1 checks apply links and retires jobs whose link
+	// stays dead (internal/applycheck); the Ingest workflow sets it.
+	if strings.TrimSpace(os.Getenv("OPENINTERN_APPLY_PROBE")) == "1" {
+		approved, err := approvals(*dataDir)
+		if err != nil {
+			return err
+		}
+		opts.ApplyProbe = &ingest.ApplyProbeOptions{Probe: applycheck.Probe, Approved: approved}
+	}
+	summary, err := ingest.Run(context.Background(), st, opts)
 	if err != nil {
 		return err
 	}
