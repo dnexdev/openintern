@@ -17,6 +17,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -454,11 +455,21 @@ func resolvePlain(lineNum int, s string) *Node {
 	case reOct.MatchString(s):
 		n.Kind = Int
 		v, _ := strconv.ParseUint(s[2:], 8, 64)
-		n.Int, n.Float = int64(v), float64(v)
+		n.Float = float64(v)
+		if v <= math.MaxInt64 {
+			n.Int = int64(v)
+		} else {
+			n.Kind = Float // past int64, like the JS parser's Number
+		}
 	case reHex.MatchString(s):
 		n.Kind = Int
 		v, _ := strconv.ParseUint(s[2:], 16, 64)
-		n.Int, n.Float = int64(v), float64(v)
+		n.Float = float64(v)
+		if v <= math.MaxInt64 {
+			n.Int = int64(v)
+		} else {
+			n.Kind = Float // past int64, like the JS parser's Number
+		}
 	case reFloat.MatchString(s):
 		n.Kind = Float
 		n.Float, _ = strconv.ParseFloat(strings.TrimSuffix(s, "."), 64)
@@ -533,7 +544,7 @@ func unquote(text string) (string, int, error) {
 					return "", 0, fmt.Errorf("short \\%c escape in a double-quoted value", e)
 				}
 				v, err := strconv.ParseUint(text[i+1:i+1+n], 16, 32)
-				if err != nil || !utf8.ValidRune(rune(v)) {
+				if err != nil || v > unicode.MaxRune || !utf8.ValidRune(rune(v)) {
 					return "", 0, fmt.Errorf("bad \\%c escape in a double-quoted value", e)
 				}
 				b.WriteRune(rune(v))

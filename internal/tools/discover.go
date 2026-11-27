@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -26,8 +27,6 @@ var (
 	techTags     = regexp.MustCompile(`(?i)ai|artificial intelligence|machine learning|developer tools|saas|fintech|infra|security|crypto|devtools|api|data|robotics|hardware|semiconductor|climate|biotech|health tech|open source`)
 	ycDead       = regexp.MustCompile(`(?i)inactive|dead`)
 	notCompany   = regexp.MustCompile(`(?i)follow|subscribe|twitter|linkedin|careers|privacy|terms`)
-	socialSite   = regexp.MustCompile(`(?i)linkedin\.com|twitter\.com|x\.com|facebook\.com|youtube\.com`)
-	a16zSite     = regexp.MustCompile(`(?i)a16z\.com`)
 	jsonLDPair   = jsRegexp(`"name"\s*:\s*"([^"]{2,80})"\s*,\s*"url"\s*:\s*"(https?://[^"]+)"`)
 	leadingWWW   = regexp.MustCompile(`^www\.`)
 )
@@ -313,14 +312,14 @@ func fetchA16zPortfolio(ctx context.Context, limit float64) []portfolioCompany {
 		for _, m := range outboundAnchors(html) {
 			website := m[0]
 			name := htmlx.TrimJS(collapseJSSpaceRuns(m[1]))
-			if !reASCIILetter.MatchString(name) || notCompany.MatchString(name) || socialSite.MatchString(website) {
+			if !reASCIILetter.MatchString(name) || notCompany.MatchString(name) || hostIn(website, "linkedin.com", "twitter.com", "x.com", "facebook.com", "youtube.com") {
 				continue
 			}
 			add(name, website)
 		}
 		// JSON-LD or embedded portfolio blobs.
 		for _, m := range jsonLDPair.FindAllStringSubmatch(html, -1) {
-			if a16zSite.MatchString(m[2]) {
+			if hostIn(m[2], "a16z.com") {
 				continue
 			}
 			add(m[1], m[2])
@@ -591,4 +590,21 @@ func DiscoverAccelerators(ctx context.Context, env Env, args []string) (int, err
 		fmt.Fprint(w, "\nDry run — pass --write to append probe-OK companies.\n")
 	}
 	return 0, nil
+}
+
+// hostIn reports whether rawURL's host is one of domains or a subdomain of
+// one. Matching the parsed host (not a substring of the URL) keeps
+// "fedex.com" from counting as x.com.
+func hostIn(rawURL string, domains ...string) bool {
+	u, err := url.Parse(strings.TrimSpace(rawURL))
+	if err != nil {
+		return false
+	}
+	host := strings.ToLower(u.Hostname())
+	for _, d := range domains {
+		if host == d || strings.HasSuffix(host, "."+d) {
+			return true
+		}
+	}
+	return false
 }

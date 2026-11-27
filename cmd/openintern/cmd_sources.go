@@ -30,17 +30,17 @@ func runProbe(args []string) error {
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
-	var atsName, token string
+	var atsName, boardSlug string
 	switch flags.NArg() {
 	case 1:
 		parsed, ok := ats.ParseATSFromApplyURL(flags.Arg(0))
 		if !ok {
 			return fmt.Errorf("no supported ATS board in %s", flags.Arg(0))
 		}
-		atsName, token = parsed.ATS, parsed.BoardToken
-		fmt.Printf("%s board %q (%s)\n", atsName, token, parsed.CareersURL)
+		atsName, boardSlug = parsed.ATS, parsed.BoardToken
+		fmt.Printf("%s board %q (%s)\n", atsName, boardSlug, parsed.CareersURL)
 	case 2:
-		atsName, token = flags.Arg(0), flags.Arg(1)
+		atsName, boardSlug = flags.Arg(0), flags.Arg(1)
 	default:
 		flags.Usage()
 		os.Exit(2)
@@ -49,7 +49,7 @@ func runProbe(args []string) error {
 	defer cancel()
 
 	if *full {
-		jobs, err := ats.Fetch(ctx, atsName, token)
+		jobs, err := ats.Fetch(ctx, atsName, boardSlug)
 		if err != nil {
 			return err
 		}
@@ -60,10 +60,10 @@ func runProbe(args []string) error {
 		fmt.Println(string(out))
 		return nil
 	}
-	if url, err := ats.ProbeURL(atsName, token); err == nil {
+	if url, err := ats.ProbeURL(atsName, boardSlug); err == nil {
 		fmt.Println(url)
 	}
-	r := ats.ProbeATSBoard(ctx, atsName, token)
+	r := ats.ProbeATSBoard(ctx, atsName, boardSlug)
 	line := fmt.Sprintf("ok=%v status=%d", r.OK, r.Status)
 	if r.Count != nil {
 		line += fmt.Sprintf(" count=%d", *r.Count)
@@ -73,7 +73,7 @@ func runProbe(args []string) error {
 	}
 	fmt.Println(line)
 	if !r.OK {
-		return fmt.Errorf("%s %s: probe failed", atsName, token)
+		return fmt.Errorf("%s %s: probe failed", atsName, boardSlug)
 	}
 	return nil
 }

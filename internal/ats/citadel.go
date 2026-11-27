@@ -12,6 +12,7 @@ package ats
 
 import (
 	"math"
+	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
@@ -30,7 +31,6 @@ var (
 	citadelTag           = regexp.MustCompile(`<[^>]+>`)
 	citadelCard          = jsRegexp(`(?i)<a\b[^>]*class="[^"]*careers-listing-card[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)</a>`)
 	citadelArchive       = regexp.MustCompile(`https?://web\.archive\.org/web/\d+/`)
-	citadelDetails       = regexp.MustCompile(`(?i)/careers/details/`)
 	citadelH2            = jsRegexp(`(?i)<h2[^>]*>([\s\S]*?)</h2>`)
 	citadelPosition      = regexp.MustCompile(`(?i)data-position="([^"]+)"`)
 	citadelLocation      = jsRegexp(`(?i)careers-listing-card__location[^>]*>([\s\S]*?)</`)
@@ -85,7 +85,7 @@ func ParseCitadelListingHTML(html, origin string) []model.NormalizedJob {
 			continue
 		}
 		applyURL, _, _ := strings.Cut(u.String(), "?")
-		if !citadelDetails.MatchString(applyURL) {
+		if !isCitadelDetails(applyURL) {
 			continue
 		}
 		tm := citadelH2.FindStringSubmatch(body)
@@ -145,4 +145,11 @@ func locs(in []string) []string {
 		return []string{}
 	}
 	return in
+}
+
+// isCitadelDetails reports whether applyURL is a Citadel job detail page,
+// checking the parsed path rather than anywhere in the URL.
+func isCitadelDetails(applyURL string) bool {
+	u, err := url.Parse(applyURL)
+	return err == nil && strings.Contains(strings.ToLower(u.Path), "/careers/details/")
 }
