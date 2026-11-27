@@ -4,6 +4,33 @@
 (function () {
   "use strict";
 
+  // Theme: follows the system until the visitor picks one; the choice is kept
+  // in this browser. The inline script in <head> applies it before paint.
+  (function () {
+    var btn = document.querySelector("[data-theme-toggle]");
+    if (!btn) return;
+    var KEY = "openintern:theme";
+    var root = document.documentElement;
+    var media = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    function current() {
+      return root.dataset.theme || (media && media.matches ? "dark" : "light");
+    }
+    function label() {
+      var next = current() === "dark" ? "light" : "dark";
+      btn.textContent = next === "dark" ? "Dark" : "Light";
+      btn.setAttribute("aria-label", "Switch to " + next + " theme");
+    }
+    btn.addEventListener("click", function () {
+      var next = current() === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+      label();
+    });
+    if (media && media.addEventListener) media.addEventListener("change", label);
+    label();
+    btn.hidden = false;
+  })();
+
   var STORAGE_KEY = "openintern:applied";
   var HIDE_KEY = "openintern:hide-applied";
 

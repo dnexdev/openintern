@@ -9,6 +9,7 @@
 {{if .Meta.NoIndex}}<meta name="robots" content="noindex">{{else}}<meta name="robots" content="index, follow">{{end}}
 {{with .Meta.Canonical}}<link rel="canonical" href="{{.}}">{{end}}
 <meta name="color-scheme" content="light dark">
+<script>try{var t=localStorage.getItem("openintern:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
 <meta name="theme-color" content="#fbfcfa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#191c1a" media="(prefers-color-scheme: dark)">
 <meta property="og:site_name" content="OpenIntern">
@@ -44,6 +45,7 @@
       <a href="/jobs"{{if eq .Nav "jobs"}} aria-current="page"{{end}}>Jobs</a>
       <a href="/docs"{{if eq .Nav "docs"}} aria-current="page"{{end}}>Docs</a>
       <a href="https://github.com/dnexdev/openintern">GitHub</a>
+      <button type="button" class="theme-toggle" data-theme-toggle hidden>Dark</button>
     </nav>
   </div>
 </header>
@@ -60,6 +62,7 @@
       <a href="/privacy">Privacy</a>
       <a href="/health">Health</a>
       <a href="https://github.com/dnexdev/openintern">GitHub</a>
+      <button type="button" class="theme-toggle" data-theme-toggle hidden>Dark</button>
       <a href="https://github.com/dnexdev/openintern/releases/tag/dump-latest">Dumps</a>
     </p>
   </div>

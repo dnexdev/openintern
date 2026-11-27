@@ -47,7 +47,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --paper: #191c1a;
     --ink: #e4e9e3;
     --muted: #a2aba3;
@@ -60,6 +60,42 @@
     --mark-bar: #6fb77a;
     --press: #c6cec5;
   }
+}
+
+/* An explicit choice from the theme button wins over the system setting. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+    --paper: #191c1a;
+    --ink: #e4e9e3;
+    --muted: #a2aba3;
+    --bar: #222a23;
+    --rule: #333c34;
+    --edge: #6f7d71;
+    --marker: #e3cf3f;
+    --on-marker: #191c1a;
+    --alarm: #ff8d80;
+    --mark-bar: #6fb77a;
+    --press: #c6cec5;
+}
+
+.theme-toggle {
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding-block: var(--s2);
+  padding-inline: 0;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 *,
