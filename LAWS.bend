@@ -18,7 +18,7 @@ import ./packages/proven/bend/job_slug.bend as JS
 # spec: change a law only on purpose, never to make a proof go through.
 
 # ---------------------------------------------------------------------------
-# Rate limiter (apps/web/src/lib/rate-limit.ts)
+# Rate limiter (internal/web/rate_limit.go)
 # ---------------------------------------------------------------------------
 
 # Whatever happens, `remaining` is exactly the unused part of the limit.
@@ -91,8 +91,7 @@ law rl_fresh_window:
   {RL.reset_at(RL.fresh(now, limit, window)) == Nat.add(now, window) : Nat}
 
 # ---------------------------------------------------------------------------
-# Freshness (packages/db/src/freshness.ts, packages/ingest/src/classifier.ts,
-# apps/web/src/lib/job-dump.ts)
+# Freshness (internal/proven, internal/health/freshness.go, internal/board)
 # ---------------------------------------------------------------------------
 
 # Ingest's "stale" and the board's "fresh" are exact opposites, so a job is
@@ -180,7 +179,7 @@ law fr_constants:
   {(FR.day_ms(), (FR.max_age_days(), FR.last_seen_days())) == (86400000n, (120n, 14n)) : Nat & Nat & Nat}
 
 # ---------------------------------------------------------------------------
-# Apply picker (apps/web/src/lib/posting-label.ts)
+# Apply picker (internal/board/posting_label.go)
 # ---------------------------------------------------------------------------
 
 # An empty family has nothing to pick.
@@ -288,7 +287,7 @@ law dp_empty_counts:
   {DP.next_empty(DP.Empty{}, prior) == 1n+prior : Nat}
 
 # ---------------------------------------------------------------------------
-# Ingest-health funnel (apps/web/src/lib/ingest-health.ts)
+# Ingest-health funnel (internal/health)
 # ---------------------------------------------------------------------------
 
 law fn_total_empty:
@@ -316,7 +315,7 @@ law fn_errors_not_zero_match:
   {(FN.is_zero_match("HTTP 500"), FN.is_zero_match("")) == (False{}, False{}) : Bool & Bool}
 
 # ---------------------------------------------------------------------------
-# Pagination (apps/web/src/lib/board.ts, apps/web/src/app/api/v1/jobs)
+# Pagination (internal/proven pagination, internal/web API)
 # ---------------------------------------------------------------------------
 
 # Any query text, even garbage, gives a page within [1, 100000] ...
@@ -358,7 +357,7 @@ law pg_first_page_offset:
   {PG.offset(1n, limit) == 0n : Nat}
 
 # ---------------------------------------------------------------------------
-# Job slugs (apps/web/src/lib/job-slug.ts)
+# Job slugs (internal/jobslug)
 # ---------------------------------------------------------------------------
 
 # A dash in the id never reaches the slug suffix.

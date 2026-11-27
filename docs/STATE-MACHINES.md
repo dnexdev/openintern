@@ -214,8 +214,7 @@ Check reasons: `not-https` | `malformed` | `credentials-or-port` |
 
 ## 8. Rate-limit bucket
 
-**Where:** Bend `rate_limit.bend`, `internal/web/rate_limit.go`,
-`apps/web/src/lib/rate-limit.ts`
+**Where:** Bend `rate_limit.bend`, `internal/web/rate_limit.go`
 
 | State | Meaning |
 |---|---|
@@ -241,7 +240,7 @@ while keeping `remaining` consistent can still pass today’s laws; see
 
 ## 9. Kill switch + maintenance
 
-**Where:** `internal/board/kill_switch.go`, `apps/web/src/lib/kill-switch.ts`
+**Where:** `internal/board/kill_switch.go`
 
 Fields: `jobs` / `companies` / `hosts` sets, `maintenance`, `message`.
 Site maintenance = env `OPENINTERN_MAINTENANCE=1` ∨ kill-switch flag.
@@ -274,13 +273,12 @@ route.
 
 Go site banner uses `StaleData` only when age > 30h.
 
-### Confirmed bug (fixed): Next.js banner on healthy dump-first path
+### Confirmed bug (fixed, Next path removed): stale banner on dump-first
 
-Dump is the default board source (`preferDbReads()` false). Pages set
-`staleDumpAt` whenever `dataSource.kind === "dump"`, so
-`StaleDataBanner` claimed “Database is temporarily offline” on every
-healthy dump-primary view. Status API already used the 30h rule; the UI
-did not. See changelog below.
+The old Next.js board showed a “DB offline” banner whenever the data
+source was the dump (the default). Go `internal/site` already gated on
+`MaxDumpAge` (30h). The Next frontend is deleted in phase 3; see
+changelog below.
 
 ---
 
@@ -301,8 +299,8 @@ on 401/403/404/410. Refusal ≠ empty board.
 
 ## 14. Dump cache / data-source preference
 
-Cache hit within 1h; fetch fail keeps last. Prefer dump-first (default) or
-DB-first when `OPENINTERN_PREFER_DB=1`, each with fallback.
+Cache hit within 1h; fetch fail keeps last. The board reads the dump only
+(no database fallback on the request path).
 
 ---
 
@@ -340,3 +338,5 @@ YAML registry
 - 2026-11-27: Initial inventory. Fixed [#58](https://github.com/dnexdev/openintern/issues/58)
   (dump-gate env trim) and [#59](https://github.com/dnexdev/openintern/issues/59)
   (stale banner gating); regression tests added. Bend audit in PROOFS.md.
+- 2026-11-27: Phase 3 — deleted `apps/web` (Next frontend); docs/SETUP and
+  `.env.example` describe the Go+Vercel path ([#60](https://github.com/dnexdev/openintern/issues/60)).

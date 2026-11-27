@@ -1,3 +1,5 @@
+// TypeScript reference for regenerating jobslug goldens only
+// (gen-goldens.ts). Production slug logic is internal/jobslug.
 import { jobSlugSegment as provenSegment, parseIdPrefix } from "@openintern/proven";
 
 /** Human-readable job URL segment: slugified title + first 8 chars of UUID. */

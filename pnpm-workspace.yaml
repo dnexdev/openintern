@@ -1,5 +1,4 @@
 packages:
-  - "apps/*"
   - "packages/*"
 
 # Also declared under package.json "pnpm.overrides" for pnpm 9 / packageManager pin.

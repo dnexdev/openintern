@@ -46,14 +46,15 @@ outlive it go in `packages/db/src/delisted.ts` (needs a PR and deploy).
    `data/expected-delta.json` with a reason and an expiry.
 3. Fix the adapter or classifier; let the next run publish.
 
-## Account compromise (GitHub, Vercel, Neon, Google)
+## Account compromise (GitHub, Vercel, Google)
 
 1. From another device: change the password, revoke sessions, revoke tokens
    (GitHub → Settings → Applications and Developer settings; Vercel → Tokens).
 2. Maintenance mode if anything was published.
 3. Audit: GitHub security log, recent pushes to `main`, releases, rulesets,
    Actions secrets; Vercel deployments and environment variables.
-4. Rotate `DATABASE_URL` and any deploy keys.
+4. Rotate deploy keys and any remaining secrets (including `DATABASE_URL` if
+   the one-shot export-state workflow still exists).
 
 ## API or site down
 
@@ -67,7 +68,8 @@ outlive it go in `packages/db/src/delisted.ts` (needs a PR and deploy).
 1. Actions → Ingest and Dump: did they run? GitHub disables scheduled
    workflows after 60 days without repository activity; re-enable them.
 2. A held dump-gate run says why; approve or fix, then run Dump by hand.
-3. Neon over quota: see [docs/RUNBOOK-neon-reset.md](docs/RUNBOOK-neon-reset.md).
+3. Confirm `vars.OPENINTERN_STATE_REPO` is readable and the last Ingest
+   `publish-state` job succeeded.
 
 ## Compromised action, package or toolchain
 
@@ -81,7 +83,7 @@ outlive it go in `packages/db/src/delisted.ts` (needs a PR and deploy).
 
 Act only on requests from the company's own domain (see DATA.md).
 
-1. Kill switch for the listing or company, then `delisted.ts` or set the
+1. Kill switch for the listing or company, then the delist registry (or set the
    company `active: false` in YAML.
 2. Delete dated snapshots that carry it.
 3. Log it in INCIDENTS.md (date, requester domain, what was removed).

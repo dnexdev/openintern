@@ -101,9 +101,9 @@ State is flat files (`companies.jsonl`, `jobs.jsonl`, `last_seen.tsv`,
 at 12:00 UTC, the Dump workflow publishes the release, and Vercel serves the
 Go handler in `api/index.go`. Runbooks and setup notes live in `docs/`.
 
-The TypeScript tree (`apps/`, `packages/`, `scripts/`) is the previous
-implementation. It stays only as a parity reference for tests until the
-rewrite is signed off ([docs/go-rewrite/PLAN.md](docs/go-rewrite/PLAN.md)).
+`packages/` and a few `scripts/` helpers remain only as a parity reference
+for Bend glue and golden regeneration. The Next.js frontend is gone; the
+live site is Go ([docs/SETUP.md](docs/SETUP.md)).
 
 ## Add a company
 

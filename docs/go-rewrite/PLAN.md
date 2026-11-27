@@ -242,6 +242,9 @@ keyboard use of filters) and keep the copy's meaning.
    ingest (recorded fixtures) → state → dump → serve.
 3. **Review and cut-over:** cross-model review, fixes, delete the TypeScript,
    final docs, hand the branch to the maintainer to commit.
+   **2026-11-27:** `apps/web` (Next frontend) deleted; SETUP/README describe
+   the live Go+Vercel path. `packages/*` remain as parity reference for Bend
+   glue and golden regeneration until a later cleanup.
 
 ## Follow-ups after the rewrite (reported 2026-11-26)
 

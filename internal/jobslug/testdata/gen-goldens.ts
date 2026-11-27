@@ -2,7 +2,7 @@
 // packages/ingest/node_modules/.bin/tsx internal/jobslug/testdata/gen-goldens.ts
 import { readFileSync, writeFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
-import { jobPath, jobSlugSegment, parseIdPrefixFromJobSlug, slugifyTitle } from "../../../apps/web/src/lib/job-slug.ts";
+import { jobPath, jobSlugSegment, parseIdPrefixFromJobSlug, slugifyTitle } from "./ts/job-slug.ts";
 
 type DumpJob = { id: string; title: string; company: { slug: string } };
 const root = new URL("../../../", import.meta.url);
