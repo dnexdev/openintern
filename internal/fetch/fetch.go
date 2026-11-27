@@ -285,6 +285,9 @@ func Request(ctx context.Context, rawURL string, opts Options) (*Response, error
 				return nil, ctx.Err()
 			}
 			last = networkFailure(err, rawURL)
+			if attempt == attempts-1 {
+				break
+			}
 			if err := sleepCtx(ctx, backoff(attempt)); err != nil {
 				return nil, err
 			}
@@ -296,6 +299,9 @@ func Request(ctx context.Context, rawURL string, opts Options) (*Response, error
 		last = failureFor(res.Status, rawURL)
 		if res.Status != 429 && res.Status < 500 {
 			return nil, last
+		}
+		if attempt == attempts-1 {
+			break // no point waiting after the last try
 		}
 		wait := backoff(attempt)
 		if ms, ok := RetryAfterMs(res.Header.Get("Retry-After"), time.Now()); ok {
