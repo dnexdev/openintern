@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="OpenIntern">
+  <style>
+    .sheet { fill: #fbfcfa; stroke: #1e2420; }
+    .bar { fill: #4f9a5a; }
+    @media (prefers-color-scheme: dark) {
+      .sheet { fill: #191c1a; stroke: #e4e9e3; }
+      .bar { fill: #6fb77a; }
+    }
+  </style>
+  <rect class="sheet" x="4.5" y="4.5" width="23" height="23" stroke-width="3"/>
+  <rect class="bar" x="6" y="10" width="20" height="4"/>
+  <rect class="bar" x="6" y="18" width="20" height="4"/>
+</svg>

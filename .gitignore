@@ -17,3 +17,7 @@ tmp/
 
 # Local Cursor config / rules (user-managed; not committed)
 .cursor/
+
+# Go rewrite
+/openintern
+/.cache/

@@ -1,0 +1,5 @@
+{
+  "stdout": "",
+  "stderr": "state-gate: job 00000014-0000-4000-8000-000000000014 moved company\nstate-gate: job 00000015-0000-4000-8000-000000000015 first_seen_at changed\nstate-gate: job 00000016-0000-4000-8000-000000000016 first_seen_at changed\nstate-gate: job 00000017-0000-4000-8000-000000000017 disappeared (jobs are never deleted)\nstate-gate: refusing to publish (4 problem(s))\n",
+  "code": 1
+}

@@ -1,0 +1,6 @@
+{
+ "error": {
+  "kind": "invalid",
+  "message": "invalid: unreadable JSON from https://api.ashbyhq.com/posting-api/job-board/broken?includeCompensation=true: Unexpected token '<', \"<html>\" is not valid JSON"
+ }
+}

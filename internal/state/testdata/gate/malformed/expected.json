@@ -1,0 +1,5 @@
+{
+  "stdout": "",
+  "stderr": "state-gate: jobs.jsonl:1 in <DIR>/cur: invalid JSON\nstate-gate: companies.jsonl:9 in <DIR>/new: invalid JSON\nstate-gate: jobs.jsonl:7 in <DIR>/new: invalid JSON\nstate-gate: duplicate company id 0a000000-0000-4000-8000-000000000001\nstate-gate: duplicate company slug alpha\nstate-gate: duplicate company id undefined\nstate-gate: duplicate company slug undefined\nstate-gate: active jobs 11111111-0000-4000-8000-000000000001 and 11111111-ffff-4000-8000-000000000002 share a URL prefix\nstate-gate: duplicate fingerprint fp8\nstate-gate: job 00000010-0000-4000-8000-000000000010 has unknown company 0c000000-0000-4000-8000-000000000003\nstate-gate: duplicate job id 11111111-0000-4000-8000-000000000001\nstate-gate: job 00000013-0000-4000-8000-000000000013 has unknown company null\nstate-gate: job 11111111-0000-4000-8000-000000000001 moved company\nstate-gate: refusing to publish (13 problem(s))\n",
+  "code": 1
+}

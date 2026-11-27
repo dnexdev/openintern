@@ -1,0 +1,2 @@
+id,title,company,company_slug,locations,apply_url,excerpt,terms,term_years,duration_months,cohort_year,roles,regions,is_remote,source,posted_at,first_seen_at,last_seen_at,role_family_id,normalized_title
+60000000-0000-4000-8000-000000000006,Exported,Name alpha,alpha,x,https://x/6,,summer,summer-2027,,2027,software,us,false,greenhouse,2026-10-01T10:00:00.123Z,2026-10-23T12:00:00.654Z,2026-11-20T12:00:00.100Z,r6,exported

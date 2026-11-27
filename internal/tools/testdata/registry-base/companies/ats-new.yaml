@@ -1,0 +1,21 @@
+# Test registry for the tools (not real data): company names and boards
+# taken from the recorded community lists.
+companies:
+  - name: NVIDIA
+    slug: nvidia
+    ats: workday
+    board_token: "nvidia|wd5|NVIDIAExternalCareerSite"
+  - name: Stripe
+    slug: stripe
+    ats: greenhouse
+    board_token: stripe
+  - name: Palantir
+    slug: palantir
+    ats: lever
+    board_token: palantir
+    active: false
+  - name: Figma
+    slug: figma
+    ats: greenhouse
+    board_token: figma
+    active: false

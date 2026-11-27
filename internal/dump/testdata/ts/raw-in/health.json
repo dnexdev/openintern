@@ -1,0 +1,90 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "stats": {
+    "active_jobs": 2,
+    "total_jobs": 3,
+    "active_companies": 1,
+    "total_companies": 2,
+    "last_successful_ingest": "2026-11-01T00:00:00.000Z",
+    "zero_match_companies": 0
+  },
+  "pipeline": {
+    "zero_match_companies": [],
+    "recent_failures": [
+      {
+        "company_slug": null,
+        "company_name": null,
+        "company_ats": null,
+        "error": "gone company",
+        "ran_at": "2026-11-01T00:00:00.000Z"
+      }
+    ],
+    "proprietary_ats": {
+      "failures": [],
+      "zero_job_runs": []
+    }
+  },
+  "funnel_totals_latest_per_company": {
+    "fetched": 0,
+    "title": 0,
+    "tech": 0,
+    "upserted": 0,
+    "descriptionMissing": 0
+  },
+  "recent_ingest_runs": [
+    {
+      "id": "run-b",
+      "status": "error",
+      "job_count": 0,
+      "error": "gone company",
+      "ran_at": "2026-11-01T00:00:00.000Z",
+      "company_slug": null,
+      "company_name": null,
+      "company_ats": null,
+      "funnel": {
+        "fetched": null,
+        "title": null,
+        "tech": null,
+        "upserted": null,
+        "descriptionMissing": null
+      },
+      "zero_match": false
+    },
+    {
+      "id": "run-a",
+      "status": "ok",
+      "job_count": 2,
+      "error": null,
+      "ran_at": "2026-11-01T00:00:00.000Z",
+      "company_slug": "alpha",
+      "company_name": "Alpha",
+      "company_ats": "greenhouse",
+      "funnel": {
+        "fetched": null,
+        "title": null,
+        "tech": null,
+        "upserted": null,
+        "descriptionMissing": null
+      },
+      "zero_match": false
+    },
+    {
+      "id": "run-c",
+      "status": "ok",
+      "job_count": 2,
+      "error": null,
+      "ran_at": "2026-10-01T00:00:00.000Z",
+      "company_slug": "alpha",
+      "company_name": "Alpha",
+      "company_ats": "greenhouse",
+      "funnel": {
+        "fetched": null,
+        "title": null,
+        "tech": null,
+        "upserted": null,
+        "descriptionMissing": null
+      },
+      "zero_match": false
+    }
+  ]
+}

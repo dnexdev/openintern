@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "count": 1,
+  "jobs": [
+    {
+      "id": "60000000-0000-4000-8000-000000000006",
+      "title": "Exported",
+      "company": {
+        "name": "Name alpha",
+        "slug": "alpha",
+        "ats": "greenhouse",
+        "website_url": "https://alpha.example",
+        "careers_url": null
+      },
+      "locations": [
+        "x"
+      ],
+      "apply_url": "https://x/6",
+      "excerpt": null,
+      "terms": [
+        "summer"
+      ],
+      "term_years": [
+        {
+          "term": "summer",
+          "year": 2027
+        }
+      ],
+      "duration_months": [],
+      "cohort_year": 2027,
+      "roles": [
+        "software"
+      ],
+      "regions": [
+        "us"
+      ],
+      "is_remote": false,
+      "source": "greenhouse",
+      "posted_at": "2026-10-01T10:00:00.123Z",
+      "first_seen_at": "2026-10-23T12:00:00.654Z",
+      "last_seen_at": "2026-11-20T12:00:00.100Z",
+      "role_family_id": "r6",
+      "normalized_title": "exported"
+    }
+  ]
+}

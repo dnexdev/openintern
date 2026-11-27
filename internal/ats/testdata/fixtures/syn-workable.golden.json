@@ -1,0 +1,37 @@
+{
+ "jobs": [
+  {
+   "externalId": "S1",
+   "title": "T1",
+   "locations": [
+    "Berlin, Germany",
+    "Paris, IDF, France",
+    "Remote"
+   ],
+   "applyUrl": "https://w/1/apply",
+   "excerpt": null,
+   "postedAt": "2026-11-02T00:00:00.000Z",
+   "description": "full"
+  },
+  {
+   "externalId": "I2",
+   "title": "T2",
+   "locations": [
+    "Remote"
+   ],
+   "applyUrl": "https://w/s2",
+   "excerpt": null,
+   "postedAt": "2026-11-01T00:00:00.000Z",
+   "description": ""
+  },
+  {
+   "externalId": "T3",
+   "title": "T3",
+   "locations": [],
+   "applyUrl": "",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ]
+}

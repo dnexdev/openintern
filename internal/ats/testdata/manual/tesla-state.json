@@ -1,0 +1,9 @@
+{"sites":{"1":"Fremont, California","2":{"name":"Austin, Texas"},"3":{"l":"Berlin"}},"lookup":{"sites":{"4":"Shanghai"}},
+ "listings":[
+  {"id":233415,"t":"Internship, Software Engineer","sid":"1","d":"Build cars 😀 and more"},
+  {"id":"99","title":"Staff Engineer","l":"Remote"},
+  {"jobId":"7","name":"  Spaced  ","locationIds":[2,"3",4,9],"url":"https://www.tesla.com/careers/search/job/7?x=1"},
+  {"id":"8","title":"No location","siteId":"nope"},
+  {"title":"No id"},
+  null, 5, "str"
+ ]}

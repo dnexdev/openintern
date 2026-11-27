@@ -1,0 +1,6 @@
+{
+ "error": {
+  "kind": "refused",
+  "message": "refused: HTTP 403 for https://boards-api.greenhouse.io/v1/boards/blocked/jobs?content=true"
+ }
+}

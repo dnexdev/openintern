@@ -1,0 +1,59 @@
+{
+ "jobs": [
+  {
+   "externalId": "1",
+   "title": "Job & 1",
+   "locations": [
+    "City 1"
+   ],
+   "applyUrl": "https://acme.avature.net/careers/JobDetail/Job-1/1",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "2",
+   "title": "Job & 2",
+   "locations": [
+    "City 2"
+   ],
+   "applyUrl": "https://acme.avature.net/careers/JobDetail/Job-2/2",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "3",
+   "title": "Job & 3",
+   "locations": [
+    "City 3"
+   ],
+   "applyUrl": "https://acme.avature.net/careers/JobDetail/Job-3/3",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "4",
+   "title": "Job 4",
+   "locations": [
+    "City 4"
+   ],
+   "applyUrl": "https://acme.avature.net/careers/JobDetail/Job-4/4",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  },
+  {
+   "externalId": "6",
+   "title": "Job & 6",
+   "locations": [
+    "City 6"
+   ],
+   "applyUrl": "https://acme.avature.net/careers/JobDetail/Job-6/6",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+  "files": {
+    "jobs.json": {
+      "sha256": "92b70da4d0bf1a2357ebb93da72c1e10b92ce61e8fbb8376d2e6773ff3c6ecdc",
+      "bytes": 6188
+    },
+    "denylist.json": {
+      "sha256": "aa871a60f8d395d57c9626f2fbf7a94f9007c8c133f22d2d95db2abae8d49dba",
+      "bytes": 125
+    }
+  }
+}

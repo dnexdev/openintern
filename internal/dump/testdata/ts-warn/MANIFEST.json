@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "jobs": 1336,
+  "companies": 183,
+  "byAts": {
+    "greenhouse": 321,
+    "workday": 292,
+    "smartrecruiters": 89,
+    "ashby": 96,
+    "bytedance": 127,
+    "tiktok": 308,
+    "lever": 34,
+    "eightfold": 39,
+    "shopify": 1,
+    "google": 6,
+    "deshaw": 4,
+    "citadel": 15,
+    "workable": 2,
+    "phenom": 1,
+    "rippling": 1
+  },
+  "files": {
+    "LICENSE-DATA.txt": {
+      "sha256": "dde9b88fd2edfb98142dddb9eaa1933b0fafcaaa4c409176199e5e27a87e0017",
+      "bytes": 423
+    },
+    "companies.json": {
+      "sha256": "ef2eb343a0a38225455782d45f2f51ea3f983a2dd498c836cd4b0ae5c0e16994",
+      "bytes": 54259
+    },
+    "denylist.json": {
+      "sha256": "de999d6a56913f1380fbfb17bc19bfc0c918fed693049d66e37fe7a41a3cccab",
+      "bytes": 223
+    },
+    "health.json": {
+      "sha256": "2d02072ebcd29a4f8eab2410cc37cffc90754db2cfa0906d224e72b16299fb53",
+      "bytes": 54866
+    },
+    "jobs.csv": {
+      "sha256": "c9bf81db8cfc65aca2a5ea852b781076208956f07d662e32c3cda76763bdde1f",
+      "bytes": 1048622
+    },
+    "jobs.csv.gz": {
+      "sha256": "4fc0ff736e4985d87bb6e547874cab203d8d828dcfdc238fa9ea3dd732edfcff",
+      "bytes": 325988
+    },
+    "jobs.json": {
+      "sha256": "fe5af96e52639a857d335c0d579fe689c1962c71ec00126728262aed9a68be85",
+      "bytes": 1995486
+    },
+    "jobs.json.gz": {
+      "sha256": "3be0bd17b07e33906e17940ec2a20e37b32112aa54cb90761b7d731c52ede096",
+      "bytes": 396107
+    }
+  }
+}

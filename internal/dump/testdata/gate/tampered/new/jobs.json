@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-11-14T12:00:00.000Z",
+  "count": 3,
+  "jobs": [
+    {
+      "id": "00000000-0000-4000-8000-000000000000",
+      "company": {
+        "slug": "1password",
+        "ats": "ashby"
+      },
+      "apply_url": "https://jobs.ashbyhq.com/1password/0"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "company": {
+        "slug": "1password",
+        "ats": "ashby"
+      },
+      "apply_url": "https://jobs.ashbyhq.com/1password/1"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "company": {
+        "slug": "1password",
+        "ats": "ashby"
+      },
+      "apply_url": "https://jobs.ashbyhq.com/1password/2"
+    }
+  ]
+}

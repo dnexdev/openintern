@@ -1,0 +1,12 @@
+{
+ "stdout": "ok schonfeld\nok apex\nok amplitude-analytics\n",
+ "stderr": "\nToken validation failures:\n  - method: HTTP 403 for https://api.lever.co/v0/postings/methodfi?mode=json\n",
+ "code": 1,
+ "requests": [
+  "GET https://api.ashbyhq.com/posting-api/job-board/amplitude",
+  "GET https://api.lever.co/v0/postings/methodfi?mode=json",
+  "GET https://boards-api.greenhouse.io/v1/boards/apexfintech/jobs",
+  "GET https://boards-api.greenhouse.io/v1/boards/schonfeldstrategic/jobs"
+ ],
+ "files": {}
+}

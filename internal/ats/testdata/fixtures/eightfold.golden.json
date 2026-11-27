@@ -1,0 +1,42 @@
+{
+ "jobs": [
+  {
+   "externalId": "1970393557075457",
+   "title": "Research Intern - Data Center and AI Networking",
+   "locations": [
+    "Mountain View, CA, US",
+    "Redmond, WA, US",
+    "United States, California, Mountain View",
+    "United States, Washington, Redmond"
+   ],
+   "applyUrl": "https://apply.careers.microsoft.com/careers/job/1970393557075457",
+   "excerpt": "Research Sciences",
+   "postedAt": "2026-11-18T21:30:16.000Z",
+   "description": "Research Sciences"
+  },
+  {
+   "externalId": "1970393557075490",
+   "title": "Research Intern - Computer Vision and Deep Learning",
+   "locations": [
+    "Redmond, WA, US",
+    "United States, Washington, Redmond"
+   ],
+   "applyUrl": "https://apply.careers.microsoft.com/careers/job/1970393557075490",
+   "excerpt": "Research Sciences",
+   "postedAt": "2026-11-18T22:21:51.000Z",
+   "description": "Research Sciences"
+  },
+  {
+   "externalId": "1970393557079428",
+   "title": "Research Intern - AI Systems Architecture and Efficient LLM Inference",
+   "locations": [
+    "Redmond, WA, US",
+    "United States, Washington, Redmond"
+   ],
+   "applyUrl": "https://apply.careers.microsoft.com/careers/job/1970393557079428",
+   "excerpt": "Research Sciences",
+   "postedAt": "2026-11-24T23:23:39.000Z",
+   "description": "Research Sciences"
+  }
+ ]
+}

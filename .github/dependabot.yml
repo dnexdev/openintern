@@ -2,13 +2,10 @@
   "version": 2,
   "updates": [
     {
-      "package-ecosystem": "npm",
+      "package-ecosystem": "gomod",
       "directory": "/",
       "schedule": { "interval": "weekly" },
-      "cooldown": { "default-days": 14 },
-      "groups": {
-        "react": { "patterns": ["react", "react-dom", "@types/react", "@types/react-dom"] }
-      }
+      "cooldown": { "default-days": 14 }
     },
     {
       "package-ecosystem": "github-actions",

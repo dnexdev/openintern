@@ -1,0 +1,38 @@
+{
+  "source": "https://www.citadel.com/careers/open-opportunities/",
+  "captured_at": "2026-11-20T08:00:00.000Z",
+  "captured_by": "maintainer",
+  "jobs": [
+    {
+      "external_id": "data-engineer",
+      "title": "Data Engineer",
+      "locations": [
+        "London"
+      ],
+      "apply_url": "https://www.citadel.com/careers/details/data-engineer/",
+      "excerpt": null,
+      "posted_at": null
+    },
+    {
+      "external_id": "quant-research-intern",
+      "title": "Quantitative Research Intern",
+      "locations": [],
+      "apply_url": "https://www.citadel.com/careers/details/quant-research-intern/",
+      "excerpt": null,
+      "posted_at": null
+    },
+    {
+      "external_id": "software-engineer-intern-us",
+      "title": "Software Engineer – Intern (US) &lt;3 ",
+      "locations": [
+        "Greenwich",
+        "Houston",
+        "Miami",
+        "New York"
+      ],
+      "apply_url": "https://www.citadel.com/careers/details/software-engineer-intern-us/",
+      "excerpt": null,
+      "posted_at": null
+    }
+  ]
+}

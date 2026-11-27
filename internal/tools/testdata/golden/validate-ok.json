@@ -1,0 +1,10 @@
+{
+ "stdout": "ok nvidia\nok stripe\n\nValidated 2 companies.\n",
+ "stderr": "",
+ "code": 0,
+ "requests": [
+  "GET https://boards-api.greenhouse.io/v1/boards/stripe/jobs",
+  "POST https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/NVIDIAExternalCareerSite/jobs {\"appliedFacets\":{},\"limit\":1,\"offset\":0,\"searchText\":\"\"}"
+ ],
+ "files": {}
+}

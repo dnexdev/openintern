@@ -1,0 +1,6 @@
+{
+ "error": {
+  "kind": "throttled",
+  "message": "throttled: HTTP 429 for https://api.lever.co/v0/postings/busy?mode=json"
+ }
+}

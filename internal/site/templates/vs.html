@@ -1,0 +1,24 @@
+{{/* avoid-ai-design-ignore-file: K7 (scanner sees one template at a time; the :focus-visible styles are in static/site.css, which every page links) */}}
+{{define "content"}}
+<article class="sheet prose">
+  <p class="crumb"><a href="/">Home</a></p>
+  <h1>OpenIntern vs Intern Insider</h1>
+  <p class="lede">OpenIntern is a free, open-source tech internship board with a public API and daily dumps. No account required to browse. Apply links always go to the employer.</p>
+  <div class="table-wrap">
+    <table class="table table-compare">
+      <thead><tr><th scope="col">Feature</th><th scope="col">OpenIntern</th><th scope="col">Intern Insider</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Price</th><td>Free</td><td>Paid subscription</td></tr>
+        <tr><th scope="row">Account to browse</th><td>No</td><td>Required / gated</td></tr>
+        <tr><th scope="row">Open source</th><td>Apache-2.0</td><td>Closed</td></tr>
+        <tr><th scope="row">Public API</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">Bulk export</th><td>Daily JSON/CSV</td><td>Locked</td></tr>
+        <tr><th scope="row">Apply destination</th><td>Employer site</td><td>In-platform tools</td></tr>
+        <tr><th scope="row">Recruiter email finder</th><td>No</td><td>Sold as a feature</td></tr>
+        <tr><th scope="row">AI resume builder</th><td>No</td><td>Sold as a feature</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><a class="btn btn-primary" href="/jobs">Browse internships</a></p>
+</article>
+{{end}}

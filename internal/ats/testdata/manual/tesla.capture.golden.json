@@ -1,0 +1,47 @@
+{
+  "source": "https://www.tesla.com/cua-api/apps/careers/state",
+  "captured_at": "2026-11-20T08:00:00.000Z",
+  "captured_by": "maintainer",
+  "jobs": [
+    {
+      "external_id": "233415",
+      "title": "Internship, Software Engineer",
+      "locations": [
+        "Fremont, California"
+      ],
+      "apply_url": "https://www.tesla.com/careers/search/job/233415",
+      "excerpt": "Build cars 😀 and more",
+      "posted_at": null
+    },
+    {
+      "external_id": "7",
+      "title": "Spaced",
+      "locations": [
+        "Austin, Texas",
+        "Berlin",
+        "Shanghai"
+      ],
+      "apply_url": "https://www.tesla.com/careers/search/job/7?x=1",
+      "excerpt": null,
+      "posted_at": null
+    },
+    {
+      "external_id": "8",
+      "title": "No location",
+      "locations": [],
+      "apply_url": "https://www.tesla.com/careers/search/job/8",
+      "excerpt": null,
+      "posted_at": null
+    },
+    {
+      "external_id": "99",
+      "title": "Staff Engineer",
+      "locations": [
+        "Remote"
+      ],
+      "apply_url": "https://www.tesla.com/careers/search/job/99",
+      "excerpt": null,
+      "posted_at": null
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+ "jobs": [
+  {
+   "externalId": "1",
+   "title": "A",
+   "locations": [
+    "Toronto",
+    "Remote"
+   ],
+   "applyUrl": "u1",
+   "excerpt": null,
+   "postedAt": "2026-11-10T00:00:00.000Z",
+   "description": "<p>h</p>"
+  },
+  {
+   "externalId": "2",
+   "title": "B",
+   "locations": [
+    "Remote - US"
+   ],
+   "applyUrl": "u2",
+   "excerpt": "plain",
+   "postedAt": null,
+   "description": "plain"
+  },
+  {
+   "externalId": "3",
+   "title": "C",
+   "locations": [
+    "Remote"
+   ],
+   "applyUrl": "u3",
+   "excerpt": null,
+   "postedAt": null,
+   "description": ""
+  }
+ ]
+}
